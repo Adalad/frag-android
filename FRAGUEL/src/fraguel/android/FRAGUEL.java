@@ -13,6 +13,9 @@ public class FRAGUEL extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        
+        
         Button b = (Button)this.findViewById(R.id.btn_close);
         b.setOnClickListener(new OnClickListener(){ 
         	public void onClick(View arg0) { 
