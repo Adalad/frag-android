@@ -7,6 +7,17 @@
 <TextView  
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:text="@string/hello"
+    android:text="hello"
+    />
+<Button  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="botón"
+    />
+<Button  
+	android:id="@+id/btn_close"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Cerrar aplicación"
     />
 </LinearLayout>
