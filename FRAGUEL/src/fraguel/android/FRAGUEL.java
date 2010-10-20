@@ -16,8 +16,7 @@ public class FRAGUEL extends Activity {
         Button b = (Button)this.findViewById(R.id.btn_close);
         b.setOnClickListener(new OnClickListener(){ 
         	public void onClick(View arg0) { 
-        		finish();
-        		// Place code to handle Button-Click here. 
+        		System.exit(0); 
         		} });
     }
 }
