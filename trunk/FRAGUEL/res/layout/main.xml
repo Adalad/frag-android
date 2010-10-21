@@ -7,17 +7,24 @@
 <TextView  
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:text="hello"
+    android:text="Main Menu"
     />
 <Button  
+	android:id="@+id/btn_freemovement"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:text="botón"
+    android:text="Free Mode"
+    />
+<Button  
+	android:id="@+id/btn_campaign"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="Campaign Mode"
     />
 <Button  
 	android:id="@+id/btn_close"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:text="Cerrar aplicación"
+    android:text="Close Application"
     />
 </LinearLayout>
