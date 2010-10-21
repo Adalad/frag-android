@@ -13,13 +13,29 @@ public class FRAGUEL extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+              
+                       
+        Button freeMode = (Button)this.findViewById(R.id.btn_freemovement);
+        freeMode.setOnClickListener(new OnClickListener(){ 
+        	public void onClick(View arg0) { 
+        		setContentView(R.layout.freemode);
+        		} });
         
         
+        Button campaignMode = (Button)this.findViewById(R.id.btn_campaign);
+        campaignMode.setOnClickListener(new OnClickListener(){ 
+        	public void onClick(View arg0) { 
+        		 
+        		} });
         
-        Button b = (Button)this.findViewById(R.id.btn_close);
-        b.setOnClickListener(new OnClickListener(){ 
+        
+        Button close = (Button)this.findViewById(R.id.btn_close);
+        close.setOnClickListener(new OnClickListener(){ 
         	public void onClick(View arg0) { 
         		System.exit(0); 
         		} });
+        
+       
     }
+  
 }
