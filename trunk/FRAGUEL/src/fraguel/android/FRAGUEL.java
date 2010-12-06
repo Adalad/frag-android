@@ -2,7 +2,6 @@ package fraguel.android;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,7 +10,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-public class FRAGUEL extends Activity implements OnClickListener {
+import com.google.android.maps.MapActivity;
+
+public class FRAGUEL extends MapActivity implements OnClickListener {
 
 	public static FRAGUEL instance;
 	public ViewGroup view;
@@ -85,6 +86,12 @@ public class FRAGUEL extends Activity implements OnClickListener {
 
 	public void deactivateSensors() {
 		// TODO
+	}
+
+	@Override
+	protected boolean isRouteDisplayed() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
