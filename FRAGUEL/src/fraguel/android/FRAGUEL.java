@@ -21,6 +21,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	// Singleton
 	public static FRAGUEL instance;
 	// Sensors info
+	private SensorManager sensorManager;
+	private SensorListener sensorListener;
 	public float[] sOrientation = { 0, 0, 0 };
 	public float[] sAccelerometer = { 0, 0, 0 };
 	public float[] sMagnetic = { 0, 0, 0 };
@@ -49,23 +51,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		instance = this;
 
 		// Sensors
-		SensorManager sm = (SensorManager) this
-				.getSystemService(SENSOR_SERVICE);
-
-		SensorListener l = new SensorListener();
-
-		sm.registerListener(l, sm.getDefaultSensor(Sensor.TYPE_ORIENTATION),
-				SensorManager.SENSOR_DELAY_NORMAL);
-		sm.registerListener(l, sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
-				SensorManager.SENSOR_DELAY_NORMAL);
-		sm.registerListener(l, sm.getDefaultSensor(Sensor.TYPE_TEMPERATURE),
-				SensorManager.SENSOR_DELAY_NORMAL);
-		sm.registerListener(l, sm.getDefaultSensor(Sensor.TYPE_GYROSCOPE),
-				SensorManager.SENSOR_DELAY_NORMAL);
-		sm.registerListener(l, sm.getDefaultSensor(Sensor.TYPE_LIGHT),
-				SensorManager.SENSOR_DELAY_NORMAL);
-		sm.registerListener(l, sm.getDefaultSensor(Sensor.TYPE_PROXIMITY),
-				SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
+		sensorListener = new SensorListener();
+		activateSensors();
 
 		// TODO añadir estados
 		states = new ArrayList<State>();
@@ -119,11 +107,28 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	}
 
 	public void activateSensors() {
-		// TODO
+		sensorManager.registerListener(sensorListener,
+				sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+				SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager.registerListener(sensorListener,
+				sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
+				SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager.registerListener(sensorListener,
+				sensorManager.getDefaultSensor(Sensor.TYPE_TEMPERATURE),
+				SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager.registerListener(sensorListener,
+				sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE),
+				SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager.registerListener(sensorListener,
+				sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),
+				SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager.registerListener(sensorListener,
+				sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
+				SensorManager.SENSOR_DELAY_NORMAL);
 	}
 
 	public void deactivateSensors() {
-		// TODO
+		sensorManager.unregisterListener(sensorListener);
 	}
 
 	@Override
