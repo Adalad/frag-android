@@ -2,6 +2,8 @@ package fraguel.android;
 
 import java.util.ArrayList;
 
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,10 +14,23 @@ import android.widget.FrameLayout;
 
 import com.google.android.maps.MapActivity;
 
+import fraguel.android.sensors.SensorListener;
+
 public class FRAGUEL extends MapActivity implements OnClickListener {
 
+	// Singleton
 	public static FRAGUEL instance;
+	// Sensors info
+	public float[] sOrientation = { 0, 0, 0 };
+	public float[] sAccelerometer = { 0, 0, 0 };
+	public float[] sMagnetic = { 0, 0, 0 };
+	public float[] sGyroscope = { 0, 0, 0 };
+	public float sTemperature = 0;
+	public float sLight = 0;
+	public float sProximity = 0;
+	// View container
 	public ViewGroup view;
+	// States
 	public ArrayList<State> states;
 	public State currentState;
 
@@ -30,7 +45,27 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		view = new FrameLayout(this);
 		setContentView(view);
 
+		// Singleton
 		instance = this;
+
+		// Sensors
+		SensorManager sm = (SensorManager) this
+				.getSystemService(SENSOR_SERVICE);
+
+		SensorListener l = new SensorListener();
+
+		sm.registerListener(l, sm.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+				SensorManager.SENSOR_DELAY_NORMAL);
+		sm.registerListener(l, sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
+				SensorManager.SENSOR_DELAY_NORMAL);
+		sm.registerListener(l, sm.getDefaultSensor(Sensor.TYPE_TEMPERATURE),
+				SensorManager.SENSOR_DELAY_NORMAL);
+		sm.registerListener(l, sm.getDefaultSensor(Sensor.TYPE_GYROSCOPE),
+				SensorManager.SENSOR_DELAY_NORMAL);
+		sm.registerListener(l, sm.getDefaultSensor(Sensor.TYPE_LIGHT),
+				SensorManager.SENSOR_DELAY_NORMAL);
+		sm.registerListener(l, sm.getDefaultSensor(Sensor.TYPE_PROXIMITY),
+				SensorManager.SENSOR_DELAY_NORMAL);
 
 		// TODO añadir estados
 		states = new ArrayList<State>();
