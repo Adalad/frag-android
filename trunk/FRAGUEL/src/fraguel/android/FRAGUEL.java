@@ -60,8 +60,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	}
 
 	public void changeState(int id) {
-		if (currentState != null)
+		if (currentState != null) {
+			if (currentState.id == id)
+				return;
 			currentState.unload();
+		}
 		System.gc();
 		for (State s : states) {
 			if (s.id == id) {
@@ -90,7 +93,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
