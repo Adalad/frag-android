@@ -101,7 +101,7 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 	  
 
 	  if(item.getTitle()=="Facultad A"){ 
-		  mp.start();
+		  //mp.start();
 		  //videoPlayer("/PruebasMapas/res/raw","video1.avi", true);
 		 /* 
 		  Button b= new Button(mContext);
@@ -124,13 +124,13 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 	  }
 	  
 	  if(item.getTitle()=="Facultad B"){
-		  mp.pause();
-		  videoPlayer("/PruebasMapas/res/raw","video1.avi", false);
+		  //mp.pause();
+		  //videoPlayer("/PruebasMapas/res/raw","video1.avi", false);
 	  }
 
+/*
 
-
-//	  Point point = ((MiMapActivity) act).getMapView().getProjection().toPixels(item.getPoint(), null);
+	  Point point = mapView.getProjection().toPixels(item.getPoint(), null);
 	  //height=((Drawable) item).getIntrinsicHeight();
 	  //width=marker.getIntrinsicWidth();
 	  LayoutInflater li=  act.getLayoutInflater();

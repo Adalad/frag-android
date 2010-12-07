@@ -65,6 +65,7 @@ public class MenuState extends State {
 		b7.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		viewGroup.addView(b7);
 
+		
 		FRAGUEL.getInstance().addView(viewGroup);
 	}
 
@@ -73,7 +74,7 @@ public class MenuState extends State {
 		// TODO rellenar con ids de estados
 		switch (v.getId()) {
 		case 1:
-			FRAGUEL.getInstance().changeState(id);
+			FRAGUEL.getInstance().changeState(2);
 			break;
 		case 2:
 			FRAGUEL.getInstance().changeState(id);
