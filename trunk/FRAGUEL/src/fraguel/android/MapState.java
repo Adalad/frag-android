@@ -3,11 +3,10 @@ package fraguel.android;
 import java.util.List;
 
 import android.graphics.drawable.Drawable;
-import android.location.LocationManager;
-import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
@@ -19,20 +18,31 @@ import fraguel.android.maps.MapItemizedOverlays;
 
 public class MapState extends State{
 	
-	private MapController mapControl;
-	private LocationManager locationManager;
-	private MapView mapView;
+	// Singleton
+	private static MapState mapInstance;
 	
-
-	private MediaPlayer mp;
-	MapItemizedOverlays itemizedoverlay;
+	//public static final int STATE_ID = 2;
+	
+	private MapController mapControl;
+	private MapView mapView;
+	private View popupView;
+	private MapItemizedOverlays itemizedoverlay;
 	
 
 	public MapState() {
 		super();
 		id = 2;
+		// Singleton
+		mapInstance = this;
 	}
 
+	public static MapState getInstance() {
+		if (mapInstance == null)
+			mapInstance = new MapState();
+		return mapInstance;
+	}
+	
+	
 	@Override
 	public void load() {
 		//Creamos e importamos el layout del xml
@@ -40,7 +50,13 @@ public class MapState extends State{
 		viewGroup= (ViewGroup) li.inflate(R.layout.maingooglemaps,  null);
 		FRAGUEL.getInstance().addView(viewGroup);
 
-		//Configuramos mapview
+		//Creamos e importamos el popup del xml
+		popupView= li.inflate(R.layout.popup,  null);
+		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		popupView.setLayoutParams(params);
+		
+		
+		//Creamos, importamos y configuramos la mapview del xml
 		mapView = (MapView) FRAGUEL.getInstance().findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 		mapControl = mapView.getController();
@@ -74,33 +90,20 @@ public class MapState extends State{
 
 	@Override
 	public void onClick(View v) {
-		// TODO rellenar con ids de estados
-		/*switch (v.getId()) {
-		case 1:
-			FRAGUEL.getInstance().changeState(id);
-			break;
-		case 2:
-			FRAGUEL.getInstance().changeState(id);
-			break;
-		case 3:
-			FRAGUEL.getInstance().changeState(id);
-			break;
-		case 4:
-			FRAGUEL.getInstance().changeState(id);
-			break;
-		case 5:
-			FRAGUEL.getInstance().changeState(id);
-			break;
-		case 6:
-			FRAGUEL.getInstance().changeState(id);
-			break;
-		default:
-			System.exit(0);
-		}*/
+		
+		//mapView.removeAllViews();
+		
+		FRAGUEL.getInstance().view.removeView(popupView);
+		
+		
 	}
 	
 	public MapView getMapView() {
 		return mapView;
+	}
+	
+	public View getPopupView() {
+		return popupView;
 	}
 
 
