@@ -1,6 +1,11 @@
-package fraguel.android;
+package fraguel.android.states;
 
 
+import fraguel.android.FRAGUEL;
+import fraguel.android.R;
+import fraguel.android.State;
+import fraguel.android.R.id;
+import fraguel.android.R.layout;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +41,8 @@ public class VideoState extends State{
     	videoView.start();
 	}
 
+	
+	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub

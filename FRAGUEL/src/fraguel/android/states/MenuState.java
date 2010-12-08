@@ -1,5 +1,7 @@
-package fraguel.android;
+package fraguel.android.states;
 
+import fraguel.android.FRAGUEL;
+import fraguel.android.State;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -82,20 +84,22 @@ public class MenuState extends State {
 			FRAGUEL.getInstance().changeState(3);
 			break;
 		case 3:
-			FRAGUEL.getInstance().changeState(id);
+			FRAGUEL.getInstance().changeState(4);
 			break;
 		case 4:
-			FRAGUEL.getInstance().changeState(id);
+			FRAGUEL.getInstance().changeState(5);
 			break;
 		case 5:
-			FRAGUEL.getInstance().changeState(id);
+			FRAGUEL.getInstance().changeState(6);
 			break;
 		case 6:
-			FRAGUEL.getInstance().changeState(id);
+			FRAGUEL.getInstance().changeState(7);
 			break;
 		default:
 			System.exit(0);
 		}
 	}
+
+
 
 }

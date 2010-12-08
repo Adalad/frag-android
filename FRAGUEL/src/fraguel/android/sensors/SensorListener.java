@@ -1,9 +1,9 @@
 package fraguel.android.sensors;
 
-import fraguel.android.FRAGUEL;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import fraguel.android.FRAGUEL;
 
 public class SensorListener implements SensorEventListener {
 
