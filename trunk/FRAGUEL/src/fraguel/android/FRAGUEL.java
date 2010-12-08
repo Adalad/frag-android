@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -15,6 +17,14 @@ import android.widget.FrameLayout;
 import com.google.android.maps.MapActivity;
 
 import fraguel.android.sensors.SensorListener;
+import fraguel.android.states.ARState;
+import fraguel.android.states.ConfigState;
+import fraguel.android.states.ImageState;
+import fraguel.android.states.InfoState;
+import fraguel.android.states.IntroState;
+import fraguel.android.states.MapState;
+import fraguel.android.states.MenuState;
+import fraguel.android.states.VideoState;
 
 public class FRAGUEL extends MapActivity implements OnClickListener {
 
@@ -57,9 +67,15 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 
 		// TODO añadir estados
 		states = new ArrayList<State>();
-		addState(new MapState(), false);
+		addState(new IntroState(), false);
 		addState(new MenuState(), true);
-		
+		addState(new MapState(), false);
+		addState(new VideoState(), false);
+		addState(new ImageState(), false);
+		addState(new ARState(), false);
+		addState(new InfoState(), false);
+		addState(new ConfigState(), false);
+				
 		
 	}
 
@@ -72,6 +88,24 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	@Override
 	public void onClick(View view) {
 		currentState.onClick(view);
+	}
+	
+	
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		// TODO Auto-generated method stub
+		if (event.getKeyCode()==event.KEYCODE_BACK) 
+			this.changeState(1);
+		
+		return true;
+	}
+
+	
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		// TODO Auto-generated method stub
+		view.removeView(MapState.getInstance().getPopupView());
+		return super.dispatchTouchEvent(ev);
 	}
 
 	public void addState(State state, boolean change) {
@@ -138,5 +172,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
+
+	
 
 }

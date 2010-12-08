@@ -2,9 +2,9 @@ package fraguel.android.maps;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.RectF;
-import android.graphics.Paint.Style;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;

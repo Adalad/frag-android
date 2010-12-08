@@ -26,5 +26,6 @@ public abstract class State implements Comparable<State> {
 	}
 
 	public abstract void onClick(View v);
+	//public abstract void onTouch(View v, MotionEvent event);
 
 }

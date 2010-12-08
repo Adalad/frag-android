@@ -1,54 +1,27 @@
 package fraguel.android.maps;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
-import android.media.MediaPlayer;
-import android.net.Uri;
-import android.text.Layout;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.view.animation.LayoutAnimationController;
-import android.widget.AbsoluteLayout;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
-import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 import fraguel.android.FRAGUEL;
-import fraguel.android.MapState;
 import fraguel.android.R;
+import fraguel.android.states.MapState;
 
 public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListener{
 
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
-	private Context mContext=null;
-
+	private Context mContext;
 	private Activity act;
 
 	public MapItemizedOverlays(Drawable arg0) {
@@ -89,7 +62,6 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 
 
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected boolean onTap(int index) {
 
