@@ -7,6 +7,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MenuState extends State {
+	
+	//public static final int STATE_ID = 1;
 
 	public MenuState() {
 		super();
@@ -77,7 +79,7 @@ public class MenuState extends State {
 			FRAGUEL.getInstance().changeState(2);
 			break;
 		case 2:
-			FRAGUEL.getInstance().changeState(id);
+			FRAGUEL.getInstance().changeState(3);
 			break;
 		case 3:
 			FRAGUEL.getInstance().changeState(id);
