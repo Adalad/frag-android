@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@+id/popupPI2"
+	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<LinearLayout android:id="@+id/popupPI2_container"
+		android:orientation="horizontal" android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+
+
+		<FrameLayout android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+
+			<ImageView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/popupPI2_imagen1"
+				android:src="@drawable/popup_leftpointer4" />
+			<ImageView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/popupPI2_imagen2"
+				android:paddingLeft="10dip" android:paddingTop="7dip" />
+
+		</FrameLayout>
+
+
+		<FrameLayout android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:background="@drawable/popup_middlebg2">
+
+			<TextView android:id="@+id/popupPI2_texto1" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:gravity="center"
+				android:paddingTop="7dip" />
+
+		</FrameLayout>
+
+
+		<ImageView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/popupPI2_imagen3"
+			android:src="@drawable/popup_right2" />
+
+
+
+	</LinearLayout>
+
+</FrameLayout>

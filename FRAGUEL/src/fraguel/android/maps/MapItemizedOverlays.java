@@ -8,6 +8,9 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,23 +75,9 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 		Toast t= Toast.makeText(mContext, title, Toast.LENGTH_SHORT);
 		t.show();
 
-		Point point = MapState.getInstance().getMapView().getProjection().toPixels(item.getPoint(), null);
-		//int height=item.getMarker(0).getIntrinsicHeight();
-		//int width=item.getMarker(0).getIntrinsicWidth();
-		View popup= MapState.getInstance().getPopupView();
-		((TextView) popup.findViewById(R.id.popupPI_texto1)).setText(item.getTitle());
-		//MapState.getInstance().getMapView().addView(popup);
-		popup.layout(point.x - 25, point.y -60,point.x + 140, point.y +50);
-		boolean isPopup= false;
-		for (int i=0 ; i<FRAGUEL.getInstance().view.getChildCount(); i++){
-			if (FRAGUEL.getInstance().view.getChildAt(i).getId()== popup.getId())
-				isPopup= true;
-		}
-		if (!isPopup)
-			FRAGUEL.getInstance().addView(popup);
+		//Sacamos el popup del punto de interés
+		showPopup(item);
         
-
-	
 		//Evento específico del punto de interés
 		if(title=="Facultad A"){ 
 
@@ -107,7 +96,32 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 
 	}
 
+	
+	
+	public void showPopup(OverlayItem item){
 
+		Point point = MapState.getInstance().getMapView().getProjection().toPixels(item.getPoint(), null);
+		//int height=item.getMarker(0).getIntrinsicHeight();
+		//int width=item.getMarker(0).getIntrinsicWidth();
+		View popup= MapState.getInstance().getPopupView();
+		((TextView) popup.findViewById(R.id.popupPI_texto1)).setText(item.getTitle());
+		//((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT ,LayoutParams.FILL_PARENT ));
+		((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setScaleType(ScaleType.CENTER_INSIDE);
+		((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setImageResource(R.drawable.popupfacultad1);
+
+		//MapState.getInstance().getMapView().addView(popup);
+		popup.layout(point.x - 25, point.y -60,point.x + 140, point.y +50);
+		boolean isPopup= false;
+		for (int i=0 ; i<FRAGUEL.getInstance().view.getChildCount(); i++){
+			if (FRAGUEL.getInstance().view.getChildAt(i).getId()== popup.getId())
+				isPopup= true;
+		}
+		if (!isPopup)
+			FRAGUEL.getInstance().addView(popup);
+
+	}
+
+	
 
 	@Override
 	public void onClick(View v) {
