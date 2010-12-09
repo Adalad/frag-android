@@ -59,8 +59,8 @@ public class MapState extends State{
 
 		//Creamos e importamos el popup del xml
 		popupView= li.inflate(R.layout.popup,  null);
-		LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		popupView.setLayoutParams(params);
+		//LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		//popupView.setLayoutParams(params);
 		
 		
 		//Creamos, importamos y configuramos la mapview del xml
