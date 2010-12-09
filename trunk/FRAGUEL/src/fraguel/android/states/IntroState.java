@@ -3,7 +3,9 @@ package fraguel.android.states;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.State;
+import android.os.Handler;
 import android.view.View;
+import android.widget.AbsoluteLayout;
 
 public class IntroState extends State{
 	public IntroState() {
@@ -15,23 +17,18 @@ public class IntroState extends State{
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
-		FRAGUEL.getInstance().view.setBackgroundResource(R.drawable.intro);
-		/*viewGroup= new RelativeLayout(FRAGUEL.getInstance().getApplicationContext());
-		viewGroup.setBackgroundResource(R.drawable.intro);
-		viewGroup.setId(99);
-		FRAGUEL.getInstance().addView(viewGroup);
-		Thread t = new Thread() {
-			public void run() {
-				try {
-					Thread.sleep(5000); 
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 				
-				FRAGUEL.getInstance().changeState(1);
-			}
-		};
-		t.start();*/
+		FRAGUEL.getInstance().view.setBackgroundResource(R.drawable.intro);
+		
+		 Handler handler = new Handler(); 
+		    handler.postDelayed(new Runnable() { 
+		         public void run() { 
+		        	 FRAGUEL.getInstance().view.setBackgroundColor(25); 
+		        	 FRAGUEL.getInstance().changeState(1);
+		         } 
+		    }, 2000); 
+		
+				
 
 	}
 
@@ -41,8 +38,6 @@ public class IntroState extends State{
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		FRAGUEL.getInstance().view.setBackgroundColor(255);
-		FRAGUEL.getInstance().changeState(1);
 		
 	}
 
