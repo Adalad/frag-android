@@ -1,7 +1,6 @@
 package fraguel.android.ar;
 
 import android.content.Context;
-import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 
 public class ARGLView extends GLSurfaceView {
@@ -21,6 +20,7 @@ public class ARGLView extends GLSurfaceView {
 
 		_renderer = new ARRenderer();
 		setRenderer(_renderer);
+		// TODO transparencia
 		//setEGLConfigChooser(8, 8, 8, 8, 16, 0);
 		//getHolder().setFormat(PixelFormat.TRANSLUCENT);
 	}
