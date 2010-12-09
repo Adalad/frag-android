@@ -114,7 +114,7 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 		//((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setImageDrawable(imagenPI);
 		
 		((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setScaleType(ScaleType.CENTER_INSIDE);
-		((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setImageResource(R.drawable.popupfacultad1);
+		((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setImageResource(R.drawable.popup_facultad1);
 
 		//MapState.getInstance().getMapView().addView(popup);
 		popup.layout(point.x - 25, point.y -60,point.x + 140, point.y +50);

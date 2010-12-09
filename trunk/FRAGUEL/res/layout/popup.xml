@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:id="@+id/popupPI"
-	android:layout_width="wrap_content" android:layout_height="wrap_content"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<FrameLayout android:id="@+id/popupPI" android:layout_width="fill_parent"
+	android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<LinearLayout android:id="@+id/popupPI_container"
 		android:orientation="horizontal" android:layout_width="wrap_content"
@@ -9,11 +8,9 @@
 
 
 		<FrameLayout android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content" android:background="@drawable/popup_leftpointer1"
+			android:paddingLeft="2dip" android:paddingTop="2dip">
 
-			<ImageView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/popupPI_imagen1"
-				android:src="@drawable/popup_leftpointer4" />
 			<ImageView android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:id="@+id/popupPI_imagen2"
 				android:paddingLeft="10dip" android:paddingTop="7dip" />
@@ -22,18 +19,18 @@
 
 
 		<FrameLayout android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:background="@drawable/popup_middlebg2">
+			android:layout_height="wrap_content" android:background="@drawable/popup_middlebg1">
 
-			<TextView android:id="@+id/popupPI_texto1" android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:gravity="center"
-				android:paddingTop="7dip" />
+			<TextView android:id="@+id/popupPI_texto1"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:gravity="center" android:paddingTop="7dip" />
 
 		</FrameLayout>
 
 
 		<ImageView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/popupPI_imagen3"
-			android:src="@drawable/popup_right2" />
+			android:src="@drawable/popup_right1" />
 
 
 
