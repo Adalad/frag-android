@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -106,6 +108,11 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 		View popup= MapState.getInstance().getPopupView();
 		((TextView) popup.findViewById(R.id.popupPI_texto1)).setText(item.getTitle());
 		//((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT ,LayoutParams.FILL_PARENT ));
+		//Resources res = FRAGUEL.getInstance().getResources();
+		//Drawable imagenPI = res.getDrawable(R.drawable.popupfacultad1);
+		//imagenPI.setBounds(new Rect(0,0,1,1));
+		//((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setImageDrawable(imagenPI);
+		
 		((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setScaleType(ScaleType.CENTER_INSIDE);
 		((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setImageResource(R.drawable.popupfacultad1);
 
