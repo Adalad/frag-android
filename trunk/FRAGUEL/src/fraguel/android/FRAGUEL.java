@@ -2,10 +2,13 @@ package fraguel.android;
 
 import java.util.ArrayList;
 
+
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.google.android.maps.MapActivity;
 
@@ -46,6 +50,52 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	public ArrayList<State> states;
 	public State currentState;
 
+	// Menu variable buttons
+	private static final int MENU_1 = 1;
+	private static final int MENU_2 = 2;
+	private static final int MENU_3 = 3;
+	private static final int MENU_4 = 4;
+
+	
+		
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+
+		menu.add(0, MENU_1, 0, R.string.menu_menu);
+		menu.add(0, MENU_2, 0, R.string.menu_config);
+		menu.add(0, MENU_3, 0,R.string.menu_route);
+		menu.add(0, MENU_4, 0, R.string.menu_exit);
+		return true;
+	}
+
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case MENU_1:
+			changeState(1);
+			return true;
+		case MENU_2:
+			Toast t1= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
+			t1.show();
+			return true;
+		case MENU_3:
+			Toast t2= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
+			t2.show();
+			return true;
+		case MENU_4:
+			Toast t3= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
+			t3.show();
+			return true;
+		}
+
+		return false;
+	}
+
+	
+		
+	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,16 +117,16 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 
 		// TODO añadir estados
 		states = new ArrayList<State>();
-		addState(new IntroState(), false);
+		addState(new IntroState(), true);
 		addState(new MenuState(), false);
-		addState(new MapState(), true);
+		addState(new MapState(), false);
 		addState(new VideoState(), false);
 		addState(new ImageState(), false);
 		addState(new ARState(), false);
 		addState(new InfoState(), false);
 		addState(new ConfigState(), false);
-				
-		
+
+
 	}
 
 	public static FRAGUEL getInstance() {
@@ -89,18 +139,18 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	public void onClick(View view) {
 		currentState.onClick(view);
 	}
-	
-	
+
+
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		// TODO Auto-generated method stub
 		if (event.getKeyCode()==event.KEYCODE_BACK) 
 			this.changeState(1);
-		
+
 		return true;
 	}
 
-	
+
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		// TODO Auto-generated method stub

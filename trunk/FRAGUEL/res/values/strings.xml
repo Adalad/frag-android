@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, FRAGUEL!</string>
-    <string name="app_name">FRAGUEL</string>
+	<string name="hello">Hello World, FRAGUEL!</string>
+	<string name="app_name">FRAGUEL</string>
+	<string name="menu_menu">Volver a menu principal</string>
+	<string name="menu_config">Opciones</string>
+	<string name="menu_change_map">Cambiar mapa</string>
+	<string name="menu_route">Seleccionar ruta</string>
+	<string name="menu_exit">Salir</string>
+      
+    
 </resources>
