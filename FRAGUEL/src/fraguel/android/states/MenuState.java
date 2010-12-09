@@ -19,6 +19,7 @@ public class MenuState extends State {
 
 	@Override
 	public void load() {
+		
 		viewGroup = new LinearLayout(FRAGUEL.getInstance()
 				.getApplicationContext());
 		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
