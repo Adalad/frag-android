@@ -368,7 +368,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	}
 
 
-	public double getHeight() {
+	public double getAltitude() {
 		return altitude;
 	}
 
