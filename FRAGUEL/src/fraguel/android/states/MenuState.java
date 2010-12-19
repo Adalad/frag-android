@@ -25,7 +25,7 @@ public class MenuState extends State {
 		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
 
 		TextView tv = new TextView(viewGroup.getContext());
-		tv.setText("INTRODUCCION");
+		tv.setText("INTRODUCCIÓN");
 		viewGroup.addView(tv);
 
 		Button b1 = new Button(viewGroup.getContext());
@@ -35,13 +35,13 @@ public class MenuState extends State {
 		viewGroup.addView(b1);
 
 		Button b2 = new Button(viewGroup.getContext());
-		b2.setText("Video");
+		b2.setText("Vídeo");
 		b2.setId(2);
 		b2.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		viewGroup.addView(b2);
 
 		Button b3 = new Button(viewGroup.getContext());
-		b3.setText("Imagenes");
+		b3.setText("Imágenes");
 		b3.setId(3);
 		b3.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		viewGroup.addView(b3);
@@ -53,7 +53,7 @@ public class MenuState extends State {
 		viewGroup.addView(b4);
 
 		Button b5 = new Button(viewGroup.getContext());
-		b5.setText("Informacion");
+		b5.setText("Información");
 		b5.setId(5);
 		b5.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		viewGroup.addView(b5);
@@ -71,8 +71,11 @@ public class MenuState extends State {
 		viewGroup.addView(b7);
 		
 		gps= new TextView(viewGroup.getContext());
+		gps.setText("GPS");
 		viewGroup.addView(gps);
+		
 		orientation = new TextView(viewGroup.getContext());
+		orientation.setText("Orientation");
 		viewGroup.addView(orientation);
 		
 		FRAGUEL.getInstance().addView(viewGroup);
