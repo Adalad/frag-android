@@ -3,8 +3,15 @@ package fraguel.android;
 import java.util.ArrayList;
 
 
+import android.content.Context;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -36,7 +43,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	public static FRAGUEL instance;
 	// Sensors info
 	private SensorManager sensorManager;
-	private SensorListener sensorListener;
+	private SensorEventListener sensorListener;
+	private LocationListener gpsListener;
+	private LocationManager locationManager;
 	public float[] sOrientation = { 0, 0, 0 };
 	public float[] sAccelerometer = { 0, 0, 0 };
 	public float[] sMagnetic = { 0, 0, 0 };
@@ -92,10 +101,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		return false;
 	}
 
-	
-		
-	
-
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -110,9 +115,21 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		// Singleton
 		instance = this;
 
+		
+		//RequestServices (GPS & Sensors)
+		
+			requestServices();
+			
 		// Sensors
-		sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
-		sensorListener = new SensorListener();
+		
+			newSensorListener();
+		
+		
+		
+		//GPS
+			newGPSListener();
+		
+		//requestUpdatesFromAllSensors
 		activateSensors();
 
 		// TODO añadir estados
@@ -212,10 +229,12 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		sensorManager.registerListener(sensorListener,
 				sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
 				SensorManager.SENSOR_DELAY_NORMAL);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsListener);
 	}
 
 	public void deactivateSensors() {
 		sensorManager.unregisterListener(sensorListener);
+		locationManager.removeUpdates(gpsListener);
 	}
 
 	@Override
@@ -223,6 +242,70 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		return false;
 	}
 
+	public void onPause(Bundle savedInstanceState) {
+        super.onPause();
+        deactivateSensors();
+	}
 	
+	public void onResume(Bundle savedInstanceState) {
+        super.onResume();
+        activateSensors();
+        
+	}
+	
+	private void requestServices(){
+		locationManager= (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
+	}
+	
+	private void newSensorListener(){
+		sensorListener = new SensorEventListener(){
+			
+			@Override
+			synchronized public void onAccuracyChanged(Sensor sensor, int accuracy) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			synchronized public void onSensorChanged(SensorEvent event) {
+				// TODO Auto-generated method stub
+
+			}
+	
+		};
+		
+	}
+	
+	private void newGPSListener(){
+		gpsListener= new LocationListener() {
+        	
+    		public void onLocationChanged(Location location){
+    			
+    		}
+			@Override
+			public void onProviderDisabled(String arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void onProviderEnabled(String provider) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void onStatusChanged(String provider, int status,
+					Bundle extras) {
+				// TODO Auto-generated method stub
+				switch (status){
+					case  LocationProvider.AVAILABLE: break;
+					case  LocationProvider.OUT_OF_SERVICE: break;
+					case  LocationProvider.TEMPORARILY_UNAVAILABLE: break; 
+					
+				}
+			}  
+		};
+		
+		
+	}
 
 }
