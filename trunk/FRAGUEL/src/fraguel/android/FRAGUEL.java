@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import com.google.android.maps.MapActivity;
 
-import fraguel.android.sensors.SensorListener;
 import fraguel.android.states.ARState;
 import fraguel.android.states.ConfigState;
 import fraguel.android.states.ImageState;
@@ -40,24 +39,24 @@ import fraguel.android.states.VideoState;
 public class FRAGUEL extends MapActivity implements OnClickListener {
 
 	// Singleton
-	public static FRAGUEL instance;
+	private static FRAGUEL instance;
 	// Sensors info
 	private SensorManager sensorManager;
 	private SensorEventListener sensorListener;
 	private LocationListener gpsListener;
 	private LocationManager locationManager;
-	public float[] sOrientation = { 0, 0, 0 };
-	public float[] sAccelerometer = { 0, 0, 0 };
-	public float[] sMagnetic = { 0, 0, 0 };
-	public float[] sGyroscope = { 0, 0, 0 };
-	public float sTemperature = 0;
-	public float sLight = 0;
-	public float sProximity = 0;
+	private float[] sOrientation = { 0, 0, 0 };
+	private float[] sAccelerometer = { 0, 0, 0 };
+	private float[] sMagnetic = { 0, 0, 0 };
+	private float[] rotMatrix = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	private float[] incMatrix = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	private static final float RAD2DEG=(float) (180/Math.PI);
+
 	// View container
-	public ViewGroup view;
+	private ViewGroup view;
 	// States
-	public ArrayList<State> states;
-	public State currentState;
+	private ArrayList<State> states;
+	private State currentState;
 
 	// Menu variable buttons
 	private static final int MENU_1 = 1;
@@ -131,6 +130,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		
 		//requestUpdatesFromAllSensors
 		activateSensors();
+		activateGPS();
 
 		// TODO añadir estados
 		states = new ArrayList<State>();
@@ -218,23 +218,24 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 				sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
 				SensorManager.SENSOR_DELAY_NORMAL);
 		sensorManager.registerListener(sensorListener,
-				sensorManager.getDefaultSensor(Sensor.TYPE_TEMPERATURE),
+				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				SensorManager.SENSOR_DELAY_NORMAL);
-		sensorManager.registerListener(sensorListener,
-				sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE),
-				SensorManager.SENSOR_DELAY_NORMAL);
-		sensorManager.registerListener(sensorListener,
-				sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT),
-				SensorManager.SENSOR_DELAY_NORMAL);
-		sensorManager.registerListener(sensorListener,
-				sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
-				SensorManager.SENSOR_DELAY_NORMAL);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsListener);
+	}
+	
+	public void activateGPS(){
+		
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsListener);
 	}
 
 	public void deactivateSensors() {
 		sensorManager.unregisterListener(sensorListener);
+		
+	}
+	
+	public void deactivateGPS(){
+		
 		locationManager.removeUpdates(gpsListener);
+		
 	}
 
 	@Override
@@ -245,11 +246,13 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	public void onPause(Bundle savedInstanceState) {
         super.onPause();
         deactivateSensors();
+        deactivateGPS();
 	}
 	
 	public void onResume(Bundle savedInstanceState) {
         super.onResume();
         activateSensors();
+        activateGPS();
         
 	}
 	
@@ -269,7 +272,27 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 			@Override
 			synchronized public void onSensorChanged(SensorEvent event) {
 				// TODO Auto-generated method stub
-
+				if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
+					FRAGUEL.getInstance().sOrientation[0] = event.values[0];
+					FRAGUEL.getInstance().sOrientation[1] = event.values[1];
+					FRAGUEL.getInstance().sOrientation[2] = event.values[2];
+				} else if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+					FRAGUEL.getInstance().sAccelerometer[0] = event.values[0];
+					FRAGUEL.getInstance().sAccelerometer[1] = event.values[1];
+					FRAGUEL.getInstance().sAccelerometer[2] = event.values[2];
+				} else if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+					FRAGUEL.getInstance().sMagnetic[0] = event.values[0];
+					FRAGUEL.getInstance().sMagnetic[1] = event.values[1];
+					FRAGUEL.getInstance().sMagnetic[2] = event.values[2];
+				}
+				
+						
+					if (SensorManager.getRotationMatrix(rotMatrix, incMatrix, sAccelerometer,sMagnetic )){
+						SensorManager.getOrientation(rotMatrix, sOrientation);
+						
+						//R matriz de rotación para pasarla a OpenGL
+					}
+				
 			}
 	
 		};
@@ -306,6 +329,26 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		};
 		
 		
+	}
+
+
+	public ViewGroup getView() {
+		return view;
+	}
+
+
+	public void setView(ViewGroup view) {
+		this.view = view;
+	}
+
+
+	public float[] getRotMatrix() {
+		return rotMatrix;
+	}
+
+
+	public float[] getIncMatrix() {
+		return incMatrix;
 	}
 
 }
