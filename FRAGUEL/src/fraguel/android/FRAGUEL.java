@@ -50,6 +50,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	private float[] sMagnetic = { 0, 0, 0 };
 	private float[] rotMatrix = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 	private float[] incMatrix = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	private double latitude=0;
+	private double longitude=0;
+	private double altitude=0;
 	private static final float RAD2DEG=(float) (180/Math.PI);
 
 	// View container
@@ -290,7 +293,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 					if (SensorManager.getRotationMatrix(rotMatrix, incMatrix, sAccelerometer,sMagnetic )){
 						SensorManager.getOrientation(rotMatrix, sOrientation);
 						
-						//R matriz de rotación para pasarla a OpenGL
+						//rotMatrix: matriz 4X4 de rotación para pasarla a OpenGL
 					}
 				
 			}
@@ -304,6 +307,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
         	
     		public void onLocationChanged(Location location){
     			
+    			latitude=location.getLatitude();
+    			longitude=location.getLongitude();
+    			altitude=location.getAltitude();
     		}
 			@Override
 			public void onProviderDisabled(String arg0) {
@@ -349,6 +355,21 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 
 	public float[] getIncMatrix() {
 		return incMatrix;
+	}
+
+
+	public double getLatitud() {
+		return latitude;
+	}
+
+
+	public double getLongitud() {
+		return longitude;
+	}
+
+
+	public double getHeight() {
+		return altitude;
 	}
 
 }
