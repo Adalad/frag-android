@@ -69,7 +69,11 @@ public class MenuState extends State {
 		b7.setId(7);
 		b7.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		viewGroup.addView(b7);
-
+		
+		gps= new TextView(viewGroup.getContext());
+		viewGroup.addView(gps);
+		orientation = new TextView(viewGroup.getContext());
+		viewGroup.addView(orientation);
 		
 		FRAGUEL.getInstance().addView(viewGroup);
 	}
@@ -100,7 +104,7 @@ public class MenuState extends State {
 			System.exit(0);
 		}
 	}
-
+	
 
 
 }

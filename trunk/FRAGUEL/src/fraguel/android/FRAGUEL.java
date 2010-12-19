@@ -292,7 +292,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 						
 					if (SensorManager.getRotationMatrix(rotMatrix, incMatrix, sAccelerometer,sMagnetic )){
 						SensorManager.getOrientation(rotMatrix, sOrientation);
-						
+		    			
+						if (currentState.getId()==1){
+		    				currentState.setGPSText("Orientation: "+ sOrientation[0]+" "+sOrientation[1]+" "+sOrientation[2]);
+		    			}
 						//rotMatrix: matriz 4X4 de rotación para pasarla a OpenGL
 					}
 				
@@ -310,6 +313,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
     			latitude=location.getLatitude();
     			longitude=location.getLongitude();
     			altitude=location.getAltitude();
+    			
+    			if (currentState.getId()==1){
+    				currentState.setGPSText("Latitud: "+ latitude+", Longitud: "+longitude);
+    			}
     		}
 			@Override
 			public void onProviderDisabled(String arg0) {
