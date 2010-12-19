@@ -18,12 +18,12 @@ public class IntroState extends State{
 	public void load() {
 		// TODO Auto-generated method stub
 				
-		FRAGUEL.getInstance().view.setBackgroundResource(R.drawable.intro);
+		FRAGUEL.getInstance().getView().setBackgroundResource(R.drawable.intro);
 		
 		 Handler handler = new Handler(); 
 		    handler.postDelayed(new Runnable() { 
 		         public void run() { 
-		        	 FRAGUEL.getInstance().view.setBackgroundColor(25); 
+		        	 FRAGUEL.getInstance().getView().setBackgroundColor(25); 
 		        	 FRAGUEL.getInstance().changeState(1);
 		         } 
 		    }, 2000); 

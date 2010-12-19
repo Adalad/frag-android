@@ -100,7 +100,7 @@ public class MapState extends State{
 	@Override
 	public void onClick(View v) {
 		
-		FRAGUEL.getInstance().view.removeView(popupView);
+		FRAGUEL.getInstance().getView().removeView(popupView);
 		
 		
 	}

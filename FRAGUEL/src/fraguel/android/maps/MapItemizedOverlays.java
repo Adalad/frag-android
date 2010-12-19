@@ -119,8 +119,8 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 		//MapState.getInstance().getMapView().addView(popup);
 		popup.layout(point.x - 25, point.y -60,point.x + 140, point.y +50);
 		boolean isPopup= false;
-		for (int i=0 ; i<FRAGUEL.getInstance().view.getChildCount(); i++){
-			if (FRAGUEL.getInstance().view.getChildAt(i).getId()== popup.getId())
+		for (int i=0 ; i<FRAGUEL.getInstance().getView().getChildCount(); i++){
+			if (FRAGUEL.getInstance().getView().getChildAt(i).getId()== popup.getId())
 				isPopup= true;
 		}
 		if (!isPopup)
