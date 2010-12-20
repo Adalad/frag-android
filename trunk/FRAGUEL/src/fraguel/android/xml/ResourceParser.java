@@ -6,14 +6,17 @@ import org.xml.sax.XMLReader;
 
 public class ResourceParser {
 
+	private static ResourceParser instance;
 	private XMLReader parser;
+	private String root;
 
-	public ResourceParser() {
+	private ResourceParser() {
 		try {
 			SAXParserFactory spf = SAXParserFactory.newInstance();
 			SAXParser sp;
 			sp = spf.newSAXParser();
 			parser = sp.getXMLReader();
+			root = "/";
 		} catch (Exception e) {
 			// TODO Show error pop-up
 			// TODO Show language string
@@ -21,11 +24,21 @@ public class ResourceParser {
 		}
 	}
 
+	public static ResourceParser getInstance() {
+		if (null == instance)
+			instance = new ResourceParser();
+		return instance;
+	}
+
+	public void sestRoot(String r) {
+		root = r;
+	}
+
 	public void readRoutes() {
 		try {
 			RoutesHandler rh = new RoutesHandler();
 			parser.setContentHandler(rh);
-			parser.parse("path");
+			parser.parse(root + "path");
 			rh.getParsedData();
 		} catch (Exception e) {
 			// TODO Show error pop-up
