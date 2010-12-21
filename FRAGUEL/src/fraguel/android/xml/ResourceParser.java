@@ -40,6 +40,10 @@ public class ResourceParser {
 			parser.setContentHandler(rh);
 			parser.parse(root + "path");
 			rh.getParsedData();
+			PointsHandler ph = new PointsHandler();
+			parser.setContentHandler(ph);
+			parser.parse(root + "path");
+			ph.getParsedData();
 		} catch (Exception e) {
 			// TODO Show error pop-up
 			// TODO Show language string
