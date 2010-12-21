@@ -294,7 +294,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 						SensorManager.getOrientation(rotMatrix, sOrientation);
 		    			
 						if (currentState.getId()==1){
-		    				currentState.setOrientationText("Orientation: "+ sOrientation[0]+" "+sOrientation[1]+" "+sOrientation[2]);
+		    				currentState.setOrientationText("X: "+ sOrientation[0]*RAD2DEG+", Y: "+sOrientation[1]*RAD2DEG+",Z: "+sOrientation[2]*RAD2DEG);
 		    			}
 						//rotMatrix: matriz 4X4 de rotación para pasarla a OpenGL
 					}
