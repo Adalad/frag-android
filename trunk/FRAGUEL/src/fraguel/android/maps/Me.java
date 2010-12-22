@@ -40,10 +40,10 @@ public class Me implements LocationListener{
 		latitude=location.getLatitude();
 		longitude=location.getLongitude();
 		altitude=location.getAltitude();
-		currentLocation=new GeoPoint((int) (location.getLatitude() * 1E6),(int) (location.getLongitude() * 1E6));
+		currentLocation=new GeoPoint((int) (latitude * 1E6),(int) (longitude * 1E6));
 		if (FRAGUEL.getInstance().getCurrentState().getId()==1){
 			MenuState s=(MenuState)FRAGUEL.getInstance().getCurrentState();
-			s.setGPSText("Latitud: "+location.getLatitude()+", Longitud: "+location.getLongitude());
+			s.setGPSText("Latitud: "+latitude+", Longitud: "+longitude);
 		}
 		
 		MapState.getInstance().animateTo(currentLocation);
