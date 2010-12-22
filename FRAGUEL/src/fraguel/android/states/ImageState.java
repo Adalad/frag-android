@@ -13,7 +13,8 @@ import fraguel.android.State;
 import fraguel.android.gallery.ImageAdapter;
 
 public class ImageState extends State{
-
+	
+	private TextView title;
 	private TextView text;
 	private Gallery gallery;
 	
@@ -28,6 +29,11 @@ public class ImageState extends State{
 		// TODO Auto-generated method stub
 		viewGroup = new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
 		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
+		
+			title= new TextView(FRAGUEL.getInstance().getApplicationContext());
+			title.setText("Facultad A");
+			
+			viewGroup.addView(title);
 			
 			gallery=new Gallery(FRAGUEL.getInstance().getApplicationContext());
 			gallery.setAdapter(new ImageAdapter(FRAGUEL.getInstance().getApplicationContext()));
