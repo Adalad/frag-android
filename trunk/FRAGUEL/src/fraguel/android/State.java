@@ -9,9 +9,6 @@ public abstract class State implements Comparable<State> {
 	protected int id;
 	protected ViewGroup viewGroup;
 	
-	//estos textViews son pruebas
-	protected TextView gps;
-	protected TextView orientation;
 
 	public State() {
 		super();
@@ -40,12 +37,6 @@ public abstract class State implements Comparable<State> {
 	}
 	
 	//estos dos métodos son para probar los datos de los sensores
-	public void setGPSText(String s){
-		gps.setText(s);
-	}
-	public void setOrientationText(String s){
-		orientation.setText(s);
-	}
 
 	public abstract void onClick(View v);
 	//public abstract void onTouch(View v, MotionEvent event);

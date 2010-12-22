@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.google.android.maps.MapActivity;
 
+import fraguel.android.maps.Me;
 import fraguel.android.states.ARState;
 import fraguel.android.states.ConfigState;
 import fraguel.android.states.ImageState;
@@ -43,16 +44,13 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	// Sensors info
 	private SensorManager sensorManager;
 	private SensorEventListener sensorListener;
-	private LocationListener gpsListener;
+	private Me myPosition;
 	private LocationManager locationManager;
 	private float[] sOrientation = { 0, 0, 0 };
 	private float[] sAccelerometer = { 0, 0, 0 };
 	private float[] sMagnetic = { 0, 0, 0 };
 	private float[] rotMatrix = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 	private float[] incMatrix = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	private double latitude=0;
-	private double longitude=0;
-	private double altitude=0;
 	private static final float RAD2DEG=(float) (180/Math.PI);
 
 	// View container
@@ -129,7 +127,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		
 		
 		//GPS
-			newGPSListener();
+			myPosition= Me.getInstance();
 		
 		//requestUpdatesFromAllSensors
 		activateSensors();
@@ -227,7 +225,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	
 	public void activateGPS(){
 		
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsListener);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, myPosition);
 	}
 
 	public void deactivateSensors() {
@@ -237,7 +235,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	
 	public void deactivateGPS(){
 		
-		locationManager.removeUpdates(gpsListener);
+		locationManager.removeUpdates(myPosition);
 		
 	}
 
@@ -294,7 +292,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 						SensorManager.getOrientation(rotMatrix, sOrientation);
 		    			
 						if (currentState.getId()==1){
-		    				currentState.setOrientationText("X: "+ sOrientation[0]*RAD2DEG+", Y: "+sOrientation[1]*RAD2DEG+",Z: "+sOrientation[2]*RAD2DEG);
+		    				MenuState m=(MenuState)currentState;
+		    				m.setOrientationText("X: "+ sOrientation[0]*RAD2DEG+", Y: "+sOrientation[1]*RAD2DEG+",Z: "+sOrientation[2]*RAD2DEG);
 		    			}
 						//rotMatrix: matriz 4X4 de rotación para pasarla a OpenGL
 					}
@@ -305,46 +304,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		
 	}
 	
-	private void newGPSListener(){
-		gpsListener= new LocationListener() {
-        	
-    		public void onLocationChanged(Location location){
-    			
-    			latitude=location.getLatitude();
-    			longitude=location.getLongitude();
-    			altitude=location.getAltitude();
-    			
-    			if (currentState.getId()==1){
-    				currentState.setGPSText("Latitud: "+ latitude+", Longitud: "+longitude);
-    			}
-    		}
-			@Override
-			public void onProviderDisabled(String arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void onProviderEnabled(String provider) {
-				// TODO Auto-generated method stub
-				
-			}
-			@Override
-			public void onStatusChanged(String provider, int status,
-					Bundle extras) {
-				// TODO Auto-generated method stub
-				switch (status){
-					case  LocationProvider.AVAILABLE: break;
-					case  LocationProvider.OUT_OF_SERVICE: break;
-					case  LocationProvider.TEMPORARILY_UNAVAILABLE: break; 
-					
-				}
-			}  
-		};
-		
-		
-	}
-
-
 	public ViewGroup getView() {
 		return view;
 	}
@@ -364,19 +323,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		return incMatrix;
 	}
 
-
-	public double getLatitud() {
-		return latitude;
+	
+	public State getCurrentState(){
+		
+		return this.currentState;
 	}
-
-
-	public double getLongitud() {
-		return longitude;
-	}
-
-
-	public double getAltitude() {
-		return altitude;
-	}
-
 }
