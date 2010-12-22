@@ -6,8 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -17,9 +15,6 @@ import com.google.android.maps.OverlayItem;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.State;
-import fraguel.android.R.drawable;
-import fraguel.android.R.id;
-import fraguel.android.R.layout;
 import fraguel.android.maps.MapItemizedOverlays;
 
 public class MapState extends State{
