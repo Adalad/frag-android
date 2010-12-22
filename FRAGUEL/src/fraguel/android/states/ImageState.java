@@ -26,8 +26,7 @@ public class ImageState extends State{
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
-		viewGroup = new LinearLayout(FRAGUEL.getInstance()
-				.getApplicationContext());
+		viewGroup = new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
 		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
 			
 			gallery=new Gallery(FRAGUEL.getInstance().getApplicationContext());
