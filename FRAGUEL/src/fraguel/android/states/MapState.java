@@ -112,6 +112,10 @@ public class MapState extends State{
 	public View getPopupView() {
 		return popupView;
 	}
+	
+	public void animateTo(GeoPoint g){
+		mapControl.animateTo(g);		
+	}
 
 	
 

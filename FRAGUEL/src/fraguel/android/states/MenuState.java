@@ -11,7 +11,8 @@ import android.widget.TextView;
 public class MenuState extends State {
 	
 	//public static final int STATE_ID = 1;
-
+	protected TextView gps;
+	protected TextView orientation;
 	public MenuState() {
 		super();
 		id = 1;
@@ -106,6 +107,13 @@ public class MenuState extends State {
 		default:
 			System.exit(0);
 		}
+	}
+	
+	public void setGPSText(String s){
+		gps.setText(s);
+	}
+	public void setOrientationText(String s){
+		orientation.setText(s);
 	}
 	
 
