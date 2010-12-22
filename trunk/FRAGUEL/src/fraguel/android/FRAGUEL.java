@@ -126,7 +126,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		
 		
 		
-		//GPS
+		//GPS Listener
 			myPosition= Me.getInstance();
 		
 		//requestUpdatesFromAllSensors
