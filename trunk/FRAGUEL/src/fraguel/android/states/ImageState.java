@@ -17,6 +17,7 @@ public class ImageState extends State{
 	private TextView title;
 	private TextView text;
 	private Gallery gallery;
+	private ScrollView sv;
 	
 	public ImageState() {
 		super();
@@ -47,7 +48,7 @@ public class ImageState extends State{
 		
 		viewGroup.addView(gallery);
 		
-		ScrollView sv= new ScrollView(FRAGUEL.getInstance().getApplicationContext());
+		sv= new ScrollView(FRAGUEL.getInstance().getApplicationContext());
 		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
 		sv.addView(text);
 		
