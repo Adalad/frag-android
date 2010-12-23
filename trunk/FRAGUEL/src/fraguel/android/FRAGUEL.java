@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -25,9 +26,9 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 
-import fraguel.android.maps.Me;
 import fraguel.android.states.ARState;
 import fraguel.android.states.ConfigState;
 import fraguel.android.states.ImageState;
@@ -127,7 +128,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		
 		
 		//GPS Listener
-			myPosition= Me.getInstance();
+			myPosition= new Me(new GeoPoint(0,0),FRAGUEL.getInstance().getResources().getDrawable(R.drawable.icon_museo));
 		
 		//requestUpdatesFromAllSensors
 		activateSensors();
@@ -327,5 +328,90 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	public State getCurrentState(){
 		
 		return this.currentState;
+	}
+	
+	public Me getGPS(){
+		return myPosition;
+	}
+	
+	
+	public class Me implements LocationListener{
+
+		private GeoPoint currentLocation;
+		private double latitude=0,longitude=0,altitude=0;
+		private Drawable picture;
+		
+		
+		private Me(GeoPoint arg0,Drawable d) {
+			currentLocation=arg0;
+			setPicture(d);
+			// TODO Auto-generated constructor stub
+		}
+		
+
+		@Override
+		public void onLocationChanged(Location location) {
+			// TODO Auto-generated method stub
+			latitude=location.getLatitude();
+			longitude=location.getLongitude();
+			altitude=location.getAltitude();
+			currentLocation=new GeoPoint((int) (latitude * 1E6),(int) (longitude * 1E6));
+			if (FRAGUEL.getInstance().getCurrentState().getId()==1){
+				MenuState s=(MenuState)FRAGUEL.getInstance().getCurrentState();
+				s.setGPSText("Latitud: "+latitude+", Longitud: "+longitude);
+			}
+			
+			MapState.getInstance().animateTo(currentLocation);
+		}
+
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onProviderEnabled(String provider) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			// TODO Auto-generated method stub
+			switch (status){
+			case  LocationProvider.AVAILABLE:  break;
+			case  LocationProvider.OUT_OF_SERVICE: break;
+			case  LocationProvider.TEMPORARILY_UNAVAILABLE: break;
+			
+			}
+		}
+
+		public void setPicture(Drawable picture) {
+			this.picture = picture;
+		}
+
+		public Drawable getPicture() {
+			return picture;
+		}
+
+		public GeoPoint getCurrentLocation() {
+			return currentLocation;
+		}
+		
+
+		public double getLatitude() {
+			return latitude;
+		}
+
+		public double getLongitude() {
+			return longitude;
+		}
+
+		public double getAltitude() {
+			return altitude;
+		}
+
 	}
 }
