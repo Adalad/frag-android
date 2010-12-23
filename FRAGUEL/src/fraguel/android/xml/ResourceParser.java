@@ -1,5 +1,7 @@
 package fraguel.android.xml;
 
+import java.util.ArrayList;
+
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.XMLReader;
@@ -34,21 +36,32 @@ public class ResourceParser {
 		root = r;
 	}
 
-	public void readRoutes() {
+	public ArrayList<Route> readRoutes() {
 		try {
 			RoutesHandler rh = new RoutesHandler();
 			parser.setContentHandler(rh);
 			parser.parse(root + "path");
-			rh.getParsedData();
-			PointsHandler ph = new PointsHandler();
-			parser.setContentHandler(ph);
-			parser.parse(root + "path");
-			ph.getParsedData();
+			return rh.getParsedData();
 		} catch (Exception e) {
 			// TODO Show error pop-up
 			// TODO Show language string
 			System.out.println("Error al leer el fichero de rutas");
 		}
+		return null;
+	}
+
+	public ArrayList<PointOI> readPointsOI() {
+		try {
+			PointsHandler ph = new PointsHandler();
+			parser.setContentHandler(ph);
+			parser.parse(root + "path");
+			return ph.getParsedData();
+		} catch (Exception e) {
+			// TODO Show error pop-up
+			// TODO Show language string
+			System.out.println("Error al leer el fichero de rutas");
+		}
+		return null;
 	}
 
 }
