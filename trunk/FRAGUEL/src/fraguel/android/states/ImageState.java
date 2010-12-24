@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import fraguel.android.FRAGUEL;
 import fraguel.android.State;
+import fraguel.android.gallery.BigImageAdapter;
 import fraguel.android.gallery.ImageAdapter;
 
 public class ImageState extends State{
@@ -20,6 +21,8 @@ public class ImageState extends State{
 	private TextView text;
 	private Gallery gallery;
 	private ScrollView sv;
+	private Gallery bigGallery;
+	private int currentIndex;
 	
 	public ImageState() {
 		super();
@@ -36,52 +39,21 @@ public class ImageState extends State{
 			title= new TextView(FRAGUEL.getInstance().getApplicationContext());
 			title.setText("Facultad A");
 			
-			viewGroup.addView(title);
-			
-			gallery=new Gallery(FRAGUEL.getInstance().getApplicationContext());
-			gallery.setAdapter(new ImageAdapter(FRAGUEL.getInstance().getApplicationContext()));
-			gallery.setHorizontalScrollBarEnabled(true);
 			
 			
-
-			gallery.setOnItemLongClickListener(new OnItemLongClickListener() {
+			setParamsSmallGallery();
 			
-			@Override
-			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int position, long arg3) {
-				// TODO Auto-generated method stub
-				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
-				return false;
-			}
-			});
 			
-			gallery.setOnItemSelectedListener(new OnItemSelectedListener(){
-
-				@Override
-				public void onItemSelected(AdapterView<?> arg0, View arg1,
-						int position, long arg3) {
-					// TODO Auto-generated method stub
-					
-					text.setText("Posición: "+ position+"\n"+"\n"+"La posicion en la que se encuentra el elemento pulsado es la "+position);
-					
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {
-					// TODO Auto-generated method stub
-					
-				}});
-		
-		
-		viewGroup.addView(gallery);
+			setParamsBigGallery();
 		
 		
 		sv= new ScrollView(FRAGUEL.getInstance().getApplicationContext());
 		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
 		sv.addView(text);
 		
-		viewGroup.addView(sv);
+		loadViews();
 		
+		currentIndex=0;
 		
 		
 		FRAGUEL.getInstance().addView(viewGroup);
@@ -94,6 +66,99 @@ public class ImageState extends State{
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	
+	private void setParamsSmallGallery(){
+		gallery=new Gallery(FRAGUEL.getInstance().getApplicationContext());
+		gallery.setAdapter(new ImageAdapter(FRAGUEL.getInstance().getApplicationContext()));
+		gallery.setHorizontalScrollBarEnabled(true);
+		
+		
+
+		gallery.setOnItemClickListener(new OnItemClickListener() {
+		
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+				long arg3) {
+			// TODO Auto-generated method stub
+			if (currentIndex==position){
+				viewGroup.removeAllViews();
+				viewGroup.addView(bigGallery);
+				bigGallery.setSelection(position, true);
+			}
+			currentIndex=position;
+		}
+		});
+		
+		gallery.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				// TODO Auto-generated method stub
+				
+				text.setText("Posición: "+ position+"\n"+"\n"+"La posicion en la que se encuentra el elemento pulsado es la "+position);
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}});
+		
+		
+	}
+	
+	private void setParamsBigGallery(){
+		bigGallery=new Gallery(FRAGUEL.getInstance().getApplicationContext());
+		bigGallery.setAdapter(new BigImageAdapter(FRAGUEL.getInstance().getApplicationContext()));
+		bigGallery.setHorizontalScrollBarEnabled(true);
+		
+		
+
+		bigGallery.setOnItemClickListener(new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+				long arg3) {
+			// TODO Auto-generated method stub
+			if (currentIndex==position){
+				viewGroup.removeAllViews();
+				loadViews();
+				gallery.setSelection(position, true);
+			}
+			currentIndex=position;
+			
+		}
+		});
+		
+		bigGallery.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				// TODO Auto-generated method stub
+				
+				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Position: " + position, Toast.LENGTH_SHORT).show();
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}});
+			
+	}
+	
+	private void loadViews(){
+		viewGroup.addView(title);
+		viewGroup.addView(gallery);
+		viewGroup.addView(sv);
+		
 	}
 
 }
