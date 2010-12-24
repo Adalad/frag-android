@@ -53,7 +53,7 @@ public class ImageState extends State{
 		
 		loadViews();
 		
-		currentIndex=0;
+		currentIndex=-1;
 		
 		
 		FRAGUEL.getInstance().addView(viewGroup);
@@ -87,8 +87,10 @@ public class ImageState extends State{
 				viewGroup.removeAllViews();
 				viewGroup.addView(bigGallery);
 				bigGallery.setSelection(position, true);
+				currentIndex=-1;
 			}
-			currentIndex=position;
+			else
+				currentIndex=position;
 		}
 		});
 		
@@ -129,8 +131,9 @@ public class ImageState extends State{
 				viewGroup.removeAllViews();
 				loadViews();
 				gallery.setSelection(position, true);
-			}
-			currentIndex=position;
+				currentIndex=-1;
+			}else
+				currentIndex=position;
 			
 		}
 		});
