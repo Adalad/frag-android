@@ -23,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.WindowManager.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -334,6 +335,15 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		return myPosition;
 	}
 	
+	@Override
+	protected boolean isLocationDisplayed() {
+		// TODO Auto-generated method stub
+		//Este método pone que es obligatorio ponerlo cuando muestras tu posicion
+		//en la API de Maps si no es ilegal la app
+		return (currentState.id==2);
+	}
+
+
 	
 	public class Me implements LocationListener{
 
@@ -412,6 +422,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		public double getAltitude() {
 			return altitude;
 		}
+		
+
 
 	}
 }
