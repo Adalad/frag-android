@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -110,8 +111,35 @@ public class MapState extends State{
 		
 		FRAGUEL.getInstance().getView().removeView(popupView);
 		
+		switch (v.getId()) {
+		case R.id.btn_popupPI_info:
+			FRAGUEL.getInstance().changeState(6);
+			break;
+		case R.id.btn_popupPI_photo:
+			FRAGUEL.getInstance().changeState(4);
+			break;
+		case R.id.btn_popupPI_video:
+			FRAGUEL.getInstance().changeState(3);
+			break;
+		case R.id.btn_popupPI_ar:
+			FRAGUEL.getInstance().changeState(5);
+			break;
+		
+		default:
+			
+		}
+		
 		
 	}
+	
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+		// TODO Auto-generated method stub
+
+		FRAGUEL.getInstance().getView().removeView(popupView);
+		
+		return true;
+	}
+
 	
 	public MapView getMapView() {
 		return mapView;
