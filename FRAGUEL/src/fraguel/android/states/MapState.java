@@ -132,9 +132,9 @@ public class MapState extends State{
 	}
 	
 	public void LocationChanged(GeoPoint p){
-		Toast t= Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Cambio de Coordenadas GPS", Toast.LENGTH_SHORT);
-		t.show();
-		animateTo(p);
+		/*Toast t= Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Cambio de Coordenadas GPS", Toast.LENGTH_SHORT);
+		t.show();*/
+		mapControl.animateTo(p);
 		
 	}
 
