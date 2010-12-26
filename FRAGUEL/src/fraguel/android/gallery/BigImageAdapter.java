@@ -52,11 +52,12 @@ public class BigImageAdapter extends BaseAdapter{
 
 
         i.setImageResource(mImageIds[position]);
-        
+               
         Display display = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         int width = display.getWidth(); 
         int height= display.getHeight();
-       /* int currentImageWidth=i.getDrawable().getIntrinsicWidth();
+        
+        int currentImageWidth=i.getDrawable().getIntrinsicWidth();
         int currentImageHeight=i.getDrawable().getIntrinsicHeight();
         int imageWidth = 0;
         int imageHeight = 0;
@@ -68,12 +69,11 @@ public class BigImageAdapter extends BaseAdapter{
         else {
             imageHeight = height;
             imageWidth = currentImageWidth * imageHeight/ currentImageHeight;
-                }*/
+                }
         
         i.setLayoutParams(new Gallery.LayoutParams(width,height));
-        i.setScaleType(ImageView.ScaleType.FIT_XY);
+        //i.setScaleType(ImageView.ScaleType.CENTER);
         i.setBackgroundResource(mGalleryItemBackground);
-
         return i;
     }
     

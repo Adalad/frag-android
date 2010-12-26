@@ -145,7 +145,7 @@ public class ImageState extends State{
 					int position, long arg3) {
 				// TODO Auto-generated method stub
 				
-				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Position: " + position, Toast.LENGTH_SHORT).show();
+				//Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Position: " + position, Toast.LENGTH_SHORT).show();
 				
 			}
 
