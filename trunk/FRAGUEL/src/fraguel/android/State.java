@@ -1,8 +1,8 @@
 package fraguel.android;
 
+import android.content.res.Configuration;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 public abstract class State implements Comparable<State> {
 
@@ -39,6 +39,7 @@ public abstract class State implements Comparable<State> {
 	//estos dos métodos son para probar los datos de los sensores
 
 	public abstract void onClick(View v);
+	public boolean onConfigurationChanged(Configuration newConfig){return false;}
 	//public abstract void onTouch(View v, MotionEvent event);
 
 }
