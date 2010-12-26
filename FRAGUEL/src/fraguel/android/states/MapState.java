@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
@@ -98,11 +99,7 @@ public class MapState extends State{
 
 		mapOverlays.add(itemizedoverlay);
 		addMyPosition();
-		
-		
-	        
-		
-		
+	
 		
 	}
 
@@ -154,18 +151,22 @@ public class MapState extends State{
 	}
 	
 	private void addMyPosition(){
-		/*
-		 * Crear un Overlay es una mierda, es mejor poner una imagen sobre toda la mapView.
-		 * */
+		final MyLocationOverlay me = new MyLocationOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
+		mapOverlays.add(me);
+		me.enableMyLocation();
+		me.disableCompass();
+        me.runOnFirstFix(new Runnable() {
+            public void run() {
+                mapControl.animateTo(me.getMyLocation());
+            }
+        });
+		
 	}
 	
 	public void LocationChanged(GeoPoint p){
-		/*Toast t= Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Cambio de Coordenadas GPS", Toast.LENGTH_SHORT);
-		t.show();*/
+		
 		mapControl.animateTo(p);
 		
 	}
-
-	
 
 }
