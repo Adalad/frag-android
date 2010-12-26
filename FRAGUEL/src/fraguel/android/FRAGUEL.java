@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.OverlayItem;
 
 import fraguel.android.states.ARState;
 import fraguel.android.states.ConfigState;
@@ -128,7 +129,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		
 		
 		//GPS Listener
-			myPosition= new Me(new GeoPoint(0,0),FRAGUEL.getInstance().getResources().getDrawable(R.drawable.icon_museo));
+			myPosition= new Me(new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7257781 * 1000000)),R.drawable.icon_museo);
 		
 		//requestUpdatesFromAllSensors
 		activateSensors();
@@ -351,17 +352,18 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	}
 
 
-	
-	private class Me implements LocationListener{
+//***********************************************************************************
+//*************************************************************************************
+	public class Me implements LocationListener{
 
 		private GeoPoint currentLocation;
 		private double latitude=0,longitude=0,altitude=0;
-		private Drawable picture;
+		private int picture;
 		
 		
-		private Me(GeoPoint arg0,Drawable d) {
+		private Me(GeoPoint arg0,int d) {
 			currentLocation=arg0;
-			setPicture(d);
+			picture=d;
 			// TODO Auto-generated constructor stub
 		}
 		
@@ -377,6 +379,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 				MenuState s=(MenuState)FRAGUEL.getInstance().getCurrentState();
 				s.setGPSText("Latitud: "+latitude+", Longitud: "+longitude);
 			}
+			if (FRAGUEL.getInstance().getCurrentState().getId()==2){
+				MapState.getInstance().LocationChanged(currentLocation);
+			}
+			
+			
 			
 		}
 
@@ -384,7 +391,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		@Override
 		public void onProviderDisabled(String provider) {
 			// TODO Auto-generated method stub
-			
+			Toast.makeText(getApplicationContext(), "El GPS está desactivado, por favor actívelo", Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
@@ -404,11 +411,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 			}
 		}
 
-		public void setPicture(Drawable picture) {
+		public void setPicture(int picture) {
 			this.picture = picture;
 		}
 
-		public Drawable getPicture() {
+		public int getPicture() {
 			return picture;
 		}
 

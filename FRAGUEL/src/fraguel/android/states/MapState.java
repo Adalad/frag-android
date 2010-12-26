@@ -6,6 +6,9 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -27,7 +30,7 @@ public class MapState extends State{
 	private MapController mapControl;
 	private MapView mapView;
 	private View popupView;
-	private MapItemizedOverlays itemizedoverlay;
+	private List<Overlay> mapOverlays;
 	
 
 	public MapState() {
@@ -69,9 +72,9 @@ public class MapState extends State{
 		mapControl.setCenter(pointInit);
 
 		//Creamos los Overlays
-		List<Overlay> mapOverlays = mapView.getOverlays();
+		mapOverlays = mapView.getOverlays();
 		Drawable drawable = FRAGUEL.getInstance().getResources().getDrawable(R.drawable.museumsalango);
-		itemizedoverlay = new MapItemizedOverlays(drawable,FRAGUEL.getInstance());
+		MapItemizedOverlays itemizedoverlay = new MapItemizedOverlays(drawable,FRAGUEL.getInstance());
 
 		//primer punto
 		GeoPoint point1 = new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7257881 * 1000000));
@@ -82,10 +85,20 @@ public class MapState extends State{
 		//segundo punto
 		GeoPoint point2 = new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7297881 * 1000000));
 		OverlayItem overlayitem2 = new OverlayItem(point2, "Facultad B", "En el año...");
-
+	
 		itemizedoverlay.addOverlay(overlayitem2);
+		
+		//mi casa
+		
+		GeoPoint point3 = new GeoPoint((int) (40.44929 * 1000000), (int) (-3.64072927 * 1000000));
+		OverlayItem overlayitem3 = new OverlayItem(point3, "Mi casa", "My house...");
+		
+		itemizedoverlay.addOverlay(overlayitem3);
 
 		mapOverlays.add(itemizedoverlay);
+		addMyPosition();
+		
+		
 	        
 		
 		
@@ -110,6 +123,19 @@ public class MapState extends State{
 	
 	public void animateTo(GeoPoint g){
 		mapControl.animateTo(g);		
+	}
+	
+	private void addMyPosition(){
+		/*
+		 * Crear un Overlay es una mierda, es mejor poner una imagen sobre toda la mapView.
+		 * */
+	}
+	
+	public void LocationChanged(GeoPoint p){
+		Toast t= Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Cambio de Coordenadas GPS", Toast.LENGTH_SHORT);
+		t.show();
+		animateTo(p);
+		
 	}
 
 	
