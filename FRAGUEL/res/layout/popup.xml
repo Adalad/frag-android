@@ -8,6 +8,8 @@
 
 		<TextView android:id="@+id/popupPI_texto1"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:textStyle="bold"
+			
 			android:gravity="left" android:paddingTop="2dip" />
 
 
@@ -33,25 +35,25 @@
 				android:layout_height="wrap_content" android:orientation="horizontal"
 				>
 
-					<Button android:id="@+id/btn_info" android:layout_width="wrap_content"
+					<Button android:id="@+id/btn_popupPI_info" android:layout_width="wrap_content"
 						android:background="@drawable/info" android:layout_height="wrap_content"
 						android:paddingLeft="5dip" android:paddingTop="5dip" 
 						android:gravity="center"
 						/>
 
-					<Button android:id="@+id/btn_photo" android:layout_width="wrap_content"
+					<Button android:id="@+id/btn_popupPI_photo" android:layout_width="wrap_content"
 						android:layout_height="wrap_content" android:background="@drawable/photo"
 						android:paddingLeft="15dip" android:paddingTop="5dip" 
 						
 						/>
 
-					<Button android:id="@+id/btn_video" android:layout_width="wrap_content"
+					<Button android:id="@+id/btn_popupPI_video" android:layout_width="wrap_content"
 						android:layout_height="wrap_content" android:background="@drawable/video"
 						android:paddingLeft="15dip" android:paddingTop="5dip" 
 						
 						/>
 			
-					<Button android:id="@+id/btn_ar" android:layout_width="wrap_content"
+					<Button android:id="@+id/btn_popupPI_ar" android:layout_width="wrap_content"
 						android:layout_height="wrap_content" android:background="@drawable/ar"
 						android:paddingLeft="15dip" android:paddingTop="5dip" 
 						
