@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -28,7 +27,6 @@ import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.OverlayItem;
 
 import fraguel.android.states.ARState;
 import fraguel.android.states.ConfigState;
@@ -129,7 +127,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		
 		
 		//GPS Listener
-			myPosition= new Me(new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7257781 * 1000000)),R.drawable.icon_museo);
+			myPosition= new Me(new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7257781 * 1000000)));
 		
 		//requestUpdatesFromAllSensors
 		activateSensors();
@@ -362,12 +360,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 
 		private GeoPoint currentLocation;
 		private double latitude=0,longitude=0,altitude=0;
-		private int picture;
 		
 		
-		private Me(GeoPoint arg0,int d) {
+		private Me(GeoPoint arg0) {
 			currentLocation=arg0;
-			picture=d;
 			// TODO Auto-generated constructor stub
 		}
 		
@@ -383,12 +379,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 				MenuState s=(MenuState)FRAGUEL.getInstance().getCurrentState();
 				s.setGPSText("Latitud: "+latitude+", Longitud: "+longitude);
 			}
-			if (FRAGUEL.getInstance().getCurrentState().getId()==2){
-				MapState.getInstance().LocationChanged(currentLocation);
-			}
-			
-			
-			
+						
 		}
 
 
@@ -413,14 +404,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 			case  LocationProvider.TEMPORARILY_UNAVAILABLE: break;
 			
 			}
-		}
-
-		public void setPicture(int picture) {
-			this.picture = picture;
-		}
-
-		public int getPicture() {
-			return picture;
 		}
 
 		public GeoPoint getCurrentLocation() {
