@@ -3,6 +3,7 @@ package fraguel.android;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -340,10 +341,18 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		//en la API de Maps si no es ilegal la app
 		return (currentState.id==2);
 	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	    
+		if (!currentState.onConfigurationChanged(newConfig))
+			super.onConfigurationChanged(newConfig);
+  
+	}
 
 
 	
-	public class Me implements LocationListener{
+	private class Me implements LocationListener{
 
 		private GeoPoint currentLocation;
 		private double latitude=0,longitude=0,altitude=0;
@@ -369,7 +378,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 				s.setGPSText("Latitud: "+latitude+", Longitud: "+longitude);
 			}
 			
-			MapState.getInstance().animateTo(currentLocation);
 		}
 
 

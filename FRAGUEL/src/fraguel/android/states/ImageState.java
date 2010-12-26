@@ -1,6 +1,11 @@
 package fraguel.android.states;
 
+import android.content.Context;
+import android.content.res.Configuration;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -23,6 +28,7 @@ public class ImageState extends State{
 	private ScrollView sv;
 	private Gallery bigGallery;
 	private int currentIndex;
+	private boolean isBigGalleryDisplayed;
 	
 	public ImageState() {
 		super();
@@ -39,7 +45,7 @@ public class ImageState extends State{
 			title= new TextView(FRAGUEL.getInstance().getApplicationContext());
 			title.setText("Facultad A");
 			
-			
+			isBigGalleryDisplayed=false;
 			
 			setParamsSmallGallery();
 			
@@ -88,6 +94,7 @@ public class ImageState extends State{
 				viewGroup.addView(bigGallery);
 				bigGallery.setSelection(position, true);
 				currentIndex=-1;
+				isBigGalleryDisplayed=true;
 			}
 			else
 				currentIndex=position;
@@ -132,6 +139,7 @@ public class ImageState extends State{
 				loadViews();
 				gallery.setSelection(position, true);
 				currentIndex=-1;
+				isBigGalleryDisplayed=false;
 			}else
 				currentIndex=position;
 			
@@ -162,6 +170,13 @@ public class ImageState extends State{
 		viewGroup.addView(gallery);
 		viewGroup.addView(sv);
 		
+	}
+	
+	@Override
+	public boolean onConfigurationChanged(Configuration newConfig) {
+	    //aqui hay que hacer algo
+
+	return false;    
 	}
 
 }
