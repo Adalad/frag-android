@@ -52,6 +52,7 @@ public class BigImageAdapter extends BaseAdapter{
         Display display = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         int width = display.getWidth(); 
         int height= display.getHeight();
+        
         i.setLayoutParams(new Gallery.LayoutParams(width,height));
         i.setScaleType(ImageView.ScaleType.FIT_XY);
         i.setBackgroundResource(mGalleryItemBackground);
