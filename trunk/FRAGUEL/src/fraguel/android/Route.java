@@ -1,4 +1,4 @@
-package fraguel.android.xml;
+package fraguel.android;
 
 import java.util.ArrayList;
 

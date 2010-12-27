@@ -6,6 +6,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import fraguel.android.Route;
+
 public class RoutesHandler extends DefaultHandler {
 
 	private boolean in_nametag;

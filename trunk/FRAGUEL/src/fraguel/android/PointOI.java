@@ -1,4 +1,4 @@
-package fraguel.android.xml;
+package fraguel.android;
 
 public class PointOI {
 	public int id;

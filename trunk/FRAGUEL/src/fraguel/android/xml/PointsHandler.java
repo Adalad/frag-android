@@ -6,6 +6,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import fraguel.android.PointOI;
+
 public class PointsHandler extends DefaultHandler {
 
 	private boolean in_titletag;
