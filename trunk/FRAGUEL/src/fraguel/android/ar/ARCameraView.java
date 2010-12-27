@@ -1,49 +1,54 @@
 package fraguel.android.ar;
 
 import android.content.Context;
-import android.graphics.PixelFormat;
 import android.hardware.Camera;
-import android.hardware.Camera.Parameters;
+import android.hardware.Camera.PreviewCallback;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class ARCameraView extends SurfaceView {// View {
+public class ARCameraView extends SurfaceView implements SurfaceHolder.Callback {
 
 	Camera camera;
-	SurfaceHolder previewHolder;
+	SurfaceHolder holder;
 
 	public ARCameraView(Context context) {
 		super(context);
 
-		SurfaceHolder.Callback surfaceHolderListener = new SurfaceHolder.Callback() {
-			public void surfaceCreated(SurfaceHolder holder) {
-				camera = Camera.open();
+		holder = getHolder();
+		holder.addCallback(this);
+		holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+	}
 
-				try {
-					camera.setPreviewDisplay(previewHolder);
-				} catch (Throwable t) {
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
+		Camera.Parameters parameters = camera.getParameters();
+		parameters.setPreviewSize(width, height);
+		camera.setParameters(parameters);
+		camera.startPreview();
+	}
+
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		camera = Camera.open();
+		try {
+			camera.setPreviewDisplay(holder);
+			camera.setPreviewCallback(new PreviewCallback() {
+
+				@Override
+				public void onPreviewFrame(byte[] data, Camera camera) {
+
 				}
-			}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-			public void surfaceChanged(SurfaceHolder holder, int format,
-					int width, int height) {
-				Parameters params = camera.getParameters();
-				params.setPreviewSize(width, height);
-				params.setPictureFormat(PixelFormat.JPEG);
-				camera.setParameters(params);
-				camera.startPreview();
-			}
-
-			public void surfaceDestroyed(SurfaceHolder arg0) {
-				camera.stopPreview();
-				camera.release();
-			}
-		};
-
-		previewHolder = this.getHolder();
-		previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-		previewHolder.addCallback(surfaceHolderListener);
-
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		camera.stopPreview();
+		camera = null;
 	}
 
 }
