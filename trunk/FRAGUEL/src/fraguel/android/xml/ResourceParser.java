@@ -35,15 +35,15 @@ public class ResourceParser {
 		return instance;
 	}
 
-	public void sestRoot(String r) {
+	public void setRoot(String r) {
 		root = r;
 	}
 
-	public ArrayList<Route> readRoutes() {
+	public ArrayList<Route> readRoutes(String path) {
 		try {
 			RoutesHandler rh = new RoutesHandler();
 			parser.setContentHandler(rh);
-			parser.parse(root + "path");
+			parser.parse(root + path);
 			return rh.getParsedData();
 		} catch (Exception e) {
 			// TODO Show error pop-up
@@ -53,11 +53,11 @@ public class ResourceParser {
 		return null;
 	}
 
-	public ArrayList<PointOI> readPointsOI() {
+	public ArrayList<PointOI> readPointsOI(String path) {
 		try {
 			PointsHandler ph = new PointsHandler();
 			parser.setContentHandler(ph);
-			parser.parse(root + "path");
+			parser.parse(root + path);
 			return ph.getParsedData();
 		} catch (Exception e) {
 			// TODO Show error pop-up

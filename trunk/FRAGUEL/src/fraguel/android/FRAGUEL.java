@@ -36,6 +36,7 @@ import fraguel.android.states.IntroState;
 import fraguel.android.states.MapState;
 import fraguel.android.states.MenuState;
 import fraguel.android.states.VideoState;
+import fraguel.android.xml.ResourceParser;
 
 public class FRAGUEL extends MapActivity implements OnClickListener {
 
@@ -58,6 +59,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	// States
 	private ArrayList<State> states;
 	private State currentState;
+	
+	// Routes and Points OI
+	ArrayList<Route> routes;
+	ArrayList<PointOI> pointsOI;
 
 	// Menu variable buttons
 	private static final int MENU_1 = 1;
@@ -133,6 +138,12 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		activateSensors();
 		activateGPS();
 
+		// Routes and points OI
+		routes = new ArrayList<Route>();
+		pointsOI = new ArrayList<PointOI>();
+		ResourceParser.getInstance().setRoot("/");
+		//ResourceParser.getInstance().readRoutes("routes");
+		
 		// TODO añadir estados
 		states = new ArrayList<State>();
 		addState(new IntroState(), true);
