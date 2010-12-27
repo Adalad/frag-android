@@ -2,12 +2,13 @@ package fraguel.android.states;
 
 import java.util.List;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -151,21 +152,47 @@ public class MapState extends State{
 	}
 	
 	private void addMyPosition(){
-		final MyLocationOverlay me = new MyLocationOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
+		MyPositionOverlay me = new MyPositionOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
 		mapOverlays.add(me);
-		me.enableMyLocation();
-		me.disableCompass();
-        me.runOnFirstFix(new Runnable() {
-            public void run() {
-                mapControl.animateTo(me.getMyLocation());
-            }
-        });
 		
 	}
 	
 	public void LocationChanged(GeoPoint p){
 		
 		mapControl.animateTo(p);
+		
+	}
+	//****************************************************************************************
+	//****************************************************************************************
+	private class MyPositionOverlay extends MyLocationOverlay{
+
+		public MyPositionOverlay(Context context, MapView mapView) {
+			super(context, mapView);
+			this.disableCompass();
+			this.enableMyLocation();
+			// TODO Auto-generated constructor stub
+		}
+		
+		@Override
+		public synchronized void onLocationChanged(Location location) {
+			// TODO Auto-generated method stub
+			super.onLocationChanged(location);
+			if (FRAGUEL.getInstance().getGPS().getCurrentLocation()==this.getMyLocation()){
+				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Mismas coordenadas VA DE PUTA MADRE!!!", Toast.LENGTH_SHORT).show();
+			}
+			mapControl.animateTo(getMyLocation());
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			// TODO Auto-generated method stub
+			super.onProviderDisabled(provider);
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "El GPS está desactivado, por favor habilite el GPS", Toast.LENGTH_SHORT).show();
+		}
+		
+		
+		
+		
 		
 	}
 

@@ -278,12 +278,12 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		sensorListener = new SensorEventListener(){
 			
 			@Override
-			synchronized public void onAccuracyChanged(Sensor sensor, int accuracy) {
+			 public synchronized void onAccuracyChanged(Sensor sensor, int accuracy) {
 				// TODO Auto-generated method stub
 			}
 
 			@Override
-			synchronized public void onSensorChanged(SensorEvent event) {
+			 public synchronized void onSensorChanged(SensorEvent event) {
 				// TODO Auto-generated method stub
 				if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
 					FRAGUEL.getInstance().sOrientation[0] = event.values[0];
@@ -380,7 +380,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		
 
 		@Override
-		public void onLocationChanged(Location location) {
+		public synchronized void onLocationChanged(Location location) {
 			// TODO Auto-generated method stub
 			latitude=location.getLatitude();
 			longitude=location.getLongitude();
@@ -397,7 +397,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		@Override
 		public void onProviderDisabled(String provider) {
 			// TODO Auto-generated method stub
-			Toast.makeText(getApplicationContext(), "El GPS está desactivado, por favor actívelo", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "El GPS está desactivado, por favor habilite el GPS", Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
