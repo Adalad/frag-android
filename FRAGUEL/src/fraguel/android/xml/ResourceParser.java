@@ -6,6 +6,9 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.XMLReader;
 
+import fraguel.android.PointOI;
+import fraguel.android.Route;
+
 public class ResourceParser {
 
 	private static ResourceParser instance;
