@@ -177,7 +177,7 @@ public class MapState extends State{
 		public synchronized void onLocationChanged(Location location) {
 			// TODO Auto-generated method stub
 			super.onLocationChanged(location);
-			if (FRAGUEL.getInstance().getGPS().getCurrentLocation()==this.getMyLocation()){
+			if (FRAGUEL.getInstance().getGPS().getCurrentLocation().equals(this.getMyLocation())){
 				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Mismas coordenadas VA DE PUTA MADRE!!!", Toast.LENGTH_SHORT).show();
 			}
 			mapControl.animateTo(getMyLocation());
