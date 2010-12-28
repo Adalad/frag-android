@@ -8,6 +8,7 @@ import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -23,7 +24,7 @@ import fraguel.android.R;
 import fraguel.android.State;
 import fraguel.android.maps.MapItemizedOverlays;
 
-public class MapState extends State{
+public class MapState extends State implements OnTouchListener{
 	
 	// Singleton
 	private static MapState mapInstance;
@@ -130,15 +131,16 @@ public class MapState extends State{
 		
 	}
 	
-	public boolean dispatchTouchEvent(MotionEvent ev) {
+	@Override
+	public boolean onTouch(View arg0, MotionEvent arg1) {
 		// TODO Auto-generated method stub
-
+		
 		FRAGUEL.getInstance().getView().removeView(popupView);
 		
 		return true;
 	}
-
 	
+		
 	public MapView getMapView() {
 		return mapView;
 	}
@@ -195,5 +197,7 @@ public class MapState extends State{
 		
 		
 	}
+
+	
 
 }

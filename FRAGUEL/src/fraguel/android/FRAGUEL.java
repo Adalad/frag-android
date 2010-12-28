@@ -185,6 +185,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		
 		//view.removeView(MapState.getInstance().getPopupView());
+		//if(currentState.getId()==2)
+		//((MapState) currentState).onTouch(view,ev);
+		
 		return super.dispatchTouchEvent(ev);
 	}
 
