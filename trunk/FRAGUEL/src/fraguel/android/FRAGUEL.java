@@ -362,9 +362,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 	    
-		if (!currentState.onConfigurationChanged(newConfig))
+			
+			currentState.onConfigurationChanged(newConfig);
 			super.onConfigurationChanged(newConfig);
-  
 	}
 
 
