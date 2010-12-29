@@ -21,7 +21,7 @@ public class ResourceParser {
 			SAXParser sp;
 			sp = spf.newSAXParser();
 			parser = sp.getXMLReader();
-			root = "/";
+			root = "/sdcard/Fraguel/";
 		} catch (Exception e) {
 			// TODO Show error pop-up
 			// TODO Show language string

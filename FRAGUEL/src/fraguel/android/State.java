@@ -40,6 +40,8 @@ public abstract class State implements Comparable<State> {
 
 	public abstract void onClick(View v);
 	public boolean onConfigurationChanged(Configuration newConfig){return false;}
+	public void onRotationChanged(float[] values){}
+	public void onLocationChanged(float[] values){}
 	//public abstract void onTouch(View v, MotionEvent event);
 
 }
