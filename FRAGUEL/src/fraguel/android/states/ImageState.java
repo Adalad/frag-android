@@ -8,16 +8,15 @@ import android.view.WindowManager;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Gallery;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import fraguel.android.FRAGUEL;
 import fraguel.android.State;
 import fraguel.android.gallery.BigImageAdapter;
+import fraguel.android.gallery.FullScreenGallery;
 import fraguel.android.gallery.ImageAdapter;
 
 public class ImageState extends State{
@@ -26,7 +25,7 @@ public class ImageState extends State{
 	private TextView text;
 	private Gallery gallery;
 	private ScrollView sv;
-	private Gallery bigGallery;
+	private FullScreenGallery bigGallery;
 	private int currentIndex;
 	private boolean isBigGalleryDisplayed;
 	
@@ -122,10 +121,9 @@ public class ImageState extends State{
 	}
 	
 	private void setParamsBigGallery(){
-		bigGallery=new Gallery(FRAGUEL.getInstance().getApplicationContext());
+		bigGallery=new FullScreenGallery(FRAGUEL.getInstance().getApplicationContext());
 		bigGallery.setAdapter(new BigImageAdapter(FRAGUEL.getInstance().getApplicationContext()));
 		bigGallery.setHorizontalScrollBarEnabled(true);
-		
 		
 
 		bigGallery.setOnItemClickListener(new OnItemClickListener() {
@@ -174,9 +172,22 @@ public class ImageState extends State{
 	
 	@Override
 	public boolean onConfigurationChanged(Configuration newConfig) {
-	    //aqui hay que hacer algo
+		
+		if (isBigGalleryDisplayed){
+			switch (newConfig.orientation){
+			case Configuration.ORIENTATION_LANDSCAPE: 
+				bigGallery.setOrientationChanged(true);
+				break;
+				
+			case Configuration.ORIENTATION_PORTRAIT:
+				bigGallery.setOrientationChanged(true);
+				break;
+			
+			}
+			
+		}
 
-	return false;    
+	return true;    
 	}
 
 }

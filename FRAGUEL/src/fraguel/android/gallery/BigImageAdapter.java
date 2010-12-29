@@ -72,7 +72,7 @@ public class BigImageAdapter extends BaseAdapter{
                 }
         
         i.setLayoutParams(new Gallery.LayoutParams(width,height));
-        i.setScaleType(ImageView.ScaleType.FIT_XY);
+        //i.setScaleType(ImageView.ScaleType.FIT_XY);
         i.setBackgroundResource(mGalleryItemBackground);
         return i;
     }
