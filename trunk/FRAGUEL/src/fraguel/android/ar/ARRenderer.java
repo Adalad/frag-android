@@ -4,6 +4,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -12,7 +13,11 @@ import android.opengl.GLSurfaceView;
 
 public class ARRenderer implements GLSurfaceView.Renderer {
 
-	//--------- PRUEBAS -----------------
+	public float[] _posXYZ = { 0.0f, 0.0f, 0.0f };
+	public float[] _rotXYZ = { 0.0f, 0.0f, 0.0f };
+	private ArrayList<AREntity> _list;
+
+	// --------- PRUEBAS -----------------
 	// a raw buffer to hold indices allowing a reuse of points.
 	private ShortBuffer _indexBuffer;
 
@@ -21,21 +26,22 @@ public class ARRenderer implements GLSurfaceView.Renderer {
 
 	private short[] _indicesArray = { 0, 1, 2 };
 	private int _nrOfVertices = 3;
-	//---------- FIN PRUEBAS --------------
-	
+
+	// ---------- FIN PRUEBAS --------------
+
 	/** PUBLIC METHODS **/
 	@Override
 	public void onDrawFrame(GL10 gl) {
-		//gl.glClearColor(1.0f, .0f, .0f, 1.0f);
-		//gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		// gl.glClearColor(1.0f, .0f, .0f, 1.0f);
+		// gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		gl.glLoadIdentity();
-		// TODO pintar geometria		
-		//------ PRUEBAS -----
+		// TODO pintar geometria
+		// ------ PRUEBAS -----
 		gl.glColor4f(1.0f, 0f, 0f, 0.5f);
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, _vertexBuffer);
 		gl.glDrawElements(GL10.GL_TRIANGLES, _nrOfVertices,
 				GL10.GL_UNSIGNED_SHORT, _indexBuffer);
-		//------ FIN PRUEBAS --
+		// ------ FIN PRUEBAS --
 	}
 
 	@Override
@@ -45,12 +51,13 @@ public class ARRenderer implements GLSurfaceView.Renderer {
 
 	@Override
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-		// preparation
+		// Preparation
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 		// TODO inicializar geometria
-		initTriangle();	// PRUEBAS
+		_list = new ArrayList<AREntity>();
+		initTriangle(); // PRUEBAS
 	}
-	
+
 	/*
 	 * PRUEBAS
 	 */
@@ -91,5 +98,5 @@ public class ARRenderer implements GLSurfaceView.Renderer {
 		// _colorBuffer.position(0);
 
 	}
-	
+
 }

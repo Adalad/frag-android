@@ -19,7 +19,7 @@ public class ARGLView extends GLSurfaceView {
 	public ARGLView(Context context) {
 		super(context);
 
-		// TODO transparencia
+		// Transparency
 		_renderer = new ARRenderer();
 		setEGLConfigChooser(8,8,8,8,16,0);
 		setRenderer(_renderer);
