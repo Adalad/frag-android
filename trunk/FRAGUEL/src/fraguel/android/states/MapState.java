@@ -70,6 +70,9 @@ public class MapState extends State implements OnTouchListener{
 		//mapView.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		//mapView.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
 		mapView.setBuiltInZoomControls(true);
+		mapView.setClickable(true);
+        mapView.setEnabled(true);
+
 		mapControl = mapView.getController();
 		GeoPoint pointInit = new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7267881 * 1000000));
 		mapControl.setZoom(15);

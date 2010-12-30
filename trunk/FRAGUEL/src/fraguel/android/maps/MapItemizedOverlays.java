@@ -72,8 +72,8 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 
 		OverlayItem item = mOverlays.get(index);
 		String title= item.getTitle();
-		Drawable drawable = FRAGUEL.getInstance().getResources().getDrawable(R.drawable.icon);
-		item.setMarker(drawable);
+		//Drawable drawable = FRAGUEL.getInstance().getResources().getDrawable(R.drawable.icon);
+		//item.setMarker(drawable);
 	
 		//Evento general del punto de interés
 		Toast t= Toast.makeText(mContext, title, Toast.LENGTH_SHORT);
