@@ -13,9 +13,15 @@ import android.opengl.GLSurfaceView;
 
 public class ARRenderer implements GLSurfaceView.Renderer {
 
+	// Lifetime attributes
 	public float[] _posXYZ = { 0.0f, 0.0f, 0.0f };
 	public float[] _rotXYZ = { 0.0f, 0.0f, 0.0f };
-	private ArrayList<AREntity> _list;
+	public ArrayList<AREntity> _list;
+	// Creation attributes
+	private static ARRenderer instance;
+	public AREntityFactory entityFactory;
+	public ARElementFactory elementFactory;
+	public ARMeshManager meshManager;
 
 	// --------- PRUEBAS -----------------
 	// a raw buffer to hold indices allowing a reuse of points.
@@ -30,12 +36,33 @@ public class ARRenderer implements GLSurfaceView.Renderer {
 	// ---------- FIN PRUEBAS --------------
 
 	/** PUBLIC METHODS **/
+	public ARRenderer getInstance() {
+		return instance;
+	}
+	
+	public void init() {
+		// Init creation elements
+		instance = this;
+		entityFactory = new AREntityFactory();
+		elementFactory = new ARElementFactory();
+		meshManager = new ARMeshManager();
+		// TODO Load geometry
+		ArrayList<AREntity> list = null;
+		_list.addAll(list);
+		// Dispose creation elements
+		entityFactory = null;
+		elementFactory = null;
+		meshManager = null;
+		System.gc();
+	}
+
 	@Override
 	public void onDrawFrame(GL10 gl) {
-		// gl.glClearColor(1.0f, .0f, .0f, 1.0f);
-		// gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		gl.glLoadIdentity();
-		// TODO pintar geometria
+		// Draw geometry
+		for (AREntity e : _list) {
+			e.draw(gl);
+		}
 		// ------ PRUEBAS -----
 		gl.glColor4f(1.0f, 0f, 0f, 0.5f);
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, _vertexBuffer);
@@ -53,7 +80,7 @@ public class ARRenderer implements GLSurfaceView.Renderer {
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		// Preparation
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-		// TODO inicializar geometria
+		// Init geometry
 		_list = new ArrayList<AREntity>();
 		initTriangle(); // PRUEBAS
 	}

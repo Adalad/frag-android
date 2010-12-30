@@ -33,9 +33,19 @@ public class ARState extends State {
 	}
 
 	@Override
+	public void onRotationChanged(float[] values) {
+		glView._worldRotation = values;
+	}
+
+	@Override
+	public void onLocationChanged(float[] values) {
+		glView._worldPosition = values;
+	}
+
+	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }
