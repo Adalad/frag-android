@@ -6,28 +6,24 @@ import android.opengl.GLSurfaceView;
 
 public class ARGLView extends GLSurfaceView {
 
-	/** ATTRIBUTES **/
 	// Renderer
 	private ARRenderer _renderer;
 
 	// World position (GPS coordinates)
-	// private float[] _worldPosition = { 0f, 0f, 0f };
-	// World orientation (degrees from north
-	// private int[] _worldRotation = { 0, 0, 0 };
+	public float[] _worldPosition = { 0f, 0f, 0f };
+	// World orientation (radians from north)
+	public float[] _worldRotation = { 0f, 0f, 0f };
 
-	/** CONSTRUCTOR **/
 	public ARGLView(Context context) {
 		super(context);
 
 		// Transparency
 		_renderer = new ARRenderer();
+		_renderer.init();
 		setEGLConfigChooser(8,8,8,8,16,0);
 		setRenderer(_renderer);
 		getHolder().setFormat(PixelFormat.TRANSLUCENT);
 		setZOrderOnTop(true);
 	}
-
-	/** PUBLIC METHODS **/
-	// TODO procesar eventos, GPS, brujula, acelerometro
 
 }
