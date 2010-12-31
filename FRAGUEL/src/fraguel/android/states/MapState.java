@@ -162,11 +162,6 @@ public class MapState extends State implements OnTouchListener{
 		
 	}
 	
-	public void LocationChanged(GeoPoint p){
-		
-		mapControl.animateTo(p);
-		
-	}
 	//****************************************************************************************
 	//****************************************************************************************
 	private class MyPositionOverlay extends MyLocationOverlay{
@@ -192,7 +187,6 @@ public class MapState extends State implements OnTouchListener{
 		public void onProviderDisabled(String provider) {
 			// TODO Auto-generated method stub
 			super.onProviderDisabled(provider);
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "El GPS está desactivado, por favor habilite el GPS", Toast.LENGTH_SHORT).show();
 		}
 		
 		
