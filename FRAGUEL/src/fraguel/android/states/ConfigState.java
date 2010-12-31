@@ -1,7 +1,11 @@
 package fraguel.android.states;
 
+import fraguel.android.FRAGUEL;
 import fraguel.android.State;
 import android.view.View;
+import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
 public class ConfigState extends State{
 	
@@ -14,7 +18,13 @@ public class ConfigState extends State{
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
+		viewGroup=new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
+		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
 		
+		ListView lv= new ListView(FRAGUEL.getInstance().getApplicationContext());
+		
+		
+		FRAGUEL.getInstance().addView(viewGroup);
 	}
 
 	@Override

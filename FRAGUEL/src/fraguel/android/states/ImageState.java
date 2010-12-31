@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
@@ -43,7 +44,7 @@ public class ImageState extends State{
 		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
 		
 			title= new TextView(FRAGUEL.getInstance().getApplicationContext());
-			title.setText("Facultad A");
+			title.setText("Facultad A - Galería de fotos");
 			title.setGravity(Gravity.CENTER_HORIZONTAL);
 			
 			isBigGalleryDisplayed=false;
@@ -65,7 +66,7 @@ public class ImageState extends State{
 		
 		FRAGUEL.getInstance().addView(viewGroup);
 		gallery.setSelection(0, true);
-		//gallery.setScrollBarStyle(ScrollView.SCROLLBARS_OUTSIDE_OVERLAY);
+		
 
 	}
 
