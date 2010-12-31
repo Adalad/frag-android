@@ -17,6 +17,7 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -270,6 +271,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
                                 }
                         });
         AlertDialog alert = builder.create();
+        alert.getWindow().setGravity(Gravity.TOP);
         alert.show();
 }
 
