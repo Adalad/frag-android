@@ -3,13 +3,16 @@ package fraguel.android.states;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.State;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class InfoState extends State{
 
+	private TextView title;
 	public InfoState() {
 		super();
 		id = 6;
@@ -31,6 +34,10 @@ public class InfoState extends State{
 				.getApplicationContext());
 		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
 		
+		title= new TextView(FRAGUEL.getInstance().getApplicationContext());
+		title.setGravity(Gravity.CENTER_HORIZONTAL);
+		
+		viewGroup.addView(title);
 		
 	}
 

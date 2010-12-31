@@ -3,6 +3,7 @@ package fraguel.android.states;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.ViewGroup.LayoutParams;
@@ -43,6 +44,7 @@ public class ImageState extends State{
 		
 			title= new TextView(FRAGUEL.getInstance().getApplicationContext());
 			title.setText("Facultad A");
+			title.setGravity(Gravity.CENTER_HORIZONTAL);
 			
 			isBigGalleryDisplayed=false;
 			
