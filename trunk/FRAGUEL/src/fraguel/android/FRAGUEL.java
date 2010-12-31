@@ -2,7 +2,10 @@ package fraguel.android;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -13,6 +16,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -229,19 +233,46 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	public void activateSensors() {
 		sensorManager.registerListener(sensorListener,
 				sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
-				SensorManager.SENSOR_DELAY_NORMAL);
+				SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 		sensorManager.registerListener(sensorListener,
 				sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
-				SensorManager.SENSOR_DELAY_NORMAL);
+				SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 		sensorManager.registerListener(sensorListener,
 				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-				SensorManager.SENSOR_DELAY_NORMAL);
+				SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 	}
 	
 	public void activateGPS(){
 		
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, myPosition);
+		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {	
+			createGpsDisabledAlert();
+		}
+
+		
 	}
+	
+	private void createGpsDisabledAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¡Su GPS está desactivado! Para el correcto funcionamiento de la aplicación debe activarlo."+"\n"+ "¿Desea activarlo ahora?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Habilitar GPS",
+                                        new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                	Intent gpsOptionsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                        			startActivity(gpsOptionsIntent);
+                                                }
+                                        });
+        builder.setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
+}
+
 
 	public void deactivateSensors() {
 		sensorManager.unregisterListener(sensorListener);
@@ -400,7 +431,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		@Override
 		public void onProviderDisabled(String provider) {
 			// TODO Auto-generated method stub
-			Toast.makeText(getApplicationContext(), "El GPS está desactivado, por favor habilite el GPS", Toast.LENGTH_SHORT).show();
+			
 		}
 
 		@Override
