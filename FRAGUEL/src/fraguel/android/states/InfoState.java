@@ -36,6 +36,7 @@ public class InfoState extends State{
 		
 		title= new TextView(FRAGUEL.getInstance().getApplicationContext());
 		title.setGravity(Gravity.CENTER_HORIZONTAL);
+		title.setText("INFORMACIÓN");
 		
 		viewGroup.addView(title);
 		
