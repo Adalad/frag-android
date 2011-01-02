@@ -29,11 +29,6 @@ public class InfoState extends State{
 		FRAGUEL.getInstance().addView(viewGroup);
 		
 		
-		
-		viewGroup = new LinearLayout(FRAGUEL.getInstance()
-				.getApplicationContext());
-		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
-		
 		title= new TextView(FRAGUEL.getInstance().getApplicationContext());
 		title.setGravity(Gravity.CENTER_HORIZONTAL);
 		title.setText("INFORMACIÓN");
