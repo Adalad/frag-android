@@ -76,20 +76,26 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	private static final int MENU_4 = 4;
 
 	
-		
+	
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 
-		menu.add(0, MENU_1, 0, R.string.menu_menu);
-		menu.add(0, MENU_2, 0, R.string.menu_config);
-		menu.add(0, MENU_3, 0,R.string.menu_route);
-		menu.add(0, MENU_4, 0, R.string.menu_exit);
+		menu.add(0, MENU_1, 0, R.string.menu_menu).setIcon(R.drawable.info);
+		menu.add(0, MENU_2, 0, R.string.menu_config).setIcon(R.drawable.geotaging);
+		menu.add(0, MENU_3, 0,R.string.menu_route).setIcon(R.drawable.info);
+		menu.add(0, MENU_4, 0, R.string.menu_exit).setIcon(R.drawable.info);
 		return true;
+		//return super.onCreateOptionsMenu(menu);
 	}
+	
+	
 
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case MENU_1:
 			changeState(1);
@@ -108,8 +114,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 			return true;
 		}
 
-		return false;
+		return true;
+		//return super.onOptionsItemSelected(item);
 	}
+
+
 
 	/** Called when the activity is first created. */
 	@Override
@@ -175,15 +184,19 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	}
 
 
+
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		// TODO Auto-generated method stub
-		if (event.getKeyCode()==event.KEYCODE_BACK) 
+		
+		
+		if (event.getKeyCode()==event.KEYCODE_BACK){ 
 			this.changeState(1);
+			return true;
+		}
 
-		return true;
+		return super.dispatchKeyEvent(event);
 	}
-
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
