@@ -1,11 +1,24 @@
 package fraguel.android.states;
 
 import fraguel.android.FRAGUEL;
+import fraguel.android.R;
 import fraguel.android.State;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout.LayoutParams;
+import android.widget.ScrollView;
+import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
+import android.widget.TabWidget;
 import android.widget.TextView;
 
 public class ConfigState extends State{
@@ -19,16 +32,8 @@ public class ConfigState extends State{
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
-		viewGroup=new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
-		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
-		
-		ListView lv= new ListView(FRAGUEL.getInstance().getApplicationContext());
-		TextView tv=new TextView(FRAGUEL.getInstance().getApplicationContext());
-		tv.setText("Configuración");
-		viewGroup.addView(tv);
 		
 		
-		FRAGUEL.getInstance().addView(viewGroup);
 	}
 
 	@Override
