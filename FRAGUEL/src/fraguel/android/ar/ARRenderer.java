@@ -19,8 +19,6 @@ public class ARRenderer implements GLSurfaceView.Renderer {
 	public ArrayList<AREntity> _list;
 	// Creation attributes
 	private static ARRenderer instance;
-	public AREntityFactory entityFactory;
-	public ARElementFactory elementFactory;
 	public ARMeshManager meshManager;
 
 	// --------- PRUEBAS -----------------
@@ -39,19 +37,15 @@ public class ARRenderer implements GLSurfaceView.Renderer {
 	public ARRenderer getInstance() {
 		return instance;
 	}
-	
+
 	public void init() {
 		// Init creation elements
 		instance = this;
-		entityFactory = new AREntityFactory();
-		elementFactory = new ARElementFactory();
 		meshManager = new ARMeshManager();
 		// TODO Load geometry
 		ArrayList<AREntity> list = null;
 		_list.addAll(list);
 		// Dispose creation elements
-		entityFactory = null;
-		elementFactory = null;
 		meshManager = null;
 		System.gc();
 	}

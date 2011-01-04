@@ -8,6 +8,7 @@ import org.xml.sax.XMLReader;
 
 import fraguel.android.PointOI;
 import fraguel.android.Route;
+import fraguel.android.ar.ARMesh;
 
 public class ResourceParser {
 
@@ -59,6 +60,20 @@ public class ResourceParser {
 			parser.setContentHandler(ph);
 			parser.parse(root + path);
 			return ph.getParsedData();
+		} catch (Exception e) {
+			// TODO Show error pop-up
+			// TODO Show language string
+			System.out.println("Error al leer el fichero de rutas");
+		}
+		return null;
+	}
+
+	public ARMesh readARMesh(String path) {
+		try {
+			MeshHandler mh = new MeshHandler();
+			parser.setContentHandler(mh);
+			parser.parse(root + path);
+			return mh.getParsedData();
 		} catch (Exception e) {
 			// TODO Show error pop-up
 			// TODO Show language string
