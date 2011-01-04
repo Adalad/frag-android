@@ -7,9 +7,9 @@ import javax.microedition.khronos.opengles.GL10;
 public class AREntity {
 
 	public int _id = 0;
-	private float[] _posXYZ = { 0.0f, 0.0f, 0.0f };
-	private float[] _rotXYZ = { 0.0f, 0.0f, 0.0f };
-	private ArrayList<ARElement> _list;
+	public float[] _posXYZ = { 0.0f, 0.0f, 0.0f };
+	public float[] _rotXYZ = { 0.0f, 0.0f, 0.0f };
+	public ArrayList<ARElement> _list;
 
 	public AREntity(int i) {
 		_id = i;
@@ -26,18 +26,6 @@ public class AREntity {
 			e.draw(gl);
 		}
 		gl.glPopMatrix();
-	}
-
-	public void setPosition(float x, float y, float z) {
-		_posXYZ[0] = x;
-		_posXYZ[1] = y;
-		_posXYZ[2] = z;
-	}
-
-	public void setRotation(float x, float y, float z) {
-		_rotXYZ[0] = x;
-		_rotXYZ[1] = y;
-		_rotXYZ[2] = z;
 	}
 
 	public void translate(float x, float y, float z) {
