@@ -26,8 +26,8 @@ public class ARState extends State {
 		camView = new ARCameraView(viewGroup.getContext());
 		viewGroup.addView(camView);
 		// Crear vista OpenGL
-		glView = new ARGLView(viewGroup.getContext());
-		viewGroup.addView(glView);
+//		glView = new ARGLView(viewGroup.getContext());
+//		viewGroup.addView(glView);
 		// Añadir a la actividad
 		FRAGUEL.getInstance().addView(viewGroup);
 	}
