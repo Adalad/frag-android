@@ -45,7 +45,7 @@ public abstract class State implements Comparable<State> {
 	public void onLocationChanged(float[] values){}
 	public boolean dispatchKeyEvent(KeyEvent event){
 		
-		if (event.getKeyCode()==event.KEYCODE_BACK){ 
+		if (event.getKeyCode()==event.KEYCODE_BACK & event.getAction()==event.ACTION_DOWN){ 
 			FRAGUEL.getInstance().changeState(1);
 			return true;
 		}else
