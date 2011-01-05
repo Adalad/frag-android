@@ -64,6 +64,13 @@ public class MenuState extends State {
 		b6.setId(6);
 		b6.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		viewGroup.addView(b6);
+		
+		Button b8 = new Button(viewGroup.getContext());
+		b8.setText("Gestión Rutas");
+		b8.setId(8);
+		b8.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
+		viewGroup.addView(b8);
+		
 
 		Button b7 = new Button(viewGroup.getContext());
 		b7.setText("Salir");
@@ -103,6 +110,9 @@ public class MenuState extends State {
 			break;
 		case 6:
 			FRAGUEL.getInstance().changeState(7);
+			break;
+		case 8:
+			FRAGUEL.getInstance().changeState(8);
 			break;
 		default:
 			System.exit(0);

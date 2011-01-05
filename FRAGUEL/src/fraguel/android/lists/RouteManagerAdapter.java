@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 
 public class RouteManagerAdapter extends BaseAdapter{
 
@@ -40,7 +41,12 @@ public class RouteManagerAdapter extends BaseAdapter{
 	@Override
 	public View getView(int arg0, View arg1, ViewGroup arg2) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		View result= new LinearLayout(context);
+			
+		
+		
+		return result;
 	}
 
 }
