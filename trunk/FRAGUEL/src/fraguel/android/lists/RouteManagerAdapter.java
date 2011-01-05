@@ -1,9 +1,7 @@
 package fraguel.android.lists;
 
-import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +38,16 @@ public class RouteManagerAdapter extends BaseAdapter{
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
 		return position;
+	}
+	
+	public void setTitle(String[] s){
+		authors=s;
+	}
+	public void setDescription(String[] s){
+		surnames=s;
+	}
+	public void setImages(String[] s){
+		images=s;
 	}
 
 	@Override

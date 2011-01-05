@@ -1,6 +1,7 @@
 package fraguel.android;
 
 import android.content.res.Configuration;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -42,6 +43,14 @@ public abstract class State implements Comparable<State> {
 	public boolean onConfigurationChanged(Configuration newConfig){return false;}
 	public void onRotationChanged(float[] values){}
 	public void onLocationChanged(float[] values){}
+	public boolean dispatchKeyEvent(KeyEvent event){
+		
+		if (event.getKeyCode()==event.KEYCODE_BACK){ 
+			FRAGUEL.getInstance().changeState(1);
+			return true;
+		}else
+			return false;
+	}
 	//public abstract void onTouch(View v, MotionEvent event);
 
 }

@@ -191,13 +191,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		// TODO Auto-generated method stub
 		
-		
-		if (event.getKeyCode()==event.KEYCODE_BACK){ 
-			this.changeState(1);
+		if (currentState.dispatchKeyEvent(event))		
 			return true;
-		}
-
-		return super.dispatchKeyEvent(event);
+		else 
+			return super.dispatchKeyEvent(event);
 	}
 
 	@Override
