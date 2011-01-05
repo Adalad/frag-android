@@ -2,12 +2,14 @@ package fraguel.android.states;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import fraguel.android.FRAGUEL;
 import fraguel.android.State;
+import fraguel.android.lists.RouteManagerAdapter;
 
 
 public class RouteManagerState extends State {
@@ -25,11 +27,12 @@ public class RouteManagerState extends State {
 		ly.setOrientation(LinearLayout.VERTICAL);
 		
 		TextView tv= new TextView(FRAGUEL.getInstance().getApplicationContext());
-		tv.setText("Rutas");
+		tv.setText("Rutas descargadas en su terminal");
+		tv.setGravity(Gravity.CENTER_HORIZONTAL);
 		ly.addView(tv);
 		
 		ListView container= new ListView(FRAGUEL.getInstance().getApplicationContext());
-		//container.setBackgroundColor((position & 1) == 1 ? Color.WHITE : Color.LTGRAY);
+		container.setAdapter(new RouteManagerAdapter(FRAGUEL.getInstance().getApplicationContext()));
 		ColorDrawable divcolor = new ColorDrawable(Color.DKGRAY);
 		container.setDivider(divcolor);
 		container.setDividerHeight(2);
