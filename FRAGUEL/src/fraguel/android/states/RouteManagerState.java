@@ -122,7 +122,7 @@ public class RouteManagerState extends State {
 	
 	public boolean dispatchKeyEvent(KeyEvent event){
 		boolean result=false;
-		if (event.getKeyCode()==event.KEYCODE_BACK){
+		if (event.getKeyCode()==event.KEYCODE_BACK & event.getAction()==event.ACTION_DOWN){
 			if(internalState>0){
 			
 				switch (internalState){
