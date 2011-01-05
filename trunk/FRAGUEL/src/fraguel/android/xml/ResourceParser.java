@@ -1,6 +1,7 @@
 package fraguel.android.xml;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -8,21 +9,24 @@ import org.xml.sax.XMLReader;
 
 import fraguel.android.PointOI;
 import fraguel.android.Route;
+import fraguel.android.ar.AREntity;
 import fraguel.android.ar.ARMesh;
 
 public class ResourceParser {
 
-	private static ResourceParser instance;
-	private XMLReader parser;
-	private String root;
+	private static ResourceParser _instance;
+	private XMLReader _parser;
+	private String _root;
+	private HashMap<Integer, ARMesh> _meshes;
 
 	private ResourceParser() {
 		try {
 			SAXParserFactory spf = SAXParserFactory.newInstance();
 			SAXParser sp;
 			sp = spf.newSAXParser();
-			parser = sp.getXMLReader();
-			root = "/sdcard/Fraguel/";
+			_parser = sp.getXMLReader();
+			_root = "/sdcard/Fraguel/";
+			_meshes = new HashMap<Integer, ARMesh>();
 		} catch (Exception e) {
 			// TODO Show error pop-up
 			// TODO Show language string
@@ -31,20 +35,24 @@ public class ResourceParser {
 	}
 
 	public static ResourceParser getInstance() {
-		if (null == instance)
-			instance = new ResourceParser();
-		return instance;
+		if (null == _instance)
+			_instance = new ResourceParser();
+		return _instance;
 	}
 
 	public void setRoot(String r) {
-		root = r;
+		_root = r;
+	}
+
+	public ARMesh getMesh(int id) {
+		return _meshes.get(id);
 	}
 
 	public ArrayList<Route> readRoutes(String path) {
 		try {
 			RoutesHandler rh = new RoutesHandler();
-			parser.setContentHandler(rh);
-			parser.parse(root + path);
+			_parser.setContentHandler(rh);
+			_parser.parse(_root + path);
 			return rh.getParsedData();
 		} catch (Exception e) {
 			// TODO Show error pop-up
@@ -57,8 +65,8 @@ public class ResourceParser {
 	public ArrayList<PointOI> readPointsOI(String path) {
 		try {
 			PointsHandler ph = new PointsHandler();
-			parser.setContentHandler(ph);
-			parser.parse(root + path);
+			_parser.setContentHandler(ph);
+			_parser.parse(_root + path);
 			return ph.getParsedData();
 		} catch (Exception e) {
 			// TODO Show error pop-up
@@ -71,9 +79,24 @@ public class ResourceParser {
 	public ARMesh readARMesh(String path) {
 		try {
 			MeshHandler mh = new MeshHandler();
-			parser.setContentHandler(mh);
-			parser.parse(root + path);
+			_parser.setContentHandler(mh);
+			_parser.parse(_root + path);
 			return mh.getParsedData();
+		} catch (Exception e) {
+			// TODO Show error pop-up
+			// TODO Show language string
+			System.out.println("Error al leer el fichero de rutas");
+		}
+		return null;
+	}
+
+	public ArrayList<AREntity> readAR(String path) {
+		try {
+			// TODO Parse all meshes
+			ARHandler arh = new ARHandler();
+			_parser.setContentHandler(arh);
+			_parser.parse(_root + path);
+			return arh.getParsedData();
 		} catch (Exception e) {
 			// TODO Show error pop-up
 			// TODO Show language string

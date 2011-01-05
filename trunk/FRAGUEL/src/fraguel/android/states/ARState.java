@@ -34,12 +34,16 @@ public class ARState extends State {
 
 	@Override
 	public void onRotationChanged(float[] values) {
-		glView._worldRotation = values;
+		glView._worldRotation[0] = -values[0];
+		glView._worldRotation[1] = -values[1];
+		glView._worldRotation[2] = -values[2];
 	}
 
 	@Override
 	public void onLocationChanged(float[] values) {
-		glView._worldPosition = values;
+		glView._worldPosition[0] = -values[0];
+		glView._worldPosition[1] = -values[1];
+		glView._worldPosition[2] = -values[2];
 	}
 
 	@Override

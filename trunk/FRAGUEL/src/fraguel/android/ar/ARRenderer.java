@@ -19,7 +19,6 @@ public class ARRenderer implements GLSurfaceView.Renderer {
 	public ArrayList<AREntity> _list;
 	// Creation attributes
 	private static ARRenderer instance;
-	public ARMeshManager meshManager;
 
 	// --------- PRUEBAS -----------------
 	// a raw buffer to hold indices allowing a reuse of points.
@@ -41,13 +40,9 @@ public class ARRenderer implements GLSurfaceView.Renderer {
 	public void init() {
 		// Init creation elements
 		instance = this;
-		meshManager = new ARMeshManager();
 		// TODO Load geometry
 		ArrayList<AREntity> list = null;
 		_list.addAll(list);
-		// Dispose creation elements
-		meshManager = null;
-		System.gc();
 	}
 
 	@Override
