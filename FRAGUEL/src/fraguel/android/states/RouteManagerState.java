@@ -121,21 +121,25 @@ public class RouteManagerState extends State {
 	
 	
 	public boolean dispatchKeyEvent(KeyEvent event){
-		
-		if(internalState>0){
+		boolean result=false;
+		if (event.getKeyCode()==event.KEYCODE_BACK){
+			if(internalState>0){
 			
-			switch (internalState){
-			case 1:
-				loadRoutes(selectedRoute);
-				break;
-			case 2:
-				loadPoints(selectedRoute);
-				break;
+				switch (internalState){
+				case 1:
+					loadRoutes(selectedRoute);
+					break;
+				case 2:
+					loadPoints(selectedRoute);
+					break;
+				}
+			
+			result=true;
 			}
-			
+		}
+		if (result)
 			return true;
-		}else
+		else
 			return super.dispatchKeyEvent(event);
 	}
-
 }
