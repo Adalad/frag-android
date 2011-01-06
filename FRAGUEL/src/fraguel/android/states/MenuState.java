@@ -2,6 +2,8 @@ package fraguel.android.states;
 
 import fraguel.android.FRAGUEL;
 import fraguel.android.State;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -10,12 +12,14 @@ import android.widget.TextView;
 
 public class MenuState extends State {
 	
-	//public static final int STATE_ID = 1;
+	public static final int STATE_ID = 1;
+	
+	
 	protected TextView gps;
 	protected TextView orientation;
 	public MenuState() {
 		super();
-		id = 1;
+		id = STATE_ID;
 	}
 
 	@Override
@@ -94,25 +98,25 @@ public class MenuState extends State {
 		// TODO rellenar con ids de estados
 		switch (v.getId()) {
 		case 1:
-			FRAGUEL.getInstance().changeState(2);
+			FRAGUEL.getInstance().changeState(MapState.STATE_ID);
 			break;
 		case 2:
-			FRAGUEL.getInstance().changeState(3);
+			FRAGUEL.getInstance().changeState(VideoState.STATE_ID);
 			break;
 		case 3:
-			FRAGUEL.getInstance().changeState(4);
+			FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
 			break;
 		case 4:
-			FRAGUEL.getInstance().changeState(5);
+			FRAGUEL.getInstance().changeState(ARState.STATE_ID);
 			break;
 		case 5:
-			FRAGUEL.getInstance().changeState(6);
+			FRAGUEL.getInstance().changeState(InfoState.STATE_ID);
 			break;
 		case 6:
-			FRAGUEL.getInstance().changeState(7);
+			FRAGUEL.getInstance().changeState(ConfigState.STATE_ID);
 			break;
 		case 8:
-			FRAGUEL.getInstance().changeState(8);
+			FRAGUEL.getInstance().changeState(RouteManagerState.STATE_ID);
 			break;
 		default:
 			System.exit(0);
@@ -124,6 +128,18 @@ public class MenuState extends State {
 	}
 	public void setOrientationText(String s){
 		orientation.setText(s);
+	}
+
+	@Override
+	public Menu onCreateStateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return menu;
+	}
+
+	@Override
+	public boolean onStateOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 

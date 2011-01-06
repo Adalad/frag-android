@@ -8,6 +8,8 @@ import fraguel.android.State;
 import android.speech.tts.TextToSpeech;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -17,12 +19,14 @@ import android.widget.Toast;
 
 public class InfoState extends State implements  TextToSpeech.OnInitListener{
 
+	public static final int STATE_ID = 6;
+	
 	private TextView title;
 	private TextToSpeech tts;
 	private TextView text;
 	public InfoState() {
 		super();
-		id = 6;
+		id = STATE_ID;
 	}
 	
 	
@@ -85,6 +89,20 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 		tts.shutdown();
 		super.unload();
 		
+	}
+
+
+	@Override
+	public Menu onCreateStateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return menu;
+	}
+
+
+	@Override
+	public boolean onStateOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

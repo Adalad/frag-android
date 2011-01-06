@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -23,9 +25,11 @@ import android.widget.TextView;
 
 public class ConfigState extends State{
 	
+	public static final int STATE_ID = 7;
+	
 	public ConfigState() {
 		super();
-		id = 7;
+		id = STATE_ID;
 	}
 	
 	
@@ -40,6 +44,20 @@ public class ConfigState extends State{
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public Menu onCreateStateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return menu;
+	}
+
+
+	@Override
+	public boolean onStateOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
