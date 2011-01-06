@@ -212,10 +212,10 @@ public class MapState extends State implements OnTouchListener{
 		//Añadimos las opciones del menu
 		menu.add(0, MAPSTATE_MENU_CHANGEMAP, 0, R.string.mapstate_menu_changemap).setIcon(R.drawable.change_map_icon);
 		menu.add(0, MAPSTATE_MENU_BACKMENU, 0, R.string.mapstate_menu_backmenu).setIcon(R.drawable.geotaging);
-		menu.add(0, MAPSTATE_MENU_EXIT, 0,R.string.mapstate_menu_exit).setIcon(R.drawable.exit);
-		menu.add(0, MAPSTATE_MENU_MY_POSITION, 0,"Mi Posición").setIcon(R.drawable.my_location_icon);
-		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,"Explorar Mapa").setIcon(R.drawable.explore_map_icon);
-		menu.add(0, MAPSTATE_MENU_COMPASS, 0,"Brújula").setIcon(R.drawable.compass_icon);
+		menu.add(0, MAPSTATE_MENU_EXIT, 0,R.string.menu_exit).setIcon(R.drawable.exit);
+		menu.add(0, MAPSTATE_MENU_MY_POSITION, 0,R.string.mapstate_menu_my_position).setIcon(R.drawable.my_location_icon);
+		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,R.string.mapstate_menu_explore_map).setIcon(R.drawable.explore_map_icon);
+		menu.add(0, MAPSTATE_MENU_COMPASS, 0,R.string.mapstate_menu_compass).setIcon(R.drawable.compass_icon);
 
 		return menu;
 	}

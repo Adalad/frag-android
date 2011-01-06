@@ -11,9 +11,11 @@
 	
 	<string name="mapstate_menu_changemap">Cambiar mapa</string>
 	<string name="mapstate_menu_backmenu">Volver al menu</string>
-	<string name="mapstate_menu_exit">Salir</string>
+	<string name="mapstate_menu_my_position">Mi posición</string>
+	<string name="mapstate_menu_explore_map">Explorar mapa</string>
+	<string name="mapstate_menu_compass">Brújula</string>
 	
-	
-      
-    
+	<string name="routemanagerstate_menu_addroute">Añadir ruta</string>
+	<string name="routemanagerstate_menu_deleteroute">Eliminar ruta</string>
+
 </resources>
