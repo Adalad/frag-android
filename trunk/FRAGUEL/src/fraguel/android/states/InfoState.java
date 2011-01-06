@@ -20,6 +20,10 @@ import android.widget.Toast;
 public class InfoState extends State implements  TextToSpeech.OnInitListener{
 
 	public static final int STATE_ID = 6;
+	public static final int INFOSTATE_STOP_RECORD=1;
+	public static final int INFOSTATE_REPEAT_RECORD=2;
+	
+	
 	
 	private TextView title;
 	private TextToSpeech tts;
@@ -72,14 +76,22 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 	@Override
 	public void onInit(int arg0) {
 		// TODO Auto-generated method stub
-		Locale loc = new Locale("es", "","");
-		if(tts.isLanguageAvailable(loc)==TextToSpeech.LANG_AVAILABLE){
-			tts.setLanguage(loc);
-			tts.speak((String)text.getText(), TextToSpeech.QUEUE_FLUSH, null);
+		if (TextToSpeech.SUCCESS==arg0){
+			Locale loc = new Locale("es", "","");
+			if(tts.isLanguageAvailable(loc)==TextToSpeech.LANG_AVAILABLE){
+				tts.setLanguage(loc);
+				tts.speak((String)text.getText(), TextToSpeech.QUEUE_FLUSH, null);
+			}
+			else
+				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Lengua española no disponible", Toast.LENGTH_SHORT).show();
 		}
 		else
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Lengua española no disponible", Toast.LENGTH_SHORT).show();
-		
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "No es posible iniciar el texto hablado", Toast.LENGTH_LONG).show();
+	}
+	
+	public void talk(String s){
+		tts.stop();
+		tts.speak((String)text.getText(), TextToSpeech.QUEUE_FLUSH, null);
 	}
 
 
@@ -95,6 +107,11 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
+		menu.clear();
+		
+		menu.add(0, INFOSTATE_STOP_RECORD, 0, R.string.infostate_menu_stop).setIcon(R.drawable.stop);
+		menu.add(0, INFOSTATE_REPEAT_RECORD, 0, R.string.infostate_menu_repeat).setIcon(R.drawable.play);
+		
 		return menu;
 	}
 
@@ -102,6 +119,17 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 	@Override
 	public boolean onStateOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
+		
+		switch (item.getItemId()) {
+
+		case INFOSTATE_STOP_RECORD:
+			tts.stop();
+			return true;
+
+		case INFOSTATE_REPEAT_RECORD:
+			talk((String)text.getText());
+			return true;
+		}
 		return false;
 	}
 
