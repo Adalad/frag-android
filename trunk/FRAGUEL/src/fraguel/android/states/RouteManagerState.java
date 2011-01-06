@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import fraguel.android.FRAGUEL;
+import fraguel.android.R;
 import fraguel.android.State;
 import fraguel.android.lists.RouteManagerAdapter;
 
@@ -21,6 +22,9 @@ import fraguel.android.lists.RouteManagerAdapter;
 public class RouteManagerState extends State {
 	
 	public static final int STATE_ID = 8;
+	// Variables de los botones del menu
+	private static final int ROUTEMANAGERSTATE_ADDROUTE = 1;
+	private static final int ROUTEMANAGERSTATE_DELETEROUTE = 2;
 
 	LinearLayout container;
 	RouteManagerAdapter adapter;
@@ -46,6 +50,8 @@ public class RouteManagerState extends State {
 		container.addView(title);
 		loadRoutes(0);
 		viewGroup=container;
+		selectedRoute=0;
+		selectedPoint=0;
 		
 		FRAGUEL.getInstance().addView(viewGroup);
 		
@@ -150,12 +156,28 @@ public class RouteManagerState extends State {
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
+		//Borramos el menu de opciones anterior
+		menu.clear();
+		//Añadimos las opciones del menu
+		menu.add(0,ROUTEMANAGERSTATE_ADDROUTE, 0, R.string.routemanagerstate_menu_addroute).setIcon(R.drawable.change_map_icon);
+		menu.add(0,ROUTEMANAGERSTATE_DELETEROUTE, 0, R.string.routemanagerstate_menu_deleteroute).setIcon(R.drawable.geotaging);
+		
 		return menu;
 	}
 
 	@Override
 	public boolean onStateOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+
+		case ROUTEMANAGERSTATE_ADDROUTE:
+			loadRoutes(selectedRoute);
+			return true;
+
+		case ROUTEMANAGERSTATE_DELETEROUTE:
+			loadRoutes(selectedRoute);
+			return true;
+		}
 		return false;
 	}
 }
