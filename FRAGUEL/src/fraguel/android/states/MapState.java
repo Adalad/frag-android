@@ -30,12 +30,16 @@ public class MapState extends State implements OnTouchListener{
 
 	// Singleton
 	private static MapState mapInstance;
+	private boolean isMyPosition;
+	private MyPositionOverlay me;
 
 	// Variables de los botones del men
 	private static final int MAPSTATE_MENU_CHANGEMAP = 1;
 	private static final int MAPSTATE_MENU_BACKMENU = 2;
 	private static final int MAPSTATE_MENU_EXIT = 3;
-
+	private static final int MAPSTATE_MENU_MY_POSITION = 4;
+	private static final int MAPSTATE_MENU_EXPLORE_MAP = 5;
+	private static final int MAPSTATE_MENU_COMPASS=6;
 
 
 	public static final int STATE_ID = 2;
@@ -113,9 +117,8 @@ public class MapState extends State implements OnTouchListener{
 
 		mapOverlays.add(itemizedoverlay);
 		addMyPosition();
+		isMyPosition=true;
 
-
-		//FRAGUEL.getInstance().
 
 	}
 
@@ -168,7 +171,7 @@ public class MapState extends State implements OnTouchListener{
 	}
 
 	private void addMyPosition(){
-		MyPositionOverlay me = new MyPositionOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
+		me = new MyPositionOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
 		mapOverlays.add(me);
 
 	}
@@ -188,10 +191,8 @@ public class MapState extends State implements OnTouchListener{
 		public synchronized void onLocationChanged(Location location) {
 			// TODO Auto-generated method stub
 			super.onLocationChanged(location);
-			if (FRAGUEL.getInstance().getGPS().getCurrentLocation().equals(this.getMyLocation())){
-				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Mismas coordenadas VA DE PUTA MADRE!!!", Toast.LENGTH_SHORT).show();
-			}
-			mapControl.animateTo(getMyLocation());
+			if (isMyPosition)
+				mapControl.animateTo(getMyLocation());
 		}
 
 		@Override
@@ -199,10 +200,6 @@ public class MapState extends State implements OnTouchListener{
 			// TODO Auto-generated method stub
 			super.onProviderDisabled(provider);
 		}
-
-
-
-
 
 	}
 
@@ -213,9 +210,12 @@ public class MapState extends State implements OnTouchListener{
 		//Borramos el menu de opciones anterior
 		menu.clear();
 		//Añadimos las opciones del menu
-		menu.add(0, MAPSTATE_MENU_CHANGEMAP, 0, R.string.mapstate_menu_changemap).setIcon(R.drawable.info);
+		menu.add(0, MAPSTATE_MENU_CHANGEMAP, 0, R.string.mapstate_menu_changemap).setIcon(R.drawable.change_map_icon);
 		menu.add(0, MAPSTATE_MENU_BACKMENU, 0, R.string.mapstate_menu_backmenu).setIcon(R.drawable.geotaging);
 		menu.add(0, MAPSTATE_MENU_EXIT, 0,R.string.mapstate_menu_exit).setIcon(R.drawable.info);
+		menu.add(0, MAPSTATE_MENU_MY_POSITION, 0,"Mi Posición").setIcon(R.drawable.my_location_icon);
+		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,"Explorar Mapa").setIcon(R.drawable.explore_map_icon);
+		menu.add(0, MAPSTATE_MENU_COMPASS, 0,"Brújula").setIcon(R.drawable.compass_icon);
 
 		return menu;
 	}
@@ -240,6 +240,19 @@ public class MapState extends State implements OnTouchListener{
 
 		case MAPSTATE_MENU_EXIT:
 			System.exit(0);
+			return true;
+		case MAPSTATE_MENU_EXPLORE_MAP:
+			isMyPosition=false;
+			return true;
+		case MAPSTATE_MENU_MY_POSITION:
+			isMyPosition=true;
+			return true;
+			
+		case MAPSTATE_MENU_COMPASS:
+			if (me.isCompassEnabled())
+				me.disableCompass();
+			else
+				me.enableCompass();
 			return true;
 		}
 
