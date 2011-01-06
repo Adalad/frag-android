@@ -1,5 +1,6 @@
 package fraguel.android;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -58,5 +59,5 @@ public abstract class State implements Comparable<State> {
 	public abstract Menu onCreateStateOptionsMenu(Menu menu);
 	public abstract boolean onStateOptionsItemSelected(MenuItem item);
 	//public abstract void onTouch(View v, MotionEvent event);
-
+	public void onActivityResult(int requestCode, int resultCode, Intent data){}
 }

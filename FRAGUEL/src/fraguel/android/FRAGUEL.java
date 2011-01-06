@@ -427,6 +427,13 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 			currentState.onConfigurationChanged(newConfig);
 			super.onConfigurationChanged(newConfig);
 	}
+	
+	@Override
+	protected void onActivityResult(
+	        int requestCode, int resultCode, Intent data) {
+	    
+	    currentState.onActivityResult(requestCode, resultCode, data);
+	}
 
 
 //***********************************************************************************
