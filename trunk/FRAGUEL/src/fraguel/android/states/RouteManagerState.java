@@ -154,7 +154,7 @@ public class RouteManagerState extends State {
 	}
 
 	@Override
-	public Menu onCreateStateOptionsMenu(Menu menu) {
+	public void onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		//Borramos el menu de opciones anterior
 		menu.clear();
@@ -162,7 +162,7 @@ public class RouteManagerState extends State {
 		menu.add(0,ROUTEMANAGERSTATE_ADDROUTE, 0, R.string.routemanagerstate_menu_addroute).setIcon(R.drawable.change_map_icon);
 		menu.add(0,ROUTEMANAGERSTATE_DELETEROUTE, 0, R.string.routemanagerstate_menu_deleteroute).setIcon(R.drawable.geotaging);
 		
-		return menu;
+		
 	}
 
 	@Override

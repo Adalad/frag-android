@@ -131,14 +131,13 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 
 
 	@Override
-	public Menu onCreateStateOptionsMenu(Menu menu) {
+	public void onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		menu.clear();
 		
 		menu.add(0, INFOSTATE_STOP_RECORD, 0, R.string.infostate_menu_stop).setIcon(R.drawable.stop);
 		menu.add(0, INFOSTATE_REPEAT_RECORD, 0, R.string.infostate_menu_repeat).setIcon(R.drawable.play);
 		
-		return menu;
 	}
 
 

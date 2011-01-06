@@ -92,7 +92,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		menu.add(0, MENU_EXIT, 0, R.string.menu_exit).setIcon(R.drawable.info);
 		
 		//Menu de opciones del estado
-		menu = currentState.onCreateStateOptionsMenu(menu);
+		currentState.onCreateStateOptionsMenu(menu);
 		
 		return true;
 		
