@@ -5,6 +5,7 @@ import java.util.Locale;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.State;
+import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 	public static final int STATE_ID = 6;
 	public static final int INFOSTATE_STOP_RECORD=1;
 	public static final int INFOSTATE_REPEAT_RECORD=2;
+	private int MY_DATA_CHECK_CODE;
 	
 	
 	
@@ -58,13 +60,37 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 				" Ahora voy a intentar que el usuario, es decir, tú, puedas parar y arrancar el sonido cuando desees. Espero que lo disfrutes.");
 		container.addView(text);
 		
-		tts= new TextToSpeech(FRAGUEL.getInstance().getApplicationContext(), this);
+		//intent para comprobar si tiene instalada la libreria de texto hablado
+		Intent checkIntent = new Intent();
+		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+		FRAGUEL.getInstance().startActivityForResult(checkIntent,MY_DATA_CHECK_CODE);
+		
+		
 		
 		
 		viewGroup.addView(container);
 		
 		
 	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		if (requestCode == MY_DATA_CHECK_CODE) {
+	        if (resultCode != TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+	            // si no tiene los datos los instala
+	        	Intent installIntent = new Intent();
+	            installIntent.setAction(
+	                TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+	            FRAGUEL.getInstance().startActivity(installIntent);
+	        	
+	        }
+	            
+	        tts= new TextToSpeech(FRAGUEL.getInstance().getApplicationContext(), this); 
+	    }
+
+	}
+
 
 	@Override
 	public void onClick(View v) {
@@ -92,6 +118,10 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 	public void talk(String s){
 		tts.stop();
 		tts.speak((String)text.getText(), TextToSpeech.QUEUE_FLUSH, null);
+	}
+	
+	public void talk(){
+		tts.stop();
 	}
 
 
