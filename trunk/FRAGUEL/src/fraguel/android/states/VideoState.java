@@ -8,6 +8,8 @@ import fraguel.android.R.id;
 import fraguel.android.R.layout;
 import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.MediaController;
@@ -15,9 +17,11 @@ import android.widget.VideoView;
 
 public class VideoState extends State{
 
+	public static final int STATE_ID = 3;
+	
 	public VideoState() {
 		super();
-		id = 3;
+		id = STATE_ID;
 	}
 
 	
@@ -47,6 +51,20 @@ public class VideoState extends State{
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public Menu onCreateStateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return menu;
+	}
+
+
+	@Override
+	public boolean onStateOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

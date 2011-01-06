@@ -4,13 +4,20 @@ import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.State;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsoluteLayout;
 
+
+
 public class IntroState extends State{
+	
+	public static final int STATE_ID = 0;
+	
 	public IntroState() {
 		super();
-		id = 0;
+		id = STATE_ID;
 	}
 
 
@@ -39,6 +46,20 @@ public class IntroState extends State{
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public Menu onCreateStateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return menu;
+	}
+
+
+	@Override
+	public boolean onStateOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

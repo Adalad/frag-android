@@ -2,6 +2,8 @@ package fraguel.android.states;
 
 import android.content.res.Configuration;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -18,6 +20,8 @@ import fraguel.android.gallery.ImageAdapter;
 
 public class ImageState extends State{
 	
+	public static final int STATE_ID = 4;
+	
 	private TextView title;
 	private TextView text;
 	private Gallery gallery;
@@ -28,7 +32,7 @@ public class ImageState extends State{
 	
 	public ImageState() {
 		super();
-		id = 4;
+		id = STATE_ID;
 	}
 
 
@@ -186,6 +190,20 @@ public class ImageState extends State{
 		}
 
 	return true;    
+	}
+
+
+	@Override
+	public Menu onCreateStateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return menu;
+	}
+
+
+	@Override
+	public boolean onStateOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

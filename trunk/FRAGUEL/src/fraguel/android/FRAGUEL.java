@@ -71,50 +71,66 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	ArrayList<PointOI> pointsOI;
 
 	// Menu variable buttons
-	private static final int MENU_1 = 1;
-	private static final int MENU_2 = 2;
-	private static final int MENU_3 = 3;
-	private static final int MENU_4 = 4;
+	private static final int MENU_MAIN = 1;
+	private static final int MENU_CONFIG = 2;
+	private static final int MENU_ROUTE = 3;
+	private static final int MENU_EXIT = 4;
 
 	
 	
-	
+	/**
+	 * Se crea el menu de opciones en función del estado 
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 
-		menu.add(0, MENU_1, 0, R.string.menu_menu).setIcon(R.drawable.info);
-		menu.add(0, MENU_2, 0, R.string.menu_config).setIcon(R.drawable.geotaging);
-		menu.add(0, MENU_3, 0,R.string.menu_route).setIcon(R.drawable.info);
-		menu.add(0, MENU_4, 0, R.string.menu_exit).setIcon(R.drawable.info);
+		//Menu de opciones creado por defecto
+		menu.add(0, MENU_MAIN, 0, R.string.menu_menu).setIcon(R.drawable.info);
+		menu.add(0, MENU_CONFIG, 0, R.string.menu_config).setIcon(R.drawable.geotaging);
+		menu.add(0, MENU_ROUTE, 0,R.string.menu_route).setIcon(R.drawable.info);
+		menu.add(0, MENU_EXIT, 0, R.string.menu_exit).setIcon(R.drawable.info);
+		
+		//Menu de opciones del stado
+		menu = currentState.onCreateStateOptionsMenu(menu);
+		
 		return true;
 		//return super.onCreateOptionsMenu(menu);
 	}
 	
 	
-
 	
+
+	/**
+	 * Eventos del menu de opciones de la aplicación en función del estado 
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
+		
+		//Eventos del menu de opciones del estado 
+		if(!currentState.onStateOptionsItemSelected(item)){
+		
+		//Eventos del menu de opciones creados por defecto
 		switch (item.getItemId()) {
-		case MENU_1:
+		case MENU_MAIN:
 			changeState(1);
 			return true;
-		case MENU_2:
+		case MENU_CONFIG:
 			Toast t1= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
 			t1.show();
 			return true;
-		case MENU_3:
+		case MENU_ROUTE:
 			Toast t2= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
 			t2.show();
 			return true;
-		case MENU_4:
-			Toast t3= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
-			t3.show();
+		case MENU_EXIT:
+			System.exit(0);
 			return true;
 		}
-
+		
+		}
+		
 		return true;
 		//return super.onOptionsItemSelected(item);
 	}

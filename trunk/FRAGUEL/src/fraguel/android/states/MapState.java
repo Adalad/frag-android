@@ -6,6 +6,8 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -25,21 +27,28 @@ import fraguel.android.State;
 import fraguel.android.maps.MapItemizedOverlays;
 
 public class MapState extends State implements OnTouchListener{
-	
+
 	// Singleton
 	private static MapState mapInstance;
-	
-	//public static final int STATE_ID = 2;
-	
+
+	// Variables de los botones del men
+	private static final int MAPSTATE_MENU_CHANGEMAP = 1;
+	private static final int MAPSTATE_MENU_BACKMENU = 2;
+	private static final int MAPSTATE_MENU_EXIT = 3;
+
+
+
+	public static final int STATE_ID = 2;
+
 	private MapController mapControl;
 	private MapView mapView;
 	private View popupView;
 	private List<Overlay> mapOverlays;
-	
+
 
 	public MapState() {
 		super();
-		id = 2;
+		id = STATE_ID;
 		// Singleton
 		mapInstance = this;
 	}
@@ -49,8 +58,8 @@ public class MapState extends State implements OnTouchListener{
 			mapInstance = new MapState();
 		return mapInstance;
 	}
-	
-	
+
+
 	@Override
 	public void load() {
 		//Creamos e importamos el layout del xml
@@ -63,15 +72,15 @@ public class MapState extends State implements OnTouchListener{
 		popupView= li.inflate(R.layout.popup,  null);
 		//LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		//popupView.setLayoutParams(params);
-		
-		
+
+
 		//Creamos, importamos y configuramos la mapview del xml
 		mapView = (MapView) FRAGUEL.getInstance().findViewById(R.id.mapview);
 		//mapView.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		//mapView.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
 		mapView.setBuiltInZoomControls(true);
 		mapView.setClickable(true);
-        mapView.setEnabled(true);
+		mapView.setEnabled(true);
 
 		mapControl = mapView.getController();
 		GeoPoint pointInit = new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7267881 * 1000000));
@@ -92,27 +101,29 @@ public class MapState extends State implements OnTouchListener{
 		//segundo punto
 		GeoPoint point2 = new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7297881 * 1000000));
 		OverlayItem overlayitem2 = new OverlayItem(point2, "Facultad B", "En el año...");
-	
+
 		itemizedoverlay.addOverlay(overlayitem2);
-		
+
 		//mi casa
-		
+
 		GeoPoint point3 = new GeoPoint((int) (40.44929 * 1000000), (int) (-3.64072927 * 1000000));
 		OverlayItem overlayitem3 = new OverlayItem(point3, "Mi casa", "My house...");
-		
+
 		itemizedoverlay.addOverlay(overlayitem3);
 
 		mapOverlays.add(itemizedoverlay);
 		addMyPosition();
-	
-		
+
+
+		//FRAGUEL.getInstance().
+
 	}
 
 	@Override
 	public void onClick(View v) {
-		
+
 		FRAGUEL.getInstance().getView().removeView(popupView);
-		
+
 		switch (v.getId()) {
 		case R.id.btn_popupPI_info:
 			FRAGUEL.getInstance().changeState(6);
@@ -126,42 +137,42 @@ public class MapState extends State implements OnTouchListener{
 		case R.id.btn_popupPI_ar:
 			FRAGUEL.getInstance().changeState(5);
 			break;
-		
+
 		default:
-			
+
 		}
-		
-		
+
+
 	}
-	
+
 	@Override
 	public boolean onTouch(View arg0, MotionEvent arg1) {
 		// TODO Auto-generated method stub
-		
+
 		FRAGUEL.getInstance().getView().removeView(popupView);
-		
+
 		return true;
 	}
-	
-		
+
+
 	public MapView getMapView() {
 		return mapView;
 	}
-	
+
 	public View getPopupView() {
 		return popupView;
 	}
-	
+
 	public void animateTo(GeoPoint g){
 		mapControl.animateTo(g);		
 	}
-	
+
 	private void addMyPosition(){
 		MyPositionOverlay me = new MyPositionOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
 		mapOverlays.add(me);
-		
+
 	}
-	
+
 	//****************************************************************************************
 	//****************************************************************************************
 	private class MyPositionOverlay extends MyLocationOverlay{
@@ -172,7 +183,7 @@ public class MapState extends State implements OnTouchListener{
 			this.enableMyLocation();
 			// TODO Auto-generated constructor stub
 		}
-		
+
 		@Override
 		public synchronized void onLocationChanged(Location location) {
 			// TODO Auto-generated method stub
@@ -188,13 +199,53 @@ public class MapState extends State implements OnTouchListener{
 			// TODO Auto-generated method stub
 			super.onProviderDisabled(provider);
 		}
-		
-		
-		
-		
-		
+
+
+
+
+
 	}
 
-	
+	@Override
+	public Menu onCreateStateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+
+		//Borramos el menu de opciones anterior
+		menu.clear();
+		//Añadimos las opciones del menu
+		menu.add(0, MAPSTATE_MENU_CHANGEMAP, 0, R.string.mapstate_menu_changemap).setIcon(R.drawable.info);
+		menu.add(0, MAPSTATE_MENU_BACKMENU, 0, R.string.mapstate_menu_backmenu).setIcon(R.drawable.geotaging);
+		menu.add(0, MAPSTATE_MENU_EXIT, 0,R.string.mapstate_menu_exit).setIcon(R.drawable.info);
+
+		return menu;
+	}
+
+	@Override
+	public boolean onStateOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+
+		//Añadimos los eventos del menu de opciones
+		switch (item.getItemId()) {
+
+		case MAPSTATE_MENU_CHANGEMAP:
+			if(mapView.isStreetView())
+				mapView.setSatellite(true);
+			else
+				mapView.setStreetView(true);
+			return true;
+
+		case MAPSTATE_MENU_BACKMENU:
+			FRAGUEL.getInstance().changeState(MenuState.STATE_ID);
+			return true;
+
+		case MAPSTATE_MENU_EXIT:
+			System.exit(0);
+			return true;
+		}
+
+		return false;
+	}
+
+
 
 }

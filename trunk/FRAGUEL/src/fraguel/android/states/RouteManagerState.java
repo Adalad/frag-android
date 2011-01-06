@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -17,6 +19,8 @@ import fraguel.android.lists.RouteManagerAdapter;
 
 
 public class RouteManagerState extends State {
+	
+	public static final int STATE_ID = 8;
 
 	LinearLayout container;
 	RouteManagerAdapter adapter;
@@ -28,7 +32,7 @@ public class RouteManagerState extends State {
 	
 	public RouteManagerState() {
 		super();
-		id = 8;
+		id = STATE_ID;
 	}
 	
 	@Override
@@ -141,5 +145,17 @@ public class RouteManagerState extends State {
 			return true;
 		else
 			return super.dispatchKeyEvent(event);
+	}
+
+	@Override
+	public Menu onCreateStateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return menu;
+	}
+
+	@Override
+	public boolean onStateOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -4,17 +4,21 @@ import fraguel.android.FRAGUEL;
 import fraguel.android.State;
 import fraguel.android.ar.ARCameraView;
 import fraguel.android.ar.ARGLView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
 public class ARState extends State {
+	
+	public static final int STATE_ID = 5;
 
 	ARCameraView camView;
 	ARGLView glView;
 
 	public ARState() {
 		super();
-		id = 5;
+		id = STATE_ID;
 	}
 
 	@Override
@@ -50,6 +54,18 @@ public class ARState extends State {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Menu onCreateStateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return menu;
+	}
+
+	@Override
+	public boolean onStateOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

@@ -2,6 +2,8 @@ package fraguel.android;
 
 import android.content.res.Configuration;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -51,6 +53,10 @@ public abstract class State implements Comparable<State> {
 		}else
 			return false;
 	}
+	
+	//Métodos para modificar menu de opciones y sus eventos desde un estado
+	public abstract Menu onCreateStateOptionsMenu(Menu menu);
+	public abstract boolean onStateOptionsItemSelected(MenuItem item);
 	//public abstract void onTouch(View v, MotionEvent event);
 
 }
