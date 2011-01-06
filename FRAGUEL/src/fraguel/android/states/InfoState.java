@@ -120,11 +120,7 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 		tts.speak((String)text.getText(), TextToSpeech.QUEUE_FLUSH, null);
 	}
 	
-	public void talk(){
-		tts.stop();
-	}
-
-
+	
 	@Override
 	public void unload() {
 		// TODO Auto-generated method stub
