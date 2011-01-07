@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,8 +65,6 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 		FRAGUEL.getInstance().startActivityForResult(checkIntent,MY_DATA_CHECK_CODE);
 		
 		
-		
-		
 		viewGroup.addView(container);
 		
 		
@@ -80,15 +77,15 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 	        if (resultCode != TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
 	            // si no tiene los datos los instala
 	        	Intent installIntent = new Intent();
-	            installIntent.setAction(
-	                TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+	            installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+	            Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Instalando las librerías necesarias", Toast.LENGTH_SHORT).show();
 	            FRAGUEL.getInstance().startActivity(installIntent);
 	        	
 	        }
+	    	
+	    }
 	            
 	        tts= new TextToSpeech(FRAGUEL.getInstance().getApplicationContext(), this); 
-	    }
-
 	}
 
 
