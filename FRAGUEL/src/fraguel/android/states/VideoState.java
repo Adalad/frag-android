@@ -12,12 +12,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Gallery;
 import android.widget.MediaController;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 public class VideoState extends State{
 
 	public static final int STATE_ID = 3;
+	private TextView title;
+	private VideoView video;
+	private Gallery videoGallery;
+	private ScrollView sv;
+	private TextView text;
+	private boolean isVideoDisplayed=false;
 	
 	public VideoState() {
 		super();
@@ -33,6 +42,8 @@ public class VideoState extends State{
 		LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
 		viewGroup= (ViewGroup) li.inflate(R.layout.video,  null);
 		FRAGUEL.getInstance().addView(viewGroup);
+		
+		
 				
     	VideoView videoView = (VideoView) FRAGUEL.getInstance().findViewById(R.id.VideoView);
     	MediaController mediaController = new MediaController(FRAGUEL.getInstance());
