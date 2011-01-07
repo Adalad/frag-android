@@ -16,7 +16,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -66,9 +65,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	private ArrayList<State> states;
 	private State currentState;
 	
-	// Routes and Points OI
+	// Routes
 	ArrayList<Route> routes;
-	ArrayList<PointOI> pointsOI;
 
 	// Menu variable buttons
 	private static final int MENU_MAIN = 1;
@@ -171,7 +169,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 
 		// Routes and points OI
 		routes = new ArrayList<Route>();
-		pointsOI = new ArrayList<PointOI>();
 		ResourceParser.getInstance().setRoot("/");
 		//ResourceParser.getInstance().readRoutes("routes");
 		
