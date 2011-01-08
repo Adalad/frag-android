@@ -149,6 +149,8 @@ public class VideoState extends State{
 		container.removeAllViews();
 		Uri uri = Uri.parse(videos[selected]);
 		video.setVideoURI(uri);
+		container.addView(video);
+		video.requestFocus();
 		isVideoDisplayed=true;
 		video.start();
 	}
