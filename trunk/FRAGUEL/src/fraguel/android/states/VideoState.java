@@ -7,7 +7,6 @@ import fraguel.android.State;
 import fraguel.android.R.id;
 import fraguel.android.R.layout;
 import fraguel.android.gallery.ImageAdapter;
-import fraguel.android.gallery.VideoAdapter;
 import android.net.Uri;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,6 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Gallery;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -31,6 +34,12 @@ public class VideoState extends State{
 	private ScrollView sv;
 	private TextView text;
 	private boolean isVideoDisplayed=false;
+	private int selectedItem;
+	private LinearLayout container;
+	private String[] videos={"http://www.free-3gp-video.com/download.php?dancing-skeleton.3gp",
+			"http://www.free-3gp-video.com/download.php?dancing-skeleton.3gp",
+			"http://www.free-3gp-video.com/download.php?gay_referee.3gp",
+			"http://www.free-3gp-video.com/download.php?do-beer-not-drugs.3gp"};
 	
 	public VideoState() {
 		super();
@@ -43,36 +52,23 @@ public class VideoState extends State{
 		// TODO Auto-generated method stub
 		
 		//Creamos e importamos el layout del xml
-		/*LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
-		viewGroup= (ViewGroup) li.inflate(R.layout.video,  null);
-		FRAGUEL.getInstance().addView(viewGroup);*/
 		
-		LinearLayout container = new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
+
+		container = new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
 		container.setOrientation(LinearLayout.VERTICAL);
 		
-		title= new TextView(FRAGUEL.getInstance().getApplicationContext());
-		title.setText("Galería de vídeo");
-		title.setGravity(Gravity.CENTER_HORIZONTAL);
-		
-		container.addView(title);
-		
-		videoGallery=new Gallery(FRAGUEL.getInstance().getApplicationContext());
-		videoGallery.setAdapter(new VideoAdapter(FRAGUEL.getInstance().getApplicationContext()));
-		videoGallery.setHorizontalScrollBarEnabled(true);
-		
-		container.addView(videoGallery);
-		
+		setVideoGalleryParams();
 		viewGroup=container;
-				
-    	/*VideoView videoView = (VideoView) FRAGUEL.getInstance().findViewById(R.id.VideoView);
+		FRAGUEL.getInstance().addView(viewGroup);	
+		
+		
+		//Preparamos la vista de video
+		
+		video= new VideoView(FRAGUEL.getInstance().getApplicationContext());
+		
     	MediaController mediaController = new MediaController(FRAGUEL.getInstance());
-    	mediaController.setAnchorView(videoView);
-    	// Introducimos el video link (mp4 o 3gp )
-    	Uri video = Uri.parse("http://m.youtube.com/setpref?gl=ES&client=mv-google&hl=es&pref=serve_hq&value=on&next=%2Fwatch%3Fgl%3DES%26client%3Dmv-google%26hl%3Des%26rl%3Dyes%26v%3DNRNxV0bTa4s");
-    	videoView.setMediaController(mediaController);
-    	videoView.setVideoURI(video);
-    	//videoView.setVideoPath("/sdcard/download/empire.3gp");
-    	videoView.start();*/
+    	mediaController.setAnchorView(video);
+    	video.setMediaController(mediaController);
 	}
 
 	
@@ -81,6 +77,80 @@ public class VideoState extends State{
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private void setVideoGalleryParams(){
+		container.removeAllViews();
+		
+		title= new TextView(FRAGUEL.getInstance().getApplicationContext());
+		title.setText("Galería de vídeo");
+		title.setGravity(Gravity.CENTER_HORIZONTAL);
+		
+		container.addView(title);
+		
+		
+		videoGallery=new Gallery(FRAGUEL.getInstance().getApplicationContext());
+		videoGallery.setAdapter(new ImageAdapter(FRAGUEL.getInstance().getApplicationContext()));
+		videoGallery.setHorizontalScrollBarEnabled(true);
+		setVideoGalleryListeners();
+		
+		container.addView(videoGallery);
+		
+		
+		sv= new ScrollView(FRAGUEL.getInstance().getApplicationContext());
+		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
+		
+		sv.addView(text);
+		
+		container.addView(sv);
+		
+		isVideoDisplayed=false;
+		selectedItem=-1;
+		
+	}
+	
+	private void setVideoGalleryListeners(){
+		videoGallery.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				// TODO Auto-generated method stub
+				
+				if (selectedItem==arg2){
+					playSelectedVideo(selectedItem);	
+				}
+				selectedItem=arg2;
+				
+			}});
+		
+		
+		videoGallery.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				// TODO Auto-generated method stub
+				text.setText("Posición: "+position+"\n"+"\n"+"El elemento que está usted visualizando está en la posición "+
+						position+" dentro de la galería.");
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}});
+		
+	}
+	
+	private void playSelectedVideo(int selected){
+		
+		container.removeAllViews();
+		Uri uri = Uri.parse(videos[selected]);
+		video.setVideoURI(uri);
+		isVideoDisplayed=true;
+		video.start();
 	}
 
 

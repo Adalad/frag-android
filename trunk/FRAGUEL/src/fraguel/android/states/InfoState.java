@@ -115,6 +115,7 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 	public void talk(String s){
 		tts.stop();
 		tts.speak((String)text.getText(), TextToSpeech.QUEUE_FLUSH, null);
+		tts.setLanguage(Locale.ENGLISH);
 	}
 	
 	
