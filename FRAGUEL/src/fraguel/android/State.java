@@ -56,8 +56,8 @@ public abstract class State implements Comparable<State> {
 	}
 	
 	//Métodos para modificar menu de opciones y sus eventos desde un estado
-	public  void onCreateStateOptionsMenu(Menu menu){};
-	public  boolean onStateOptionsItemSelected(MenuItem item){return false;};
+	public  abstract Menu onCreateStateOptionsMenu(Menu menu);
+	public  abstract boolean onStateOptionsItemSelected(MenuItem item);
 	//public abstract void onTouch(View v, MotionEvent event);
 	public void onActivityResult(int requestCode, int resultCode, Intent data){}
 }

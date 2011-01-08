@@ -20,6 +20,23 @@ public class ARCameraView extends SurfaceView implements SurfaceHolder.Callback 
 	}
 
 	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		camera = Camera.open();
+		try {
+			camera.setPreviewDisplay(holder);
+			/*camera.setPreviewCallback(new PreviewCallback() {
+
+				@Override
+				public void onPreviewFrame(byte[] data, Camera camera) {
+
+				}
+			});*/
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 		Camera.Parameters parameters = camera.getParameters();
@@ -27,28 +44,12 @@ public class ARCameraView extends SurfaceView implements SurfaceHolder.Callback 
 		camera.setParameters(parameters);
 		camera.startPreview();
 	}
-
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		camera = Camera.open();
-		try {
-			camera.setPreviewDisplay(holder);
-			camera.setPreviewCallback(new PreviewCallback() {
-
-				@Override
-				public void onPreviewFrame(byte[] data, Camera camera) {
-
-				}
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		camera.stopPreview();
-		camera = null;
+		//camera = null;
+		camera.release();
 	}
 
 }

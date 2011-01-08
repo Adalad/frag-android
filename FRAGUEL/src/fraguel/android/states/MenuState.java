@@ -14,6 +14,11 @@ public class MenuState extends State {
 	
 	public static final int STATE_ID = 1;
 	
+	// Variables menu de opciones
+	private static final int MENU_MAIN = 1;
+	private static final int MENU_CONFIG = 2;
+	private static final int MENU_ROUTE = 3;
+	private static final int MENU_EXIT = 4;
 	
 	protected TextView gps;
 	protected TextView orientation;
@@ -130,7 +135,17 @@ public class MenuState extends State {
 		orientation.setText(s);
 	}
 
-	
+	@Override
+	public Menu onCreateStateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return menu;
+	}
+
+	@Override
+	public boolean onStateOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 
 

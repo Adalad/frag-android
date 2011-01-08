@@ -204,7 +204,7 @@ public class MapState extends State implements OnTouchListener{
 	}
 
 	@Override
-	public void onCreateStateOptionsMenu(Menu menu) {
+	public Menu onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 
 		//Borramos el menu de opciones anterior
@@ -217,6 +217,7 @@ public class MapState extends State implements OnTouchListener{
 		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,R.string.mapstate_menu_explore_map).setIcon(R.drawable.explore_map_icon);
 		menu.add(0, MAPSTATE_MENU_COMPASS, 0,R.string.mapstate_menu_compass).setIcon(R.drawable.compass_icon);
 
+		return menu;
 	}
 
 	@Override
