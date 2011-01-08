@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 import fraguel.android.FRAGUEL;
@@ -118,6 +119,7 @@ public class RouteManagerState extends State {
 	
 	private void setAdapter(){
 		list= new ListView(FRAGUEL.getInstance().getApplicationContext());
+		list.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		adapter = new RouteManagerAdapter(FRAGUEL.getInstance().getApplicationContext());
 		list.setAdapter(adapter);
 		ColorDrawable divcolor = new ColorDrawable(Color.DKGRAY);

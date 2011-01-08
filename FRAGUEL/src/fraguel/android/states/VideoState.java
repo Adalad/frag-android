@@ -6,13 +6,17 @@ import fraguel.android.R;
 import fraguel.android.State;
 import fraguel.android.R.id;
 import fraguel.android.R.layout;
+import fraguel.android.gallery.ImageAdapter;
+import fraguel.android.gallery.VideoAdapter;
 import android.net.Uri;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Gallery;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -39,13 +43,28 @@ public class VideoState extends State{
 		// TODO Auto-generated method stub
 		
 		//Creamos e importamos el layout del xml
-		LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
+		/*LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
 		viewGroup= (ViewGroup) li.inflate(R.layout.video,  null);
-		FRAGUEL.getInstance().addView(viewGroup);
+		FRAGUEL.getInstance().addView(viewGroup);*/
 		
+		LinearLayout container = new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
+		container.setOrientation(LinearLayout.VERTICAL);
 		
+		title= new TextView(FRAGUEL.getInstance().getApplicationContext());
+		title.setText("Galería de vídeo");
+		title.setGravity(Gravity.CENTER_HORIZONTAL);
+		
+		container.addView(title);
+		
+		videoGallery=new Gallery(FRAGUEL.getInstance().getApplicationContext());
+		videoGallery.setAdapter(new VideoAdapter(FRAGUEL.getInstance().getApplicationContext()));
+		videoGallery.setHorizontalScrollBarEnabled(true);
+		
+		container.addView(videoGallery);
+		
+		viewGroup=container;
 				
-    	VideoView videoView = (VideoView) FRAGUEL.getInstance().findViewById(R.id.VideoView);
+    	/*VideoView videoView = (VideoView) FRAGUEL.getInstance().findViewById(R.id.VideoView);
     	MediaController mediaController = new MediaController(FRAGUEL.getInstance());
     	mediaController.setAnchorView(videoView);
     	// Introducimos el video link (mp4 o 3gp )
@@ -53,7 +72,7 @@ public class VideoState extends State{
     	videoView.setMediaController(mediaController);
     	videoView.setVideoURI(video);
     	//videoView.setVideoPath("/sdcard/download/empire.3gp");
-    	videoView.start();
+    	videoView.start();*/
 	}
 
 	
