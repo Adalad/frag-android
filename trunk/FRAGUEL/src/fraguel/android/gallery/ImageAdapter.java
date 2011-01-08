@@ -19,7 +19,6 @@ public class ImageAdapter extends BaseAdapter {
             R.drawable.guerracivil_2,
             R.drawable.guerracivil_3,
             R.drawable.guerracivil_4,
-          
     };
 
     public ImageAdapter(Context c) {
