@@ -5,6 +5,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -55,6 +56,7 @@ public class ImageState extends State{
 		
 		
 		sv= new ScrollView(FRAGUEL.getInstance().getApplicationContext());
+		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
 		sv.addView(text);
 		
