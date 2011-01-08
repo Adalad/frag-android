@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import fraguel.android.FRAGUEL;
+import fraguel.android.R;
 import fraguel.android.State;
 import fraguel.android.gallery.BigImageAdapter;
 import fraguel.android.gallery.FullScreenGallery;
