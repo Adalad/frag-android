@@ -135,18 +135,4 @@ public class MenuState extends State {
 		orientation.setText(s);
 	}
 
-	@Override
-	public Menu onCreateStateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		return menu;
-	}
-
-	@Override
-	public boolean onStateOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-
-
 }

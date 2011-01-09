@@ -70,11 +70,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	ArrayList<Route> routes;
 	ArrayList<PointOI> pointsOI;
 
-	// Menu variable buttons
-	private static final int MENU_MAIN = 1;
-	private static final int MENU_CONFIG = 2;
-	private static final int MENU_ROUTE = 3;
-	private static final int MENU_EXIT = 4;
+
 
 	
 	
@@ -84,12 +80,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-
-		//Menu de opciones creado por defecto
-		menu.add(0, MENU_MAIN, 0, R.string.menu_menu).setIcon(R.drawable.info);
-		menu.add(0, MENU_CONFIG, 0, R.string.menu_config).setIcon(R.drawable.geotaging);
-		menu.add(0, MENU_ROUTE, 0,R.string.menu_route).setIcon(R.drawable.info);
-		menu.add(0, MENU_EXIT, 0, R.string.menu_exit).setIcon(R.drawable.info);
 		
 		//Menu de opciones del estado
 		menu = currentState.onCreateStateOptionsMenu(menu);
@@ -123,29 +113,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		
 		//Eventos del menu de opciones del estado 
-		if(!currentState.onStateOptionsItemSelected(item)){
-		
-		//Eventos del menu de opciones creados por defecto
-		switch (item.getItemId()) {
-		case MENU_MAIN:
-			changeState(1);
-			return true;
-		case MENU_CONFIG:
-			Toast t1= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
-			t1.show();
-			return true;
-		case MENU_ROUTE:
-			Toast t2= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
-			t2.show();
-			return true;
-		case MENU_EXIT:
-			System.exit(0);
-			return true;
-		}
-		
-		}
-		
-		return true;
+		return currentState.onStateOptionsItemSelected(item);
+
 		//return super.onOptionsItemSelected(item);
 	}
 
