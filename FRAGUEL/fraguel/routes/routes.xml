@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+	<route id="0">
+		<name>Guerra Civil - Ciudad Universitaria</name>
+		<description>Lugares clave en la batalla de Madrid durante la Guerra Civil</description>
+	</route>
+	<route id="1">
+		<name>La ruta del Red Bull</name>
+		<description>Tiendas de chinos para poder comprar a todas horas</description>
+	</route>
+	<route id="2">
+		<name>Ruta del Bakalao</name>
+		<description>Macrodiscotecas de Bronkstoles, Queenslabrada y Valdemordor</description>
+	</route>
+</routes>

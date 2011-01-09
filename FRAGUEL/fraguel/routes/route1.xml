@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<points>
+	<point id="0">
+		<coords x="0.0" y="0.0"/>
+		<title>Punto 0 ruta 1</title>
+		<description>El primer puntito de todos</description>
+		<marker id=""/>
+	</point>
+	<point id="1">
+		<coords x="1.0" y="0.0"/>
+		<title>Punto 1 ruta 1</title>
+		<description>El segundo puntito</description>
+		<marker id=""/>
+	</point>
+	<point id="2">
+		<coords x="2.0" y="0.0"/>
+		<title>Punto 2 ruta 1</title>
+		<description>El tercer puntito</description>
+		<marker id=""/>
+	</point>
+</points>
