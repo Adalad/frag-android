@@ -207,7 +207,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		addState(new RouteManagerState(),false);
 
 
-		//TextToSpeech init
+		//TextToSpeech init & instalation
 		checkTTSLibrary();
 	}
 
@@ -295,34 +295,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	public void activateGPS(){
 		
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, myPosition);
-		if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {	
-			createGpsDisabledAlert();
-		}
-
-		
+			
 	}
 	
-	private void createGpsDisabledAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("¡Su GPS está desactivado! Para el correcto funcionamiento de la aplicación debe activarlo."+"\n"+ "¿Desea activarlo ahora?");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Habilitar GPS",
-                                        new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                	Intent gpsOptionsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                        			startActivity(gpsOptionsIntent);
-                                                }
-                                        });
-        builder.setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                }
-                        });
-        AlertDialog alert = builder.create();
-        alert.getWindow().setGravity(Gravity.TOP);
-        alert.show();
-}
+	
 
 
 	public void deactivateSensors() {
@@ -354,6 +330,24 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
         
 	}
 	
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		tts.shutdown();
+	}
+
+
+
+
+	public LocationManager getLocationManager() {
+		return locationManager;
+	}
+
+
+
+
 	private void requestServices(){
 		locationManager= (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);

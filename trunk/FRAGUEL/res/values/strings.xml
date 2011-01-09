@@ -4,6 +4,10 @@
 	<string name="app_name">FRAGUEL</string>
 	<string name="language_no_available_spanish">Lengua española no disponible</string>
 	<string name="no_tts_spanish">No es posible iniciar el texto hablado</string>
+	<string name="no_gps_spanish">La aplicación no funcionará correctamente si no habilita el GPS del terminal</string>
+	<string name="alert_gps_spanish">¡Su GPS está desactivado! Para el correcto funcionamiento de la aplicación debe activarlo.\n ¿Desea activarlo ahora?</string>
+	<string name="gps_cancel_button_spanish">Cancelar</string>
+	<string name="gps_enable_button_spanish">Habilitar</string>
 	
 	<string name="menu_menu">Volver a menu principal</string>
 	<string name="menu_config">Opciones</string>
