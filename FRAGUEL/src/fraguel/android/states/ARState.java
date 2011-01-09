@@ -28,6 +28,7 @@ public class ARState extends State {
 				.getApplicationContext());
 		// Crear vista de la cámara
 		camView = new ARCameraView(viewGroup.getContext());
+		camView.getHolder().setKeepScreenOn(true);  
 		viewGroup.addView(camView);
 		// Crear vista OpenGL
 //		glView = new ARGLView(viewGroup.getContext());
@@ -38,16 +39,16 @@ public class ARState extends State {
 
 	@Override
 	public void onRotationChanged(float[] values) {
-		glView._worldRotation[0] = -values[0];
-		glView._worldRotation[1] = -values[1];
-		glView._worldRotation[2] = -values[2];
+	//	glView._worldRotation[0] = -values[0];
+	//	glView._worldRotation[1] = -values[1];
+	//	glView._worldRotation[2] = -values[2];
 	}
 
 	@Override
 	public void onLocationChanged(float[] values) {
-		glView._worldPosition[0] = -values[0];
-		glView._worldPosition[1] = -values[1];
-		glView._worldPosition[2] = -values[2];
+	//	glView._worldPosition[0] = -values[0];
+	//	glView._worldPosition[1] = -values[1];
+	//	glView._worldPosition[2] = -values[2];
 	}
 
 	@Override
@@ -56,6 +57,17 @@ public class ARState extends State {
 		
 	}
 
+	@Override
+	public Menu onCreateStateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean onStateOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 
 }
