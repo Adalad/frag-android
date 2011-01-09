@@ -491,12 +491,19 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	}
 	
 	public void talk(String s){
-		tts.stop();
-		tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+		if (tts!=null){
+			tts.stop();
+			tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+		}
+		else
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
 	
 	public void stopTalking(){
-		tts.stop();
+		if (tts!=null)
+			tts.stop();
+		else
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
 
 //***********************************************************************************
