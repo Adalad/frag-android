@@ -17,17 +17,15 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class InfoState extends State implements  TextToSpeech.OnInitListener{
+public class InfoState extends State{
 
 	public static final int STATE_ID = 6;
 	public static final int INFOSTATE_STOP_RECORD=1;
 	public static final int INFOSTATE_REPEAT_RECORD=2;
-	private int MY_DATA_CHECK_CODE;
 	
 	
 	
 	private TextView title;
-	private TextToSpeech tts;
 	private TextView text;
 	public InfoState() {
 		super();
@@ -59,10 +57,8 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 				" Ahora voy a intentar que el usuario, es decir, tú, puedas parar y arrancar el sonido cuando desees. Espero que lo disfrutes.");
 		container.addView(text);
 		
-		//intent para comprobar si tiene instalada la libreria de texto hablado
-		Intent checkIntent = new Intent();
-		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-		FRAGUEL.getInstance().startActivityForResult(checkIntent,MY_DATA_CHECK_CODE);
+		FRAGUEL.getInstance().talk((String)text.getText());
+		
 		
 		
 		viewGroup.addView(container);
@@ -70,60 +66,11 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 		
 	}
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
-		if (requestCode == MY_DATA_CHECK_CODE) {
-	        if (resultCode != TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-	            // si no tiene los datos los instala
-	        	Intent installIntent = new Intent();
-	            installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-	            Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Instalando las librerías necesarias", Toast.LENGTH_SHORT).show();
-	            FRAGUEL.getInstance().startActivity(installIntent);
-	        	
-	        }
-	    	
-	    }
-	            
-	        tts= new TextToSpeech(FRAGUEL.getInstance().getApplicationContext(), this); 
-	}
 
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void onInit(int arg0) {
-		// TODO Auto-generated method stub
-		if (TextToSpeech.SUCCESS==arg0){
-			Locale loc = new Locale("es", "","");
-			if(tts.isLanguageAvailable(loc)==TextToSpeech.LANG_AVAILABLE){
-				tts.setLanguage(loc);
-				tts.speak((String)text.getText(), TextToSpeech.QUEUE_FLUSH, null);
-			}
-			else
-				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Lengua española no disponible", Toast.LENGTH_SHORT).show();
-		}
-		else
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "No es posible iniciar el texto hablado", Toast.LENGTH_LONG).show();
-	}
-	
-	public void talk(String s){
-		tts.stop();
-		tts.speak((String)text.getText(), TextToSpeech.QUEUE_FLUSH, null);
-		tts.setLanguage(Locale.ENGLISH);
-	}
-	
-	
-	@Override
-	public void unload() {
-		// TODO Auto-generated method stub
-		tts.shutdown();
-		super.unload();
 		
 	}
 
@@ -148,11 +95,11 @@ public class InfoState extends State implements  TextToSpeech.OnInitListener{
 		switch (item.getItemId()) {
 
 		case INFOSTATE_STOP_RECORD:
-			tts.stop();
+			FRAGUEL.getInstance().stopTalking();
 			return true;
 
 		case INFOSTATE_REPEAT_RECORD:
-			talk((String)text.getText());
+			FRAGUEL.getInstance().talk((String)text.getText());
 			return true;
 		}
 		return false;
