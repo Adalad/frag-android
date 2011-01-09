@@ -1,6 +1,7 @@
 package fraguel.android;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.speech.tts.TextToSpeech;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -44,7 +46,7 @@ import fraguel.android.states.RouteManagerState;
 import fraguel.android.states.VideoState;
 import fraguel.android.xml.ResourceParser;
 
-public class FRAGUEL extends MapActivity implements OnClickListener {
+public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech.OnInitListener {
 
 	// Singleton
 	private static FRAGUEL instance;
@@ -60,6 +62,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	private float[] incMatrix = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 	private static final float RAD2DEG=(float) (180/Math.PI);
 
+	//TextToSpeech
+	private TextToSpeech tts;
+	private int MY_DATA_CHECK_CODE;
+	
 	// View container
 	private ViewGroup view;
 	// States
@@ -202,6 +208,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		addState(new RouteManagerState(),false);
 
 
+		//TextToSpeech init
+		checkTTSLibrary();
 	}
 
 	public static FRAGUEL getInstance() {
@@ -446,9 +454,51 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 	protected void onActivityResult(
 	        int requestCode, int resultCode, Intent data) {
 	    
-	    currentState.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == MY_DATA_CHECK_CODE) {
+	        if (resultCode != TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+	            // si no tiene los datos los instala
+	        	Intent installIntent = new Intent();
+	            installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+	            Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Instalando las librerías necesarias", Toast.LENGTH_SHORT).show();
+	            FRAGUEL.getInstance().startActivity(installIntent);
+	        	
+	        }
+	        tts= new TextToSpeech(FRAGUEL.getInstance().getApplicationContext(), this);
+	    }
+	            
+	        
 	}
-
+	
+	
+	@Override
+	public void onInit(int arg0) {
+		// TODO Auto-generated method stub
+		if (TextToSpeech.SUCCESS==arg0){
+			Locale loc = new Locale("es", "","");
+			if(tts.isLanguageAvailable(loc)==TextToSpeech.LANG_AVAILABLE){
+				tts.setLanguage(loc);
+			}
+			else
+				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.language_no_available_spanish, Toast.LENGTH_SHORT).show();
+		}
+		else
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
+	}
+	
+	private void checkTTSLibrary(){
+		Intent checkIntent = new Intent();
+		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+		startActivityForResult(checkIntent,MY_DATA_CHECK_CODE);
+	}
+	
+	public void talk(String s){
+		tts.stop();
+		tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+	}
+	
+	public void stopTalking(){
+		tts.stop();
+	}
 
 //***********************************************************************************
 //*************************************************************************************
@@ -522,4 +572,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 
 
 	}
+
+
+
 }
