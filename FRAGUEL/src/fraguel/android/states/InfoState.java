@@ -1,12 +1,8 @@
 package fraguel.android.states;
 
-import java.util.Locale;
-
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.State;
-import android.content.Intent;
-import android.speech.tts.TextToSpeech;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class InfoState extends State{
 
