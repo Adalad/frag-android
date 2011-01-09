@@ -186,7 +186,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener {
 		// Routes and points OI
 		routes = new ArrayList<Route>();
 		pointsOI = new ArrayList<PointOI>();
-		ResourceParser.getInstance().setRoot("/");
+		ResourceParser.getInstance().setRoot("/sdcard/fraguel/");
 		//ResourceParser.getInstance().readRoutes("routes");
 		
 		// TODO añadir estados
