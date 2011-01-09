@@ -196,20 +196,6 @@ public class ImageState extends State{
 	}
 
 
-	@Override
-	public Menu onCreateStateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public boolean onStateOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
 	
 
 }
