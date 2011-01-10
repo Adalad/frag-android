@@ -1,37 +1,47 @@
 package fraguel.android.states;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+
 import fraguel.android.FRAGUEL;
-import fraguel.android.R;
 import fraguel.android.State;
-import fraguel.android.R.id;
-import fraguel.android.R.layout;
 import fraguel.android.gallery.ImageAdapter;
-import android.net.Uri;
+import android.content.Context;
+import android.graphics.PixelFormat;
+import android.media.MediaPlayer;
+import android.view.Display;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SurfaceHolder;
+import android.view.WindowManager;
+import android.view.SurfaceView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Gallery;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 public class VideoState extends State{
 
 	public static final int STATE_ID = 3;
 	private TextView title;
-	private VideoView video;
+	private SurfaceView video;
+	private SurfaceHolder surfaceHolder;
 	private Gallery videoGallery;
+	private MediaPlayer mediaPlayer;
+	private String currentPath="";
 	private ScrollView sv;
 	private TextView text;
 	private boolean isVideoDisplayed=false;
@@ -65,11 +75,18 @@ public class VideoState extends State{
 		
 		//Preparamos la vista de video
 		
-		video= new VideoView(FRAGUEL.getInstance().getApplicationContext());
+		video= new SurfaceView(FRAGUEL.getInstance().getApplicationContext());
+
+		surfaceHolder=video.getHolder();
 		
-    	MediaController mediaController = new MediaController(FRAGUEL.getInstance());
-    	mediaController.setAnchorView(video);
-    	video.setMediaController(mediaController);
+		Display display = ((WindowManager)FRAGUEL.getInstance().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        int width = display.getWidth(); 
+        int height= display.getHeight();
+		surfaceHolder.setFixedSize(width,height);
+		
+		FRAGUEL.getInstance().getWindow().setFormat(PixelFormat.TRANSPARENT);
+
+    	
 	}
 
 	
@@ -146,15 +163,64 @@ public class VideoState extends State{
 	}
 	
 	private void playSelectedVideo(int selected){
-		
-		container.removeAllViews();
-		Uri uri = Uri.parse(videos[selected]);
-		video.setVideoURI(uri);
-		container.addView(video);
-		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), Integer.toString(video.getDuration()), Toast.LENGTH_LONG).show();
-		video.requestFocus();
-		isVideoDisplayed=true;
-		video.start();
+		viewGroup.removeAllViews();
+		viewGroup.addView(video);
+		isVideoDisplayed=false;
+		try {
+				            final String path = videos[selected];
+				           				 
+				            // If the path has not changed, just start the media player
+				            if (path.equals(currentPath) && mediaPlayer != null) {
+				                mediaPlayer.start();
+				                isVideoDisplayed=true;
+				                return;
+				            }
+				            currentPath = path;
+				 
+				            // Create a new media player and set the listeners
+				            mediaPlayer=new MediaPlayer();
+				            /*mp.setOnErrorListener(this);
+				            mp.setOnBufferingUpdateListener(this);
+				            mp.setOnCompletionListener(this);
+				            mp.setOnPreparedListener(this);*/
+				            mediaPlayer.setAudioStreamType(2);
+				 
+				            // Set the surface for the video output
+				            SurfaceHolder s=  (SurfaceHolder) video.getHolder().getSurface();
+				            mediaPlayer.setDisplay( s);
+				 
+				            // Set the data source in another thread
+				            // which actually downloads the mp3 or videos
+				            // to a temporary location
+				            Runnable r = new Runnable() {
+				                public void run() {
+				                    try {
+				                        setDataSource(path);
+				                    } catch (IOException e) {
+				                        
+				                    }
+				                    try {
+										mediaPlayer.prepare();
+									} catch (IllegalStateException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									} catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+				                    Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),Integer.toString(mediaPlayer.getDuration()),Toast.LENGTH_SHORT).show();
+				                    isVideoDisplayed=true;
+				                    mediaPlayer.start();
+				                }
+				            };
+				            new Thread(r).start();
+				        } catch (Exception e) {
+				            
+				            if (mediaPlayer != null) {
+				                mediaPlayer.stop();
+				                mediaPlayer.release();
+				            }
+				        }
 	}
 
 
@@ -170,6 +236,39 @@ public class VideoState extends State{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
+	 private void setDataSource(String path) throws IOException {
+		 	        if (!URLUtil.isNetworkUrl(path)) {
+		 	            mediaPlayer.setDataSource(path);
+		 	        } else {
+		 	            URL url = new URL(path);
+		 	            URLConnection cn = url.openConnection();
+		 	            cn.connect();
+		 	            InputStream stream = cn.getInputStream();
+		 	            if (stream == null)
+		 	                throw new RuntimeException("stream is null");
+		 	            File temp = File.createTempFile("mediaplayertmp", "dat");
+		 	            String tempPath = temp.getAbsolutePath();
+		 	            FileOutputStream out = new FileOutputStream(temp);
+		 	            byte buf[] = new byte[128];
+		 	            do {
+		 	                int numread = stream.read(buf);
+		 	                if (numread <= 0)
+		 	                    break;
+		 	                out.write(buf, 0, numread);
+		 	            } while (true);
+		 	            mediaPlayer.setDataSource(tempPath);
+		 	            try {
+		 	                stream.close();
+		 	            }
+		 	            catch (IOException ex) {
+		 	               Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+		 	            }
+		 	        }
+		 	    }
+
+	
 
 
 	
