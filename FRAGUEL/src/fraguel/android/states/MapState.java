@@ -142,8 +142,7 @@ public class MapState extends State implements OnTouchListener{
 			break;
 
 		default:
-			FRAGUEL.getInstance().getView().removeView(popupView);
-			break;
+			
 
 		}
 
