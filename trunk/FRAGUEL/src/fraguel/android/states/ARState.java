@@ -60,7 +60,7 @@ public class ARState extends State {
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
-		return null;
+		return menu;
 	}
 
 	@Override
