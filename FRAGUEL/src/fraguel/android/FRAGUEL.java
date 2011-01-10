@@ -112,7 +112,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		super.onPrepareOptionsMenu(menu);
 		
 		//Menu de opciones del estado
-		menu = currentState.onCreateStateOptionsMenu(menu);
+		onCreateOptionsMenu(menu);
 		
 		return true;
 	}
