@@ -142,6 +142,8 @@ public class MapState extends State implements OnTouchListener{
 			break;
 
 		default:
+			FRAGUEL.getInstance().getView().removeView(popupView);
+			break;
 
 		}
 
@@ -151,7 +153,6 @@ public class MapState extends State implements OnTouchListener{
 	@Override
 	public boolean onTouch(View arg0, MotionEvent arg1) {
 		// TODO Auto-generated method stub
-
 		FRAGUEL.getInstance().getView().removeView(popupView);
 
 		return true;
