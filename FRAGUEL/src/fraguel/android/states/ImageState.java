@@ -23,6 +23,8 @@ import fraguel.android.gallery.ImageAdapter;
 public class ImageState extends State{
 	
 	public static final int STATE_ID = 4;
+	public static final int INFOSTATE_STOP_RECORD=1;
+	public static final int INFOSTATE_REPEAT_RECORD=2;
 	
 	private TextView title;
 	private TextView text;
@@ -156,7 +158,7 @@ public class ImageState extends State{
 					int position, long arg3) {
 				// TODO Auto-generated method stub
 				
-				//Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Position: " + position, Toast.LENGTH_SHORT).show();
+				text.setText("Posición: "+ position+"\n"+"\n"+"La posicion en la que se encuentra el elemento pulsado es la "+position);
 				
 			}
 
@@ -199,13 +201,28 @@ public class ImageState extends State{
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
-		return null;
+		menu.clear();
+		
+		menu.add(0, INFOSTATE_STOP_RECORD, 0, R.string.infostate_menu_stop).setIcon(R.drawable.stop);
+		menu.add(0, INFOSTATE_REPEAT_RECORD, 0, R.string.infostate_menu_repeat).setIcon(R.drawable.play);
+		
+		return menu;
 	}
 
 
 	@Override
 	public boolean onStateOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+
+		case INFOSTATE_STOP_RECORD:
+				FRAGUEL.getInstance().stopTalking();
+			return true;
+
+		case INFOSTATE_REPEAT_RECORD:
+				FRAGUEL.getInstance().talk((String)text.getText());
+			return true;
+		}
 		return false;
 	}
 
