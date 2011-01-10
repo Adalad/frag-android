@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 public class VideoState extends State{
@@ -150,6 +151,7 @@ public class VideoState extends State{
 		Uri uri = Uri.parse(videos[selected]);
 		video.setVideoURI(uri);
 		container.addView(video);
+		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), video.getDuration(), Toast.LENGTH_LONG).show();
 		video.requestFocus();
 		isVideoDisplayed=true;
 		video.start();
