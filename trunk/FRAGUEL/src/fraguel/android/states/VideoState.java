@@ -186,8 +186,7 @@ public class VideoState extends State{
 				            mediaPlayer.setAudioStreamType(2);
 				 
 				            // Set the surface for the video output
-				            SurfaceHolder s=  (SurfaceHolder) video.getHolder().getSurface();
-				            mediaPlayer.setDisplay( s);
+				            mediaPlayer.setDisplay(  (SurfaceHolder) video.getHolder().getSurface());
 				 
 				            // Set the data source in another thread
 				            // which actually downloads the mp3 or videos
