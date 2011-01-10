@@ -89,7 +89,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-
+		menu.clear();
 		//Menu de opciones creado por defecto
 		menu.add(0, MENU_MAIN, 0, R.string.menu_menu).setIcon(R.drawable.info);
 		menu.add(0, MENU_CONFIG, 0, R.string.menu_config).setIcon(R.drawable.geotaging);
