@@ -1,13 +1,7 @@
 package fraguel.android.states;
 
 import fraguel.android.FRAGUEL;
-import fraguel.android.R;
 import fraguel.android.State;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.location.LocationManager;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +9,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MenuState extends State {
 	
@@ -104,11 +97,6 @@ public class MenuState extends State {
 		
 		FRAGUEL.getInstance().addView(viewGroup);
 		
-		//comprobamos si tiene activado el GPS
-		if (!FRAGUEL.getInstance().getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)) {	
-			createGpsDisabledAlert();
-		}
-		
 		
 	}
 
@@ -161,30 +149,4 @@ public class MenuState extends State {
 		return false;
 	}
 	
-	private void createGpsDisabledAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
-        builder.setTitle(R.string.title_no_gps_spanish);
-        builder.setMessage(R.string.alert_gps_spanish);
-        builder.setCancelable(false);
-        builder.setPositiveButton(R.string.gps_enable_button_spanish,
-                                        new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                	Intent gpsOptionsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                        			FRAGUEL.getInstance().startActivity(gpsOptionsIntent);
-                                                }
-                                        });
-        builder.setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                        Toast.makeText(FRAGUEL.getInstance(), R.string.no_gps_spanish, Toast.LENGTH_LONG).show();
-                                }
-                        });
-        AlertDialog alert = builder.create();
-        alert.getWindow().setGravity(Gravity.TOP);
-        alert.show();
-}
-	
-
-
 }
