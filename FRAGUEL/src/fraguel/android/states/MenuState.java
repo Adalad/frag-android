@@ -161,9 +161,9 @@ public class MenuState extends State {
 		return false;
 	}
 	
-	
 	private void createGpsDisabledAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance().getApplicationContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
+        builder.setTitle(R.string.title_no_gps_spanish);
         builder.setMessage(R.string.alert_gps_spanish);
         builder.setCancelable(false);
         builder.setPositiveButton(R.string.gps_enable_button_spanish,
@@ -177,12 +177,12 @@ public class MenuState extends State {
                         new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
-                                        Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_gps_spanish, Toast.LENGTH_LONG).show();
+                                        Toast.makeText(FRAGUEL.getInstance(), R.string.no_gps_spanish, Toast.LENGTH_LONG).show();
                                 }
                         });
         AlertDialog alert = builder.create();
         alert.getWindow().setGravity(Gravity.TOP);
-        //alert.show();
+        alert.show();
 }
 	
 
