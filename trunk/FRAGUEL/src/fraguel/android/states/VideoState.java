@@ -151,7 +151,7 @@ public class VideoState extends State{
 		Uri uri = Uri.parse(videos[selected]);
 		video.setVideoURI(uri);
 		container.addView(video);
-		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), video.getDuration(), Toast.LENGTH_LONG).show();
+		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), Integer.toString(video.getDuration()), Toast.LENGTH_LONG).show();
 		video.requestFocus();
 		isVideoDisplayed=true;
 		video.start();

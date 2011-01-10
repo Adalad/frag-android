@@ -339,8 +339,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	}
 
 
-
-
 	public LocationManager getLocationManager() {
 		return locationManager;
 	}
