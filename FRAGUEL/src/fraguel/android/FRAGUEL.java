@@ -499,6 +499,13 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		else
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
+	
+	public boolean isTalking(){
+		if (tts!=null)
+			return tts.isSpeaking();
+		else
+			return false;
+	}
 
 //***********************************************************************************
 //*************************************************************************************

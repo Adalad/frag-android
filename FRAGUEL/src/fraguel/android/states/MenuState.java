@@ -182,7 +182,7 @@ public class MenuState extends State {
                         });
         AlertDialog alert = builder.create();
         alert.getWindow().setGravity(Gravity.TOP);
-        alert.show();
+        //alert.show();
 }
 	
 
