@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import fraguel.android.FRAGUEL;
+import fraguel.android.R;
 import fraguel.android.State;
 import fraguel.android.gallery.ImageAdapter;
 import android.content.Context;
@@ -36,6 +37,8 @@ import android.widget.Toast;
 public class VideoState extends State implements SurfaceHolder.Callback{
 
 	public static final int STATE_ID = 3;
+	public static final int INFOSTATE_STOP_RECORD=1;
+	public static final int INFOSTATE_REPEAT_RECORD=2;
 	private TextView title;
 	private SurfaceView video;
 	private SurfaceHolder surfaceHolder;
@@ -226,13 +229,29 @@ public class VideoState extends State implements SurfaceHolder.Callback{
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		menu.clear();
+		if (isVideoDisplayed){
+			menu.add(0, INFOSTATE_STOP_RECORD, 0, R.string.infostate_menu_stop).setIcon(R.drawable.stop);
+			menu.add(0, INFOSTATE_REPEAT_RECORD, 0, R.string.infostate_menu_repeat).setIcon(R.drawable.play);
+		}
+		return menu;
 	}
 
 
 	@Override
 	public boolean onStateOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+
+		case INFOSTATE_STOP_RECORD:
+			FRAGUEL.getInstance().stopTalking();
+			return true;
+
+		case INFOSTATE_REPEAT_RECORD:
+			FRAGUEL.getInstance().talk((String)text.getText());
+			return true;
+		}
 		return false;
 	}
 
