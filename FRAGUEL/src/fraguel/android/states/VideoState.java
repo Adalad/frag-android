@@ -33,7 +33,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class VideoState extends State{
+public class VideoState extends State implements SurfaceHolder.Callback{
 
 	public static final int STATE_ID = 3;
 	private TextView title;
@@ -266,6 +266,28 @@ public class VideoState extends State{
 		 	            }
 		 	        }
 		 	    }
+
+
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		// TODO Auto-generated method stub
+		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Surface Creada", Toast.LENGTH_LONG).show();
+	}
+
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 
