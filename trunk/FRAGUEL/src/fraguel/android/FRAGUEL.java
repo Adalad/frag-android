@@ -2,6 +2,7 @@ package fraguel.android;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Stack;
 
 import android.content.Context;
 import android.content.Intent;
@@ -67,6 +68,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	// States
 	private ArrayList<State> states;
 	private State currentState;
+	private Stack<State> _stateStack;
 	
 	// Routes and Points OI
 	ArrayList<Route> routes;
@@ -195,6 +197,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		}
 		
 		// TODO añadir estados
+		_stateStack = new Stack<State>();
 		states = new ArrayList<State>();
 		addState(new IntroState(), true);
 		addState(new MenuState(), false);
@@ -267,8 +270,20 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			if (s.id == id) {
 				currentState = s;
 				currentState.load();
+				_stateStack.push(currentState);
 				return;
 			}
+		}
+	}
+	
+	public void returnState() {
+		try {
+			State current = _stateStack.pop();
+			current.unload();
+			currentState = _stateStack.peek();
+			currentState.load();
+		} catch (Exception e) {
+			changeState(0);
 		}
 	}
 
