@@ -228,10 +228,15 @@ public class MapState extends State implements OnTouchListener{
 		switch (item.getItemId()) {
 
 		case MAPSTATE_MENU_CHANGEMAP:
-			if(mapView.isStreetView())
-				mapView.setSatellite(true);
-			else
-				mapView.setStreetView(true);
+			if(!mapView.isSatellite()){
+			   mapView.setSatellite(true);
+			   //mapView.setStreetView(false);
+			}
+			else{
+				mapView.setSatellite(false);
+				//mapView.setStreetView(true);
+			
+			}
 			return true;
 
 		case MAPSTATE_MENU_BACKMENU:
