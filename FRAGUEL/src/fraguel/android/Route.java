@@ -9,6 +9,7 @@ public class Route {
 	public String name;
 	public String description;
 	public ArrayList<PointOI> pointsOI;
+	public String icon;
 
 	public Route() {
 		id = 0;

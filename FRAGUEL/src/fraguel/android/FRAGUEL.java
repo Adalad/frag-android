@@ -3,9 +3,7 @@ package fraguel.android;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.hardware.Sensor;
@@ -18,7 +16,6 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -193,6 +190,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		pointsOI = new ArrayList<PointOI>();
 		ResourceParser.getInstance().setRoot("/sdcard/fraguel/");
 		routes = ResourceParser.getInstance().readRoutes("routes/routes.xml");
+		for (Route r : routes) {
+			r.pointsOI = ResourceParser.getInstance().readPointsOI("routes/route"+r.id+".xml");
+		}
 		
 		// TODO añadir estados
 		states = new ArrayList<State>();
