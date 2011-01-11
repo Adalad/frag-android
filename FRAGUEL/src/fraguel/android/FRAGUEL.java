@@ -41,6 +41,7 @@ import fraguel.android.states.MapState;
 import fraguel.android.states.MenuState;
 import fraguel.android.states.RouteManagerState;
 import fraguel.android.states.VideoState;
+import fraguel.android.states.VideoState2;
 import fraguel.android.xml.ResourceParser;
 
 public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech.OnInitListener {
@@ -192,9 +193,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		pointsOI = new ArrayList<PointOI>();
 		ResourceParser.getInstance().setRoot("/sdcard/fraguel/");
 		routes = ResourceParser.getInstance().readRoutes("routes/routes.xml");
-		for (Route r : routes) {
-			r.pointsOI = ResourceParser.getInstance().readPointsOI("routes/route"+r.id+".xml");
-		}
+		//for (Route r : routes) {
+		//	r.pointsOI = ResourceParser.getInstance().readPointsOI("routes/route"+r.id+".xml");
+		//}
 		
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
@@ -202,7 +203,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		addState(new IntroState(), true);
 		addState(new MenuState(), false);
 		addState(new MapState(), false);
-		addState(new VideoState(), false);
+		addState(new VideoState2(), false);
 		addState(new ImageState(), false);
 		addState(new ARState(), false);
 		addState(new InfoState(), false);
