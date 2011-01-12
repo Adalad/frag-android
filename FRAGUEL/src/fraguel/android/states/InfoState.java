@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -32,9 +33,12 @@ public class InfoState extends State{
 	public void load() {
 		// TODO Auto-generated method stub
 		//Creamos e importamos el layout del xml
-		LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
+		/*LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
 		if(viewGroup==null)
-			viewGroup= (ViewGroup) li.inflate(R.layout.info,  null);
+			viewGroup= (ViewGroup) li.inflate(R.layout.info,  null);*/
+		LinearLayout ly= new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
+		ly.setOrientation(LinearLayout.VERTICAL);
+		viewGroup=ly;
 		FRAGUEL.getInstance().addView(viewGroup);
 		
 		
