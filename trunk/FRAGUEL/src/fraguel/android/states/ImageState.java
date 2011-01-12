@@ -60,7 +60,9 @@ public class ImageState extends State{
 		
 		sv= new ScrollView(FRAGUEL.getInstance().getApplicationContext());
 		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+		
 		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
+		
 		sv.addView(text);
 		
 		loadViews();
