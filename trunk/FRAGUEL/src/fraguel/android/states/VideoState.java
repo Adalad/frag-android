@@ -155,6 +155,8 @@ public class VideoState extends State implements SurfaceHolder.Callback{
 				// TODO Auto-generated method stub
 				text.setText("Posición: "+position+"\n"+"\n"+"El elemento que está usted visualizando está en la posición "+
 						position+" dentro de la galería.");
+				if (FRAGUEL.getInstance().isTalking())
+					FRAGUEL.getInstance().stopTalking();
 			}
 
 			@Override
