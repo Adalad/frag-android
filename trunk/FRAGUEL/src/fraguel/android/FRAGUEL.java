@@ -192,10 +192,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		routes = new ArrayList<Route>();
 		pointsOI = new ArrayList<PointOI>();
 		ResourceParser.getInstance().setRoot("/sdcard/fraguel/");
-		routes = ResourceParser.getInstance().readRoutes("routes/routes.xml");
-		//for (Route r : routes) {
-		//	r.pointsOI = ResourceParser.getInstance().readPointsOI("routes/route"+r.id+".xml");
-		//}
+		/*routes = ResourceParser.getInstance().readRoutes("routes/routes.xml");
+		for (Route r : routes) {
+			r.pointsOI = ResourceParser.getInstance().readPointsOI("routes/route"+r.id+".xml");
+		}*/
 		
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
@@ -271,7 +271,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			if (s.id == id) {
 				currentState = s;
 				currentState.load();
-				_stateStack.push(currentState);
+				if (id != 0)
+					_stateStack.push(currentState);
 				return;
 			}
 		}
@@ -284,7 +285,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			currentState = _stateStack.peek();
 			currentState.load();
 		} catch (Exception e) {
-			changeState(0);
+			currentState = null;
+			changeState(1);
 		}
 	}
 
