@@ -122,6 +122,7 @@ public class VideoState extends State implements SurfaceHolder.Callback{
 		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
 		
+		
 		sv.addView(text);
 		
 		container.addView(sv);
