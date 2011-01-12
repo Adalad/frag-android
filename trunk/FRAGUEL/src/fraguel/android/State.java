@@ -51,7 +51,7 @@ public abstract class State implements Comparable<State> {
 	public boolean dispatchKeyEvent(KeyEvent event){
 		
 		if (event.getKeyCode()==event.KEYCODE_BACK & event.getAction()==event.ACTION_DOWN){ 
-			FRAGUEL.getInstance().changeState(1);
+			FRAGUEL.getInstance().returnState();
 			return true;
 		}else
 			return false;
