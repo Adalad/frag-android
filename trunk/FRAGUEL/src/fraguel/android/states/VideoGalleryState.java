@@ -43,9 +43,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-public class VideoState2 extends State implements SurfaceHolder.Callback{
+public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 
-	public static final int STATE_ID = 3;
+	public static final int STATE_ID = 9;
 	public static final int INFOSTATE_STOP_RECORD=1;
 	public static final int INFOSTATE_REPEAT_RECORD=2;
 	private TextView title;
@@ -75,7 +75,7 @@ public class VideoState2 extends State implements SurfaceHolder.Callback{
 	
 	
 	
-	public VideoState2() {
+	public VideoGalleryState() {
 		super();
 		id = STATE_ID;
 	}
@@ -160,6 +160,7 @@ public class VideoState2 extends State implements SurfaceHolder.Callback{
 				// TODO Auto-generated method stub
 				
 				if (selectedItem==arg2){
+					FRAGUEL.getInstance().changeState(VideoState.STATE_ID);
 					playSelectedVideo(selectedItem);	
 				}
 				selectedItem=arg2;
