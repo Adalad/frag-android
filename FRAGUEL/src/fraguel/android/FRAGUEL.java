@@ -16,7 +16,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.os.Environment;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,7 +43,6 @@ import fraguel.android.states.MapState;
 import fraguel.android.states.MenuState;
 import fraguel.android.states.RouteManagerState;
 import fraguel.android.states.VideoGalleryState;
-import fraguel.android.states.VideoState;
 import fraguel.android.states.VideoState;
 import fraguel.android.xml.ResourceParser;
 
@@ -190,13 +191,21 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		activateGPS();
 
 		// Routes and points OI
+		String state = Environment.getExternalStorageState();
+		if (!Environment.MEDIA_MOUNTED.equals(state)) {
+			// TODO Message asking for SD Card
+			Log.d("FRAGUEL", "SD Card not avaliable");
+			System.exit(RESULT_CANCELED);
+		} else
+			Log.d("FRAGUEL", "SD Card ready");
+		
 		routes = new ArrayList<Route>();
 		pointsOI = new ArrayList<PointOI>();
-		ResourceParser.getInstance().setRoot("/sdcard/fraguel/");
-		/*routes = ResourceParser.getInstance().readRoutes("routes/routes.xml");
+		ResourceParser.getInstance().setRoot("fraguel");
+		routes = ResourceParser.getInstance().readRoutes();
 		for (Route r : routes) {
-			r.pointsOI = ResourceParser.getInstance().readPointsOI("routes/route"+r.id+".xml");
-		}*/
+			r.pointsOI = ResourceParser.getInstance().readPointsOI("route"+r.id);
+		}
 		
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
