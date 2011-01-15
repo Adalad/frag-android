@@ -66,7 +66,6 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 	
 	//VideoView vars
 	private VideoView mVideoView;
-	private EditText mPath;
 	private ImageButton mPlay;
 	private ImageButton mPause;
 	private ImageButton mReset;
@@ -160,8 +159,9 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 				// TODO Auto-generated method stub
 				
 				if (selectedItem==arg2){
+					VideoState.getInstance().setVideoPath(videos[selectedItem]);
 					FRAGUEL.getInstance().changeState(VideoState.STATE_ID);
-					playSelectedVideo(selectedItem);	
+					//playSelectedVideo(selectedItem);	
 				}
 				selectedItem=arg2;
 				
