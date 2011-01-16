@@ -27,5 +27,7 @@
 
 	<string name="infostate_menu_stop">Detener grabación</string>
 	<string name="infostate_menu_repeat">Repetir grabación</string>
+	<string name="infostate_menu_speechPresentation">Presentación Hablada</string>
+	<string name="infostate_menu_presentation">Presentación</string>
 
 </resources>
