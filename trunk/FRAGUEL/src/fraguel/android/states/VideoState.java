@@ -128,6 +128,8 @@ public class VideoState extends State{
 				}
 			}
 		});
+		
+		playSelectedVideo();
 	}
 
 		

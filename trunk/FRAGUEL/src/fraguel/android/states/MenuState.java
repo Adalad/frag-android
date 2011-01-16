@@ -108,7 +108,7 @@ public class MenuState extends State {
 			FRAGUEL.getInstance().changeState(MapState.STATE_ID);
 			break;
 		case 2:
-			FRAGUEL.getInstance().changeState(VideoState.STATE_ID);
+			FRAGUEL.getInstance().changeState(VideoGalleryState.STATE_ID);
 			break;
 		case 3:
 			FRAGUEL.getInstance().changeState(ImageState.STATE_ID);

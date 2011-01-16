@@ -52,8 +52,6 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 	private SurfaceView video;
 	private SurfaceHolder surfaceHolder;
 	private Gallery videoGallery;
-	private MediaPlayer mediaPlayer;
-	private String currentPath="";
 	private ScrollView sv;
 	private TextView text;
 	private boolean isVideoDisplayed=false;
@@ -63,14 +61,6 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 			"http://www.free-3gp-video.com/download.php?dancing-skeleton.3gp",
 			"http://www.free-3gp-video.com/download.php?gay_referee.3gp",
 			"http://www.free-3gp-video.com/download.php?do-beer-not-drugs.3gp"};
-	
-	//VideoView vars
-	private VideoView mVideoView;
-	private ImageButton mPlay;
-	private ImageButton mPause;
-	private ImageButton mReset;
-	private ImageButton mStop;
-	private String current;
 	
 	
 	
@@ -166,8 +156,7 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 				selectedItem=arg2;
 				
 			}});
-		
-		
+				
 		videoGallery.setOnItemSelectedListener(new OnItemSelectedListener(){
 
 			@Override
@@ -186,160 +175,6 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 		
 	}
 	
-	private void createVideoView(){
-		
-		viewGroup.removeAllViews();
-		LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
-		viewGroup= (ViewGroup) li.inflate(R.layout.video,  null);
-		FRAGUEL.getInstance().addView(viewGroup);
-		
-		
-		mVideoView = (VideoView) FRAGUEL.getInstance().findViewById(R.id.surface_view);
-	
-		mPlay = (ImageButton) FRAGUEL.getInstance().findViewById(R.id.play);
-		mPause = (ImageButton) FRAGUEL.getInstance().findViewById(R.id.pause);
-		mReset = (ImageButton) FRAGUEL.getInstance().findViewById(R.id.reset);
-		mStop = (ImageButton) FRAGUEL.getInstance().findViewById(R.id.stop);
-
-		mPlay.setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				playSelectedVideo(selectedItem);
-			}
-		});
-		mPause.setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				if (mVideoView != null) {
-					mVideoView.pause();
-				}
-			}
-		});
-		mReset.setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				if (mVideoView != null) {
-					mVideoView.seekTo(0);
-				}
-			}
-		});
-		mStop.setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				if (mVideoView != null) {
-					current = null;
-					mVideoView.stopPlayback();
-				}
-			}
-		});
-		//FRAGUEL.getInstance().runOnUiThread(new Runnable(){
-		//	public void run() {
-		//		playSelectedVideo(selectedItem);
-				
-		//	}
-			
-		//});
-		
-		
-	}
-	
-	private void playSelectedVideo(int selected){
-		
-		createVideoView();
-		
-		try {
-			
-			String path = videos[selected];
-				 
-            // If the path has not changed, just start the media player
-            if (path.equals(currentPath) && mediaPlayer != null) {
-                mediaPlayer.start();
-                isVideoDisplayed=true;
-                return;
-            }
-            currentPath = path;
-			
-			
-			Log.v("Error playing video" , "path: " + path);
-			if (path == null || path.length() == 0) {
-				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "File URL/path is empty",
-						Toast.LENGTH_LONG).show();
-
-			} else {
-				// If the path has not changed, just start the media player
-				if (path.equals(current) && mVideoView != null) {
-					mVideoView.start();
-					mVideoView.requestFocus();
-					return;
-				}
-				current = path;
-				mVideoView.setVideoPath(getDataSource(path));
-				mVideoView.start();
-				mVideoView.requestFocus();
-
-			}
-		} catch (Exception e) {
-			Log.e("Error playing video", "error: " + e.getMessage(), e);
-			if (mVideoView != null) {
-				mVideoView.stopPlayback();
-			}
-		}
-				
-		
-		isVideoDisplayed=false;
-		try {
-				            String path = videos[selected];
-				           				 
-				            // If the path has not changed, just start the media player
-				            if (path.equals(currentPath) && mediaPlayer != null) {
-				                mediaPlayer.start();
-				                isVideoDisplayed=true;
-				                return;
-				            }
-				            currentPath = path;
-				 
-				            // Create a new media player and set the listeners
-				            mediaPlayer=new MediaPlayer();
-				            /*mp.setOnErrorListener(this);
-				            mp.setOnBufferingUpdateListener(this);
-				            mp.setOnCompletionListener(this);
-				            mp.setOnPreparedListener(this);*/
-				            mediaPlayer.setAudioStreamType(2);
-				 
-				            // Set the surface for the video output
-				            mediaPlayer.setDisplay(  (SurfaceHolder) video.getHolder().getSurface());
-				 
-				            // Set the data source in another thread
-				            // which actually downloads the mp3 or videos
-				            // to a temporary location
-				            Runnable r = new Runnable() {
-				                public void run() {
-				                    try {
-				                        getDataSource(currentPath);
-				                    } catch (IOException e) {
-				                        
-				                    }
-				                    try {
-										mediaPlayer.prepare();
-									} catch (IllegalStateException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									} catch (IOException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-				                    Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),Integer.toString(mediaPlayer.getDuration()),Toast.LENGTH_SHORT).show();
-				                    isVideoDisplayed=true;
-				                    mediaPlayer.start();
-				                }
-				            };
-				            new Thread(r).start();
-				        } catch (Exception e) {
-				            
-				            if (mediaPlayer != null) {
-				                mediaPlayer.stop();
-				                mediaPlayer.release();
-				            }
-				        }
-	}
-
-
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
@@ -351,7 +186,6 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 		}
 		return menu;
 	}
-
 
 	@Override
 	public boolean onStateOptionsItemSelected(MenuItem item) {
@@ -369,39 +203,6 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 		return false;
 	}
 
-
-	 private String getDataSource(String path) throws IOException {
-		 if (!URLUtil.isNetworkUrl(path)) {
-				return path;
-			} else {
-				URL url = new URL(path);
-				URLConnection cn = url.openConnection();
-				cn.connect();
-				InputStream stream = cn.getInputStream();
-				if (stream == null)
-					throw new RuntimeException("stream is null");
-				File temp = File.createTempFile("mediaplayertmp", "dat");
-				temp.deleteOnExit();
-				String tempPath = temp.getAbsolutePath();
-				FileOutputStream out = new FileOutputStream(temp);
-				byte buf[] = new byte[128];
-				do {
-					int numread = stream.read(buf);
-					if (numread <= 0)
-						break;
-					out.write(buf, 0, numread);
-				} while (true);
-				try {
-					stream.close();
-				} catch (IOException ex) {
-					Log.e("Getting data source", "error: " + ex.getMessage(), ex);
-				}
-				return tempPath;
-			}
-}
-		 	    
-
-
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
@@ -409,13 +210,11 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 		
 	}
 
-
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		// TODO Auto-generated method stub
 		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Surface Creada", Toast.LENGTH_LONG).show();
 	}
-
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
