@@ -35,7 +35,7 @@ public class ImageState extends State{
 	private ScrollView sv;
 	private FullScreenGallery bigGallery;
 	private int currentIndex;
-	private boolean isBigGalleryDisplayed;
+	private boolean isBigGalleryDisplayed,isPresentation=false;
 	private int presentationIndex=0;
 	
 	public ImageState() {
@@ -92,7 +92,9 @@ public class ImageState extends State{
 		if (presentationIndex<bigGallery.getCount()){
 			bigGallery.setSelection(presentationIndex, true);
 			FRAGUEL.getInstance().talkSpeech((String)text.getText());
-		}			
+		}
+		else
+			isPresentation=false;
 		
 	}
 	
@@ -176,7 +178,10 @@ public class ImageState extends State{
 				// TODO Auto-generated method stub
 				
 				text.setText("Posición: "+ position+"\n"+"\n"+"La posición en la que se encuentra el elemento pulsado es la "+position);
-				
+				if (!isPresentation){
+					if (FRAGUEL.getInstance().isTalking())
+						FRAGUEL.getInstance().stopTalking();
+				}
 				
 			}
 
@@ -249,6 +254,7 @@ public class ImageState extends State{
 				currentIndex=-1;
 				isBigGalleryDisplayed=true;
 			}
+			isPresentation=true;
 			bigGallery.setSelection(0, true);
 			presentationIndex=0;
 			FRAGUEL.getInstance().talkSpeech((String)text.getText());
