@@ -1,47 +1,29 @@
 package fraguel.android.states;
 
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-
-
-
-import fraguel.android.FRAGUEL;
-import fraguel.android.R;
-import fraguel.android.State;
-import fraguel.android.gallery.ImageAdapter;
 import android.content.Context;
 import android.graphics.PixelFormat;
-import android.media.MediaPlayer;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SurfaceHolder;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.webkit.URLUtil;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.EditText;
 import android.widget.Gallery;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
+import fraguel.android.FRAGUEL;
+import fraguel.android.R;
+import fraguel.android.State;
+import fraguel.android.gallery.ImageAdapter;
 
 public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 
@@ -60,86 +42,86 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 	private String[] videos={"http://daily3gp.com/vids/747.3gp",
 			"http://www.free-3gp-video.com/download.php?dancing-skeleton.3gp",
 			"http://www.free-3gp-video.com/download.php?gay_referee.3gp",
-			"http://www.free-3gp-video.com/download.php?do-beer-not-drugs.3gp"};
-	
-	
-	
+	"http://www.free-3gp-video.com/download.php?do-beer-not-drugs.3gp"};
+
+
+
 	public VideoGalleryState() {
 		super();
 		id = STATE_ID;
 	}
 
-	
+
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
-		
+
 		//Creamos e importamos el layout del xml
-		
+
 
 		container = new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
 		container.setOrientation(LinearLayout.VERTICAL);
-		
+
 		setVideoGalleryParams();
 		viewGroup=container;
 		FRAGUEL.getInstance().addView(viewGroup);	
-		
-		
+
+
 		//Preparamos la vista de video
-		
+
 		video= new SurfaceView(FRAGUEL.getInstance().getApplicationContext());
 
 		surfaceHolder=video.getHolder();
-		
+
 		Display display = ((WindowManager)FRAGUEL.getInstance().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        int width = display.getWidth(); 
-        int height= display.getHeight();
+		int width = display.getWidth(); 
+		int height= display.getHeight();
 		surfaceHolder.setFixedSize(width,height);
-		
+
 		FRAGUEL.getInstance().getWindow().setFormat(PixelFormat.TRANSPARENT);
 
-    	
+
 	}
 
-	
-	
+
+
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	private void setVideoGalleryParams(){
 		container.removeAllViews();
-		
+
 		title= new TextView(FRAGUEL.getInstance().getApplicationContext());
 		title.setText("Galería de vídeo");
 		title.setGravity(Gravity.CENTER_HORIZONTAL);
-		
+
 		container.addView(title);
-		
-		
+
+
 		videoGallery=new Gallery(FRAGUEL.getInstance().getApplicationContext());
 		videoGallery.setAdapter(new ImageAdapter(FRAGUEL.getInstance().getApplicationContext()));
 		videoGallery.setHorizontalScrollBarEnabled(true);
 		setVideoGalleryListeners();
-		
+
 		container.addView(videoGallery);
-		
-		
+
+
 		sv= new ScrollView(FRAGUEL.getInstance().getApplicationContext());
 		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
-		
+
 		sv.addView(text);
-		
+
 		container.addView(sv);
-		
+
 		isVideoDisplayed=false;
 		selectedItem=-1;
-		
+
 	}
-	
+
 	private void setVideoGalleryListeners(){
 		videoGallery.setOnItemClickListener(new OnItemClickListener(){
 
@@ -147,16 +129,16 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				
+
 				if (selectedItem==arg2){
 					VideoState.getInstance().setVideoPath(videos[selectedItem]);
 					FRAGUEL.getInstance().changeState(VideoState.STATE_ID);
 					//playSelectedVideo(selectedItem);	
 				}
 				selectedItem=arg2;
-				
+
 			}});
-				
+
 		videoGallery.setOnItemSelectedListener(new OnItemSelectedListener(){
 
 			@Override
@@ -170,15 +152,15 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}});
-		
+
 	}
-	
+
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
-		
+
 		menu.clear();
 		if (!isVideoDisplayed){
 			menu.add(0, INFOSTATE_STOP_RECORD, 0, R.string.infostate_menu_stop).setIcon(R.drawable.stop);
@@ -207,7 +189,7 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -219,12 +201,12 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
 
 
-	
+
+
 
 }
