@@ -1,6 +1,7 @@
 package fraguel.android;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Stack;
 
@@ -17,6 +18,8 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -46,7 +49,7 @@ import fraguel.android.states.VideoGalleryState;
 import fraguel.android.states.VideoState;
 import fraguel.android.xml.ResourceParser;
 
-public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech.OnInitListener {
+public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech.OnInitListener,TextToSpeech.OnUtteranceCompletedListener {
 
 	// Singleton
 	private static FRAGUEL instance;
@@ -65,6 +68,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	//TextToSpeech
 	private TextToSpeech tts;
 	private int MY_DATA_CHECK_CODE;
+	private HashMap<String, String> ttsHashMap = new HashMap<String, String>();
+	private Handler handler;
 
 	// View container
 	private ViewGroup view;
@@ -224,6 +229,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 
 		//TextToSpeech init & instalation
 		checkTTSLibrary();
+		initHandler();
 	}
 
 	public static FRAGUEL getInstance() {
@@ -488,12 +494,36 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 
 
 	}
-
+	private void initHandler(){
+		handler= new Handler(){
+			
+		@Override	
+		public void handleMessage(Message msg) {
+			currentState.onUtteranceCompleted("");
+		}
+			
+		};
+	}
+	@Override
+	public void onUtteranceCompleted(String arg0) {
+		// TODO Auto-generated method stub
+		if (arg0.compareTo("finish")==0){
+			handler.sendEmptyMessage(0);
+			Log.v("TERMINADO", "TERMINADO");
+		}
+	}
 
 	@Override
 	public void onInit(int arg0) {
 		// TODO Auto-generated method stub
 		if (TextToSpeech.SUCCESS==arg0){
+			ttsHashMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "finish");
+	        if (tts.setOnUtteranceCompletedListener(this)==TextToSpeech.SUCCESS)
+	        	Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "BIEN!!!!", Toast.LENGTH_SHORT).show();
+	        else if(tts.setOnUtteranceCompletedListener(this)==TextToSpeech.ERROR)
+	        	Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "MAL!!!!", Toast.LENGTH_SHORT).show();
+	        else
+	        	Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "NO SE!!!!", Toast.LENGTH_SHORT).show();
 			Locale loc = new Locale("es", "","");
 			if(tts.isLanguageAvailable(loc)==TextToSpeech.LANG_AVAILABLE){
 				tts.setLanguage(loc);
@@ -523,6 +553,15 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	public void stopTalking(){
 		if (tts!=null)
 			tts.stop();
+		else
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
+	}
+	
+	public void talkSpeech(String s){
+		if (tts!=null){
+			tts.stop();
+			tts.speak(s, TextToSpeech.QUEUE_FLUSH, ttsHashMap);
+		}
 		else
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
