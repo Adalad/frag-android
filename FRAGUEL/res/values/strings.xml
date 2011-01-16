@@ -27,7 +27,10 @@
 
 	<string name="infostate_menu_stop">Detener grabación</string>
 	<string name="infostate_menu_repeat">Repetir grabación</string>
-	<string name="infostate_menu_speechPresentation">Presentación Hablada</string>
+	<string name="infostate_menu_speechPresentation">Presentación hablada</string>
 	<string name="infostate_menu_presentation">Presentación</string>
+	
+	<string name="videostate_menu_downloadvideo">Guardar vídeo</string>
+	<string name="videostate_menu_backvideogallery">Volver a la galería</string>
 
 </resources>

@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
 import android.widget.ImageButton;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -31,8 +32,9 @@ public class VideoState extends State{
 	// Singleton
 	private static VideoState instance;
 
-	public static final int INFOSTATE_STOP_RECORD=1;
-	public static final int INFOSTATE_REPEAT_RECORD=2;
+	public static final int VIDEOSTATE_MENU_DOWNLOADVIDEO=1;
+	public static final int VIDEOSTATE_MENU_BACKVIDEOGALLERY=2;
+	
 
 	//private MediaPlayer mediaPlayer;
 	private TextView text;
@@ -76,6 +78,10 @@ public class VideoState extends State{
 		FRAGUEL.getInstance().addView(viewGroup);
 
 		mVideoView = (VideoView) FRAGUEL.getInstance().findViewById(R.id.surface_view);
+		MediaController mediaController = new MediaController(FRAGUEL.getInstance().getApplicationContext());
+    	mediaController.setAnchorView(mVideoView);
+    	//mediaController.setEnabled(true);
+//    	mediaController.show();
 
 		mPlay = (ImageButton) FRAGUEL.getInstance().findViewById(R.id.play);
 		mPause = (ImageButton) FRAGUEL.getInstance().findViewById(R.id.pause);
@@ -161,8 +167,8 @@ public class VideoState extends State{
 
 		menu.clear();
 		if (!isVideoDisplayed){
-			menu.add(0, INFOSTATE_STOP_RECORD, 0, R.string.infostate_menu_stop).setIcon(R.drawable.stop);
-			menu.add(0, INFOSTATE_REPEAT_RECORD, 0, R.string.infostate_menu_repeat).setIcon(R.drawable.play);
+			menu.add(0, this.VIDEOSTATE_MENU_DOWNLOADVIDEO, 0, R.string.videostate_menu_downloadvideo).setIcon(R.drawable.download);
+			menu.add(0, this.VIDEOSTATE_MENU_BACKVIDEOGALLERY, 0, R.string.videostate_menu_backvideogallery).setIcon(R.drawable.back);
 		}
 		return menu;
 	}
@@ -173,12 +179,13 @@ public class VideoState extends State{
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 
-		case INFOSTATE_STOP_RECORD:
-			FRAGUEL.getInstance().stopTalking();
+		case VIDEOSTATE_MENU_DOWNLOADVIDEO:
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
 			return true;
 
-		case INFOSTATE_REPEAT_RECORD:
-			FRAGUEL.getInstance().talk((String)text.getText());
+		case VIDEOSTATE_MENU_BACKVIDEOGALLERY:
+			mVideoView.pause();
+			FRAGUEL.getInstance().changeState(VideoGalleryState.STATE_ID);
 			return true;
 		}
 		return false;
