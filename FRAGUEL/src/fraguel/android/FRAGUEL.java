@@ -206,11 +206,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 
 		routes = new ArrayList<Route>();
 		pointsOI = new ArrayList<PointOI>();
-		ResourceParser.getInstance().setRoot("fraguel");
+		/*ResourceParser.getInstance().setRoot("fraguel");
 		routes = ResourceParser.getInstance().readRoutes();
 		for (Route r : routes) {
 			r.pointsOI = ResourceParser.getInstance().readPointsOI("route"+r.id);
-		}
+		}*/
 
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
@@ -518,12 +518,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		// TODO Auto-generated method stub
 		if (TextToSpeech.SUCCESS==arg0){
 			ttsHashMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "finish");
-	        if (tts.setOnUtteranceCompletedListener(this)==TextToSpeech.SUCCESS)
-	        	Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "BIEN!!!!", Toast.LENGTH_SHORT).show();
-	        else if(tts.setOnUtteranceCompletedListener(this)==TextToSpeech.ERROR)
-	        	Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "MAL!!!!", Toast.LENGTH_SHORT).show();
-	        else
-	        	Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "NO SE!!!!", Toast.LENGTH_SHORT).show();
+	        tts.setOnUtteranceCompletedListener(this);	        
 			Locale loc = new Locale("es", "","");
 			if(tts.isLanguageAvailable(loc)==TextToSpeech.LANG_AVAILABLE){
 				tts.setLanguage(loc);
