@@ -36,7 +36,7 @@ public class IntroState extends State{
 		    handler.postDelayed(new Runnable() { 
 		         public void run() { 
 		        	 FRAGUEL.getInstance().getView().setBackgroundColor(25); 
-		        	 FRAGUEL.getInstance().changeState(1);
+		        	 FRAGUEL.getInstance().changeState(MainMenuState.STATE_ID);
 		         } 
 		    }, 2000); 
 		
