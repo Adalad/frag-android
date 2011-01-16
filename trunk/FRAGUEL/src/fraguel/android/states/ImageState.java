@@ -91,8 +91,10 @@ public class ImageState extends State{
 			bigGallery.setSelection(presentationIndex, true);
 			FRAGUEL.getInstance().talkSpeech((String)text.getText());
 		}
-		else
+		else{
 			isPresentation=false;
+			bigGallery.setKeepScreenOn(false);
+		}
 		
 	}
 	
@@ -255,6 +257,7 @@ public class ImageState extends State{
 			bigGallery.setSelection(0, true);
 			presentationIndex=0;
 			FRAGUEL.getInstance().talkSpeech((String)text.getText());
+			bigGallery.setKeepScreenOn(true);
 			return true;
 		
 		}
