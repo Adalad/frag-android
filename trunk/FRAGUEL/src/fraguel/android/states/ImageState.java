@@ -13,7 +13,6 @@ import android.widget.Gallery;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.State;
@@ -27,7 +26,6 @@ public class ImageState extends State{
 	public static final int INFOSTATE_STOP_RECORD=1;
 	public static final int INFOSTATE_REPEAT_RECORD=2;
 	public static final int INFOSTATE_SPEECH=3;
-	public static final int INFOSTATE_PRESENTATION=4;
 	
 	private TextView title;
 	private TextView text;
@@ -229,7 +227,6 @@ public class ImageState extends State{
 		menu.add(0, INFOSTATE_STOP_RECORD, 0, R.string.infostate_menu_stop).setIcon(R.drawable.stop);
 		menu.add(0, INFOSTATE_REPEAT_RECORD, 0, R.string.infostate_menu_repeat).setIcon(R.drawable.play);
 		menu.add(0, INFOSTATE_SPEECH, 0, R.string.infostate_menu_speechPresentation).setIcon(R.drawable.play);
-		menu.add(0, INFOSTATE_PRESENTATION, 0, R.string.infostate_menu_presentation).setIcon(R.drawable.play);
 		
 		return menu;
 	}
@@ -258,11 +255,8 @@ public class ImageState extends State{
 			bigGallery.setSelection(0, true);
 			presentationIndex=0;
 			FRAGUEL.getInstance().talkSpeech((String)text.getText());
-				
 			return true;
-		case INFOSTATE_PRESENTATION:
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
-			return true;
+		
 		}
 		return false;
 	}
