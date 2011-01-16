@@ -42,6 +42,7 @@ import fraguel.android.states.ConfigState;
 import fraguel.android.states.ImageState;
 import fraguel.android.states.InfoState;
 import fraguel.android.states.IntroState;
+import fraguel.android.states.MainMenuState;
 import fraguel.android.states.MapState;
 import fraguel.android.states.MenuState;
 import fraguel.android.states.RouteManagerState;
@@ -140,7 +141,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			//Eventos del menu de opciones creados por defecto
 			switch (item.getItemId()) {
 			case MENU_MAIN:
-				changeState(1);
+				changeState(MenuState.STATE_ID);
 				return true;
 			case MENU_CONFIG:
 				Toast t1= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
@@ -215,8 +216,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
 		states = new ArrayList<State>();
-		addState(new IntroState(), true);
-		addState(new MenuState(), false);
+		addState(new IntroState(), false);
+		addState(new MainMenuState(), false);
+		addState(new MenuState(), true);
 		addState(new MapState(), false);
 		addState(new VideoState(), false);
 		addState(new VideoGalleryState(), false);

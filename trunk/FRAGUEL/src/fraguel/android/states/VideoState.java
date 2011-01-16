@@ -80,6 +80,7 @@ public class VideoState extends State{
 		mVideoView = (VideoView) FRAGUEL.getInstance().findViewById(R.id.surface_view);
 		MediaController mediaController = new MediaController(FRAGUEL.getInstance().getApplicationContext());
     	mediaController.setAnchorView(mVideoView);
+    	//mVideoView.setMediaController(mediaController);
     	//mediaController.setEnabled(true);
 //    	mediaController.show();
 

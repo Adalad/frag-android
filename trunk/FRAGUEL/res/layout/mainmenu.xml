@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+	android:layout_height="wrap_content" android:orientation="vertical"
+	android:layout_gravity="center" android:gravity="center"
+	android:layout_weight="1" 
+	android:background="@drawable/aqua"
+	>
+
+	<FrameLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="1">
+		<Button android:id="@+id/btn_freemode" android:layout_width="wrap_content"
+			android:background="@drawable/popup_complete" android:text="@string/mainmenu_btn_freemode"
+			android:textStyle="bold" android:textColor="@android:color/white" android:textSize="17sp"
+			android:layout_height="wrap_content" android:paddingLeft="0dip"
+			android:paddingTop="5dip" android:layout_gravity="center" />
+	</FrameLayout>
+
+	<FrameLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="1">
+		<Button android:id="@+id/btn_routemode" android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/mainmenu_btn_routemode"
+			android:textStyle="bold" android:textColor="@android:color/white" android:textSize="17sp"
+			android:background="@drawable/popup_complete" android:paddingLeft="0dip"
+			android:paddingTop="5dip" android:layout_gravity="center" />
+	</FrameLayout>
+
+	<FrameLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="1">
+		<Button android:id="@+id/btn_interactivemode"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="@string/mainmenu_btn_interactivemode" 
+			android:textStyle="bold"  android:textColor="@android:color/white" android:textSize="17sp"
+			android:background="@drawable/popup_complete"
+			android:paddingLeft="0dip" android:paddingTop="5dip"
+			android:layout_gravity="center" />
+	</FrameLayout>
+
+</LinearLayout>

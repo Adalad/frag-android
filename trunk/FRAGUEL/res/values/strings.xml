@@ -2,6 +2,12 @@
 <resources>
 	<string name="hello">Hello World, FRAGUEL!</string>
 	<string name="app_name">FRAGUEL</string>
+	<string name="mainmenu_btn_freemode">Modo Libre</string>
+	<string name="mainmenu_btn_routemode">Modo Guiado</string>
+	<string name="mainmenu_btn_interactivemode">Modo Interactivo</string>
+	
+	
+	
 	<string name="language_no_available_spanish">Lengua española no disponible</string>
 	<string name="no_tts_spanish">No es posible iniciar el texto hablado</string>
 	<string name="title_no_gps_spanish">¡Su GPS está desactivado!</string>
