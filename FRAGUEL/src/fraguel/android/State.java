@@ -52,6 +52,8 @@ public abstract class State implements Comparable<State> {
 		
 		if (event.getKeyCode()==event.KEYCODE_BACK & event.getAction()==event.ACTION_DOWN){ 
 			FRAGUEL.getInstance().returnState();
+			if (FRAGUEL.getInstance().isTalking())
+				FRAGUEL.getInstance().stopTalking();
 			return true;
 		}else
 			return false;
