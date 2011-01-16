@@ -130,7 +130,7 @@ public class ImageState extends State{
 					int position, long arg3) {
 				// TODO Auto-generated method stub
 				
-				text.setText("Posición: "+ position+"\n"+"\n"+"La posicion en la que se encuentra el elemento pulsado es la "+position);
+				text.setText("Posición: "+ position+"\n"+"\n"+"La posición en la que se encuentra el elemento pulsado es la "+position);
 				if (FRAGUEL.getInstance().isTalking())
 					FRAGUEL.getInstance().stopTalking();
 			}
@@ -175,9 +175,8 @@ public class ImageState extends State{
 					int position, long arg3) {
 				// TODO Auto-generated method stub
 				
-				text.setText("Posición: "+ position+"\n"+"\n"+"La posicion en la que se encuentra el elemento pulsado es la "+position);
-				if (FRAGUEL.getInstance().isTalking())
-					FRAGUEL.getInstance().stopTalking();
+				text.setText("Posición: "+ position+"\n"+"\n"+"La posición en la que se encuentra el elemento pulsado es la "+position);
+				
 				
 			}
 
