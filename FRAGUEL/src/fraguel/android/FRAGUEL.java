@@ -65,14 +65,14 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	//TextToSpeech
 	private TextToSpeech tts;
 	private int MY_DATA_CHECK_CODE;
-	
+
 	// View container
 	private ViewGroup view;
 	// States
 	private ArrayList<State> states;
 	private State currentState;
 	private Stack<State> _stateStack;
-	
+
 	// Routes and Points OI
 	ArrayList<Route> routes;
 	ArrayList<PointOI> pointsOI;
@@ -83,8 +83,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	private static final int MENU_ROUTE = 3;
 	private static final int MENU_EXIT = 4;
 
-	
-	
+
+
 	/**
 	 * Se crea el menu de opciones en función del estado 
 	 */
@@ -97,25 +97,25 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		menu.add(0, MENU_CONFIG, 0, R.string.menu_config).setIcon(R.drawable.geotaging);
 		menu.add(0, MENU_ROUTE, 0,R.string.menu_route).setIcon(R.drawable.info);
 		menu.add(0, MENU_EXIT, 0, R.string.menu_exit).setIcon(R.drawable.info);
-		
+
 		//Menu de opciones del estado
 		menu = currentState.onCreateStateOptionsMenu(menu);
-		
+
 		return true;
-		
+
 	}
-	
-	
-	
+
+
+
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		super.onPrepareOptionsMenu(menu);
-		
+
 		//Menu de opciones del estado
 		onCreateOptionsMenu(menu);
-		
+
 		return true;
 	}
 
@@ -128,30 +128,30 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
-		
+
 		//Eventos del menu de opciones del estado 
 		if(!currentState.onStateOptionsItemSelected(item)){
-		
-		//Eventos del menu de opciones creados por defecto
-		switch (item.getItemId()) {
-		case MENU_MAIN:
-			changeState(1);
-			return true;
-		case MENU_CONFIG:
-			Toast t1= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
-			t1.show();
-			return true;
-		case MENU_ROUTE:
-			Toast t2= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
-			t2.show();
-			return true;
-		case MENU_EXIT:
-			System.exit(0);
-			return true;
+
+			//Eventos del menu de opciones creados por defecto
+			switch (item.getItemId()) {
+			case MENU_MAIN:
+				changeState(1);
+				return true;
+			case MENU_CONFIG:
+				Toast t1= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
+				t1.show();
+				return true;
+			case MENU_ROUTE:
+				Toast t2= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
+				t2.show();
+				return true;
+			case MENU_EXIT:
+				System.exit(0);
+				return true;
+			}
+
 		}
-		
-		}
-		
+
 		return true;
 		//return super.onOptionsItemSelected(item);
 	}
@@ -172,20 +172,20 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		// Singleton
 		instance = this;
 
-		
+
 		//RequestServices (GPS & Sensors)
-		
-			requestServices();
-			
+
+		requestServices();
+
 		// Sensors
-		
-			newSensorListener();
-		
-		
-		
+
+		newSensorListener();
+
+
+
 		//GPS Listener
-			myPosition= new Me(new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7257781 * 1000000)));
-		
+		myPosition= new Me(new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7257781 * 1000000)));
+
 		//requestUpdatesFromAllSensors
 		activateSensors();
 		activateGPS();
@@ -198,15 +198,15 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			System.exit(RESULT_CANCELED);
 		} else
 			Log.d("FRAGUEL", "SD Card ready");
-		
+
 		routes = new ArrayList<Route>();
 		pointsOI = new ArrayList<PointOI>();
-		//ResourceParser.getInstance().setRoot("fraguel");
-		//routes = ResourceParser.getInstance().readRoutes();
-		//for (Route r : routes) {
-		//	r.pointsOI = ResourceParser.getInstance().readPointsOI("route"+r.id);
-		//}
-		
+		ResourceParser.getInstance().setRoot("fraguel");
+		routes = ResourceParser.getInstance().readRoutes();
+		for (Route r : routes) {
+			r.pointsOI = ResourceParser.getInstance().readPointsOI("route"+r.id);
+		}
+
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
 		states = new ArrayList<State>();
@@ -242,7 +242,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		// TODO Auto-generated method stub
-		
+
 		if (currentState.dispatchKeyEvent(event))		
 			return true;
 		else 
@@ -252,11 +252,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		// TODO Auto-generated method stub
-		
+
 		//view.removeView(MapState.getInstance().getPopupView());
 		//if(currentState.getId()==2)
 		//((MapState) currentState).onTouch(view,ev);
-		
+
 		return super.dispatchTouchEvent(ev);
 	}
 
@@ -288,7 +288,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			}
 		}
 	}
-	
+
 	public void returnState() {
 		try {
 			State current = _stateStack.pop();
@@ -320,25 +320,25 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 	}
-	
+
 	public void activateGPS(){
-		
+
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, myPosition);
-			
+
 	}
-	
-	
+
+
 
 
 	public void deactivateSensors() {
 		sensorManager.unregisterListener(sensorListener);
-		
+
 	}
-	
+
 	public void deactivateGPS(){
-		
+
 		locationManager.removeUpdates(myPosition);
-		
+
 	}
 
 	@Override
@@ -347,19 +347,19 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	}
 
 	public void onPause(Bundle savedInstanceState) {
-        super.onPause();
-        deactivateSensors();
-        deactivateGPS();
+		super.onPause();
+		deactivateSensors();
+		deactivateGPS();
 	}
-	
+
 	public void onResume(Bundle savedInstanceState) {
-        super.onResume();
-        activateSensors();
-        activateGPS();
-        
+		super.onResume();
+		activateSensors();
+		activateGPS();
+
 	}
-	
-	
+
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
@@ -379,17 +379,17 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		locationManager= (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
 	}
-	
+
 	private void newSensorListener(){
 		sensorListener = new SensorEventListener(){
-			
+
 			@Override
-			 public synchronized void onAccuracyChanged(Sensor sensor, int accuracy) {
+			public synchronized void onAccuracyChanged(Sensor sensor, int accuracy) {
 				// TODO Auto-generated method stub
 			}
 
 			@Override
-			 public synchronized void onSensorChanged(SensorEvent event) {
+			public synchronized void onSensorChanged(SensorEvent event) {
 				// TODO Auto-generated method stub
 				if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
 					FRAGUEL.getInstance().sOrientation[0] = event.values[0];
@@ -404,27 +404,27 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 					FRAGUEL.getInstance().sMagnetic[1] = event.values[1];
 					FRAGUEL.getInstance().sMagnetic[2] = event.values[2];
 				}
-				
-						
-					if (SensorManager.getRotationMatrix(rotMatrix, incMatrix, sAccelerometer,sMagnetic )){
-						SensorManager.getOrientation(rotMatrix, sOrientation);
-		    			
-						if (currentState.getId()==1){
-		    				MenuState m=(MenuState)currentState;
-		    				m.setOrientationText("X: "+ sOrientation[0]*RAD2DEG+", Y: "+sOrientation[1]*RAD2DEG+",Z: "+sOrientation[2]*RAD2DEG);
-		    			}
-						rotMatrix[3]=(float)myPosition.getLongitude();
-						rotMatrix[7]=(float)myPosition.getLatitude();
-						rotMatrix[11]=(float)myPosition.getAltitude();
-						//rotMatrix: matriz 4X4 de rotación para pasarla a OpenGL
+
+
+				if (SensorManager.getRotationMatrix(rotMatrix, incMatrix, sAccelerometer,sMagnetic )){
+					SensorManager.getOrientation(rotMatrix, sOrientation);
+
+					if (currentState.getId()==1){
+						MenuState m=(MenuState)currentState;
+						m.setOrientationText("X: "+ sOrientation[0]*RAD2DEG+", Y: "+sOrientation[1]*RAD2DEG+",Z: "+sOrientation[2]*RAD2DEG);
 					}
-				
+					rotMatrix[3]=(float)myPosition.getLongitude();
+					rotMatrix[7]=(float)myPosition.getLatitude();
+					rotMatrix[11]=(float)myPosition.getAltitude();
+					//rotMatrix: matriz 4X4 de rotación para pasarla a OpenGL
+				}
+
 			}
-	
+
 		};
-		
+
 	}
-	
+
 	public ViewGroup getView() {
 		return view;
 	}
@@ -444,16 +444,16 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		return incMatrix;
 	}
 
-	
+
 	public State getCurrentState(){
-		
+
 		return this.currentState;
 	}
-	
+
 	public Me getGPS(){
 		return myPosition;
 	}
-	
+
 	@Override
 	protected boolean isLocationDisplayed() {
 		// TODO Auto-generated method stub
@@ -461,35 +461,35 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		//en la API de Maps si no es ilegal la app
 		return (currentState.id==2);
 	}
-	
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-	    
-			
-			currentState.onConfigurationChanged(newConfig);
-			super.onConfigurationChanged(newConfig);
+
+
+		currentState.onConfigurationChanged(newConfig);
+		super.onConfigurationChanged(newConfig);
 	}
-	
+
 	@Override
 	protected void onActivityResult(
-	        int requestCode, int resultCode, Intent data) {
-	    
+			int requestCode, int resultCode, Intent data) {
+
 		if (requestCode == MY_DATA_CHECK_CODE) {
-	        if (resultCode != TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-	            // si no tiene los datos los instala
-	        	Intent installIntent = new Intent();
-	            installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-	            Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Instalando las librerías necesarias", Toast.LENGTH_SHORT).show();
-	            FRAGUEL.getInstance().startActivity(installIntent);
-	        	
-	        }
-	        tts= new TextToSpeech(FRAGUEL.getInstance().getApplicationContext(), this);
-	    }
-	            
-	        
+			if (resultCode != TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+				// si no tiene los datos los instala
+				Intent installIntent = new Intent();
+				installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Instalando las librerías necesarias", Toast.LENGTH_SHORT).show();
+				FRAGUEL.getInstance().startActivity(installIntent);
+
+			}
+			tts= new TextToSpeech(FRAGUEL.getInstance().getApplicationContext(), this);
+		}
+
+
 	}
-	
-	
+
+
 	@Override
 	public void onInit(int arg0) {
 		// TODO Auto-generated method stub
@@ -504,13 +504,13 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		else
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
-	
+
 	private void checkTTSLibrary(){
 		Intent checkIntent = new Intent();
 		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 		startActivityForResult(checkIntent,MY_DATA_CHECK_CODE);
 	}
-	
+
 	public void talk(String s){
 		if (tts!=null){
 			tts.stop();
@@ -519,14 +519,14 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		else
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
-	
+
 	public void stopTalking(){
 		if (tts!=null)
 			tts.stop();
 		else
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
-	
+
 	public boolean isTalking(){
 		if (tts!=null)
 			return tts.isSpeaking();
@@ -534,19 +534,19 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			return false;
 	}
 
-//***********************************************************************************
-//*************************************************************************************
+	//***********************************************************************************
+	//*************************************************************************************
 	public class Me implements LocationListener{
 
 		private GeoPoint currentLocation;
 		private double latitude=0,longitude=0,altitude=0;
-		
-		
+
+
 		private Me(GeoPoint arg0) {
 			currentLocation=arg0;
 			// TODO Auto-generated constructor stub
 		}
-		
+
 
 		@Override
 		public synchronized void onLocationChanged(Location location) {
@@ -559,20 +559,20 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 				MenuState s=(MenuState)FRAGUEL.getInstance().getCurrentState();
 				s.setGPSText("Latitud: "+latitude+", Longitud: "+longitude);
 			}
-						
+
 		}
 
 
 		@Override
 		public void onProviderDisabled(String provider) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
@@ -582,14 +582,14 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			case  LocationProvider.AVAILABLE:  break;
 			case  LocationProvider.OUT_OF_SERVICE: break;
 			case  LocationProvider.TEMPORARILY_UNAVAILABLE: break;
-			
+
 			}
 		}
 
 		public GeoPoint getCurrentLocation() {
 			return currentLocation;
 		}
-		
+
 
 		public double getLatitude() {
 			return latitude;
@@ -602,7 +602,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		public double getAltitude() {
 			return altitude;
 		}
-		
+
 
 
 	}
