@@ -26,6 +26,7 @@ public class ImageState extends State{
 	public static final int INFOSTATE_STOP_RECORD=1;
 	public static final int INFOSTATE_REPEAT_RECORD=2;
 	public static final int INFOSTATE_SPEECH=3;
+	public static final int INFOSTATE_STOP_SPEECH=4;
 	
 	private TextView title;
 	private TextView text;
@@ -33,7 +34,7 @@ public class ImageState extends State{
 	private ScrollView sv;
 	private FullScreenGallery bigGallery;
 	private int currentIndex;
-	private boolean isBigGalleryDisplayed,isPresentation=false;
+	private boolean isBigGalleryDisplayed,isPresentation=false,automaticChange=false;
 	private int presentationIndex=0;
 	
 	public ImageState() {
@@ -88,12 +89,14 @@ public class ImageState extends State{
 	public void onUtteranceCompleted(String id){
 		presentationIndex++;
 		if (presentationIndex<bigGallery.getCount()){
+			//automaticChange=true;
 			bigGallery.setSelection(presentationIndex, true);
-			FRAGUEL.getInstance().talkSpeech((String)text.getText());
+			//FRAGUEL.getInstance().talkSpeech((String)text.getText(),presentationIndex);
 		}
 		else{
 			isPresentation=false;
 			bigGallery.setKeepScreenOn(false);
+			//automaticChange=false;
 		}
 		
 	}
@@ -119,6 +122,7 @@ public class ImageState extends State{
 				bigGallery.setSelection(position, true);
 				currentIndex=-1;
 				isBigGalleryDisplayed=true;
+				FRAGUEL.getInstance().stopTalking();
 			}
 			else
 				currentIndex=position;
@@ -164,6 +168,7 @@ public class ImageState extends State{
 				gallery.setSelection(position, true);
 				currentIndex=-1;
 				isBigGalleryDisplayed=false;
+				FRAGUEL.getInstance().stopTalking();
 			}else
 				currentIndex=position;
 			
@@ -181,6 +186,10 @@ public class ImageState extends State{
 				if (!isPresentation){
 					if (FRAGUEL.getInstance().isTalking())
 						FRAGUEL.getInstance().stopTalking();
+				}else{
+					//if (automaticChange)
+					FRAGUEL.getInstance().talkSpeech((String)text.getText(),position);
+					presentationIndex=position;
 				}
 				
 			}
@@ -225,7 +234,10 @@ public class ImageState extends State{
 	public Menu onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		menu.clear();
-		menu.add(0, INFOSTATE_SPEECH, 0, R.string.infostate_menu_speechPresentation).setIcon(R.drawable.play);
+		if (!isPresentation)
+			menu.add(0, INFOSTATE_SPEECH, 0, R.string.infostate_menu_speechPresentation).setIcon(R.drawable.play);
+		else
+			menu.add(0, INFOSTATE_STOP_SPEECH, 0, R.string.infostate_menu_stopPresentation).setIcon(R.drawable.stop);
 		menu.add(0, INFOSTATE_STOP_RECORD, 0, R.string.infostate_menu_stop).setIcon(R.drawable.stop);
 		menu.add(0, INFOSTATE_REPEAT_RECORD, 0, R.string.infostate_menu_repeat).setIcon(R.drawable.play);
 		
@@ -253,11 +265,20 @@ public class ImageState extends State{
 				currentIndex=-1;
 				isBigGalleryDisplayed=true;
 			}
-			isPresentation=true;
 			bigGallery.setSelection(0, true);
 			presentationIndex=0;
-			FRAGUEL.getInstance().talkSpeech((String)text.getText());
+			FRAGUEL.getInstance().talkSpeech((String)text.getText(),0);
 			bigGallery.setKeepScreenOn(true);
+			isPresentation=true;
+			return true;
+		case INFOSTATE_STOP_SPEECH:
+			FRAGUEL.getInstance().stopTalking();
+			isPresentation=false;
+			viewGroup.removeAllViews();
+			loadViews();
+			gallery.setSelection(0, true);
+			currentIndex=-1;
+			isBigGalleryDisplayed=false;
 			return true;
 		
 		}

@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Stack;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.hardware.Sensor;
@@ -22,6 +24,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -461,6 +464,43 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	public Me getGPS(){
 		return myPosition;
 	}
+	
+	public void createErrorMessage(String title, String msg){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.accept_spanish,
+                                        new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                	System.exit(0);
+                                                }
+                                        });
+        AlertDialog alert = builder.create();
+        alert.getWindow().setGravity(Gravity.TOP);
+        alert.show();
+		
+	}
+	
+	public void createWarningMessage(String title, String msg){
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(msg);
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.accept_spanish,
+                                        new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                	dialog.dismiss();
+                                                }
+                                        });
+        AlertDialog alert = builder.create();
+        alert.getWindow().setGravity(Gravity.TOP);
+        alert.show();
+		
+		
+	}
+	
 
 	@Override
 	protected boolean isLocationDisplayed() {
@@ -501,7 +541,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			
 		@Override	
 		public void handleMessage(Message msg) {
-			currentState.onUtteranceCompleted("");
+			currentState.onUtteranceCompleted(String.valueOf(msg.arg1));
 		}
 			
 		};
@@ -509,17 +549,16 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	@Override
 	public void onUtteranceCompleted(String arg0) {
 		// TODO Auto-generated method stub
-		if (arg0.compareTo("finish")==0){
-			handler.sendEmptyMessage(0);
-			Log.v("TERMINADO", "TERMINADO");
-		}
+			Message m=new Message();
+			m.arg1=Integer.parseInt(arg0);
+			handler.sendMessage(m);
+			Log.v("TERMINADO", arg0);
 	}
 
 	@Override
 	public void onInit(int arg0) {
 		// TODO Auto-generated method stub
 		if (TextToSpeech.SUCCESS==arg0){
-			ttsHashMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "finish");
 	        tts.setOnUtteranceCompletedListener(this);	        
 			Locale loc = new Locale("es", "","");
 			if(tts.isLanguageAvailable(loc)==TextToSpeech.LANG_AVAILABLE){
@@ -554,9 +593,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
 	
-	public void talkSpeech(String s){
+	public void talkSpeech(String s,int id){
 		if (tts!=null){
 			tts.stop();
+			ttsHashMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,String.valueOf(id) );
 			tts.speak(s, TextToSpeech.QUEUE_FLUSH, ttsHashMap);
 		}
 		else
