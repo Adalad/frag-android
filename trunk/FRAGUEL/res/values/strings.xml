@@ -15,6 +15,7 @@
 	<string name="alert_gps_spanish"> Para el correcto funcionamiento de la aplicación debe activarlo.\n ¿Desea activarlo ahora?</string>
 	<string name="gps_cancel_button_spanish">Cancelar</string>
 	<string name="gps_enable_button_spanish">Habilitar</string>
+	<string name="accept_spanish">Aceptar</string>
 	
 	<string name="menu_menu">Volver a menu principal</string>
 	<string name="menu_config">Opciones</string>
@@ -34,7 +35,7 @@
 	<string name="infostate_menu_stop">Detener grabación</string>
 	<string name="infostate_menu_repeat">Repetir grabación</string>
 	<string name="infostate_menu_speechPresentation">Presentación hablada</string>
-	<string name="infostate_menu_presentation">Presentación</string>
+	<string name="infostate_menu_stopPresentation">Detener Presentación</string>
 	
 	<string name="videostate_menu_downloadvideo">Guardar vídeo</string>
 	<string name="videostate_menu_backvideogallery">Volver a la galería</string>

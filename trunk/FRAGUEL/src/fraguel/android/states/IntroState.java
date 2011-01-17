@@ -74,6 +74,7 @@ public class IntroState extends State{
 		if (!FRAGUEL.getInstance().getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)) {	
 			createGpsDisabledAlert();
 		}
+		
 	}
 	
 	private void createGpsDisabledAlert() {

@@ -97,7 +97,6 @@ public class MenuState extends State {
 		
 		FRAGUEL.getInstance().addView(viewGroup);
 		
-		
 	}
 
 	@Override
