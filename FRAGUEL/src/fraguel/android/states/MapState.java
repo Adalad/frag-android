@@ -85,6 +85,8 @@ public class MapState extends State implements OnTouchListener{
 		mapView.setBuiltInZoomControls(true);
 		mapView.setClickable(true);
 		mapView.setEnabled(true);
+		
+		mapView.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
 
 		mapControl = mapView.getController();
 		GeoPoint pointInit = new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7267881 * 1000000));
@@ -129,16 +131,16 @@ public class MapState extends State implements OnTouchListener{
 
 		switch (v.getId()) {
 		case R.id.btn_popupPI_info:
-			FRAGUEL.getInstance().changeState(6);
+			FRAGUEL.getInstance().changeState(InfoState.STATE_ID);
 			break;
 		case R.id.btn_popupPI_photo:
-			FRAGUEL.getInstance().changeState(4);
+			FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
 			break;
 		case R.id.btn_popupPI_video:
-			FRAGUEL.getInstance().changeState(3);
+			FRAGUEL.getInstance().changeState(VideoGalleryState.STATE_ID);
 			break;
 		case R.id.btn_popupPI_ar:
-			FRAGUEL.getInstance().changeState(5);
+			FRAGUEL.getInstance().changeState(ARState.STATE_ID);
 			break;
 
 		default:
@@ -152,6 +154,7 @@ public class MapState extends State implements OnTouchListener{
 	@Override
 	public boolean onTouch(View arg0, MotionEvent arg1) {
 		// TODO Auto-generated method stub
+		if (arg0!=popupView)
 		FRAGUEL.getInstance().getView().removeView(popupView);
 
 		return true;

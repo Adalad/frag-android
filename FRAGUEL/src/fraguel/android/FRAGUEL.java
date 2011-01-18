@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -53,7 +54,7 @@ import fraguel.android.states.VideoGalleryState;
 import fraguel.android.states.VideoState;
 import fraguel.android.xml.ResourceParser;
 
-public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech.OnInitListener,TextToSpeech.OnUtteranceCompletedListener {
+public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech.OnInitListener,TextToSpeech.OnUtteranceCompletedListener, OnTouchListener {
 
 	// Singleton
 	private static FRAGUEL instance;
@@ -114,8 +115,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 
 	}
 
-
-
+	
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
@@ -260,16 +260,19 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			return super.dispatchKeyEvent(event);
 	}
 
-	@Override
-	public boolean dispatchTouchEvent(MotionEvent ev) {
+	//@Override
+	//public boolean dispatchTouchEvent(MotionEvent ev) {
 		// TODO Auto-generated method stub
 
 		//view.removeView(MapState.getInstance().getPopupView());
 		//if(currentState.getId()==2)
 		//((MapState) currentState).onTouch(view,ev);
-
-		return super.dispatchTouchEvent(ev);
-	}
+       // if(currentState== instanceOf(MapState)) MapState.getInstance().onTouch(arg0, ev)
+		//this.getView().removeView(MapState.getInstance().getPopupView());
+		//return super.dispatchTouchEvent(ev);
+	//}
+	
+	
 
 	public void addState(State state, boolean change) {
 		for (State s : states) {
@@ -681,6 +684,14 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 
 
 
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		if(currentState == MapState.getInstance()) MapState.getInstance().onTouch(v, event);
+		
+		return false;
 	}
 
 
