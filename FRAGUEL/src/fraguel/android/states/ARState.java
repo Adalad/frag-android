@@ -28,11 +28,10 @@ public class ARState extends State {
 				.getApplicationContext());
 		// Crear vista de la cámara
 		camView = new ARCameraView(viewGroup.getContext());
-		camView.getHolder().setKeepScreenOn(true);  
 		viewGroup.addView(camView);
 		// Crear vista OpenGL
-//		glView = new ARGLView(viewGroup.getContext());
-//		viewGroup.addView(glView);
+		//glView = new ARGLView(viewGroup.getContext());
+		//viewGroup.addView(glView);
 		// Añadir a la actividad
 		FRAGUEL.getInstance().addView(viewGroup);
 	}
