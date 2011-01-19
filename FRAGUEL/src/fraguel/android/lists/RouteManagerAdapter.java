@@ -1,6 +1,7 @@
 package fraguel.android.lists;
 
-import fraguel.android.R;
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
@@ -10,12 +11,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import fraguel.android.R;
 
 public class RouteManagerAdapter extends BaseAdapter{
 
-	private String[] titles={"Bernardo", "Alberto", "Gabriel"};
-	private String[] descriptions={"Pericacho Sánchez", "Guillén", "Peñas Rodríguez"};
-	private String[] images={"R.drawable.museumsalango","R.drawable.museo","R.drawable.museumsalango"};
+	private ArrayList<String> titles;
+	private ArrayList<String> descriptions;
+	private ArrayList<String> images;
 	private Context context;
 	
 	public RouteManagerAdapter(Context c) {
@@ -25,7 +27,7 @@ public class RouteManagerAdapter extends BaseAdapter{
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return titles.length;
+		return titles.size();
 	}
 
 	@Override
@@ -40,13 +42,13 @@ public class RouteManagerAdapter extends BaseAdapter{
 		return position;
 	}
 	
-	public void setTitle(String[] s){
+	public void setTitle(ArrayList<String> s){
 		titles=s;
 	}
-	public void setDescription(String[] s){
+	public void setDescription(ArrayList<String> s){
 		descriptions=s;
 	}
-	public void setImages(String[] s){
+	public void setImages(ArrayList<String> s){
 		images=s;
 	}
 
@@ -71,12 +73,12 @@ public class RouteManagerAdapter extends BaseAdapter{
 		
 		
 		TextView title = new TextView(context);
-		title.setText(titles[position]);
+		title.setText(titles.get(position));
 		title.setTextSize(18);
 		title.setTextColor(Color.BLACK);
 		
 		TextView description = new TextView(context);
-		description.setText(descriptions[position]);
+		description.setText(descriptions.get(position));
 		description.setTextColor(Color.BLACK);
 		
 		text.addView(title);

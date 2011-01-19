@@ -247,6 +247,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	public void onClick(View view) {
 		currentState.onClick(view);
 	}
+	
+	public ArrayList<Route> getLoadedData(){
+		
+		return routes;
+	}
 
 
 

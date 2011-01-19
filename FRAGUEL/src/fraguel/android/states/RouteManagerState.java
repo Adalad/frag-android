@@ -1,5 +1,7 @@
 package fraguel.android.states;
 
+import java.util.ArrayList;
+
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
+import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.lists.RouteManagerAdapter;
 
@@ -31,7 +34,9 @@ public class RouteManagerState extends State {
 	private RouteManagerAdapter adapter;
 	private TextView title;
 	private ListView list;
-	private String loadData;
+	private ArrayList<String> currentDataTitle;
+	private ArrayList<String> currentDataDescrip;
+	private ArrayList<Route> data;
 	//0->routes,1->points,2->pointData
 	private int internalState;
 	private int selectedRoute,selectedPoint;
@@ -56,6 +61,7 @@ public class RouteManagerState extends State {
 		selectedPoint=0;
 		
 		FRAGUEL.getInstance().addView(viewGroup);
+		data= FRAGUEL.getInstance().getLoadedData();
 		
 		
 		
@@ -96,8 +102,8 @@ public class RouteManagerState extends State {
 		title.setText("Puntos de la ruta: "+ route);
 		container.removeView(list);
 		setAdapter();
-		adapter.setTitle(new String[] {"Punto 0","Punto 1","Punto 2"});
-		adapter.setDescription(new String[] {"Facultad de Medicina","Trincheras Norte","Hospital Clínico"});
+		//adapter.setTitle(new String[] {"Punto 0","Punto 1","Punto 2"});
+		//adapter.setDescription(new String[] {"Facultad de Medicina","Trincheras Norte","Hospital Clínico"});
 		internalState=1;
 		list.setSelection(selectedPoint);
 	}
@@ -113,9 +119,14 @@ public class RouteManagerState extends State {
 		container.removeView(list);
 		title.setText(R.string.routemanagerstate_title_routes_spanish);
 		setAdapter();
-		
-		adapter.setTitle(new String[] {"Punto 0","Punto 1","Punto 2"});
-		adapter.setDescription(new String[] {"Facultad de Medicina","Trincheras Norte","Hospital Clínico"});
+		currentDataTitle=new ArrayList<String>();
+		currentDataDescrip= new ArrayList<String>();
+		for (Route r : data) {
+			currentDataTitle.add(r.name);
+			currentDataDescrip.add(r.description);
+		}
+		adapter.setTitle(currentDataTitle);
+		adapter.setDescription(currentDataDescrip);
 		internalState=0;
 		list.setSelection(routeFocus);
 		
