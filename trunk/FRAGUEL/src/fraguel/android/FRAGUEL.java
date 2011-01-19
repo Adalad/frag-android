@@ -210,11 +210,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 
 		routes = new ArrayList<Route>();
 		pointsOI = new ArrayList<PointOI>();
-		/*ResourceParser.getInstance().setRoot("fraguel");
+		ResourceParser.getInstance().setRoot("fraguel");
 		routes = ResourceParser.getInstance().readRoutes();
 		for (Route r : routes) {
 			r.pointsOI = ResourceParser.getInstance().readPointsOI("route"+r.id);
-		}*/
+		}
 
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
@@ -468,40 +468,29 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		return myPosition;
 	}
 	
-	public void createErrorMessage(String title, String msg){
+	public void createOneButtonNotification(int title, int msg, DialogInterface.OnClickListener listener){
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title);
         builder.setMessage(msg);
         builder.setCancelable(false);
-        builder.setPositiveButton(R.string.accept_spanish,
-                                        new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                	System.exit(0);
-                                                }
-                                        });
+        builder.setPositiveButton(R.string.accept_spanish,listener);
         AlertDialog alert = builder.create();
         alert.getWindow().setGravity(Gravity.TOP);
         alert.show();
 		
 	}
 	
-	public void createWarningMessage(String title, String msg){
-		
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(msg);
-        builder.setCancelable(false);
-        builder.setPositiveButton(R.string.accept_spanish,
-                                        new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                	dialog.dismiss();
-                                                }
-                                        });
-        AlertDialog alert = builder.create();
-        alert.getWindow().setGravity(Gravity.TOP);
-        alert.show();
-		
-		
+	
+	public void createTwoButtonNotification(int title,int msg,int positiveButton,int negativeButton, DialogInterface.OnClickListener listenerPositiveButton,DialogInterface.OnClickListener listenerNegativeButton){
+		 AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
+	        builder.setTitle(title);
+	        builder.setMessage(msg);
+	        builder.setCancelable(false);
+	        builder.setPositiveButton(positiveButton,listenerPositiveButton);
+	        builder.setNegativeButton(negativeButton,listenerNegativeButton);
+	        AlertDialog alert = builder.create();
+	        alert.getWindow().setGravity(Gravity.TOP);
+	        alert.show();
 	}
 	
 
