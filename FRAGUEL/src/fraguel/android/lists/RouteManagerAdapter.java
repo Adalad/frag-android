@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 public class RouteManagerAdapter extends BaseAdapter{
 
-	private String[] authors={"Bernardo", "Alberto", "Gabriel"};
-	private String[] surnames={"Pericacho Sánchez", "Guillén", "Peñas Rodríguez"};
+	private String[] titles={"Bernardo", "Alberto", "Gabriel"};
+	private String[] descriptions={"Pericacho Sánchez", "Guillén", "Peñas Rodríguez"};
 	private String[] images={"R.drawable.museumsalango","R.drawable.museo","R.drawable.museumsalango"};
 	private Context context;
 	
@@ -25,7 +25,7 @@ public class RouteManagerAdapter extends BaseAdapter{
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return authors.length;
+		return titles.length;
 	}
 
 	@Override
@@ -41,10 +41,10 @@ public class RouteManagerAdapter extends BaseAdapter{
 	}
 	
 	public void setTitle(String[] s){
-		authors=s;
+		titles=s;
 	}
 	public void setDescription(String[] s){
-		surnames=s;
+		descriptions=s;
 	}
 	public void setImages(String[] s){
 		images=s;
@@ -71,12 +71,12 @@ public class RouteManagerAdapter extends BaseAdapter{
 		
 		
 		TextView title = new TextView(context);
-		title.setText(authors[position]);
+		title.setText(titles[position]);
 		title.setTextSize(18);
 		title.setTextColor(Color.BLACK);
 		
 		TextView description = new TextView(context);
-		description.setText(surnames[position]);
+		description.setText(descriptions[position]);
 		description.setTextColor(Color.BLACK);
 		
 		text.addView(title);

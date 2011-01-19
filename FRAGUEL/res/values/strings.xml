@@ -31,6 +31,8 @@
 	
 	<string name="routemanagerstate_menu_addroute">Añadir ruta</string>
 	<string name="routemanagerstate_menu_deleteroute">Eliminar ruta</string>
+	<string name="routemanagerstate_title_routes_spanish">Rutas descargadas en su terminal</string>
+	<string name="routemanagerstate_title_points_spanish">Puntos de interés de la ruta</string>
 
 	<string name="infostate_menu_stop">Detener grabación</string>
 	<string name="infostate_menu_repeat">Repetir grabación</string>
