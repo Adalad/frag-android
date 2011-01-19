@@ -34,7 +34,7 @@ public class ImageState extends State{
 	private ScrollView sv;
 	private FullScreenGallery bigGallery;
 	private int currentIndex;
-	private boolean isBigGalleryDisplayed,isPresentation=false,automaticChange=false;
+	private boolean isBigGalleryDisplayed,isPresentation=false,automaticChange=false,stop=false;
 	private int presentationIndex=0;
 	
 	public ImageState() {
@@ -87,18 +87,22 @@ public class ImageState extends State{
 	
 	@Override
 	public void onUtteranceCompleted(String id){
-		presentationIndex++;
-		if (presentationIndex<bigGallery.getCount()){
-			//automaticChange=true;
-			bigGallery.setSelection(presentationIndex, true);
-			//FRAGUEL.getInstance().talkSpeech((String)text.getText(),presentationIndex);
-		}
-		else{
-			isPresentation=false;
-			bigGallery.setKeepScreenOn(false);
-			//automaticChange=false;
-		}
-		
+	
+		if (!stop){
+			presentationIndex++;
+			if (presentationIndex<bigGallery.getCount()){
+				automaticChange=true;
+				bigGallery.setSelection(presentationIndex, true);
+				//FRAGUEL.getInstance().talkSpeech((String)text.getText(),presentationIndex);
+			}
+			else{
+				isPresentation=false;
+				bigGallery.setKeepScreenOn(false);
+				//automaticChange=false;
+			}
+			
+		}else
+			stop=false;
 	}
 	
 	
@@ -187,9 +191,18 @@ public class ImageState extends State{
 					if (FRAGUEL.getInstance().isTalking())
 						FRAGUEL.getInstance().stopTalking();
 				}else{
-					//if (automaticChange)
-					FRAGUEL.getInstance().talkSpeech((String)text.getText(),position);
-					presentationIndex=position;
+					if (automaticChange){
+						FRAGUEL.getInstance().talkSpeech((String)text.getText(),position);
+						automaticChange=false;
+					}else{
+						presentationIndex=position;
+						FRAGUEL.getInstance().stopTalking();
+						FRAGUEL.getInstance().talkSpeech((String)text.getText(),position);
+						stop=true;
+					}
+						
+					
+					
 				}
 				
 			}
