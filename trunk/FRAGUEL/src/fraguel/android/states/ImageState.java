@@ -35,7 +35,7 @@ public class ImageState extends State{
 	private ScrollView sv;
 	private FullScreenGallery bigGallery;
 	private int currentIndex;
-	private boolean isBigGalleryDisplayed,isPresentation,automaticChange,stop;
+	private boolean isBigGalleryDisplayed,isPresentation,automaticChange,stop,orientationChange;
 	private int presentationIndex=0;
 	
 	public ImageState() {
@@ -58,6 +58,7 @@ public class ImageState extends State{
 			isPresentation=false;
 			automaticChange=false;
 			stop=false;
+			orientationChange=false;
 			
 			setParamsSmallGallery();
 			
@@ -195,10 +196,14 @@ public class ImageState extends State{
 					if (FRAGUEL.getInstance().isTalking())
 						FRAGUEL.getInstance().stopTalking();
 				}else{
-					if (automaticChange){
+					
+					if(orientationChange){
+						//wait until gallery complete it's orientation change
+					}else if (automaticChange){
 						FRAGUEL.getInstance().talkSpeech((String)text.getText(),position);
 						automaticChange=false;
-					}else{
+					}
+					else{
 						presentationIndex=position;
 						FRAGUEL.getInstance().stopTalking();
 						FRAGUEL.getInstance().talkSpeech((String)text.getText(),position);
@@ -219,6 +224,11 @@ public class ImageState extends State{
 			
 	}
 	
+	public void changeOrientationFinished(){
+		orientationChange=false;
+	}
+	
+	
 	private void loadViews(){
 		viewGroup.addView(title);
 		viewGroup.addView(gallery);
@@ -233,10 +243,12 @@ public class ImageState extends State{
 			switch (newConfig.orientation){
 			case Configuration.ORIENTATION_LANDSCAPE: 
 				bigGallery.setOrientationChanged(true);
+				orientationChange=true;
 				break;
 				
 			case Configuration.ORIENTATION_PORTRAIT:
 				bigGallery.setOrientationChanged(true);
+				orientationChange=true;
 				break;
 			
 			}
