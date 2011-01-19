@@ -627,7 +627,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 				MenuState s=(MenuState)FRAGUEL.getInstance().getCurrentState();
 				s.setGPSText("Latitud: "+latitude+", Longitud: "+longitude);
 			}
-
+			
 		}
 
 

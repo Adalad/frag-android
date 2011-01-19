@@ -27,13 +27,14 @@ public class RouteManagerState extends State {
 	private static final int ROUTEMANAGERSTATE_ADDROUTE = 1;
 	private static final int ROUTEMANAGERSTATE_DELETEROUTE = 2;
 
-	LinearLayout container;
-	RouteManagerAdapter adapter;
-	TextView title;
-	ListView list;
+	private LinearLayout container;
+	private RouteManagerAdapter adapter;
+	private TextView title;
+	private ListView list;
+	private String loadData;
 	//0->routes,1->points,2->pointData
-	int internalState;
-	int selectedRoute,selectedPoint;
+	private int internalState;
+	private int selectedRoute,selectedPoint;
 	
 	public RouteManagerState() {
 		super();
@@ -110,8 +111,11 @@ public class RouteManagerState extends State {
 	
 	private void loadRoutes(int routeFocus){
 		container.removeView(list);
-		title.setText("Rutas descargadas en su terminal");
+		title.setText(R.string.routemanagerstate_title_routes_spanish);
 		setAdapter();
+		
+		adapter.setTitle(new String[] {"Punto 0","Punto 1","Punto 2"});
+		adapter.setDescription(new String[] {"Facultad de Medicina","Trincheras Norte","Hospital Clínico"});
 		internalState=0;
 		list.setSelection(routeFocus);
 		
