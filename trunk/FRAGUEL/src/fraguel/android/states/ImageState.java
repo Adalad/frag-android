@@ -2,6 +2,7 @@ package fraguel.android.states;
 
 import android.content.res.Configuration;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +35,7 @@ public class ImageState extends State{
 	private ScrollView sv;
 	private FullScreenGallery bigGallery;
 	private int currentIndex;
-	private boolean isBigGalleryDisplayed,isPresentation=false,automaticChange=false,stop=false;
+	private boolean isBigGalleryDisplayed,isPresentation,automaticChange,stop;
 	private int presentationIndex=0;
 	
 	public ImageState() {
@@ -54,6 +55,9 @@ public class ImageState extends State{
 			title.setGravity(Gravity.CENTER_HORIZONTAL);
 			
 			isBigGalleryDisplayed=false;
+			isPresentation=false;
+			automaticChange=false;
+			stop=false;
 			
 			setParamsSmallGallery();
 			
@@ -84,7 +88,7 @@ public class ImageState extends State{
 		// TODO Auto-generated method stub
 
 	}
-	
+		
 	@Override
 	public void onUtteranceCompleted(String id){
 	
@@ -93,12 +97,12 @@ public class ImageState extends State{
 			if (presentationIndex<bigGallery.getCount()){
 				automaticChange=true;
 				bigGallery.setSelection(presentationIndex, true);
-				//FRAGUEL.getInstance().talkSpeech((String)text.getText(),presentationIndex);
+				
 			}
 			else{
 				isPresentation=false;
 				bigGallery.setKeepScreenOn(false);
-				//automaticChange=false;
+			
 			}
 			
 		}else
