@@ -17,6 +17,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 import fraguel.android.FRAGUEL;
+import fraguel.android.PointOI;
 import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.State;
@@ -55,13 +56,14 @@ public class RouteManagerState extends State {
 		title= new TextView(FRAGUEL.getInstance().getApplicationContext());
 		title.setGravity(Gravity.CENTER_HORIZONTAL);
 		container.addView(title);
+		data= FRAGUEL.getInstance().getLoadedData();
 		loadRoutes(0);
 		viewGroup=container;
 		selectedRoute=0;
 		selectedPoint=0;
 		
 		FRAGUEL.getInstance().addView(viewGroup);
-		data= FRAGUEL.getInstance().getLoadedData();
+		
 		
 		
 		
@@ -99,16 +101,26 @@ public class RouteManagerState extends State {
 	}
 	
 	private void loadPoints(int route){
-		title.setText("Puntos de la ruta: "+ route);
+		System.gc();
+		title.setText(R.string.routemanagerstate_title_points_spanish);
+		title.setText(title.getText()+" "+ route);
 		container.removeView(list);
 		setAdapter();
-		//adapter.setTitle(new String[] {"Punto 0","Punto 1","Punto 2"});
-		//adapter.setDescription(new String[] {"Facultad de Medicina","Trincheras Norte","Hospital Clínico"});
+		currentDataTitle=new ArrayList<String>();
+		currentDataDescrip= new ArrayList<String>();
+		ArrayList<PointOI> points= data.get(route).pointsOI;
+		for (PointOI p : points){
+			currentDataTitle.add(p.title);
+			currentDataDescrip.add(p.icon);
+		}
+		adapter.setTitle(currentDataTitle);
+		adapter.setDescription(currentDataDescrip);
 		internalState=1;
 		list.setSelection(selectedPoint);
 	}
 	
 	private void loadInfoAboutPoint(int point){
+		System.gc();
 		container.removeView(list);
 		title.setText("ENLAZAR CON LOS DATOS DEL PUNTO " + selectedPoint+ " DE LA RUTA "+selectedRoute);
 		internalState=2;
@@ -116,6 +128,7 @@ public class RouteManagerState extends State {
 	}
 	
 	private void loadRoutes(int routeFocus){
+		System.gc();
 		container.removeView(list);
 		title.setText(R.string.routemanagerstate_title_routes_spanish);
 		setAdapter();
