@@ -13,6 +13,8 @@ import android.widget.Toast;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.State;
+import fraguel.android.notifications.GPSNotificationButton;
+import fraguel.android.notifications.WarningNotificationButton;
 
 
 
@@ -72,36 +74,9 @@ public class IntroState extends State{
 		super.unload();
 		//comprobamos si tiene activado el GPS
 		if (!FRAGUEL.getInstance().getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)) {	
-			createGpsDisabledAlert();
+			FRAGUEL.getInstance().createTwoButtonNotification(R.string.title_no_gps_spanish, R.string.alert_gps_spanish, R.string.gps_enable_button_spanish, R.string.gps_cancel_button_spanish, new GPSNotificationButton(), new WarningNotificationButton());
 		}
 		
 	}
 	
-	private void createGpsDisabledAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
-        builder.setTitle(R.string.title_no_gps_spanish);
-        builder.setMessage(R.string.alert_gps_spanish);
-        builder.setCancelable(false);
-        builder.setPositiveButton(R.string.gps_enable_button_spanish,
-                                        new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int id) {
-                                                	Intent gpsOptionsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                        			FRAGUEL.getInstance().startActivity(gpsOptionsIntent);
-                                                }
-                                        });
-        builder.setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                        Toast.makeText(FRAGUEL.getInstance(), R.string.no_gps_spanish, Toast.LENGTH_LONG).show();
-                                }
-                        });
-        AlertDialog alert = builder.create();
-        alert.getWindow().setGravity(Gravity.TOP);
-        alert.show();
-}
-
-
-
-
 }
