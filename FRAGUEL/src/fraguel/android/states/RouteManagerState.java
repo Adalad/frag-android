@@ -189,8 +189,8 @@ public class RouteManagerState extends State {
 		//Borramos el menu de opciones anterior
 		menu.clear();
 		//Añadimos las opciones del menu
-		menu.add(0,ROUTEMANAGERSTATE_ADDROUTE, 0, R.string.routemanagerstate_menu_addroute).setIcon(R.drawable.change_map_icon);
-		menu.add(0,ROUTEMANAGERSTATE_DELETEROUTE, 0, R.string.routemanagerstate_menu_deleteroute).setIcon(R.drawable.geotaging);
+		menu.add(0,ROUTEMANAGERSTATE_ADDROUTE, 0, R.string.routemanagerstate_menu_addroute).setIcon(R.drawable.ic_menu_routeadd);
+		menu.add(0,ROUTEMANAGERSTATE_DELETEROUTE, 0, R.string.routemanagerstate_menu_deleteroute).setIcon(R.drawable.ic_menu_routerem);
 		
 		return menu;
 	}
