@@ -49,6 +49,7 @@ import fraguel.android.states.IntroState;
 import fraguel.android.states.MainMenuState;
 import fraguel.android.states.MapState;
 import fraguel.android.states.MenuState;
+import fraguel.android.states.PointInfoState;
 import fraguel.android.states.RouteManagerState;
 import fraguel.android.states.VideoGalleryState;
 import fraguel.android.states.VideoState;
@@ -230,6 +231,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		addState(new InfoState(), false);
 		addState(new ConfigState(), false);
 		addState(new RouteManagerState(),false);
+		addState(new PointInfoState(),false);
 
 
 		//TextToSpeech init & instalation
