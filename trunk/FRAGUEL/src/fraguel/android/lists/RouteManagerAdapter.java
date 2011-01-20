@@ -16,8 +16,8 @@ import fraguel.android.R;
 public class RouteManagerAdapter extends BaseAdapter{
 
 	private ArrayList<String> titles=new ArrayList<String>();
-	private ArrayList<String> descriptions=new ArrayList<String>();;
-	private ArrayList<String> images=new ArrayList<String>();;
+	private ArrayList<String> descriptions=new ArrayList<String>();
+	private ArrayList<String> images=new ArrayList<String>();
 	private Context context;
 	
 	public RouteManagerAdapter(Context c) {
