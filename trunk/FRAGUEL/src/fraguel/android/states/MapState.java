@@ -82,6 +82,7 @@ public class MapState extends State implements OnTouchListener{
 		mapView = (MapView) FRAGUEL.getInstance().findViewById(R.id.mapview);
 		//mapView.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		//mapView.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
+		mapView.setTraffic(false);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setClickable(true);
 		mapView.setEnabled(true);
