@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,13 +56,12 @@ public class PointInfoState extends State{
 		Display display = ((WindowManager)FRAGUEL.getInstance().getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         int width = display.getWidth();
 		gridView.setColumnWidth(width/2);
-		//gridView.setVerticalSpacing(10);
-		//gridView.setHorizontalSpacing(10);
 		gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
 		gridView.setGravity(Gravity.CENTER);
 		gridView.setAdapter(new InfoPointAdapter(FRAGUEL.getInstance().getApplicationContext()));
-		//gridView.setBackgroundColor(Color.GREEN);
 		gridView.setScrollContainer(false);
+		setGridViewListener();
+		
 		
 		container.addView(gridView);
 		
@@ -69,8 +70,38 @@ public class PointInfoState extends State{
 		
 	}
 	
-	public int getTitleWidth(){
-		return title.getWidth();
+	
+	public void setGridViewListener(){
+		
+		gridView.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				// TODO Auto-generated method stub
+				switch (position){
+				
+				case 0:
+					FRAGUEL.getInstance().changeState(6);
+					break;
+				case 1:
+
+					FRAGUEL.getInstance().changeState(4);
+					break;
+					
+				case 2:
+
+					FRAGUEL.getInstance().changeState(9);
+					break;
+					
+				case 3:
+
+					FRAGUEL.getInstance().changeState(5);
+					break;
+				
+				}
+			}});
+		
 	}
 
 	@Override
