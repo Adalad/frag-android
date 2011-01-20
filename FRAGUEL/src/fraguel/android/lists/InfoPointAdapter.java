@@ -20,10 +20,10 @@ public class InfoPointAdapter extends BaseAdapter{
 
 	private Context mContext;
 	 private Integer[] mImageIds = {
-	            R.drawable.guerracivil_1,
-	            R.drawable.guerracivil_2,
-	            R.drawable.guerracivil_3,
-	            R.drawable.guerracivil_4,
+	            R.drawable.info,
+	            R.drawable.photo,
+	            R.drawable.video,
+	            R.drawable.ar,
 	    };
 	 private Integer[] mTitlesIds={R.string.infopointstate_info,R.string.infopointstate_images,R.string.infopointstate_videos,R.string.infopointstate_ar};
 	public InfoPointAdapter(Context c){

@@ -13,6 +13,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import fraguel.android.FRAGUEL;
+import fraguel.android.R;
 import fraguel.android.State;
 import fraguel.android.lists.InfoPointAdapter;
 
@@ -35,11 +36,14 @@ public class PointInfoState extends State{
 		LinearLayout container= new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
 		container.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		container.setOrientation(LinearLayout.VERTICAL);
+		//container.setBackgroundResource(R.drawable.aqua);
 		
 		title= new TextView(FRAGUEL.getInstance().getApplicationContext());
 		title.setText("Información disponible del punto de interés");
 		title.setGravity(Gravity.CENTER_HORIZONTAL);
 		title.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+		title.setBackgroundColor(Color.LTGRAY);
+		title.setTextColor(Color.RED);
 		
 		container.addView(title);
 		
