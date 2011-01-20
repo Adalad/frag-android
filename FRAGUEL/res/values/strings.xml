@@ -41,5 +41,11 @@
 	
 	<string name="videostate_menu_downloadvideo">Guardar vídeo</string>
 	<string name="videostate_menu_backvideogallery">Volver a la galería</string>
+	
+	<string name="infopointstate_info">Información general</string>
+	<string name="infopointstate_images">Galería de imágenes</string>
+	<string name="infopointstate_videos">Galería de vídeos</string>
+	<string name="infopointstate_ar">Realidad Aumentada</string>
+	
 
 </resources>
