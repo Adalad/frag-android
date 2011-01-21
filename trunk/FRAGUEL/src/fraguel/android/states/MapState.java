@@ -35,11 +35,10 @@ public class MapState extends State implements OnTouchListener{
 
 	// Variables de los botones del men
 	private static final int MAPSTATE_MENU_CHANGEMAP = 1;
-	private static final int MAPSTATE_MENU_BACKMENU = 2;
-	private static final int MAPSTATE_MENU_EXIT = 3;
-	private static final int MAPSTATE_MENU_MY_POSITION = 4;
-	private static final int MAPSTATE_MENU_EXPLORE_MAP = 5;
-	private static final int MAPSTATE_MENU_COMPASS=6;
+	private static final int MAPSTATE_MENU_MY_POSITION = 2;
+	private static final int MAPSTATE_MENU_EXPLORE_MAP = 3;
+	private static final int MAPSTATE_MENU_COMPASS=4;
+	private static final int MAPSTATE_MENU_BACKMENU = 5;
 
 
 	public static final int STATE_ID = 2;
@@ -214,12 +213,11 @@ public class MapState extends State implements OnTouchListener{
 		//Borramos el menu de opciones anterior
 		menu.clear();
 		//Añadimos las opciones del menu
-		menu.add(0, MAPSTATE_MENU_CHANGEMAP, 0, R.string.mapstate_menu_changemap).setIcon(R.drawable.change_map_icon);
-		menu.add(0, MAPSTATE_MENU_BACKMENU, 0, R.string.mapstate_menu_backmenu).setIcon(R.drawable.geotaging);
-		menu.add(0, MAPSTATE_MENU_EXIT, 0,R.string.menu_exit).setIcon(R.drawable.exit);
-		menu.add(0, MAPSTATE_MENU_MY_POSITION, 0,R.string.mapstate_menu_my_position).setIcon(R.drawable.my_location_icon);
-		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,R.string.mapstate_menu_explore_map).setIcon(R.drawable.explore_map_icon);
-		menu.add(0, MAPSTATE_MENU_COMPASS, 0,R.string.mapstate_menu_compass).setIcon(R.drawable.compass_icon);
+		menu.add(0, MAPSTATE_MENU_CHANGEMAP, 0, R.string.mapstate_menu_changemap).setIcon(R.drawable.ic_menu_mapmode);
+		menu.add(0, MAPSTATE_MENU_MY_POSITION, 0,R.string.mapstate_menu_my_position).setIcon(R.drawable.ic_menu_mylocation);
+		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,R.string.mapstate_menu_explore_map).setIcon(R.drawable.ic_menu_search);
+		menu.add(0, MAPSTATE_MENU_COMPASS, 0,R.string.mapstate_menu_compass).setIcon(R.drawable.ic_menu_compass);
+		menu.add(0, MAPSTATE_MENU_BACKMENU, 0, R.string.mapstate_menu_backmenu).setIcon(R.drawable.ic_menu_home);
 
 		return menu;
 	}
@@ -242,14 +240,6 @@ public class MapState extends State implements OnTouchListener{
 			
 			}
 			return true;
-
-		case MAPSTATE_MENU_BACKMENU:
-			FRAGUEL.getInstance().changeState(MenuState.STATE_ID);
-			return true;
-
-		case MAPSTATE_MENU_EXIT:
-			System.exit(0);
-			return true;
 		case MAPSTATE_MENU_EXPLORE_MAP:
 			isMyPosition=false;
 			return true;
@@ -262,6 +252,10 @@ public class MapState extends State implements OnTouchListener{
 				me.disableCompass();
 			else
 				me.enableCompass();
+			return true;
+
+		case MAPSTATE_MENU_BACKMENU:
+			FRAGUEL.getInstance().changeState(MenuState.STATE_ID);
 			return true;
 		}
 
