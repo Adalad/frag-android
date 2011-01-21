@@ -2,6 +2,7 @@ package fraguel.android.states;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
+import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.lists.InfoPointAdapter;
 
@@ -46,6 +48,13 @@ public class PointInfoState extends State{
 		title.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 		title.setBackgroundColor(Color.LTGRAY);
 		title.setTextColor(Color.RED);
+		title.setMaxHeight(20);
+		title.setFocusable(true);
+		title.setFocusableInTouchMode(true);
+		title.requestFocus();
+		title.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+		title.setLines(1);
+		title.setHorizontallyScrolling(true);
 		
 		container.addView(title);
 		
@@ -107,6 +116,15 @@ public class PointInfoState extends State{
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void loadData(int route, int point){
+		String titleText;
+		Route r=FRAGUEL.getInstance().getLoadedData().get(route);
+		titleText=r.name+" - "+r.pointsOI.get(point).title;
+		title.setText(titleText);
 		
 	}
 
