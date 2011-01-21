@@ -64,10 +64,6 @@ public class RouteManagerState extends State {
 		
 		FRAGUEL.getInstance().addView(viewGroup);
 		
-		
-		
-		
-		
 	}
 
 	@Override
@@ -91,7 +87,7 @@ public class RouteManagerState extends State {
 					break;
 				case 1:
 					selectedPoint=position;
-					loadInfoAboutPoint(selectedPoint);
+					FRAGUEL.getInstance().changeState(20);
 					break;
 				}
 				
@@ -119,14 +115,7 @@ public class RouteManagerState extends State {
 		list.setSelection(selectedPoint);
 	}
 	
-	private void loadInfoAboutPoint(int point){
-		System.gc();
-		container.removeView(list);
-		title.setText("ENLAZAR CON LOS DATOS DEL PUNTO " + selectedPoint+ " DE LA RUTA "+selectedRoute);
-		internalState=2;
 		
-	}
-	
 	private void loadRoutes(int routeFocus){
 		System.gc();
 		container.removeView(list);
@@ -161,26 +150,13 @@ public class RouteManagerState extends State {
 	
 	
 	public boolean dispatchKeyEvent(KeyEvent event){
-		boolean result=false;
 		if (event.getKeyCode()==event.KEYCODE_BACK & event.getAction()==event.ACTION_DOWN){
-			if(internalState>0){
-			
-				switch (internalState){
-				case 1:
-					loadRoutes(selectedRoute);
-					break;
-				case 2:
-					loadPoints(selectedRoute);
-					break;
-				}
-			
-			result=true;
+			if(internalState==1){
+				loadRoutes(selectedRoute);
+				return true;
 			}
 		}
-		if (result)
-			return true;
-		else
-			return super.dispatchKeyEvent(event);
+	return super.dispatchKeyEvent(event);
 	}
 
 	@Override
