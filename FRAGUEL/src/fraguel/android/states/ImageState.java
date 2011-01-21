@@ -2,7 +2,6 @@ package fraguel.android.states;
 
 import android.content.res.Configuration;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -264,11 +263,11 @@ public class ImageState extends State{
 		// TODO Auto-generated method stub
 		menu.clear();
 		if (!isPresentation)
-			menu.add(0, INFOSTATE_SPEECH, 0, R.string.infostate_menu_speechPresentation).setIcon(R.drawable.play);
+			menu.add(0, INFOSTATE_SPEECH, 0, R.string.infostate_menu_speechPresentation).setIcon(R.drawable.ic_menu_talkplay);
 		else
-			menu.add(0, INFOSTATE_STOP_SPEECH, 0, R.string.infostate_menu_stopPresentation).setIcon(R.drawable.stop);
-		menu.add(0, INFOSTATE_STOP_RECORD, 0, R.string.infostate_menu_stop).setIcon(R.drawable.stop);
-		menu.add(0, INFOSTATE_REPEAT_RECORD, 0, R.string.infostate_menu_repeat).setIcon(R.drawable.play);
+			menu.add(0, INFOSTATE_STOP_SPEECH, 0, R.string.infostate_menu_stopPresentation).setIcon(R.drawable.ic_menu_talkstop);
+		menu.add(0, INFOSTATE_STOP_RECORD, 0, R.string.infostate_menu_stop).setIcon(R.drawable.ic_menu_talkstop);
+		menu.add(0, INFOSTATE_REPEAT_RECORD, 0, R.string.infostate_menu_repeat).setIcon(R.drawable.ic_menu_talkplay);
 		
 		
 		return menu;
