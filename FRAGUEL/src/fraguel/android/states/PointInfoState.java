@@ -50,12 +50,12 @@ public class PointInfoState extends State{
 		title.setBackgroundColor(Color.LTGRAY);
 		title.setTextColor(Color.RED);
 		title.setMaxHeight(20);
-		title.setFocusable(true);
+		/*title.setFocusable(true);
 		title.setFocusableInTouchMode(true);
 		title.requestFocus();
 		title.setEllipsize(TextUtils.TruncateAt.MARQUEE);
 		title.setLines(1);
-		title.setHorizontallyScrolling(true);
+		title.setHorizontallyScrolling(true);*/
 		
 		container.addView(title);
 		
