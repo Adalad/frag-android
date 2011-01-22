@@ -41,6 +41,8 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 
+import fraguel.android.notifications.ProximityAlertNotificationButton;
+import fraguel.android.notifications.WarningNotificationButton;
 import fraguel.android.states.ARState;
 import fraguel.android.states.ConfigState;
 import fraguel.android.states.ImageState;
@@ -85,8 +87,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	private Stack<State> _stateStack;
 
 	// Routes and Points OI
-	ArrayList<Route> routes;
-	ArrayList<PointOI> pointsOI;
+	private ArrayList<Route> routes;
+	private ArrayList<PointOI> pointsOI;
 
 	// Menu variable buttons
 	private static final int MENU_MAIN = 1;
@@ -500,6 +502,30 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	        alert.show();
 	}
 	
+	public void createTwoButtonNotification(String title,String msg,int positiveButton,int negativeButton, DialogInterface.OnClickListener listenerPositiveButton,DialogInterface.OnClickListener listenerNegativeButton){
+		 AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
+	        builder.setTitle(title);
+	        builder.setMessage(msg);
+	        builder.setCancelable(false);
+	        builder.setPositiveButton(positiveButton,listenerPositiveButton);
+	        builder.setNegativeButton(negativeButton,listenerNegativeButton);
+	        AlertDialog alert = builder.create();
+	        alert.getWindow().setGravity(Gravity.TOP);
+	        alert.show();
+	}
+	
+	public void createTwoButtonNotification(int title,String msg,int positiveButton,int negativeButton, DialogInterface.OnClickListener listenerPositiveButton,DialogInterface.OnClickListener listenerNegativeButton){
+		 AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
+	        builder.setTitle(title);
+	        builder.setMessage(msg);
+	        builder.setCancelable(false);
+	        builder.setPositiveButton(positiveButton,listenerPositiveButton);
+	        builder.setNegativeButton(negativeButton,listenerNegativeButton);
+	        AlertDialog alert = builder.create();
+	        alert.getWindow().setGravity(Gravity.TOP);
+	        alert.show();
+	}
+	
 
 	@Override
 	protected boolean isLocationDisplayed() {
@@ -613,12 +639,18 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	//*************************************************************************************
 	public class Me implements LocationListener{
 
+		public static final float proximityAlertDistance=50;
 		private GeoPoint currentLocation;
 		private double latitude=0,longitude=0,altitude=0;
+		private ArrayList<GeoPoint> pointsVisited;
+		private float[] results= new float[3];
+		private String msg;
 
 
 		private Me(GeoPoint arg0) {
 			currentLocation=arg0;
+			pointsVisited= new ArrayList<GeoPoint>();
+			
 			// TODO Auto-generated constructor stub
 		}
 
@@ -634,6 +666,21 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 				MenuState s=(MenuState)FRAGUEL.getInstance().getCurrentState();
 				s.setGPSText("Latitud: "+latitude+", Longitud: "+longitude);
 			}
+			
+			for (Route r : routes) {
+				for (PointOI p : r.pointsOI) {
+					
+					Location.distanceBetween(latitude, longitude, p.coords[0], p.coords[1], results);
+					
+					if (results[0]<=proximityAlertDistance){
+						ProximityAlertNotificationButton notification= new ProximityAlertNotificationButton();
+						notification.setData(r, p);
+						msg=r.name+" - "+p.title;
+						FRAGUEL.getInstance().createTwoButtonNotification(R.string.notification_proximityAlert_title_spanish, msg,R.string.notification_proximityAlert_possitiveButton_spanish , R.string.notification_proximityAlert_negativeButton_spanish,notification , new WarningNotificationButton());
+					}
+				}
+			}
+			
 			
 		}
 
