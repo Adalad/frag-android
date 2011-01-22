@@ -1,7 +1,10 @@
 package fraguel.android;
 
+import java.util.Iterator;
+
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Point;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +15,8 @@ public abstract class State implements Comparable<State> {
 
 	protected int id;
 	protected ViewGroup viewGroup;
+	protected PointOI point=null;
+	protected Route route=null;
 	
 
 	public State() {
@@ -65,5 +70,11 @@ public abstract class State implements Comparable<State> {
 	//public abstract void onTouch(View v, MotionEvent event);
 	public void onActivityResult(int requestCode, int resultCode, Intent data){}
 	public void onUtteranceCompleted(String arg0) {}
-	public void loadData(int route, int point){}
+	public boolean loadData(Route r,PointOI p){
+		if (r!=null)
+			route=r;
+		if (p!=null)
+			point=p;
+		return (r!=null && p!=null);
+	}
 }

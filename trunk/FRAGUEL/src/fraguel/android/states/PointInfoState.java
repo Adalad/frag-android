@@ -16,6 +16,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import fraguel.android.FRAGUEL;
+import fraguel.android.PointOI;
 import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.State;
@@ -120,11 +121,15 @@ public class PointInfoState extends State{
 	}
 	
 	@Override
-	public void loadData(int route, int point){
-		String titleText;
-		Route r=FRAGUEL.getInstance().getLoadedData().get(route);
-		titleText=r.name+" - "+r.pointsOI.get(point).title;
-		title.setText(titleText);
+	public boolean loadData(Route route, PointOI point){
+		boolean ok=super.loadData(route, point);
+		
+		if (ok){
+			String titleText;
+			titleText=route.name+" - "+point.title;
+			title.setText(titleText);
+		}
+		return ok;
 		
 	}
 

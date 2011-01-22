@@ -47,5 +47,10 @@
 	<string name="infopointstate_videos">Galería de vídeos</string>
 	<string name="infopointstate_ar">Realidad Aumentada</string>
 	
+	
+	<string name="notification_proximityAlert_title_spanish">¡Atención! Está usted en el radio de acción de un punto de interés</string>
+	<string name="notification_proximityAlert_possitiveButton_spanish">Ver contenido</string>
+	<string name="notification_proximityAlert_negativeButton_spanish">Ignorar</string>
+	
 
 </resources>

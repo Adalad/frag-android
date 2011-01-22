@@ -88,7 +88,8 @@ public class RouteManagerState extends State {
 				case 1:
 					selectedPoint=position;
 					FRAGUEL.getInstance().changeState(20);
-					FRAGUEL.getInstance().getCurrentState().loadData(selectedRoute, selectedPoint);
+					Route r= FRAGUEL.getInstance().getLoadedData().get(selectedRoute);
+					FRAGUEL.getInstance().getCurrentState().loadData(r, r.pointsOI.get(selectedPoint));
 					break;
 				}
 				
