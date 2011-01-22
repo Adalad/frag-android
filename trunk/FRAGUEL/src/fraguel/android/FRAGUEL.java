@@ -634,17 +634,30 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		else
 			return false;
 	}
+	
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		if(currentState == MapState.getInstance()) MapState.getInstance().onTouch(v, event);
+		
+		return false;
+	}
 
 	//***********************************************************************************
 	//*************************************************************************************
 	public class Me implements LocationListener{
 
-		public static final float proximityAlertDistance=50;
+		public static final float proximityAlertDistance=50000000;
 		private GeoPoint currentLocation;
 		private double latitude=0,longitude=0,altitude=0;
 		private ArrayList<GeoPoint> pointsVisited;
 		private float[] results= new float[3];
 		private String msg;
+		private float distance=Float.MAX_VALUE;
+		private Route currentRoute=null;
+		private PointOI currentPoint=null;
+		private boolean isDialogDisplayed=false;
 
 
 		private Me(GeoPoint arg0) {
@@ -673,14 +686,23 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 					Location.distanceBetween(latitude, longitude, p.coords[0], p.coords[1], results);
 					
 					if (results[0]<=proximityAlertDistance){
-						ProximityAlertNotificationButton notification= new ProximityAlertNotificationButton();
-						notification.setData(r, p);
-						msg=r.name+" - "+p.title;
-						FRAGUEL.getInstance().createTwoButtonNotification(R.string.notification_proximityAlert_title_spanish, msg,R.string.notification_proximityAlert_possitiveButton_spanish , R.string.notification_proximityAlert_negativeButton_spanish,notification , new WarningNotificationButton());
+						if (results[0]<distance){
+							currentRoute=r;
+							currentPoint=p;
+						}
 					}
 				}
 			}
 			
+			if (currentRoute!=null && currentPoint!=null){
+				ProximityAlertNotificationButton notification= new ProximityAlertNotificationButton();
+				notification.setData(currentRoute, currentPoint);
+				msg=currentRoute.name+" - "+currentPoint.title;
+				FRAGUEL.getInstance().createTwoButtonNotification(R.string.notification_proximityAlert_title_spanish, msg,R.string.notification_proximityAlert_possitiveButton_spanish , R.string.notification_proximityAlert_negativeButton_spanish,notification , new WarningNotificationButton());
+			}
+		
+		currentRoute=null;
+		currentPoint=null;
 			
 		}
 
@@ -726,16 +748,19 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		}
 
 
+		public void setDialogDisplayed(boolean isDialogDisplayed) {
+			this.isDialogDisplayed = isDialogDisplayed;
+		}
+
+
+		public boolean isDialogDisplayed() {
+			return isDialogDisplayed;
+		}
+
+
 
 	}
 
-	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-		// TODO Auto-generated method stub
-		if(currentState == MapState.getInstance()) MapState.getInstance().onTouch(v, event);
-		
-		return false;
-	}
 
 
 
