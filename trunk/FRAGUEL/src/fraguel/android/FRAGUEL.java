@@ -2,6 +2,7 @@ package fraguel.android;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Stack;
 
@@ -651,20 +652,21 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	public class Me implements LocationListener{
 
 		public static final float proximityAlertDistance=50000000;
+		public static final float proximityAlertError=10;
 		private GeoPoint currentLocation;
 		private double latitude=0,longitude=0,altitude=0;
-		private ArrayList<Pair<Integer,Integer>> pointsVisited;
+		private ArrayList<Pair<Pair<Integer,Integer>,Pair<Float,Float>>> pointsVisited;
 		private float[] results= new float[3];
 		private String msg;
 		private float distance=Float.MAX_VALUE;
 		private Route currentRoute=null;
 		private PointOI currentPoint=null;
-		private boolean isDialogDisplayed=false;
+		private boolean isDialogDisplayed=false,hasBeenVisited;
 
 
 		private Me(GeoPoint arg0) {
 			currentLocation=arg0;
-			pointsVisited= new ArrayList<Pair<Integer,Integer>>();
+			pointsVisited= new ArrayList<Pair<Pair<Integer,Integer>,Pair<Float,Float>>>();
 			
 			// TODO Auto-generated constructor stub
 		}
@@ -682,15 +684,39 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 				s.setGPSText("Latitud: "+latitude+", Longitud: "+longitude);
 			}
 			
+			//sacamos de visitados los puntos que ya no estén dentro del radio de acción(hemos salido)
+			Iterator<Pair<Pair<Integer,Integer>,Pair<Float,Float>>> it= pointsVisited.iterator();
+			while(it.hasNext()){
+				Pair<Pair<Integer,Integer>,Pair<Float,Float>> routeAndPoint=it.next();
+				Location.distanceBetween(latitude, longitude, routeAndPoint.second.first, routeAndPoint.second.first, results);
+				 if (results[0]>= proximityAlertDistance+proximityAlertError){
+					 it.remove();
+				 }	
+			}
+			
+			//comprobamos si estamos cerca para cada punto de cada ruta
 			for (Route r : routes) {
 				for (PointOI p : r.pointsOI) {
+					hasBeenVisited=false;
 					
-					Location.distanceBetween(latitude, longitude, p.coords[0], p.coords[1], results);
+					it= pointsVisited.iterator();
+					//comprobamos que no lo hayamos visitado ya ese punto(es decir, sigamos aun en el radio de acción)
+					while (it.hasNext() && !hasBeenVisited){
+						Pair<Pair<Integer,Integer>,Pair<Float,Float>> actual= it.next();
+						if (actual.first.first==r.id && actual.first.second==p.id){
+							hasBeenVisited=true;
+						}
+					}
 					
-					if (results[0]<=proximityAlertDistance){
-						if (results[0]<distance){
-							currentRoute=r;
-							currentPoint=p;
+					
+					if (!hasBeenVisited){
+						Location.distanceBetween(latitude, longitude, p.coords[0], p.coords[1], results);
+					
+						if (results[0]<=proximityAlertDistance){
+							if (results[0]<distance){
+								currentRoute=r;
+								currentPoint=p;
+							}
 						}
 					}
 				}
@@ -698,8 +724,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			
 			if (currentRoute!=null && currentPoint!=null && !isDialogDisplayed){ 
 				msg=currentRoute.name+" - "+currentPoint.title;
-				FRAGUEL.getInstance().createTwoButtonNotification(R.string.notification_proximityAlert_title_spanish, msg,R.string.notification_proximityAlert_possitiveButton_spanish , R.string.notification_proximityAlert_negativeButton_spanish,new ProximityAlertNotificationButton(currentRoute,currentPoint) , new GPSIgnoreButton(currentRoute,currentPoint));
-				pointsVisited.add(new Pair<Integer, Integer>(currentRoute.id,currentPoint.id));
+				FRAGUEL.getInstance().createTwoButtonNotification(R.string.notification_proximityAlert_title_spanish, msg,R.string.notification_proximityAlert_possitiveButton_spanish , R.string.notification_proximityAlert_negativeButton_spanish,new ProximityAlertNotificationButton(currentRoute,currentPoint) , new GPSIgnoreButton());
+				pointsVisited.add(new Pair<Pair<Integer,Integer>,Pair<Float,Float>> (new Pair<Integer,Integer>(currentRoute.id,currentPoint.id),new Pair<Float,Float>(currentPoint.coords[0],currentPoint.coords[0])));
 			}
 		
 		currentRoute=null;
@@ -707,8 +733,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			
 		}
 
-		public void setPointVisited(Route r,PointOI p){
-			pointsVisited.add(new Pair<Integer, Integer>(r.id,p.id));
+		public void setPointVisited(Route r,PointOI p,float latitude,float longitude){
+			pointsVisited.add(new Pair<Pair<Integer,Integer>,Pair<Float,Float>> (new Pair<Integer,Integer>(r.id,p.id),new Pair<Float,Float>(latitude,longitude)));
 		}
 
 		@Override
