@@ -726,6 +726,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 				msg=currentRoute.name+" - "+currentPoint.title;
 				FRAGUEL.getInstance().createTwoButtonNotification(R.string.notification_proximityAlert_title_spanish, msg,R.string.notification_proximityAlert_possitiveButton_spanish , R.string.notification_proximityAlert_negativeButton_spanish,new ProximityAlertNotificationButton(currentRoute,currentPoint) , new GPSIgnoreButton());
 				pointsVisited.add(new Pair<Pair<Integer,Integer>,Pair<Float,Float>> (new Pair<Integer,Integer>(currentRoute.id,currentPoint.id),new Pair<Float,Float>(currentPoint.coords[0],currentPoint.coords[0])));
+				isDialogDisplayed=true;
 			}
 		
 		currentRoute=null;
