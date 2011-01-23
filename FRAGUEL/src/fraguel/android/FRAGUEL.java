@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -41,6 +42,7 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 
+import fraguel.android.notifications.GPSIgnoreButton;
 import fraguel.android.notifications.ProximityAlertNotificationButton;
 import fraguel.android.notifications.WarningNotificationButton;
 import fraguel.android.states.ARState;
@@ -651,7 +653,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		public static final float proximityAlertDistance=50000000;
 		private GeoPoint currentLocation;
 		private double latitude=0,longitude=0,altitude=0;
-		private ArrayList<GeoPoint> pointsVisited;
+		private ArrayList<Pair<Integer,Integer>> pointsVisited;
 		private float[] results= new float[3];
 		private String msg;
 		private float distance=Float.MAX_VALUE;
@@ -662,7 +664,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 
 		private Me(GeoPoint arg0) {
 			currentLocation=arg0;
-			pointsVisited= new ArrayList<GeoPoint>();
+			pointsVisited= new ArrayList<Pair<Integer,Integer>>();
 			
 			// TODO Auto-generated constructor stub
 		}
@@ -694,11 +696,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 				}
 			}
 			
-			if (currentRoute!=null && currentPoint!=null){
-				ProximityAlertNotificationButton notification= new ProximityAlertNotificationButton();
-				notification.setData(currentRoute, currentPoint);
+			if (currentRoute!=null && currentPoint!=null && !isDialogDisplayed){ 
 				msg=currentRoute.name+" - "+currentPoint.title;
-				FRAGUEL.getInstance().createTwoButtonNotification(R.string.notification_proximityAlert_title_spanish, msg,R.string.notification_proximityAlert_possitiveButton_spanish , R.string.notification_proximityAlert_negativeButton_spanish,notification , new WarningNotificationButton());
+				FRAGUEL.getInstance().createTwoButtonNotification(R.string.notification_proximityAlert_title_spanish, msg,R.string.notification_proximityAlert_possitiveButton_spanish , R.string.notification_proximityAlert_negativeButton_spanish,new ProximityAlertNotificationButton(currentRoute,currentPoint) , new GPSIgnoreButton(currentRoute,currentPoint));
+				pointsVisited.add(new Pair<Integer, Integer>(currentRoute.id,currentPoint.id));
 			}
 		
 		currentRoute=null;
@@ -706,6 +707,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			
 		}
 
+		public void setPointVisited(Route r,PointOI p){
+			pointsVisited.add(new Pair<Integer, Integer>(r.id,p.id));
+		}
 
 		@Override
 		public void onProviderDisabled(String provider) {

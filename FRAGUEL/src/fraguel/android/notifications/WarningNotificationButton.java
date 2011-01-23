@@ -1,5 +1,6 @@
 package fraguel.android.notifications;
 
+import fraguel.android.FRAGUEL;
 import android.content.DialogInterface;
 
 public class WarningNotificationButton implements DialogInterface.OnClickListener{
