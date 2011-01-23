@@ -121,6 +121,12 @@ public class PointInfoState extends State{
 	}
 	
 	@Override
+	public void unload(){
+		FRAGUEL.getInstance().getGPS().setDialogDisplayed(false);
+		super.unload();
+	}
+	
+	@Override
 	public boolean loadData(Route route, PointOI point){
 		boolean ok=super.loadData(route, point);
 		
