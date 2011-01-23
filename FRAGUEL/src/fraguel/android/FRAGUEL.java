@@ -213,11 +213,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 
 		routes = new ArrayList<Route>();
 		pointsOI = new ArrayList<PointOI>();
-		ResourceParser.getInstance().setRoot("fraguel");
-		routes = ResourceParser.getInstance().readRoutes();
-		for (Route r : routes) {
-			r.pointsOI = ResourceParser.getInstance().readPointsOI("route"+r.id);
-		}
+		//ResourceParser.getInstance().setRoot("fraguel");
+		//routes = ResourceParser.getInstance().readRoutes();
+		//for (Route r : routes) {
+		//	r.pointsOI = ResourceParser.getInstance().readPointsOI("route"+r.id);
+		//}
 
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
