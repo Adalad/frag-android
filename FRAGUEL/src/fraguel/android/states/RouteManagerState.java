@@ -139,6 +139,8 @@ public class RouteManagerState extends State {
 	private void setAdapter(){
 		list= new ListView(FRAGUEL.getInstance().getApplicationContext());
 		list.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+		list.setCacheColorHint(0);
+		list.setDrawSelectorOnTop(true);
 		adapter = new RouteManagerAdapter(FRAGUEL.getInstance().getApplicationContext());
 		list.setAdapter(adapter);
 		ColorDrawable divcolor = new ColorDrawable(Color.DKGRAY);
