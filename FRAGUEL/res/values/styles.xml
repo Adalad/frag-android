@@ -4,5 +4,13 @@
 		<item name="android:textStyle">bold</item>
 		<item name="android:textColor">#00FF00</item>
         <item name="android:typeface">monospace</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLines">1</item>        
+        <item name="android:singleLine">true</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">-1</item>
+        <item name="android:focusable">true</item>
 	</style>
 </resources>
