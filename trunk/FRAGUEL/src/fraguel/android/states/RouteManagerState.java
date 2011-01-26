@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -55,6 +56,19 @@ public class RouteManagerState extends State {
 		container.setOrientation(LinearLayout.VERTICAL);
 		title= new TextView(FRAGUEL.getInstance().getApplicationContext());
 		title.setGravity(Gravity.CENTER_HORIZONTAL);
+		title.setTextAppearance(FRAGUEL.getInstance().getApplicationContext(), R.style.StateTitle);
+		title.setLines(1);
+		title.setMaxLines(1);
+		title.setSingleLine();
+		title.setSingleLine(true);
+		title.setHorizontallyScrolling(true);
+		
+		title.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+		title.setMarqueeRepeatLimit(-1);
+		title.setFocusable(true);
+		title.setSelected(true);
+
+		
 		container.addView(title);
 		data= FRAGUEL.getInstance().getLoadedData();
 		loadRoutes(0);
