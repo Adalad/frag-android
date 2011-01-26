@@ -23,6 +23,7 @@ import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.lists.RouteManagerAdapter;
+import fraguel.android.utils.TitleTextView;
 
 
 public class RouteManagerState extends State {
@@ -34,7 +35,7 @@ public class RouteManagerState extends State {
 
 	private LinearLayout container;
 	private RouteManagerAdapter adapter;
-	private TextView title;
+	private TitleTextView title;
 	private ListView list;
 	private ArrayList<String> currentDataTitle;
 	private ArrayList<String> currentDataDescrip;
@@ -54,21 +55,8 @@ public class RouteManagerState extends State {
 		
 		container= new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
 		container.setOrientation(LinearLayout.VERTICAL);
-		title= new TextView(FRAGUEL.getInstance().getApplicationContext());
-		title.setGravity(Gravity.CENTER_HORIZONTAL);
-		title.setTextAppearance(FRAGUEL.getInstance().getApplicationContext(), R.style.StateTitle);
-		title.setLines(1);
-		title.setMaxLines(1);
-		title.setSingleLine();
-		title.setSingleLine(true);
-		title.setHorizontallyScrolling(true);
-		
-		title.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-		title.setMarqueeRepeatLimit(-1);
-		title.setFocusable(true);
-		title.setSelected(true);
-
-		
+		title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
+				
 		container.addView(title);
 		data= FRAGUEL.getInstance().getLoadedData();
 		loadRoutes(0);
