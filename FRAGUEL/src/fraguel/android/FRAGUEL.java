@@ -46,6 +46,7 @@ import com.google.android.maps.MapActivity;
 import fraguel.android.notifications.GPSIgnoreButton;
 import fraguel.android.notifications.ProximityAlertNotificationButton;
 import fraguel.android.notifications.WarningNotificationButton;
+import fraguel.android.resources.ResourceParser;
 import fraguel.android.states.ARState;
 import fraguel.android.states.ConfigState;
 import fraguel.android.states.ImageState;
@@ -58,7 +59,6 @@ import fraguel.android.states.PointInfoState;
 import fraguel.android.states.RouteManagerState;
 import fraguel.android.states.VideoGalleryState;
 import fraguel.android.states.VideoState;
-import fraguel.android.xml.ResourceParser;
 
 public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech.OnInitListener,TextToSpeech.OnUtteranceCompletedListener, OnTouchListener {
 
