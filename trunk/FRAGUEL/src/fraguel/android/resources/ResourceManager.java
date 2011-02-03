@@ -13,11 +13,13 @@ public class ResourceManager {
 	private String _rootPath;
 
 	public DownloadManager downloadManager;
+	public XMLManager xmlManager;
 
 	private ResourceManager() {
 		_initialized = false;
 
 		downloadManager = new DownloadManager("http://www.blackmesa.es/fraguel");
+		xmlManager = new XMLManager();
 	}
 
 	public static ResourceManager getInstance() {

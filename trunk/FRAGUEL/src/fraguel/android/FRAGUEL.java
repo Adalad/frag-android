@@ -45,8 +45,6 @@ import com.google.android.maps.MapActivity;
 
 import fraguel.android.notifications.GPSIgnoreButton;
 import fraguel.android.notifications.ProximityAlertNotificationButton;
-import fraguel.android.notifications.WarningNotificationButton;
-import fraguel.android.resources.ResourceParser;
 import fraguel.android.states.ARState;
 import fraguel.android.states.ConfigState;
 import fraguel.android.states.ImageState;
@@ -60,7 +58,9 @@ import fraguel.android.states.RouteManagerState;
 import fraguel.android.states.VideoGalleryState;
 import fraguel.android.states.VideoState;
 
-public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech.OnInitListener,TextToSpeech.OnUtteranceCompletedListener, OnTouchListener {
+public class FRAGUEL extends MapActivity implements OnClickListener,
+		TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener,
+		OnTouchListener {
 
 	// Singleton
 	private static FRAGUEL instance;
@@ -72,11 +72,13 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	private float[] sOrientation = { 0, 0, 0 };
 	private float[] sAccelerometer = { 0, 0, 0 };
 	private float[] sMagnetic = { 0, 0, 0 };
-	private float[] rotMatrix = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	private float[] incMatrix = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	private static final float RAD2DEG=(float) (180/Math.PI);
+	private float[] rotMatrix = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0 };
+	private float[] incMatrix = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0 };
+	private static final float RAD2DEG = (float) (180 / Math.PI);
 
-	//TextToSpeech
+	// TextToSpeech
 	private TextToSpeech tts;
 	private int MY_DATA_CHECK_CODE;
 	private HashMap<String, String> ttsHashMap = new HashMap<String, String>();
@@ -99,65 +101,62 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	private static final int MENU_ROUTE = 3;
 	private static final int MENU_EXIT = 4;
 
-
-
 	/**
-	 * Se crea el menu de opciones en función del estado 
+	 * Se crea el menu de opciones en función del estado
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		menu.clear();
-		//Menu de opciones creado por defecto
+		// Menu de opciones creado por defecto
 		menu.add(0, MENU_MAIN, 0, R.string.menu_menu).setIcon(R.drawable.info);
-		menu.add(0, MENU_CONFIG, 0, R.string.menu_config).setIcon(R.drawable.geotaging);
-		menu.add(0, MENU_ROUTE, 0,R.string.menu_route).setIcon(R.drawable.info);
+		menu.add(0, MENU_CONFIG, 0, R.string.menu_config).setIcon(
+				R.drawable.geotaging);
+		menu.add(0, MENU_ROUTE, 0, R.string.menu_route)
+				.setIcon(R.drawable.info);
 		menu.add(0, MENU_EXIT, 0, R.string.menu_exit).setIcon(R.drawable.info);
 
-		//Menu de opciones del estado
+		// Menu de opciones del estado
 		menu = currentState.onCreateStateOptionsMenu(menu);
 
 		return true;
 
 	}
 
-	
-
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		super.onPrepareOptionsMenu(menu);
 
-		//Menu de opciones del estado
+		// Menu de opciones del estado
 		onCreateOptionsMenu(menu);
 
 		return true;
 	}
 
-
-
-
 	/**
-	 * Eventos del menu de opciones de la aplicación en función del estado 
+	 * Eventos del menu de opciones de la aplicación en función del estado
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 
-		//Eventos del menu de opciones del estado 
-		if(!currentState.onStateOptionsItemSelected(item)){
+		// Eventos del menu de opciones del estado
+		if (!currentState.onStateOptionsItemSelected(item)) {
 
-			//Eventos del menu de opciones creados por defecto
+			// Eventos del menu de opciones creados por defecto
 			switch (item.getItemId()) {
 			case MENU_MAIN:
 				changeState(MenuState.STATE_ID);
 				return true;
 			case MENU_CONFIG:
-				Toast t1= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
+				Toast t1 = Toast.makeText(this.getApplicationContext(),
+						"Por definir", Toast.LENGTH_SHORT);
 				t1.show();
 				return true;
 			case MENU_ROUTE:
-				Toast t2= Toast.makeText(this.getApplicationContext(), "Por definir", Toast.LENGTH_SHORT);
+				Toast t2 = Toast.makeText(this.getApplicationContext(),
+						"Por definir", Toast.LENGTH_SHORT);
 				t2.show();
 				return true;
 			case MENU_EXIT:
@@ -168,10 +167,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		}
 
 		return true;
-		//return super.onOptionsItemSelected(item);
+		// return super.onOptionsItemSelected(item);
 	}
-
-
 
 	/** Called when the activity is first created. */
 	@Override
@@ -187,8 +184,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		// Singleton
 		instance = this;
 
-
-		//RequestServices (GPS & Sensors)
+		// RequestServices (GPS & Sensors)
 
 		requestServices();
 
@@ -196,12 +192,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 
 		newSensorListener();
 
+		// GPS Listener
+		myPosition = new Me(new GeoPoint((int) (40.4435602 * 1000000),
+				(int) (-3.7257781 * 1000000)));
 
-
-		//GPS Listener
-		myPosition= new Me(new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7257781 * 1000000)));
-
-		//requestUpdatesFromAllSensors
+		// requestUpdatesFromAllSensors
 		activateSensors();
 		activateGPS();
 
@@ -216,11 +211,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 
 		routes = new ArrayList<Route>();
 		pointsOI = new ArrayList<PointOI>();
-		//ResourceParser.getInstance().setRoot("fraguel");
-		//routes = ResourceParser.getInstance().readRoutes();
-		//for (Route r : routes) {
-		//	r.pointsOI = ResourceParser.getInstance().readPointsOI("route"+r.id);
-		//}
+		// ResourceParser.getInstance().setRoot("fraguel");
+		// routes = ResourceParser.getInstance().readRoutes();
+		// for (Route r : routes) {
+		// r.pointsOI = ResourceParser.getInstance().readPointsOI("route"+r.id);
+		// }
 
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
@@ -235,11 +230,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		addState(new ARState(), false);
 		addState(new InfoState(), false);
 		addState(new ConfigState(), false);
-		addState(new RouteManagerState(),false);
-		addState(new PointInfoState(),false);
+		addState(new RouteManagerState(), false);
+		addState(new PointInfoState(), false);
 
-
-		//TextToSpeech init & instalation
+		// TextToSpeech init & instalation
 		checkTTSLibrary();
 		initHandler();
 	}
@@ -254,37 +248,34 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 	public void onClick(View view) {
 		currentState.onClick(view);
 	}
-	
-	public ArrayList<Route> getLoadedData(){
-		
+
+	public ArrayList<Route> getLoadedData() {
+
 		return routes;
 	}
-
-
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		// TODO Auto-generated method stub
 
-		if (currentState.dispatchKeyEvent(event))		
+		if (currentState.dispatchKeyEvent(event))
 			return true;
-		else 
+		else
 			return super.dispatchKeyEvent(event);
 	}
 
-	//@Override
-	//public boolean dispatchTouchEvent(MotionEvent ev) {
-		// TODO Auto-generated method stub
+	// @Override
+	// public boolean dispatchTouchEvent(MotionEvent ev) {
+	// TODO Auto-generated method stub
 
-		//view.removeView(MapState.getInstance().getPopupView());
-		//if(currentState.getId()==2)
-		//((MapState) currentState).onTouch(view,ev);
-       // if(currentState== instanceOf(MapState)) MapState.getInstance().onTouch(arg0, ev)
-		//this.getView().removeView(MapState.getInstance().getPopupView());
-		//return super.dispatchTouchEvent(ev);
-	//}
-	
-	
+	// view.removeView(MapState.getInstance().getPopupView());
+	// if(currentState.getId()==2)
+	// ((MapState) currentState).onTouch(view,ev);
+	// if(currentState== instanceOf(MapState))
+	// MapState.getInstance().onTouch(arg0, ev)
+	// this.getView().removeView(MapState.getInstance().getPopupView());
+	// return super.dispatchTouchEvent(ev);
+	// }
 
 	public void addState(State state, boolean change) {
 		for (State s : states) {
@@ -347,21 +338,19 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 				SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 	}
 
-	public void activateGPS(){
+	public void activateGPS() {
 
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, myPosition);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+				0, myPosition);
 
 	}
-
-
-
 
 	public void deactivateSensors() {
 		sensorManager.unregisterListener(sensorListener);
 
 	}
 
-	public void deactivateGPS(){
+	public void deactivateGPS() {
 
 		locationManager.removeUpdates(myPosition);
 
@@ -385,7 +374,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 
 	}
 
-
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
@@ -393,24 +381,23 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		tts.shutdown();
 	}
 
-
 	public LocationManager getLocationManager() {
 		return locationManager;
 	}
 
-
-
-
-	private void requestServices(){
-		locationManager= (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
+	private void requestServices() {
+		locationManager = (LocationManager) this
+				.getSystemService(Context.LOCATION_SERVICE);
+		sensorManager = (SensorManager) this
+				.getSystemService(Context.SENSOR_SERVICE);
 	}
 
-	private void newSensorListener(){
-		sensorListener = new SensorEventListener(){
+	private void newSensorListener() {
+		sensorListener = new SensorEventListener() {
 
 			@Override
-			public synchronized void onAccuracyChanged(Sensor sensor, int accuracy) {
+			public synchronized void onAccuracyChanged(Sensor sensor,
+					int accuracy) {
 				// TODO Auto-generated method stub
 			}
 
@@ -431,18 +418,20 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 					FRAGUEL.getInstance().sMagnetic[2] = event.values[2];
 				}
 
-
-				if (SensorManager.getRotationMatrix(rotMatrix, incMatrix, sAccelerometer,sMagnetic )){
+				if (SensorManager.getRotationMatrix(rotMatrix, incMatrix,
+						sAccelerometer, sMagnetic)) {
 					SensorManager.getOrientation(rotMatrix, sOrientation);
 
-					if (currentState.getId()==1){
-						MenuState m=(MenuState)currentState;
-						m.setOrientationText("X: "+ sOrientation[0]*RAD2DEG+", Y: "+sOrientation[1]*RAD2DEG+",Z: "+sOrientation[2]*RAD2DEG);
+					if (currentState.getId() == 1) {
+						MenuState m = (MenuState) currentState;
+						m.setOrientationText("X: " + sOrientation[0] * RAD2DEG
+								+ ", Y: " + sOrientation[1] * RAD2DEG + ",Z: "
+								+ sOrientation[2] * RAD2DEG);
 					}
-					rotMatrix[3]=(float)myPosition.getLongitude();
-					rotMatrix[7]=(float)myPosition.getLatitude();
-					rotMatrix[11]=(float)myPosition.getAltitude();
-					//rotMatrix: matriz 4X4 de rotación para pasarla a OpenGL
+					rotMatrix[3] = (float) myPosition.getLongitude();
+					rotMatrix[7] = (float) myPosition.getLatitude();
+					rotMatrix[11] = (float) myPosition.getAltitude();
+					// rotMatrix: matriz 4X4 de rotación para pasarla a OpenGL
 				}
 
 			}
@@ -455,287 +444,328 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		return view;
 	}
 
-
 	public void setView(ViewGroup view) {
 		this.view = view;
 	}
-
 
 	public float[] getRotMatrix() {
 		return rotMatrix;
 	}
 
-
 	public float[] getIncMatrix() {
 		return incMatrix;
 	}
 
-
-	public State getCurrentState(){
+	public State getCurrentState() {
 
 		return this.currentState;
 	}
 
-	public Me getGPS(){
+	public Me getGPS() {
 		return myPosition;
 	}
-	
-	public void createOneButtonNotification(int title, int msg, DialogInterface.OnClickListener listener){
+
+	public void createOneButtonNotification(int title, int msg,
+			DialogInterface.OnClickListener listener) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setMessage(msg);
-        builder.setCancelable(false);
-        builder.setPositiveButton(R.string.accept_spanish,listener);
-        AlertDialog alert = builder.create();
-        alert.getWindow().setGravity(Gravity.TOP);
-        alert.show();
-		
+		builder.setTitle(title);
+		builder.setMessage(msg);
+		builder.setCancelable(false);
+		builder.setPositiveButton(R.string.accept_spanish, listener);
+		AlertDialog alert = builder.create();
+		alert.getWindow().setGravity(Gravity.TOP);
+		alert.show();
+
 	}
-	
-	
-	public void createTwoButtonNotification(int title,int msg,int positiveButton,int negativeButton, DialogInterface.OnClickListener listenerPositiveButton,DialogInterface.OnClickListener listenerNegativeButton){
-		 AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
-	        builder.setTitle(title);
-	        builder.setMessage(msg);
-	        builder.setCancelable(false);
-	        builder.setPositiveButton(positiveButton,listenerPositiveButton);
-	        builder.setNegativeButton(negativeButton,listenerNegativeButton);
-	        AlertDialog alert = builder.create();
-	        alert.getWindow().setGravity(Gravity.TOP);
-	        alert.show();
+
+	public void createTwoButtonNotification(int title, int msg,
+			int positiveButton, int negativeButton,
+			DialogInterface.OnClickListener listenerPositiveButton,
+			DialogInterface.OnClickListener listenerNegativeButton) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(
+				FRAGUEL.getInstance());
+		builder.setTitle(title);
+		builder.setMessage(msg);
+		builder.setCancelable(false);
+		builder.setPositiveButton(positiveButton, listenerPositiveButton);
+		builder.setNegativeButton(negativeButton, listenerNegativeButton);
+		AlertDialog alert = builder.create();
+		alert.getWindow().setGravity(Gravity.TOP);
+		alert.show();
 	}
-	
-	public void createTwoButtonNotification(String title,String msg,int positiveButton,int negativeButton, DialogInterface.OnClickListener listenerPositiveButton,DialogInterface.OnClickListener listenerNegativeButton){
-		 AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
-	        builder.setTitle(title);
-	        builder.setMessage(msg);
-	        builder.setCancelable(false);
-	        builder.setPositiveButton(positiveButton,listenerPositiveButton);
-	        builder.setNegativeButton(negativeButton,listenerNegativeButton);
-	        AlertDialog alert = builder.create();
-	        alert.getWindow().setGravity(Gravity.TOP);
-	        alert.show();
+
+	public void createTwoButtonNotification(String title, String msg,
+			int positiveButton, int negativeButton,
+			DialogInterface.OnClickListener listenerPositiveButton,
+			DialogInterface.OnClickListener listenerNegativeButton) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(
+				FRAGUEL.getInstance());
+		builder.setTitle(title);
+		builder.setMessage(msg);
+		builder.setCancelable(false);
+		builder.setPositiveButton(positiveButton, listenerPositiveButton);
+		builder.setNegativeButton(negativeButton, listenerNegativeButton);
+		AlertDialog alert = builder.create();
+		alert.getWindow().setGravity(Gravity.TOP);
+		alert.show();
 	}
-	
-	public void createTwoButtonNotification(int title,String msg,int positiveButton,int negativeButton, DialogInterface.OnClickListener listenerPositiveButton,DialogInterface.OnClickListener listenerNegativeButton){
-		 AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
-	        builder.setTitle(title);
-	        builder.setMessage(msg);
-	        builder.setCancelable(false);
-	        builder.setPositiveButton(positiveButton,listenerPositiveButton);
-	        builder.setNegativeButton(negativeButton,listenerNegativeButton);
-	        AlertDialog alert = builder.create();
-	        alert.getWindow().setGravity(Gravity.TOP);
-	        alert.show();
+
+	public void createTwoButtonNotification(int title, String msg,
+			int positiveButton, int negativeButton,
+			DialogInterface.OnClickListener listenerPositiveButton,
+			DialogInterface.OnClickListener listenerNegativeButton) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(
+				FRAGUEL.getInstance());
+		builder.setTitle(title);
+		builder.setMessage(msg);
+		builder.setCancelable(false);
+		builder.setPositiveButton(positiveButton, listenerPositiveButton);
+		builder.setNegativeButton(negativeButton, listenerNegativeButton);
+		AlertDialog alert = builder.create();
+		alert.getWindow().setGravity(Gravity.TOP);
+		alert.show();
 	}
-	
 
 	@Override
 	protected boolean isLocationDisplayed() {
 		// TODO Auto-generated method stub
-		//Este método pone que es obligatorio ponerlo cuando muestras tu posicion
-		//en la API de Maps si no es ilegal la app
-		return (currentState.id==2);
+		// Este método pone que es obligatorio ponerlo cuando muestras tu
+		// posicion
+		// en la API de Maps si no es ilegal la app
+		return (currentState.id == 2);
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-
 
 		currentState.onConfigurationChanged(newConfig);
 		super.onConfigurationChanged(newConfig);
 	}
 
 	@Override
-	protected void onActivityResult(
-			int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 		if (requestCode == MY_DATA_CHECK_CODE) {
 			if (resultCode != TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
 				// si no tiene los datos los instala
 				Intent installIntent = new Intent();
-				installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Instalando las librerías necesarias", Toast.LENGTH_SHORT).show();
+				installIntent
+						.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
+						"Instalando las librerías necesarias",
+						Toast.LENGTH_SHORT).show();
 				FRAGUEL.getInstance().startActivity(installIntent);
 
 			}
-			tts= new TextToSpeech(FRAGUEL.getInstance().getApplicationContext(), this);
+			tts = new TextToSpeech(FRAGUEL.getInstance()
+					.getApplicationContext(), this);
 		}
-
 
 	}
-	private void initHandler(){
-		handler= new Handler(){
-			
-		@Override	
-		public void handleMessage(Message msg) {
-			currentState.onUtteranceCompleted(String.valueOf(msg.arg1));
-		}
-			
+
+	private void initHandler() {
+		handler = new Handler() {
+
+			@Override
+			public void handleMessage(Message msg) {
+				currentState.onUtteranceCompleted(String.valueOf(msg.arg1));
+			}
+
 		};
 	}
+
 	@Override
 	public void onUtteranceCompleted(String arg0) {
 		// TODO Auto-generated method stub
-			Message m=new Message();
-			m.arg1=Integer.parseInt(arg0);
-			handler.sendMessage(m);
-			Log.v("TERMINADO", arg0);
+		Message m = new Message();
+		m.arg1 = Integer.parseInt(arg0);
+		handler.sendMessage(m);
+		Log.v("TERMINADO", arg0);
 	}
 
 	@Override
 	public void onInit(int arg0) {
 		// TODO Auto-generated method stub
-		if (TextToSpeech.SUCCESS==arg0){
-	        tts.setOnUtteranceCompletedListener(this);	        
-			Locale loc = new Locale("es", "","");
-			if(tts.isLanguageAvailable(loc)==TextToSpeech.LANG_AVAILABLE){
+		if (TextToSpeech.SUCCESS == arg0) {
+			tts.setOnUtteranceCompletedListener(this);
+			Locale loc = new Locale("es", "", "");
+			if (tts.isLanguageAvailable(loc) == TextToSpeech.LANG_AVAILABLE) {
 				tts.setLanguage(loc);
-			}
-			else
-				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.language_no_available_spanish, Toast.LENGTH_SHORT).show();
-		}
-		else
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
+			} else
+				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
+						R.string.language_no_available_spanish,
+						Toast.LENGTH_SHORT).show();
+		} else
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
+					R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
 
-	private void checkTTSLibrary(){
+	private void checkTTSLibrary() {
 		Intent checkIntent = new Intent();
 		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-		startActivityForResult(checkIntent,MY_DATA_CHECK_CODE);
+		startActivityForResult(checkIntent, MY_DATA_CHECK_CODE);
 	}
 
-	public void talk(String s){
-		if (tts!=null){
+	public void talk(String s) {
+		if (tts != null) {
 			tts.stop();
 			tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
-		}
-		else
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
+		} else
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
+					R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
 
-	public void stopTalking(){
-		if (tts!=null)
+	public void stopTalking() {
+		if (tts != null)
 			tts.stop();
 		else
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
+					R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
-	
-	public void talkSpeech(String s,int id){
-		if (tts!=null){
+
+	public void talkSpeech(String s, int id) {
+		if (tts != null) {
 			tts.stop();
-			ttsHashMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,String.valueOf(id) );
+			ttsHashMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
+					String.valueOf(id));
 			tts.speak(s, TextToSpeech.QUEUE_FLUSH, ttsHashMap);
-		}
-		else
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
+		} else
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
+					R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
 
-	public boolean isTalking(){
-		if (tts!=null)
+	public boolean isTalking() {
+		if (tts != null)
 			return tts.isSpeaking();
 		else
 			return false;
 	}
-	
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		// TODO Auto-generated method stub
-		if(currentState == MapState.getInstance()) MapState.getInstance().onTouch(v, event);
-		
+		if (currentState == MapState.getInstance())
+			MapState.getInstance().onTouch(v, event);
+
 		return false;
 	}
 
-	//***********************************************************************************
-	//*************************************************************************************
-	public class Me implements LocationListener{
+	// ***********************************************************************************
+	// *************************************************************************************
+	public class Me implements LocationListener {
 
-		public static final float proximityAlertDistance=50000000;
-		public static final float proximityAlertError=10;
+		public static final float proximityAlertDistance = 50000000;
+		public static final float proximityAlertError = 10;
 		private GeoPoint currentLocation;
-		private double latitude=0,longitude=0,altitude=0;
-		private ArrayList<Pair<Pair<Integer,Integer>,Pair<Float,Float>>> pointsVisited;
-		private float[] results= new float[3];
+		private double latitude = 0, longitude = 0, altitude = 0;
+		private ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>> pointsVisited;
+		private float[] results = new float[3];
 		private String msg;
-		private float distance=Float.MAX_VALUE;
-		private Route currentRoute=null;
-		private PointOI currentPoint=null;
-		private boolean isDialogDisplayed=false,hasBeenVisited;
-
+		private float distance = Float.MAX_VALUE;
+		private Route currentRoute = null;
+		private PointOI currentPoint = null;
+		private boolean isDialogDisplayed = false, hasBeenVisited;
 
 		private Me(GeoPoint arg0) {
-			currentLocation=arg0;
-			pointsVisited= new ArrayList<Pair<Pair<Integer,Integer>,Pair<Float,Float>>>();
-			
+			currentLocation = arg0;
+			pointsVisited = new ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>>();
+
 			// TODO Auto-generated constructor stub
 		}
-
 
 		@Override
 		public synchronized void onLocationChanged(Location location) {
 			// TODO Auto-generated method stub
-			latitude=location.getLatitude();
-			longitude=location.getLongitude();
-			altitude=location.getAltitude();
-			currentLocation=new GeoPoint((int) (latitude * 1E6),(int) (longitude * 1E6));
-			if (FRAGUEL.getInstance().getCurrentState().getId()==1){
-				MenuState s=(MenuState)FRAGUEL.getInstance().getCurrentState();
-				s.setGPSText("Latitud: "+latitude+", Longitud: "+longitude);
+			latitude = location.getLatitude();
+			longitude = location.getLongitude();
+			altitude = location.getAltitude();
+			currentLocation = new GeoPoint((int) (latitude * 1E6),
+					(int) (longitude * 1E6));
+			if (FRAGUEL.getInstance().getCurrentState().getId() == 1) {
+				MenuState s = (MenuState) FRAGUEL.getInstance()
+						.getCurrentState();
+				s.setGPSText("Latitud: " + latitude + ", Longitud: "
+						+ longitude);
 			}
-			
-			//sacamos de visitados los puntos que ya no estén dentro del radio de acción(hemos salido)
-			Iterator<Pair<Pair<Integer,Integer>,Pair<Float,Float>>> it= pointsVisited.iterator();
-			while(it.hasNext()){
-				Pair<Pair<Integer,Integer>,Pair<Float,Float>> routeAndPoint=it.next();
-				Location.distanceBetween(latitude, longitude, routeAndPoint.second.first, routeAndPoint.second.first, results);
-				 if (results[0]>= proximityAlertDistance+proximityAlertError){
-					 it.remove();
-				 }	
+
+			// sacamos de visitados los puntos que ya no estén dentro del radio
+			// de acción(hemos salido)
+			Iterator<Pair<Pair<Integer, Integer>, Pair<Float, Float>>> it = pointsVisited
+					.iterator();
+			while (it.hasNext()) {
+				Pair<Pair<Integer, Integer>, Pair<Float, Float>> routeAndPoint = it
+						.next();
+				Location.distanceBetween(latitude, longitude,
+						routeAndPoint.second.first, routeAndPoint.second.first,
+						results);
+				if (results[0] >= proximityAlertDistance + proximityAlertError) {
+					it.remove();
+				}
 			}
-			
-			//comprobamos si estamos cerca para cada punto de cada ruta
+
+			// comprobamos si estamos cerca para cada punto de cada ruta
 			for (Route r : routes) {
 				for (PointOI p : r.pointsOI) {
-					hasBeenVisited=false;
-					
-					it= pointsVisited.iterator();
-					//comprobamos que no lo hayamos visitado ya ese punto(es decir, sigamos aun en el radio de acción)
-					while (it.hasNext() && !hasBeenVisited){
-						Pair<Pair<Integer,Integer>,Pair<Float,Float>> actual= it.next();
-						if (actual.first.first==r.id && actual.first.second==p.id){
-							hasBeenVisited=true;
+					hasBeenVisited = false;
+
+					it = pointsVisited.iterator();
+					// comprobamos que no lo hayamos visitado ya ese punto(es
+					// decir, sigamos aun en el radio de acción)
+					while (it.hasNext() && !hasBeenVisited) {
+						Pair<Pair<Integer, Integer>, Pair<Float, Float>> actual = it
+								.next();
+						if (actual.first.first == r.id
+								&& actual.first.second == p.id) {
+							hasBeenVisited = true;
 						}
 					}
-					
-					
-					if (!hasBeenVisited){
-						Location.distanceBetween(latitude, longitude, p.coords[0], p.coords[1], results);
-					
-						if (results[0]<=proximityAlertDistance){
-							if (results[0]<distance){
-								currentRoute=r;
-								currentPoint=p;
+
+					if (!hasBeenVisited) {
+						Location.distanceBetween(latitude, longitude,
+								p.coords[0], p.coords[1], results);
+
+						if (results[0] <= proximityAlertDistance) {
+							if (results[0] < distance) {
+								currentRoute = r;
+								currentPoint = p;
 							}
 						}
 					}
 				}
 			}
-			
-			if (currentRoute!=null && currentPoint!=null && !isDialogDisplayed){ 
-				msg=currentRoute.name+" - "+currentPoint.title;
-				FRAGUEL.getInstance().createTwoButtonNotification(R.string.notification_proximityAlert_title_spanish, msg,R.string.notification_proximityAlert_possitiveButton_spanish , R.string.notification_proximityAlert_negativeButton_spanish,new ProximityAlertNotificationButton(currentRoute,currentPoint) , new GPSIgnoreButton());
-				pointsVisited.add(new Pair<Pair<Integer,Integer>,Pair<Float,Float>> (new Pair<Integer,Integer>(currentRoute.id,currentPoint.id),new Pair<Float,Float>(currentPoint.coords[0],currentPoint.coords[0])));
-				isDialogDisplayed=true;
+
+			if (currentRoute != null && currentPoint != null
+					&& !isDialogDisplayed) {
+				msg = currentRoute.name + " - " + currentPoint.title;
+				FRAGUEL.getInstance()
+						.createTwoButtonNotification(
+								R.string.notification_proximityAlert_title_spanish,
+								msg,
+								R.string.notification_proximityAlert_possitiveButton_spanish,
+								R.string.notification_proximityAlert_negativeButton_spanish,
+								new ProximityAlertNotificationButton(
+										currentRoute, currentPoint),
+								new GPSIgnoreButton());
+				pointsVisited
+						.add(new Pair<Pair<Integer, Integer>, Pair<Float, Float>>(
+								new Pair<Integer, Integer>(currentRoute.id,
+										currentPoint.id),
+								new Pair<Float, Float>(currentPoint.coords[0],
+										currentPoint.coords[0])));
+				isDialogDisplayed = true;
 			}
-		
-		currentRoute=null;
-		currentPoint=null;
-			
+
+			currentRoute = null;
+			currentPoint = null;
+
 		}
 
-		public void setPointVisited(Route r,PointOI p,float latitude,float longitude){
-			pointsVisited.add(new Pair<Pair<Integer,Integer>,Pair<Float,Float>> (new Pair<Integer,Integer>(r.id,p.id),new Pair<Float,Float>(latitude,longitude)));
+		public void setPointVisited(Route r, PointOI p, float latitude,
+				float longitude) {
+			pointsVisited
+					.add(new Pair<Pair<Integer, Integer>, Pair<Float, Float>>(
+							new Pair<Integer, Integer>(r.id, p.id),
+							new Pair<Float, Float>(latitude, longitude)));
 		}
 
 		@Override
@@ -753,10 +783,13 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 			// TODO Auto-generated method stub
-			switch (status){
-			case  LocationProvider.AVAILABLE:  break;
-			case  LocationProvider.OUT_OF_SERVICE: break;
-			case  LocationProvider.TEMPORARILY_UNAVAILABLE: break;
+			switch (status) {
+			case LocationProvider.AVAILABLE:
+				break;
+			case LocationProvider.OUT_OF_SERVICE:
+				break;
+			case LocationProvider.TEMPORARILY_UNAVAILABLE:
+				break;
 
 			}
 		}
@@ -764,7 +797,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 		public GeoPoint getCurrentLocation() {
 			return currentLocation;
 		}
-
 
 		public double getLatitude() {
 			return latitude;
@@ -778,21 +810,14 @@ public class FRAGUEL extends MapActivity implements OnClickListener,TextToSpeech
 			return altitude;
 		}
 
-
 		public void setDialogDisplayed(boolean isDialogDisplayed) {
 			this.isDialogDisplayed = isDialogDisplayed;
 		}
-
 
 		public boolean isDialogDisplayed() {
 			return isDialogDisplayed;
 		}
 
-
-
 	}
-
-
-
 
 }
