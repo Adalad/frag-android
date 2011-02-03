@@ -1,4 +1,4 @@
-package fraguel.android.xml;
+package fraguel.android.resources;
 
 import java.io.File;
 import java.io.FileInputStream;
