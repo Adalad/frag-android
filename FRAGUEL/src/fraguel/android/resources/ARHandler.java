@@ -15,6 +15,12 @@ public class ARHandler extends DefaultHandler {
 	private AREntity _currentEntity;
 	private ARElement _currentElement;
 
+	private XMLManager _manager;
+
+	ARHandler(XMLManager manager) {
+		_manager = manager;
+	}
+
 	public void endDocument() throws SAXException {
 	}
 
@@ -46,8 +52,8 @@ public class ARHandler extends DefaultHandler {
 			_currentEntity._rotXYZ[2] = Float.parseFloat(attributes
 					.getValue("z"));
 		} else if (localName.equals("element")) {
-			_currentElement = new ARElement(ResourceParser.getInstance()
-					.getMesh(Integer.parseInt(attributes.getValue("mesh"))));
+			_currentElement = new ARElement(_manager.getMesh(Integer
+					.parseInt(attributes.getValue("mesh"))));
 		} else if (localName.equals("pose")) {
 			_currentElement._posXYZ[0] = Float.parseFloat(attributes
 					.getValue("x"));

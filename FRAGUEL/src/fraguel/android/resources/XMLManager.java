@@ -19,14 +19,13 @@ import fraguel.android.Route;
 import fraguel.android.ar.AREntity;
 import fraguel.android.ar.ARMesh;
 
-public class ResourceParser {
+class XMLManager {
 
-	private static ResourceParser _instance;
 	private XMLReader _parser;
 	private File _root;
 	private HashMap<Integer, ARMesh> _meshes;
 
-	private ResourceParser() {
+	XMLManager() {
 		try {
 			SAXParserFactory spf = SAXParserFactory.newInstance();
 			SAXParser sp;
@@ -41,13 +40,7 @@ public class ResourceParser {
 		}
 	}
 
-	public static ResourceParser getInstance() {
-		if (null == _instance)
-			_instance = new ResourceParser();
-		return _instance;
-	}
-
-	public void setRoot(final String root) {
+	void setRoot(final String root) {
 		File sd = Environment.getExternalStorageDirectory();
 		_root = sd.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String filename) {
@@ -56,7 +49,7 @@ public class ResourceParser {
 		})[0];
 	}
 
-	public ARMesh getMesh(int id) {
+	ARMesh getMesh(int id) {
 		return _meshes.get(id);
 	}
 
@@ -92,7 +85,7 @@ public class ResourceParser {
 				}
 			})[0].listFiles(new FilenameFilter() {
 				public boolean accept(File dir, String filename) {
-					return filename.equals(fileName+".xml");
+					return filename.equals(fileName + ".xml");
 				}
 			})[0];
 			FileInputStream pointsStream = new FileInputStream(pointsFile);
@@ -125,7 +118,7 @@ public class ResourceParser {
 	public ArrayList<AREntity> readAR(String path) {
 		try {
 			// TODO Parse all meshes
-			ARHandler arh = new ARHandler();
+			ARHandler arh = new ARHandler(this);
 			_parser.setContentHandler(arh);
 			_parser.parse(_root + path);
 			return arh.getParsedData();
