@@ -221,8 +221,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		_stateStack = new Stack<State>();
 		states = new ArrayList<State>();
 		addState(new IntroState(), false);
-		addState(new MainMenuState(), false);
-		addState(new MenuState(), true);
+		addState(new MainMenuState(), true);
+		addState(new MenuState(), false);
 		addState(new MapState(), false);
 		addState(new VideoState(), false);
 		addState(new VideoGalleryState(), false);

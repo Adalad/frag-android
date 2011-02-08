@@ -36,44 +36,31 @@ public class MainMenuState extends State {
 		LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
 		if(viewGroup==null)
 			viewGroup= (ViewGroup) li.inflate(R.layout.mainmenu,  null);
-		FRAGUEL.getInstance().addView(viewGroup);
 		
-		Button bfm = (Button) FRAGUEL.getInstance().findViewById(R.id.btn_freemode);
-		Button brm = (Button) FRAGUEL.getInstance().findViewById(R.id.btn_routemode);
-		Button bim = (Button) FRAGUEL.getInstance().findViewById(R.id.btn_interactivemode);
+		FRAGUEL.getInstance().addView(viewGroup);
+						
 		
 		//bfm.setTextSize(20);
 		//brm.setTextColor(100);
 		//bim.;
-		/*
-		viewGroup = new LinearLayout(FRAGUEL.getInstance()
-				.getApplicationContext());
-		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
+		
+		//viewGroup = new LinearLayout(FRAGUEL.getInstance()
+		//		.getApplicationContext());
+		//((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
 		
 
-		TextView tv = new TextView(viewGroup.getContext());
-		tv.setText("");
-		viewGroup.addView(tv);
+//		TextView tv = new TextView(viewGroup.getContext());
+//		tv.setText("");
+//		viewGroup.addView(tv);
 
-		Button b1 = new Button(viewGroup.getContext());
-		b1.setText("Modo Libre");
-		b1.setId(1);
-		b1.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-		viewGroup.addView(b1);
-
-		Button b2 = new Button(viewGroup.getContext());
-		b2.setText("Modo Ruta");
-		b2.setId(2);
-		b2.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-		viewGroup.addView(b2);
-
-		Button b3 = new Button(viewGroup.getContext());
-		b3.setText("Modo Interactivo");
-		b3.setId(3);
-		b3.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-		viewGroup.addView(b3);
 		
-		FRAGUEL.getInstance().addView(viewGroup);*/
+		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_freemode)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
+		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_routemode)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
+		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_interactivemode)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
+		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_credits)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
+		
+		
+		
 		
 		
 	}
@@ -82,13 +69,16 @@ public class MainMenuState extends State {
 	public void onClick(View v) {
 		// TODO rellenar con ids de los demas modos de juego
 		switch (v.getId()) {
-		case 1:
+		case R.id.btn_freemode:
 			FRAGUEL.getInstance().changeState(MapState.STATE_ID);
 			break;
-		case 2:
+		case R.id.btn_routemode:
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
 			break;
-		case 3:
+		case R.id.btn_interactivemode:
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.btn_credits:
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
 			break;
 		

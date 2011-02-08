@@ -35,5 +35,16 @@
 			android:paddingLeft="0dip" android:paddingTop="5dip"
 			android:layout_gravity="center" />
 	</FrameLayout>
+	
+	<FrameLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="1">
+		<Button android:id="@+id/btn_credits"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:text="@string/mainmenu_btn_credits" 
+			android:textStyle="bold"  android:textColor="@android:color/white" android:textSize="17sp"
+			android:background="@drawable/popup_complete"
+			android:paddingLeft="0dip" android:paddingTop="5dip"
+			android:layout_gravity="center" />
+	</FrameLayout>
 
 </LinearLayout>
