@@ -10,8 +10,10 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout.LayoutParams;
@@ -100,6 +102,30 @@ public class RouteManagerState extends State {
 		});
 	}
 	
+	
+private void addOnItemLongClickListenerToListView(){
+		
+		list.setOnItemLongClickListener(new OnItemLongClickListener(){
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
+				// TODO Auto-generated method stub
+				
+				switch (internalState){
+				case 0:
+					Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Long Press routes", Toast.LENGTH_SHORT).show();
+					break;
+				case 1:
+					Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Long Press points", Toast.LENGTH_SHORT).show();
+					break;
+				}
+				return true;
+			}
+			
+		});
+	}
+	
 	private void loadPoints(int route){
 		System.gc();
 		title.setText(R.string.routemanagerstate_title_points_spanish);
@@ -149,6 +175,7 @@ public class RouteManagerState extends State {
 		list.setDivider(divcolor);
 		list.setDividerHeight(2);
 		addItemClickListenerToListView();
+		addOnItemLongClickListenerToListView();
 		container.addView(list);
 		
 		

@@ -12,14 +12,14 @@ public class ResourceManager {
 
 	private String _rootPath;
 
-	public DownloadManager downloadManager;
-	public XMLManager xmlManager;
+	private DownloadManager downloadManager;
+	private XMLManager xmlManager;
 
 	private ResourceManager() {
 		_initialized = false;
 
-		downloadManager = new DownloadManager("http://www.blackmesa.es/fraguel");
-		xmlManager = new XMLManager();
+		downloadManager=new DownloadManager("http://www.blackmesa.es/fraguel");
+		xmlManager =new XMLManager();
 	}
 
 	public static ResourceManager getInstance() {
@@ -57,6 +57,7 @@ public class ResourceManager {
 			if (!rootSD.exists())
 				createDirs(rootSD);
 				
+			xmlManager.setRoot(root);
 			_initialized = true;
 		} catch (Exception e) {
 			// TODO Message asking for SD Card
@@ -70,6 +71,16 @@ public class ResourceManager {
 
 	String getRootPath() {
 		return _rootPath;
+	}
+
+
+	public DownloadManager getDownloadManager() {
+		return downloadManager;
+	}
+
+
+	public XMLManager getXmlManager() {
+		return xmlManager;
 	}
 
 }
