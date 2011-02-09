@@ -19,7 +19,7 @@ import fraguel.android.Route;
 import fraguel.android.ar.AREntity;
 import fraguel.android.ar.ARMesh;
 
-class XMLManager {
+public class XMLManager {
 
 	private XMLReader _parser;
 	private File _root;
@@ -40,7 +40,7 @@ class XMLManager {
 		}
 	}
 
-	void setRoot(final String root) {
+	public void setRoot(final String root) {
 		File sd = Environment.getExternalStorageDirectory();
 		_root = sd.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String filename) {

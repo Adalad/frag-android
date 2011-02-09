@@ -45,6 +45,7 @@ import com.google.android.maps.MapActivity;
 
 import fraguel.android.notifications.GPSIgnoreButton;
 import fraguel.android.notifications.ProximityAlertNotificationButton;
+import fraguel.android.resources.ResourceManager;
 import fraguel.android.states.ARState;
 import fraguel.android.states.ConfigState;
 import fraguel.android.states.ImageState;
@@ -211,11 +212,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 		routes = new ArrayList<Route>();
 		pointsOI = new ArrayList<PointOI>();
-		// ResourceParser.getInstance().setRoot("fraguel");
-		// routes = ResourceParser.getInstance().readRoutes();
-		// for (Route r : routes) {
-		// r.pointsOI = ResourceParser.getInstance().readPointsOI("route"+r.id);
-		// }
+		 ResourceManager.getInstance().initialize("fraguel");
+		 routes = ResourceManager.getInstance().getXmlManager().readRoutes();
+		 for (Route r : routes) {
+			 r.pointsOI = ResourceManager.getInstance().getXmlManager().readPointsOI("route"+r.id);
+		 }
 
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
