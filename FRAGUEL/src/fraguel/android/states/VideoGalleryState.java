@@ -24,18 +24,20 @@ import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.State;
 import fraguel.android.gallery.ImageAdapter;
+import fraguel.android.utils.InfoText;
+import fraguel.android.utils.TitleTextView;
 
 public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 
 	public static final int STATE_ID = 9;
 	public static final int INFOSTATE_STOP_RECORD=1;
 	public static final int INFOSTATE_REPEAT_RECORD=2;
-	private TextView title;
+	private TitleTextView title;
 	private SurfaceView video;
 	private SurfaceHolder surfaceHolder;
 	private Gallery videoGallery;
 	private ScrollView sv;
-	private TextView text;
+	private InfoText text;
 	private boolean isVideoDisplayed=false;
 	private int selectedItem;
 	private LinearLayout container;
@@ -94,7 +96,7 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 	private void setVideoGalleryParams(){
 		container.removeAllViews();
 
-		title= new TextView(FRAGUEL.getInstance().getApplicationContext());
+		title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
 		title.setText("Galería de vídeo");
 		title.setGravity(Gravity.CENTER_HORIZONTAL);
 
@@ -111,7 +113,7 @@ public class VideoGalleryState extends State implements SurfaceHolder.Callback{
 
 		sv= new ScrollView(FRAGUEL.getInstance().getApplicationContext());
 		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
-		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
+		text= new InfoText(FRAGUEL.getInstance().getApplicationContext());
 
 		sv.addView(text);
 

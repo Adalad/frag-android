@@ -3,6 +3,8 @@ package fraguel.android.states;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.State;
+import fraguel.android.utils.InfoText;
+import fraguel.android.utils.TitleTextView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,8 +23,8 @@ public class InfoState extends State{
 	
 	
 	
-	private TextView title;
-	private TextView text;
+	private TitleTextView title;
+	private InfoText text;
 	public InfoState() {
 		super();
 		id = STATE_ID;
@@ -41,17 +43,14 @@ public class InfoState extends State{
 		viewGroup=ly;
 		FRAGUEL.getInstance().addView(viewGroup);
 		
-		
-		title= new TextView(FRAGUEL.getInstance().getApplicationContext());
-		title.setGravity(Gravity.CENTER_HORIZONTAL);
+		title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
 		title.setText("INFORMACIÓN");
-		title.setPadding(0, 0, 0, 10);
 		
 		viewGroup.addView(title);
 		
 		
 		ScrollView container= new ScrollView(FRAGUEL.getInstance().getApplicationContext());
-		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
+		text= new InfoText(FRAGUEL.getInstance().getApplicationContext());
 		text.setText("Toda la información referente al punto de interés. Ahora mismo te estoy hablando, así que enciende los altavoces para que puedas oirme." +
 				" Ahora voy a intentar que el usuario, es decir, tú, puedas parar y arrancar el sonido cuando desees. Espero que lo disfrutes."+
 				"\n"+"Como podemos ver a en la esquina superior izquierda se divisa una gárgola singular."+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+
