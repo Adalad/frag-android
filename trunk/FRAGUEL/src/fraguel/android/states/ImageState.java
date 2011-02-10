@@ -19,6 +19,8 @@ import fraguel.android.State;
 import fraguel.android.gallery.BigImageAdapter;
 import fraguel.android.gallery.FullScreenGallery;
 import fraguel.android.gallery.ImageAdapter;
+import fraguel.android.utils.InfoText;
+import fraguel.android.utils.TitleTextView;
 
 public class ImageState extends State{
 	
@@ -28,8 +30,8 @@ public class ImageState extends State{
 	public static final int INFOSTATE_SPEECH=3;
 	public static final int INFOSTATE_STOP_SPEECH=4;
 	
-	private TextView title;
-	private TextView text;
+	private TitleTextView title;
+	private InfoText text;
 	private Gallery gallery;
 	private ScrollView sv;
 	private FullScreenGallery bigGallery;
@@ -49,7 +51,7 @@ public class ImageState extends State{
 		viewGroup = new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
 		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
 		
-			title= new TextView(FRAGUEL.getInstance().getApplicationContext());
+			title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
 			title.setText("Facultad A - Galería de fotos");
 			title.setGravity(Gravity.CENTER_HORIZONTAL);
 			
@@ -68,7 +70,7 @@ public class ImageState extends State{
 		sv= new ScrollView(FRAGUEL.getInstance().getApplicationContext());
 		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		
-		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
+		text= new InfoText(FRAGUEL.getInstance().getApplicationContext());
 		
 		sv.addView(text);
 		

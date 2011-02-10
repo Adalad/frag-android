@@ -21,11 +21,12 @@ import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.lists.InfoPointAdapter;
+import fraguel.android.utils.TitleTextView;
 
 public class PointInfoState extends State{
 	public static final int STATE_ID = 20;
 	private GridView gridView;
-	private TextView title;
+	private TitleTextView title;
 	
 	
 	public PointInfoState() {
@@ -43,7 +44,7 @@ public class PointInfoState extends State{
 		container.setOrientation(LinearLayout.VERTICAL);
 		//container.setBackgroundResource(R.drawable.aqua);
 		
-		title= new TextView(FRAGUEL.getInstance().getApplicationContext());
+		title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
 		title.setText("Información disponible del punto de interés");
 		title.setGravity(Gravity.CENTER_HORIZONTAL);
 		title.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
