@@ -1,20 +1,23 @@
 package fraguel.android.states;
 
-import fraguel.android.FRAGUEL;
-import fraguel.android.State;
-import fraguel.android.ar.ARCameraView;
-import fraguel.android.ar.ARGLView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
+import fraguel.android.FRAGUEL;
+import fraguel.android.State;
+import fraguel.android.ar.CamLayer;
+import fraguel.android.ar.GLLayer;
 
 public class ARState extends State {
 	
 	public static final int STATE_ID = 5;
 
-	ARCameraView camView;
-	ARGLView glView;
+	//ARCameraView camView;
+	//ARGLView glView;
+	private CamLayer mPreview;
+	private GLLayer glView;
 
 	public ARState() {
 		super();
@@ -26,12 +29,18 @@ public class ARState extends State {
 		// Inicializar viewGroup
 		viewGroup = new FrameLayout(FRAGUEL.getInstance()
 				.getApplicationContext());
-		// Crear vista de la cámara
+		/*// Crear vista de la cámara
 		camView = new ARCameraView(viewGroup.getContext());
 		viewGroup.addView(camView);
 		// Crear vista OpenGL
 		//glView = new ARGLView(viewGroup.getContext());
-		//viewGroup.addView(glView);
+		//viewGroup.addView(glView);*/
+		glView=new GLLayer(viewGroup.getContext());
+        
+		mPreview = new CamLayer(viewGroup.getContext(), 240, 160);
+		mPreview.synchronCallback=glView;
+		viewGroup.addView(glView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		viewGroup.addView(mPreview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		// Añadir a la actividad
 		FRAGUEL.getInstance().addView(viewGroup);
 	}
