@@ -14,7 +14,7 @@
         <item name="android:focusable">true</item>
 	</style>
 	<style name="ScrollText" parent="@android:style/TextAppearance.Medium">
-		<item name="android:textColor">#000000</item>
+		<item name="android:textColor">#FFFFFF</item>
         <item name="android:typeface">monospace</item>
         <item name="android:focusable">true</item>
         <item name="android:textSize">16sp</item>
