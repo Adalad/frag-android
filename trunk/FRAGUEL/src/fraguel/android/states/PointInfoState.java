@@ -46,14 +46,10 @@ public class PointInfoState extends State{
 		
 		title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
 		title.setText("Información disponible del punto de interés");
-		title.setGravity(Gravity.CENTER_HORIZONTAL);
-		title.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-		title.setBackgroundColor(Color.LTGRAY);
-		title.setTextColor(Color.RED);
+		//title.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 		title.setMaxHeight(20);
 		
 		container.addView(title);
-		
 		
 		gridView= new GridView(FRAGUEL.getInstance().getApplicationContext());
 		gridView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
