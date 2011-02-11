@@ -3,6 +3,7 @@ package fraguel.android.lists;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 
 public class RouteManagerAdapter extends BaseAdapter{
@@ -59,7 +61,7 @@ public class RouteManagerAdapter extends BaseAdapter{
 		ViewGroup row= new LinearLayout(context);
 		((LinearLayout) row).setOrientation(LinearLayout.HORIZONTAL);
 		
-		row.setBackgroundColor((position & 1) == 1 ? Color.WHITE : Color.LTGRAY);
+		row.setBackgroundColor((position & 1) == 1 ? Color.WHITE : Color.rgb(0, 200, 0));
 		
 		ImageView drawable = new ImageView(context);
 		drawable.setImageResource(R.drawable.museumsalango);
@@ -74,12 +76,12 @@ public class RouteManagerAdapter extends BaseAdapter{
 		
 		TextView title = new TextView(context);
 		title.setText(titles.get(position));
-		title.setTextSize(18);
-		title.setTextColor(Color.BLACK);
+		title.setTextAppearance(FRAGUEL.getInstance().getApplicationContext(), R.style.ListTitle);
+
 		
 		TextView description = new TextView(context);
 		description.setText(descriptions.get(position));
-		description.setTextColor(Color.BLACK);
+		description.setTextAppearance(FRAGUEL.getInstance().getApplicationContext(), R.style.ListText);
 		
 		text.addView(title);
 		text.addView(description);

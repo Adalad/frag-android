@@ -19,4 +19,14 @@
         <item name="android:focusable">true</item>
         <item name="android:textSize">16sp</item>
 	</style>
+	<style name="ListTitle" parent="@android:style/TextAppearance.Medium">
+		<item name="android:textColor">@color/listtitle</item>
+        <item name="android:focusable">true</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+	</style>
+	<style name="ListText" parent="@android:style/TextAppearance.Medium">
+		<item name="android:textColor">@color/listtext</item>
+        <item name="android:focusable">true</item>
+	</style>
 </resources>
