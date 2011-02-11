@@ -1,6 +1,7 @@
 package fraguel.android.states;
 
 import fraguel.android.FRAGUEL;
+import fraguel.android.R;
 import fraguel.android.State;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +35,8 @@ public class MenuState extends State {
 				.getApplicationContext());
 		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
 
+		viewGroup.setBackgroundResource(R.drawable.shapecolors);
+		
 		TextView tv = new TextView(viewGroup.getContext());
 		tv.setText("INTRODUCCIÓN");
 		viewGroup.addView(tv);

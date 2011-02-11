@@ -37,6 +37,7 @@ public class MainMenuState extends State {
 			viewGroup= (ViewGroup) li.inflate(R.layout.mainmenu,  null);
 		
 		FRAGUEL.getInstance().addView(viewGroup);
+		
 						
 		
 		//bfm.setTextSize(20);
