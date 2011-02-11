@@ -169,7 +169,7 @@ private void addOnItemLongClickListenerToListView(){
 		list.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		list.setCacheColorHint(0);
 		//list.setSelector(R.drawable.listselector);
-		//list.setDrawSelectorOnTop(true);
+		list.setDrawSelectorOnTop(true);
 		adapter = new RouteManagerAdapter(FRAGUEL.getInstance().getApplicationContext());
 		list.setAdapter(adapter);
 		ColorDrawable divcolor = new ColorDrawable(Color.DKGRAY);
