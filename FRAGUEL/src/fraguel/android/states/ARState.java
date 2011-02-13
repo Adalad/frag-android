@@ -39,12 +39,20 @@ public class ARState extends State {
         
 		mPreview = new CamLayer(viewGroup.getContext(), 240, 160);
 		mPreview.synchronCallback=glView;
-		viewGroup.addView(glView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		viewGroup.addView(mPreview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		
+		FRAGUEL.getInstance().setContentView(glView);
+		FRAGUEL.getInstance().addContentView(mPreview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		//viewGroup.addView(glView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		//viewGroup.addView(mPreview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		// Añadir a la actividad
-		FRAGUEL.getInstance().addView(viewGroup);
+		//FRAGUEL.getInstance().addView(viewGroup);
 	}
 
+	@Override
+	public void unload(){
+		FRAGUEL.getInstance().setContentView(FRAGUEL.getInstance().getView());
+		super.unload();
+	}
 	@Override
 	public void onRotationChanged(float[] values) {
 	//	glView._worldRotation[0] = -values[0];
