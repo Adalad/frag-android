@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -49,6 +50,7 @@ public class VideoState extends State{
 	private String currentPath;
 	private String videoPath;
 
+	private MediaController mc;
 
 
 	public VideoState() {
@@ -78,13 +80,20 @@ public class VideoState extends State{
 		FRAGUEL.getInstance().addView(viewGroup);
 
 		mVideoView = (VideoView) FRAGUEL.getInstance().findViewById(R.id.surface_view);
-		MediaController mediaController = new MediaController(FRAGUEL.getInstance().getApplicationContext());
-    	mediaController.setAnchorView(mVideoView);
+		//MediaController mediaController = new MediaController(FRAGUEL.getInstance().getApplicationContext());
+    	//mediaController.setAnchorView(mVideoView);
     	//mVideoView.setMediaController(mediaController);
+    	//mVideoView.requestFocus();
     	//mediaController.setEnabled(true);
 //    	mediaController.show();
-
-		mPlay = (ImageButton) FRAGUEL.getInstance().findViewById(R.id.play);
+    	
+		mc = new MediaController(FRAGUEL.getInstance());
+		mc.setMediaPlayer(player_interface);
+		mc.setEnabled(true);
+		mc.setAnchorView(mVideoView);
+		//mc.show(100);
+		mVideoView.setMediaController(mc);
+		/*mPlay = (ImageButton) FRAGUEL.getInstance().findViewById(R.id.play);
 		mPause = (ImageButton) FRAGUEL.getInstance().findViewById(R.id.pause);
 		mReset = (ImageButton) FRAGUEL.getInstance().findViewById(R.id.reset);
 		mStop = (ImageButton) FRAGUEL.getInstance().findViewById(R.id.stop);
@@ -115,7 +124,7 @@ public class VideoState extends State{
 					mVideoView.stopPlayback();
 				}
 			}
-		});
+		});*/
 
 		playSelectedVideo();
 	}
@@ -224,6 +233,55 @@ public class VideoState extends State{
 	}
 
 
+	
+	
+	
+	
+	private MediaController.MediaPlayerControl player_interface = new MediaController.MediaPlayerControl() {
+
+		public int getBufferPercentage() {
+			return 75;
+		}
+
+		public int getCurrentPosition() {
+			return 25;
+		}
+
+		public int getDuration() {
+			return 180;
+		}
+
+		public boolean isPlaying() {
+			return true;
+		}
+
+		public void pause() {
+		}
+
+		public void seekTo(int pos) {
+		}
+
+		public void start() {
+		}
+
+		@Override
+		public boolean canPause() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean canSeekBackward() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean canSeekForward() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+	}; 
 
 
 
