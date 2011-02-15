@@ -56,7 +56,7 @@ public class PhoneOrientation {
 
         sensorMan = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
 		sensorAcce = sensorMan.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
-		sensorMagn = sensorMan.getSensorList(Sensor.TYPE_MAGNETIC_FIELD).get(0);
+		//sensorMagn = sensorMan.getSensorList(Sensor.TYPE_MAGNETIC_FIELD).get(0);
 		
 		sensorMan.registerListener(listener, sensorAcce, SensorManager.SENSOR_DELAY_FASTEST);
 		sensorMan.registerListener(listener, sensorMagn, SensorManager.SENSOR_DELAY_FASTEST);		
