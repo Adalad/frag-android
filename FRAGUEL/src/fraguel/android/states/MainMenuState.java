@@ -6,6 +6,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,9 +43,37 @@ public class MainMenuState extends State {
 		if(viewGroup==null)
 			viewGroup= (ViewGroup) li.inflate(R.layout.mainmenu,  null);
 		
+		
+		  AnimationSet set = new AnimationSet(true);
+		 	
+		 //Juega con la transparencia de la View 
+		  Animation animation = new AlphaAnimation(0.0f, 1.0f);
+		  animation.setDuration(500);
+		  set.addAnimation(animation);
+		  
+		  //Rota la View
+		  Animation animation2 = new RotateAnimation(45, 0 );
+		  animation2.setDuration(500);
+		  set.addAnimation(animation2);
+		  
+		  //Mueve la View
+		  Animation animation3 = new TranslateAnimation(
+		      Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+		      Animation.RELATIVE_TO_SELF, -3.0f, Animation.RELATIVE_TO_SELF, 0.0f
+		  );
+		  animation3.setDuration(500);
+		  set.addAnimation(animation3);
+
+		  
+		  
+		  LayoutAnimationController controller =
+		      new LayoutAnimationController(set, 0.25f);
+		  viewGroup.setLayoutAnimation(controller);
+
+		
 		FRAGUEL.getInstance().addView(viewGroup);
 		
-						
+		
 		
 		//bfm.setTextSize(20);
 		//brm.setTextColor(100);
