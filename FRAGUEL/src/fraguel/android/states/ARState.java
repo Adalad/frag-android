@@ -3,21 +3,18 @@ package fraguel.android.states;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.FrameLayout;
 import fraguel.android.FRAGUEL;
 import fraguel.android.State;
-import fraguel.android.ar.CamLayer;
-import fraguel.android.ar.GLLayer;
+import fraguel.android.ar.GLView;
 
 public class ARState extends State {
 	
 	public static final int STATE_ID = 5;
 
 	//ARCameraView camView;
-	//ARGLView glView;
-	private CamLayer mPreview;
-	private GLLayer glView;
+	GLView glView;
+	//private CamLayer mPreview;
+	//private GLLayer glView;
 
 	public ARState() {
 		super();
@@ -27,24 +24,27 @@ public class ARState extends State {
 	@Override
 	public void load() {
 		// Inicializar viewGroup
-		viewGroup = new FrameLayout(FRAGUEL.getInstance()
-				.getApplicationContext());
+		//viewGroup = new FrameLayout(FRAGUEL.getInstance().getApplicationContext());
 		/*// Crear vista de la cámara
 		camView = new ARCameraView(viewGroup.getContext());
-		viewGroup.addView(camView);
+		viewGroup.addView(camView);*/
 		// Crear vista OpenGL
+		glView = new GLView(FRAGUEL.getInstance()
+				.getApplicationContext());
 		//glView = new ARGLView(viewGroup.getContext());
-		//viewGroup.addView(glView);*/
-		glView=new GLLayer(viewGroup.getContext());
+		//viewGroup.addView(glView);
+		/*glView=new GLLayer(viewGroup.getContext());
         
 		mPreview = new CamLayer(viewGroup.getContext(), 240, 160);
 		mPreview.synchronCallback=glView;
 		
 		FRAGUEL.getInstance().setContentView(glView);
-		FRAGUEL.getInstance().addContentView(mPreview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		FRAGUEL.getInstance().addContentView(mPreview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));*/
 		//viewGroup.addView(glView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		//viewGroup.addView(mPreview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		// Añadir a la actividad
+		FRAGUEL.getInstance().setContentView(glView);
+		glView.initScene();
 		//FRAGUEL.getInstance().addView(viewGroup);
 	}
 
