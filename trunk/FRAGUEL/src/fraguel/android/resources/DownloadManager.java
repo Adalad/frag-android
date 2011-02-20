@@ -33,7 +33,7 @@ public class DownloadManager {
 			InputStream stream = cn.getInputStream();
 			if (stream == null)
 				throw new RuntimeException("stream is null");
-			File temp = File.createTempFile("mediaplayertmp", "dat");
+			File temp = File.createTempFile("fraguel/tmp/mediaplayertmp", "dat");
 			temp.deleteOnExit();
 			String tempPath = temp.getAbsolutePath();
 			FileOutputStream out = new FileOutputStream(temp);
