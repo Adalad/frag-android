@@ -107,6 +107,7 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 		Point point = MapState.getInstance().getMapView().getProjection().toPixels(item.getPoint(), null);
 		//int height=item.getMarker(0).getIntrinsicHeight();
 		//int width=item.getMarker(0).getIntrinsicWidth();
+		MapState.getInstance().setPopup(true);
 		View popup= MapState.getInstance().getPopupView();
 		((TextView) popup.findViewById(R.id.popupPI_texto1)).setText(item.getTitle());
 		//((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT ,LayoutParams.FILL_PARENT ));
@@ -121,9 +122,8 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 		popup.findViewById(R.id.btn_popupPI_photo).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		popup.findViewById(R.id.btn_popupPI_ar).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		popup.findViewById(R.id.btn_popupPI_video).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-
-		//MapState.getInstance().getMapView().addView(popup);
-		popup.layout(point.x - 25, point.y -60,point.x + 140, point.y +50);
+        //MapState.getInstance().getMapView().addView(popup);
+		//popup.layout(point.x - 25, point.y -60,point.x + 140, point.y +50);
 		boolean isPopup= false;
 		for (int i=0 ; i<FRAGUEL.getInstance().getView().getChildCount(); i++){
 			if (FRAGUEL.getInstance().getView().getChildAt(i).getId()== popup.getId())

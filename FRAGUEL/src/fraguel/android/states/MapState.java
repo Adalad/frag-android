@@ -47,6 +47,8 @@ public class MapState extends State implements OnTouchListener{
 	private MapView mapView;
 	private View popupView;
 	private List<Overlay> mapOverlays;
+	
+	private boolean isPopup;
 
 
 	public MapState() {
@@ -72,10 +74,11 @@ public class MapState extends State implements OnTouchListener{
 		FRAGUEL.getInstance().addView(viewGroup);
 
 		//Creamos e importamos el popup del xml
+		setPopup(false);
 		popupView= li.inflate(R.layout.popup,  null);
 		//LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		//popupView.setLayoutParams(params);
-
+        popupView.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
 
 		//Creamos, importamos y configuramos la mapview del xml
 		mapView = (MapView) FRAGUEL.getInstance().findViewById(R.id.mapview);
@@ -124,6 +127,14 @@ public class MapState extends State implements OnTouchListener{
 
 	}
 
+	public boolean isPopup() {
+		return isPopup;
+	}
+
+	public void setPopup(boolean isPopup) {
+		this.isPopup = isPopup;
+	}
+
 	@Override
 	public void onClick(View v) {
 
@@ -152,11 +163,14 @@ public class MapState extends State implements OnTouchListener{
 	}
 
 	@Override
-	public boolean onTouch(View arg0, MotionEvent arg1) {
+	public boolean onTouch(View view, MotionEvent mev) {
 		// TODO Auto-generated method stub
-		if (arg0!=popupView)
-		FRAGUEL.getInstance().getView().removeView(popupView);
-
+		if (view==popupView && isPopup()){
+		  FRAGUEL.getInstance().getView().removeView(popupView);
+		  setPopup(false);
+		}
+          
+   
 		return true;
 	}
 
