@@ -25,6 +25,7 @@ import android.widget.VideoView;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.State;
+import fraguel.android.resources.ResourceManager;
 
 public class VideoState extends State{
 
@@ -156,7 +157,7 @@ public class VideoState extends State{
 					return;
 				}
 				currentPath = videoPath;
-				mVideoView.setVideoPath(getDataSource(videoPath));
+				mVideoView.setVideoPath(ResourceManager.getInstance().getDownloadManager().downloadFromPath(videoPath));
 				mVideoView.start();
 				mVideoView.requestFocus();
 
@@ -201,41 +202,6 @@ public class VideoState extends State{
 		return false;
 	}
 
-
-	private String getDataSource(String path) throws IOException {
-		if (!URLUtil.isNetworkUrl(path)) {
-			return path;
-		} else {
-			URL url = new URL(path);
-			URLConnection cn = url.openConnection();
-			cn.connect();
-			InputStream stream = cn.getInputStream();
-			if (stream == null)
-				throw new RuntimeException("stream is null");
-			File temp = File.createTempFile("mediaplayertmp", "dat");
-			temp.deleteOnExit();
-			String tempPath = temp.getAbsolutePath();
-			FileOutputStream out = new FileOutputStream(temp);
-			byte buf[] = new byte[128];
-			do {
-				int numread = stream.read(buf);
-				if (numread <= 0)
-					break;
-				out.write(buf, 0, numread);
-			} while (true);
-			try {
-				stream.close();
-			} catch (IOException ex) {
-				Log.e("Getting data source", "error: " + ex.getMessage(), ex);
-			}
-			return tempPath;
-		}
-	}
-
-
-	
-	
-	
 	
 	private MediaController.MediaPlayerControl player_interface = new MediaController.MediaPlayerControl() {
 
