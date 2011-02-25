@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -93,8 +94,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	private Stack<State> _stateStack;
 
 	// Routes and Points OI
-	private ArrayList<Route> routes;
-	private ArrayList<PointOI> pointsOI;
+	public ArrayList<Route> routes;
+	public ArrayList<PointOI> pointsOI;
 
 	// Menu variable buttons
 	private static final int MENU_MAIN = 1;
@@ -178,8 +179,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+		
 		view = new FrameLayout(this);
+		view.setBackgroundColor(Color.WHITE);
+		this.
 		setContentView(view);
 
 		// Singleton
@@ -248,11 +251,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	@Override
 	public void onClick(View view) {
 		currentState.onClick(view);
-	}
-
-	public ArrayList<Route> getLoadedData() {
-
-		return routes;
 	}
 
 	@Override
