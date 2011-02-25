@@ -727,6 +727,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 							if (results[0] < distance) {
 								currentRoute = r;
 								currentPoint = p;
+								distance=results[0];
 							}
 						}
 					}
@@ -735,7 +736,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 			if (currentRoute != null && currentPoint != null
 					&& !isDialogDisplayed) {
-				msg = currentRoute.name + " - " + currentPoint.title;
+				msg = currentRoute.name + " - " + currentPoint.title + ": "+distance+" metros";
 				FRAGUEL.getInstance()
 						.createTwoButtonNotification(
 								R.string.notification_proximityAlert_title_spanish,
