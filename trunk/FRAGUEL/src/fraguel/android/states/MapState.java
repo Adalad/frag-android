@@ -22,9 +22,12 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 import fraguel.android.FRAGUEL;
+import fraguel.android.PointOI;
 import fraguel.android.R;
+import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.maps.MapItemizedOverlays;
+import fraguel.android.resources.ResourceManager;
 
 public class MapState extends State implements OnTouchListener{
 
@@ -119,6 +122,26 @@ public class MapState extends State implements OnTouchListener{
 		OverlayItem overlayitem3 = new OverlayItem(point3, "Mi casa", "My house...");
 
 		itemizedoverlay.addOverlay(overlayitem3);
+		
+		
+		
+		
+		
+		//PUNTOS LEIDOS DE FICHERO
+		Drawable image;
+		MapItemizedOverlays capa;
+		GeoPoint point;
+		OverlayItem item;
+		for (Route r : FRAGUEL.getInstance().routes) {
+			image=FRAGUEL.getInstance().getResources().getDrawable(R.drawable.museumsalango);
+			capa=new MapItemizedOverlays(image,FRAGUEL.getInstance());
+			for (PointOI p : r.pointsOI) { 
+				point=new GeoPoint((int)p.coords[0]*1000000,(int)p.coords[1]*1000000);
+				item= new OverlayItem(point,p.title,p.title);
+				capa.addOverlay(item);
+			}
+			mapOverlays.add(capa);
+		}
 
 		mapOverlays.add(itemizedoverlay);
 		addMyPosition();
