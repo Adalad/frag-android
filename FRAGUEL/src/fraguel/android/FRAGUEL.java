@@ -653,7 +653,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	// *************************************************************************************
 	public class Me implements LocationListener {
 
-		public static final float proximityAlertDistance = 50000000;
+		public static final float proximityAlertDistance = 5000;
 		public static final float proximityAlertError = 10;
 		private GeoPoint currentLocation;
 		private double latitude = 0, longitude = 0, altitude = 0;
