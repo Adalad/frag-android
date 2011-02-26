@@ -181,9 +181,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
 		view = new FrameLayout(this);
-		view.setBackgroundColor(Color.WHITE);
-		this.
-		setContentView(view);
+		this.setContentView(view);
 
 		// Singleton
 		instance = this;
