@@ -41,7 +41,6 @@ public class RouteManagerState extends State {
 	private ListView list;
 	private ArrayList<String> currentDataTitle;
 	private ArrayList<String> currentDataDescrip;
-	private ArrayList<Route> data;
 	//0->routes,1->points,2->pointData
 	private int internalState;
 	private int selectedRoute,selectedPoint;
@@ -60,7 +59,6 @@ public class RouteManagerState extends State {
 		title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
 				
 		container.addView(title);
-		//data= FRAGUEL.getInstance().getLoadedData();
 		loadRoutes(0);
 		viewGroup=container;
 		selectedRoute=0;
@@ -91,9 +89,9 @@ public class RouteManagerState extends State {
 					break;
 				case 1:
 					selectedPoint=position;
-					FRAGUEL.getInstance().changeState(20);
-					//Route r= FRAGUEL.getInstance().getLoadedData().get(selectedRoute);
-					//FRAGUEL.getInstance().getCurrentState().loadData(r, r.pointsOI.get(selectedPoint));
+					FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
+					Route r= FRAGUEL.getInstance().routes.get(selectedRoute);
+					FRAGUEL.getInstance().getCurrentState().loadData(r, r.pointsOI.get(selectedPoint));
 					break;
 				}
 				
@@ -134,7 +132,7 @@ private void addOnItemLongClickListenerToListView(){
 		setAdapter();
 		currentDataTitle=new ArrayList<String>();
 		currentDataDescrip= new ArrayList<String>();
-		ArrayList<PointOI> points= data.get(route).pointsOI;
+		ArrayList<PointOI> points= FRAGUEL.getInstance().routes.get(route).pointsOI;
 		for (PointOI p : points){
 			currentDataTitle.add(p.title);
 			currentDataDescrip.add(p.icon);
@@ -153,7 +151,7 @@ private void addOnItemLongClickListenerToListView(){
 		setAdapter();
 		currentDataTitle=new ArrayList<String>();
 		currentDataDescrip= new ArrayList<String>();
-		for (Route r : data) {
+		for (Route r : FRAGUEL.getInstance().routes) {
 			currentDataTitle.add(r.name);
 			currentDataDescrip.add(r.description);
 		}
