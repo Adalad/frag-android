@@ -60,7 +60,7 @@ public class RouteManagerState extends State {
 		title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
 				
 		container.addView(title);
-		data= FRAGUEL.getInstance().getLoadedData();
+		//data= FRAGUEL.getInstance().getLoadedData();
 		loadRoutes(0);
 		viewGroup=container;
 		selectedRoute=0;
@@ -92,8 +92,8 @@ public class RouteManagerState extends State {
 				case 1:
 					selectedPoint=position;
 					FRAGUEL.getInstance().changeState(20);
-					Route r= FRAGUEL.getInstance().getLoadedData().get(selectedRoute);
-					FRAGUEL.getInstance().getCurrentState().loadData(r, r.pointsOI.get(selectedPoint));
+					//Route r= FRAGUEL.getInstance().getLoadedData().get(selectedRoute);
+					//FRAGUEL.getInstance().getCurrentState().loadData(r, r.pointsOI.get(selectedPoint));
 					break;
 				}
 				
