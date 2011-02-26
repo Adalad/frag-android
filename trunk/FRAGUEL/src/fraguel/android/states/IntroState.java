@@ -56,7 +56,7 @@ public class IntroState extends State{
 		LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
 		if(viewGroup==null)
 			viewGroup= (ViewGroup) li.inflate(R.layout.intro,  null);
-		
+		viewGroup.setBackgroundResource(R.drawable.white);
 		 AnimationSet set = new AnimationSet(true);
 		 	
 		 	  
