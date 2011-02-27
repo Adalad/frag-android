@@ -14,6 +14,8 @@ import android.view.animation.LayoutAnimationController;
 import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import fraguel.android.FRAGUEL;
@@ -43,6 +45,18 @@ public class MainMenuState extends State {
 		if(viewGroup==null)
 			viewGroup= (ViewGroup) li.inflate(R.layout.mainmenu,  null);
 		
+	     // FrameLayout title= (FrameLayout) FRAGUEL.getInstance().findViewById(R.id.mainmenu_container_imagen);	
+	      FrameLayout title=(FrameLayout) viewGroup.getChildAt(0);
+	      
+	      
+	      AnimationSet setA = new AnimationSet(true);
+	      Animation animationA = new RotateAnimation(0.2f, -0.2f );
+		  animationA.setDuration(500);
+		  animationA.setRepeatCount(-1);
+		  setA.addAnimation(animationA);
+	      
+		  LayoutAnimationController controllerA = new LayoutAnimationController(setA, 0.25f);
+		  //title.setLayoutAnimation(controllerA);
 		
 		  AnimationSet set = new AnimationSet(true);
 		 	
@@ -68,7 +82,7 @@ public class MainMenuState extends State {
 		  
 		  LayoutAnimationController controller =
 		      new LayoutAnimationController(set, 0.25f);
-		  viewGroup.setLayoutAnimation(controller);
+		 // viewGroup.setLayoutAnimation(controller);
 
 		
 		FRAGUEL.getInstance().addView(viewGroup);
