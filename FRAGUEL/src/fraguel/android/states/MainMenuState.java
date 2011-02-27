@@ -12,6 +12,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -23,15 +24,15 @@ import fraguel.android.R;
 import fraguel.android.State;
 
 public class MainMenuState extends State {
-	
+
 	public static final int STATE_ID = 15;
-	
+
 	// Variables menu de opciones
 	private static final int MENU_MAIN = 1;
 	private static final int MENU_CONFIG = 2;
 	private static final int MENU_ROUTE = 3;
 	private static final int MENU_EXIT = 4;
-	
+
 	protected TextView gps;
 	protected TextView orientation;
 	public MainMenuState() {
@@ -44,65 +45,53 @@ public class MainMenuState extends State {
 		LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
 		if(viewGroup==null)
 			viewGroup= (ViewGroup) li.inflate(R.layout.mainmenu,  null);
-		
-	     // FrameLayout title= (FrameLayout) FRAGUEL.getInstance().findViewById(R.id.mainmenu_container_imagen);	
-	      FrameLayout title=(FrameLayout) viewGroup.getChildAt(0);
-	      
-	      
-	      AnimationSet setA = new AnimationSet(true);
-	      Animation animationA = new RotateAnimation(0.2f, -0.2f );
-		  animationA.setDuration(500);
-		  animationA.setRepeatCount(-1);
-		  setA.addAnimation(animationA);
-	      
-		  LayoutAnimationController controllerA = new LayoutAnimationController(setA, 0.25f);
-		  //title.setLayoutAnimation(controllerA);
-		
-		  AnimationSet set = new AnimationSet(true);
-		 	
-		 //Juega con la transparencia de la View 
-		  Animation animation = new AlphaAnimation(0.0f, 1.0f);
-		  animation.setDuration(500);
-		  set.addAnimation(animation);
-		  
-		  //Rota la View
-		  Animation animation2 = new RotateAnimation(45, 0 );
-		  animation2.setDuration(500);
-		  set.addAnimation(animation2);
-		  
-		  //Mueve la View
-		  Animation animation3 = new TranslateAnimation(
-		      Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-		      Animation.RELATIVE_TO_SELF, -3.0f, Animation.RELATIVE_TO_SELF, 0.0f
-		  );
-		  animation3.setDuration(500);
-		  set.addAnimation(animation3);
 
-		  
-		  
-		  LayoutAnimationController controller =
-		      new LayoutAnimationController(set, 0.25f);
-		 // viewGroup.setLayoutAnimation(controller);
 
-		
+		FrameLayout title=(FrameLayout) viewGroup.getChildAt(0);
+		FrameLayout btn_1=(FrameLayout) viewGroup.getChildAt(1);
+		FrameLayout btn_2=(FrameLayout) viewGroup.getChildAt(2);
+		FrameLayout btn_3=(FrameLayout) viewGroup.getChildAt(3);
+		FrameLayout btn_4=(FrameLayout) viewGroup.getChildAt(4);
+
+
+		AnimationSet setTitle = new AnimationSet(true);
+		AnimationSet setBtn = new AnimationSet(true);
+
+		Animation titleAnim = new AlphaAnimation(0.0f, 1.0f);
+		titleAnim.setDuration(2000);
+		//titleAnim.setRepeatCount(-1);
+
+
+		Animation btnAnim1 = new AlphaAnimation(0.0f, 1.0f);
+		btnAnim1.setDuration(1000);
+
+		Animation btnAnim2 = new RotateAnimation(45, 0 );
+		btnAnim2.setDuration(1000);
+
+		Animation btnAnim3 = new TranslateAnimation(
+				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+				Animation.RELATIVE_TO_SELF, -3.0f, Animation.RELATIVE_TO_SELF, 0.0f
+		);
+		btnAnim3.setDuration(1000);
+
+
+		setTitle.addAnimation(titleAnim);
+		setBtn.addAnimation(btnAnim1);
+		//setBtn.addAnimation(btnAnim2);
+		setBtn.addAnimation(btnAnim3);
+
+		LayoutAnimationController controllerTitle = new LayoutAnimationController(setTitle, 0.25f);
+		LayoutAnimationController controllerBtn = new LayoutAnimationController(setBtn, 0.25f);
+		title.setLayoutAnimation(controllerTitle);
+		btn_1.setLayoutAnimation(controllerBtn);
+		btn_2.setLayoutAnimation(controllerBtn);
+		btn_3.setLayoutAnimation(controllerBtn);
+		btn_4.setLayoutAnimation(controllerBtn);
+
+
 		FRAGUEL.getInstance().addView(viewGroup);
-		
-		
-		
-		//bfm.setTextSize(20);
-		//brm.setTextColor(100);
-		//bim.;
-		
-		//viewGroup = new LinearLayout(FRAGUEL.getInstance()
-		//		.getApplicationContext());
-		//((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
-		
 
-//		TextView tv = new TextView(viewGroup.getContext());
-//		tv.setText("");
-//		viewGroup.addView(tv);
 
-		
 		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_freemode)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_routemode)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_interactivemode)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
@@ -110,11 +99,10 @@ public class MainMenuState extends State {
 		//((Button) FRAGUEL.getInstance().findViewById(R.id.btn_config)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_manager)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		//((Button) FRAGUEL.getInstance().findViewById(R.id.btn_exit)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-		
-		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_manager)).
-		setAnimation(animation3);
-		
-		
+
+
+
+
 	}
 
 	@Override
