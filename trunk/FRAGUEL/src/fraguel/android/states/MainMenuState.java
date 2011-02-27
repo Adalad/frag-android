@@ -46,6 +46,7 @@ public class MainMenuState extends State {
 		if(viewGroup==null)
 			viewGroup= (ViewGroup) li.inflate(R.layout.mainmenu,  null);
 
+		
 
 		FrameLayout title=(FrameLayout) viewGroup.getChildAt(0);
 		FrameLayout btn_1=(FrameLayout) viewGroup.getChildAt(1);
