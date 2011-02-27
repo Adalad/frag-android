@@ -46,8 +46,7 @@ public class PointInfoState extends State{
 		
 		title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
 		title.setText("Información disponible del punto de interés");
-		//title.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-		title.setMaxHeight(20);
+
 		
 		container.addView(title);
 		
@@ -83,21 +82,21 @@ public class PointInfoState extends State{
 				switch (position){
 				
 				case 0:
-					FRAGUEL.getInstance().changeState(6);
+					FRAGUEL.getInstance().changeState(InfoState.STATE_ID);
 					break;
 				case 1:
 
-					FRAGUEL.getInstance().changeState(4);
+					FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
 					break;
 					
 				case 2:
 
-					FRAGUEL.getInstance().changeState(9);
+					FRAGUEL.getInstance().changeState(VideoGalleryState.STATE_ID);
 					break;
 					
 				case 3:
 
-					FRAGUEL.getInstance().changeState(5);
+					FRAGUEL.getInstance().changeState(ARState.STATE_ID);
 					break;
 				
 				}
