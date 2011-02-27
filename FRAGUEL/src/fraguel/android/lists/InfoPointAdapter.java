@@ -3,6 +3,7 @@ package fraguel.android.lists;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.states.PointInfoState;
+import fraguel.android.utils.TitleTextView;
 import android.content.Context;
 import android.view.Display;
 import android.view.Gravity;
@@ -55,14 +56,15 @@ public class InfoPointAdapter extends BaseAdapter{
         int width = display.getWidth();
 		
         LinearLayout container= new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
-        container.setLayoutParams(new GridView.LayoutParams(width/2, (height-20)/2));
+        container.setLayoutParams(new GridView.LayoutParams(width/2, (height-TitleTextView.HEIGHT)/2));
 		container.setOrientation(LinearLayout.VERTICAL);
+		container.setGravity(Gravity.CENTER);
 		container.setPadding(10, 10, 10, 10);
         
 		ImageView imageView;
         imageView = new ImageView(mContext);
         //imageView.setLayoutParams(new GridView.LayoutParams(width/2, (height-20)/2));
-        imageView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+        imageView.setLayoutParams(new LayoutParams(40,40));
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setImageResource(mImageIds[position]);
         
