@@ -4,7 +4,7 @@
 	android:layout_height="wrap_content" android:orientation="vertical"
 	android:layout_gravity="center" android:gravity="center"
 	android:layout_weight="1" 
-	android:background="@drawable/white"
+	android:background="@drawable/aqua"
 	>
     
     <FrameLayout android:id="@+id/mainmenu_container_imagen"  android:layout_width="fill_parent"
@@ -12,7 +12,7 @@
     <ImageView android:id="@+id/mainmenu_imagen" android:layout_weight="1"
 	    android:layout_width="wrap_content" android:layout_gravity="center"
 		android:layout_height="wrap_content" 
-		android:src="@drawable/itourlogo"
+		android:src="@drawable/itourlogo2"
 		android:paddingLeft="5dip" android:paddingTop="5dip" 
 	/>
 	</FrameLayout>
