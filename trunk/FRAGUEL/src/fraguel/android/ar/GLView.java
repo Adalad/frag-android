@@ -8,6 +8,8 @@ import fraguel.android.ar.core.Scene;
 import fraguel.android.ar.interfaces.ISceneController;
 import fraguel.android.ar.objectPrimitives.Box;
 import fraguel.android.ar.vos.Light;
+import fraguel.android.resources.ar.IParser;
+import fraguel.android.resources.ar.Parser;
 
 public class GLView extends GLSurfaceView implements ISceneController {
 
@@ -18,6 +20,7 @@ public class GLView extends GLSurfaceView implements ISceneController {
 	protected Handler _updateSceneHander;
 	
 	Object3dContainer _cube;
+	private Object3dContainer objModel;
 
 	final Runnable _initSceneRunnable = new Runnable() {
 		public void run() {
@@ -63,11 +66,20 @@ public class GLView extends GLSurfaceView implements ISceneController {
 	public void initScene() {
 		scene.reset();
 		
-		scene.lights().add(new Light());
+		/*scene.lights().add(new Light());
 		
 		scene.backgroundColor().setAll(0xff444444);
 		_cube = new Box(1,1,1);
-		scene.addChild(_cube);
+		scene.addChild(_cube);*/
+		scene.lights().add(new Light());
+		
+		IParser parser = Parser.createParser(Parser.Type.OBJ,
+				getResources(), "fraguel.android:raw/camaro_obj", true);
+		parser.parse();
+
+		objModel = parser.getParsedObject();
+		objModel.scale().x = objModel.scale().y = objModel.scale().z = .7f;
+		scene.addChild(objModel);
 	}
 
 	/**
@@ -75,7 +87,9 @@ public class GLView extends GLSurfaceView implements ISceneController {
 	 * here. Gets called on every frame, right before drawing.
 	 */
 	public void updateScene() {
-		_cube.rotation().y++;
+		//_cube.rotation().y++;
+		objModel.rotation().x++;
+		objModel.rotation().z++;
 	}
 
 	/**
