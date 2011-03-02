@@ -44,7 +44,6 @@ public class ARState extends State {
 		//viewGroup.addView(mPreview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		// Añadir a la actividad
 		FRAGUEL.getInstance().setContentView(glView);
-		glView.initScene();
 		//FRAGUEL.getInstance().addView(viewGroup);
 	}
 

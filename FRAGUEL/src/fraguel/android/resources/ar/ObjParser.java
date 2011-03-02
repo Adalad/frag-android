@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.Log;
+import fraguel.android.R;
 import fraguel.android.ar.Min3d;
 import fraguel.android.ar.Shared;
 import fraguel.android.ar.Utils;
@@ -55,8 +56,8 @@ public class ObjParser extends AParser implements IParser {
 	public void parse() {
 		long startTime = Calendar.getInstance().getTimeInMillis();
 
-		InputStream fileIn = resources.openRawResource(resources.getIdentifier(
-				resourceID, null, null));
+		int id = resources.getIdentifier(resourceID, null, null);
+		InputStream fileIn = resources.openRawResource(id);
 		BufferedReader buffer = new BufferedReader(
 				new InputStreamReader(fileIn));
 		String line;
