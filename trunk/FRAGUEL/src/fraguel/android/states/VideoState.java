@@ -8,7 +8,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import fraguel.android.FRAGUEL;
+import fraguel.android.IntroVideoActivity;
 import fraguel.android.R;
 import fraguel.android.State;
 import fraguel.android.resources.ResourceManager;
@@ -52,7 +56,7 @@ public class VideoState extends State{
 	private String videoPath;
 
 	private MediaController mc;
-
+    private ProgressDialog dialog;
 
 	public VideoState() {
 		super();
@@ -75,6 +79,15 @@ public class VideoState extends State{
 
 	@Override
 	public void load() {
+		
+		
+		//FRAGUEL.getInstance().dismissProgressDialog();
+		
+		
+		 /*Intent lVideoIntent = new Intent(null, Uri.parse("ytv://videoid=kieyjfZDUIc"), FRAGUEL.getInstance(), IntroVideoActivity.class);
+	     FRAGUEL.getInstance().startActivity(lVideoIntent);*/
+		
+		
 		// TODO Auto-generated method stub
 		LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
 		viewGroup= (ViewGroup) li.inflate(R.layout.video,  null);
@@ -158,7 +171,9 @@ public class VideoState extends State{
 				}
 				currentPath = videoPath;
 				mVideoView.setVideoPath(ResourceManager.getInstance().getDownloadManager().downloadFromPath(videoPath));
+				
 				mVideoView.start();
+				FRAGUEL.getInstance().dismissProgressDialog();
 				mVideoView.requestFocus();
 
 			}

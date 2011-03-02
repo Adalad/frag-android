@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Stack;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +28,8 @@ import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.util.Pair;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -102,6 +105,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	private static final int MENU_CONFIG = 2;
 	private static final int MENU_ROUTE = 3;
 	private static final int MENU_EXIT = 4;
+	
+	private ProgressDialog dialog;
 
 	/**
 	 * Se crea el menu de opciones en función del estado
@@ -180,6 +185,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
+		
+		
+		
 		view = new FrameLayout(this);
 		this.setContentView(view);
 
@@ -249,6 +257,22 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	@Override
 	public void onClick(View view) {
 		currentState.onClick(view);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		return super.onContextItemSelected(item);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		super.onCreateContextMenu(menu, v, menuInfo);
+		 menu.setHeaderTitle("Context Menu");  
+	     menu.add(0, v.getId(), 0, "Action 1");  
+	     menu.add(0, v.getId(), 0, "Action 2"); 
 	}
 
 	@Override
@@ -815,6 +839,18 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		public boolean isDialogDisplayed() {
 			return isDialogDisplayed;
 		}
+
+	}
+	
+	public void showProgressDialog(){
+		dialog = ProgressDialog.show(FRAGUEL.getInstance(), "", 
+				"Cargando. Por favor espere...", true);
+
+	}
+
+	public void dismissProgressDialog(){
+		if(dialog!=null)
+			dialog.dismiss();
 
 	}
 
