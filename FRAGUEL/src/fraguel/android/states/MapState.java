@@ -2,6 +2,7 @@ package fraguel.android.states;
 
 import java.util.List;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -52,6 +53,10 @@ public class MapState extends State implements OnTouchListener{
 	private List<Overlay> mapOverlays;
 	
 	private boolean isPopup;
+	private String[] videos={"http://daily3gp.com/vids/747.3gp",
+			"http://www.free-3gp-video.com/download.php?dancing-skeleton.3gp",
+			"http://www.free-3gp-video.com/download.php?gay_referee.3gp",
+	"http://www.free-3gp-video.com/download.php?do-beer-not-drugs.3gp"};
 
 
 	public MapState() {
@@ -103,7 +108,9 @@ public class MapState extends State implements OnTouchListener{
 		mapOverlays = mapView.getOverlays();
 		Drawable drawable = FRAGUEL.getInstance().getResources().getDrawable(R.drawable.museumsalango);
 		MapItemizedOverlays itemizedoverlay = new MapItemizedOverlays(drawable,FRAGUEL.getInstance());
-
+ 
+		FRAGUEL.getInstance().registerForContextMenu(mapView); 
+		
 		//primer punto
 		GeoPoint point1 = new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7257881 * 1000000));
 		OverlayItem overlayitem = new OverlayItem(point1, "Facultad A", "En el año...");
@@ -171,7 +178,9 @@ public class MapState extends State implements OnTouchListener{
 			FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
 			break;
 		case R.id.btn_popupPI_video:
-			FRAGUEL.getInstance().changeState(VideoGalleryState.STATE_ID);
+			VideoState.getInstance().setVideoPath(videos[0]);
+			FRAGUEL.getInstance().showProgressDialog();
+			FRAGUEL.getInstance().changeState(VideoState.STATE_ID);
 			break;
 		case R.id.btn_popupPI_ar:
 			FRAGUEL.getInstance().changeState(ARState.STATE_ID);

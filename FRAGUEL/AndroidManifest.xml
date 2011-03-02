@@ -19,7 +19,8 @@
 
 		<uses-library android:required="true" android:name="com.google.android.maps"></uses-library>
 
-	</application>
+	<activity android:name=".IntroVideoActivity" android:label="videoactivity"></activity>
+</application>
 
 
 </manifest> 
