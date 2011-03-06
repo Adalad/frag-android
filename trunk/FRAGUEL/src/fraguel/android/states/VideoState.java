@@ -12,6 +12,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import android.view.ViewGroup;
 import android.webkit.URLUtil;
 import android.widget.ImageButton;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -88,6 +90,7 @@ public class VideoState extends State{
 	     FRAGUEL.getInstance().startActivity(lVideoIntent);*/
 		
 		
+		
 		// TODO Auto-generated method stub
 		LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
 		viewGroup= (ViewGroup) li.inflate(R.layout.video,  null);
@@ -107,6 +110,32 @@ public class VideoState extends State{
 		mc.setAnchorView(mVideoView);
 		//mc.show(100);
 		mVideoView.setMediaController(mc);
+		
+		/*MediaPlayer mp = new MediaPlayer();
+		
+	    try {
+			mp.setDataSource("http://www.youtube.com/watch?v=GE7V2nlqydU");
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    try {
+			mp.prepare();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    mp.start();*/
+		
 		/*mPlay = (ImageButton) FRAGUEL.getInstance().findViewById(R.id.play);
 		mPause = (ImageButton) FRAGUEL.getInstance().findViewById(R.id.pause);
 		mReset = (ImageButton) FRAGUEL.getInstance().findViewById(R.id.reset);
@@ -140,7 +169,29 @@ public class VideoState extends State{
 			}
 		});*/
 
-		playSelectedVideo();
+		
+		final ProgressDialog pd =  ProgressDialog.show(FRAGUEL.getInstance(),"Cargando...","Por favor espere",true, false);
+		/*ProgressBar pb = new ProgressBar(FRAGUEL.getInstance());
+		pb.setId(4);
+		viewGroup.addView(pb);
+		pb.setVisibility(View.FOCUS_FORWARD);
+		pb.bringToFront();*/
+		
+		/*new Thread(new Runnable(){
+			public void run(){
+				playSelectedVideo();
+				pd.dismiss();
+			}
+		}).start();*/ 
+		//playSelectedVideo();
+		
+		Handler handler = new Handler(); 
+	    handler.postDelayed(new Runnable() { 
+	         public void run() { 
+	        	    playSelectedVideo();
+					pd.dismiss();
+	         } 
+	    }, 5000); 
 	}
 
 
@@ -173,7 +224,7 @@ public class VideoState extends State{
 				mVideoView.setVideoPath(ResourceManager.getInstance().getDownloadManager().downloadFromPath(videoPath));
 				
 				mVideoView.start();
-				FRAGUEL.getInstance().dismissProgressDialog();
+				//FRAGUEL.getInstance().dismissProgressDialog();
 				mVideoView.requestFocus();
 
 			}

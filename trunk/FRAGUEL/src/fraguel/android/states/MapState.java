@@ -4,8 +4,10 @@ import java.util.List;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,10 +25,12 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 import fraguel.android.FRAGUEL;
+import fraguel.android.IntroVideoActivity;
 import fraguel.android.PointOI;
 import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.State;
+import fraguel.android.VideoPlayer;
 import fraguel.android.maps.MapItemizedOverlays;
 import fraguel.android.resources.ResourceManager;
 
@@ -50,6 +54,7 @@ public class MapState extends State implements OnTouchListener{
 	private MapController mapControl;
 	private MapView mapView;
 	private View popupView;
+	private View popupView2;
 	private List<Overlay> mapOverlays;
 	
 	private boolean isPopup;
@@ -87,6 +92,11 @@ public class MapState extends State implements OnTouchListener{
 		//LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		//popupView.setLayoutParams(params);
         popupView.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
+        
+        //Creamos e importamos el popup onroute del xml
+		setPopup(false);
+		popupView2= li.inflate(R.layout.popup2,  null);
+		popupView2.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
 
 		//Creamos, importamos y configuramos la mapview del xml
 		mapView = (MapView) FRAGUEL.getInstance().findViewById(R.id.mapview);
@@ -179,8 +189,12 @@ public class MapState extends State implements OnTouchListener{
 			break;
 		case R.id.btn_popupPI_video:
 			VideoState.getInstance().setVideoPath(videos[0]);
-			FRAGUEL.getInstance().showProgressDialog();
-			FRAGUEL.getInstance().changeState(VideoState.STATE_ID);
+			//FRAGUEL.getInstance().showProgressDialog();
+			//Intent lVideoIntent = new Intent(null, Uri.parse("ytv://w65_FH4X938"), FRAGUEL.getInstance(), IntroVideoActivity.class);
+		    //FRAGUEL.getInstance().startActivity(lVideoIntent);
+			FRAGUEL.getInstance().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=cxLG2wtE7TM")));
+			//VideoState.getInstance().setVideoPath("");
+			//FRAGUEL.getInstance().changeState(VideoState.STATE_ID);
 			break;
 		case R.id.btn_popupPI_ar:
 			FRAGUEL.getInstance().changeState(ARState.STATE_ID);
@@ -202,6 +216,10 @@ public class MapState extends State implements OnTouchListener{
 		  setPopup(false);
 		}
           
+		if (view==popupView2 && isPopup()){
+			  FRAGUEL.getInstance().getView().removeView(popupView2);
+			  setPopup(false);
+			}
    
 		return true;
 	}
@@ -213,6 +231,10 @@ public class MapState extends State implements OnTouchListener{
 
 	public View getPopupView() {
 		return popupView;
+	}
+	
+	public View getPopupView2() {
+		return popupView2;
 	}
 
 	public void animateTo(GeoPoint g){

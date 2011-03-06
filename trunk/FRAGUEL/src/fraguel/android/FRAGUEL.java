@@ -52,6 +52,7 @@ import fraguel.android.notifications.ProximityAlertNotificationButton;
 import fraguel.android.resources.ResourceManager;
 import fraguel.android.states.ARState;
 import fraguel.android.states.ConfigState;
+import fraguel.android.states.ImageGalleryState;
 import fraguel.android.states.ImageState;
 import fraguel.android.states.InfoState;
 import fraguel.android.states.IntroState;
@@ -230,13 +231,14 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
 		states = new ArrayList<State>();
-		addState(new IntroState(), true);
-		addState(new MainMenuState(), false);
-		addState(new MenuState(), false);
-		addState(new MapState(), false);
+		//addState(new IntroState(), true);
+		//addState(new MainMenuState(), false);
+		//addState(new MenuState(), false);
+		addState(new MapState(), true);
 		addState(new VideoState(), false);
 		addState(new VideoGalleryState(), false);
-		addState(new ImageState(), false);
+		addState(new ImageGalleryState(), false);
+		//addState(new ImageState(), false);
 		addState(new ARState(), false);
 		addState(new InfoState(), false);
 		addState(new ConfigState(), false);

@@ -1,40 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:id="@+id/popupPI2"
-	android:layout_width="wrap_content" android:layout_height="wrap_content"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+<FrameLayout android:id="@+id/popupPIonroute" android:layout_width="fill_parent"
+	android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<LinearLayout android:id="@+id/popupPI2_container"
-		android:orientation="horizontal" android:layout_width="wrap_content"
-		android:layout_height="wrap_content">
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:background="@drawable/popup_complete">
+
+		<TextView android:id="@+id/popupPIonroute_texto1"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:textStyle="bold" android:gravity="left" android:paddingTop="2dip" />
 
 
-		<FrameLayout android:layout_width="wrap_content"
+		<LinearLayout android:id="@+id/popupPIonroute_container"
+			android:orientation="horizontal" android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
 
-			<ImageView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/popupPI2_imagen1"
-				android:src="@drawable/popup_leftpointer4" />
-			<ImageView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/popupPI2_imagen2"
-				android:paddingLeft="10dip" android:paddingTop="7dip" />
-
-		</FrameLayout>
 
 
-		<FrameLayout android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:background="@drawable/popup_middlebg2">
+			<FrameLayout android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
 
-			<TextView android:id="@+id/popupPI2_texto1" android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:gravity="center"
-				android:paddingTop="7dip" />
+				<ImageView android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:id="@+id/popupPIonroute_imagen2"
+					android:paddingLeft="5dip" android:paddingTop="5dip" />
 
-		</FrameLayout>
+			</FrameLayout>
 
 
-		<ImageView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/popupPI2_imagen3"
-			android:src="@drawable/popup_right2" />
+			<LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:orientation="horizontal"
+				android:layout_gravity="center" android:gravity="center"
+				>
 
+				<FrameLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content" >
+					<Button android:id="@+id/btn_popupPIonroute_moreinfo"
+						android:text="Ver más información..."
+						android:layout_width="fill_parent" 
+						android:layout_height="wrap_content" android:paddingLeft="15dip"
+						android:paddingTop="5dip" android:layout_gravity="center" />
+				</FrameLayout>
+				
+
+			</LinearLayout>
+
+
+		</LinearLayout>
 
 
 	</LinearLayout>
