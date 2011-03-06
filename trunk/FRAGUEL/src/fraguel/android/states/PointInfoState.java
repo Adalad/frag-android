@@ -1,8 +1,18 @@
 package fraguel.android.states;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
@@ -13,7 +23,11 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
+import android.widget.Gallery;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
@@ -25,8 +39,12 @@ import fraguel.android.utils.TitleTextView;
 
 public class PointInfoState extends State{
 	public static final int STATE_ID = 20;
+	public static final int WIDTH = 50;
+	public static final int HEIGHT = 50;
 	private GridView gridView;
 	private TitleTextView title;
+	private ImageView image;
+	private TextView text;
 	
 	
 	public PointInfoState() {
@@ -44,13 +62,46 @@ public class PointInfoState extends State{
 		container.setOrientation(LinearLayout.VERTICAL);
 		//container.setBackgroundResource(R.drawable.aqua);
 		
-		title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
-		title.setText("Información disponible del punto de interés");
+		Display display = ((WindowManager)FRAGUEL.getInstance().getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		int height = display.getHeight();
+        int width = display.getWidth();
+        
+        int heightAvailable= height-2*TitleTextView.HEIGHT;
+        
+        heightAvailable=heightAvailable/2;
 
-		
+		title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
+		title.setText("Aquí va el título del punto de interés");
 		container.addView(title);
 		
-		gridView= new GridView(FRAGUEL.getInstance().getApplicationContext());
+		
+		image= new ImageView(FRAGUEL.getInstance().getApplicationContext());
+		image.setLayoutParams(new LayoutParams(WIDTH,heightAvailable ));
+		image.setImageBitmap(getImageBitmap("http://www.navegabem.com/blog/wp-content/uploads/2009/04/firefox-icon.png"));
+		image.setPadding(10, 10, 10, 10);
+		container.addView(image);
+		
+		
+		ScrollView sv = new ScrollView (FRAGUEL.getInstance().getApplicationContext());
+		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,heightAvailable));
+		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
+		text.setText("Aqui va el texto referente a la mínima explicación del punto");
+		sv.addView(text);
+		container.addView(sv);
+		
+		gridView=new GridView(FRAGUEL.getInstance().getApplicationContext());
+		gridView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+		gridView.setNumColumns(3);
+		gridView.setColumnWidth(width/3);
+		gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+		gridView.setAdapter(new InfoPointAdapter(FRAGUEL.getInstance().getApplicationContext()));
+		gridView.setScrollContainer(false);
+		setGridViewListener();
+		container.addView(gridView);
+		
+		
+		
+		/*gridView= new GridView(FRAGUEL.getInstance().getApplicationContext());
 		gridView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		gridView.setNumColumns(2);
 		Display display = ((WindowManager)FRAGUEL.getInstance().getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -60,10 +111,10 @@ public class PointInfoState extends State{
 		gridView.setGravity(Gravity.CENTER);
 		gridView.setAdapter(new InfoPointAdapter(FRAGUEL.getInstance().getApplicationContext()));
 		gridView.setScrollContainer(false);
-		setGridViewListener();
+		setGridViewListener();*/
 		
 		
-		container.addView(gridView);
+		//container.addView(gridView);
 		
         viewGroup=container;
         FRAGUEL.getInstance().addView(viewGroup);
@@ -140,5 +191,22 @@ public class PointInfoState extends State{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	private Bitmap getImageBitmap(String url) {
+        Bitmap bm = null;
+        try {
+            URL aURL = new URL(url);
+            URLConnection conn = aURL.openConnection();
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+            bm = BitmapFactory.decodeStream(bis);
+            bis.close();
+            is.close();
+       } catch (IOException e) {
+           Log.e("Image", "Error getting bitmap", e);
+       }
+       return bm;
+    } 
 
 }
