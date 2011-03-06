@@ -82,19 +82,6 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 		//Sacamos el popup del punto de interés
 		showPopup(item);
         
-		//Evento específico del punto de interés
-		if(title=="Facultad A"){ 
-
-		}
-		if(title=="Facultad B"){
-
-		}
-		else{
-
-
-		}
-
-
 		return true;
 
 
@@ -122,8 +109,10 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 		popup.findViewById(R.id.btn_popupPI_photo).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		popup.findViewById(R.id.btn_popupPI_ar).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		popup.findViewById(R.id.btn_popupPI_video).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-        //MapState.getInstance().getMapView().addView(popup);
+       
+		//MapState.getInstance().getMapView().addView(popup);
 		//popup.layout(point.x - 25, point.y -60,point.x + 140, point.y +50);
+		
 		boolean isPopup= false;
 		for (int i=0 ; i<FRAGUEL.getInstance().getView().getChildCount(); i++){
 			if (FRAGUEL.getInstance().getView().getChildAt(i).getId()== popup.getId())

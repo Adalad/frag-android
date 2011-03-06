@@ -35,7 +35,7 @@
 				<FrameLayout android:layout_width="fill_parent"
 					android:layout_height="wrap_content" android:layout_weight="1">
 					<Button android:id="@+id/btn_popupPI_info"
-						android:layout_width="wrap_content" android:background="@drawable/info"
+						android:layout_width="wrap_content" android:background="@drawable/informacion_small"
 						android:layout_height="wrap_content" android:paddingLeft="0dip"
 						android:paddingTop="5dip" android:layout_gravity="center" />
 				</FrameLayout>
@@ -44,7 +44,7 @@
 					android:layout_height="wrap_content" android:layout_weight="1">
 					<Button android:id="@+id/btn_popupPI_photo"
 						android:layout_width="wrap_content" android:layout_height="wrap_content"
-						android:background="@drawable/photo" android:paddingLeft="0dip"
+						android:background="@drawable/galeria_fotos_small" android:paddingLeft="0dip"
 						android:paddingTop="5dip" android:layout_gravity="center" />
 				</FrameLayout>
 
@@ -52,7 +52,7 @@
 					android:layout_height="wrap_content" android:layout_weight="1">
 					<Button android:id="@+id/btn_popupPI_video"
 						android:layout_width="wrap_content" android:layout_height="wrap_content"
-						android:background="@drawable/video" android:paddingLeft="0dip"
+						android:background="@drawable/galeria_video_small" android:paddingLeft="0dip"
 						android:paddingTop="5dip" android:layout_gravity="center" />
 				</FrameLayout>
 
@@ -60,7 +60,7 @@
 					android:layout_height="wrap_content" android:layout_weight="1">
 					<Button android:id="@+id/btn_popupPI_ar"
 						android:layout_width="wrap_content" android:layout_height="wrap_content"
-						android:background="@drawable/ar" android:paddingLeft="0dip"
+						android:background="@drawable/realidad_aumentada_small" android:paddingLeft="0dip"
 						android:paddingTop="5dip" android:layout_gravity="center" />
 				</FrameLayout>
 

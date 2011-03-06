@@ -2,17 +2,21 @@ package fraguel.android.states;
 
 import android.content.res.Configuration;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AbsSpinner;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Gallery;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.SpinnerAdapter;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.State;
@@ -22,7 +26,7 @@ import fraguel.android.gallery.ImageAdapter;
 import fraguel.android.utils.InfoText;
 import fraguel.android.utils.TitleTextView;
 
-public class ImageState extends State{
+public class ImageGalleryState extends State{
 	
 	public static final int STATE_ID = 4;
 	public static final int INFOSTATE_STOP_RECORD=1;
@@ -32,14 +36,14 @@ public class ImageState extends State{
 	
 	private TitleTextView title;
 	private InfoText text;
-	private Gallery gallery;
+	//private Gallery gallery;
 	private ScrollView sv;
 	private FullScreenGallery bigGallery;
 	private int currentIndex;
 	private boolean isBigGalleryDisplayed,isPresentation,automaticChange,stop,orientationChange;
 	private int presentationIndex=0;
 	
-	public ImageState() {
+	public ImageGalleryState() {
 		super();
 		id = STATE_ID;
 	}
@@ -48,7 +52,24 @@ public class ImageState extends State{
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
-		viewGroup = new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
+		
+		LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
+		if(viewGroup==null)
+			viewGroup= (ViewGroup) li.inflate(R.layout.imagegallery,  null);
+		((GridView) ( viewGroup).getChildAt(0)).setAdapter(new ImageAdapter(FRAGUEL.getInstance().getApplicationContext()));
+		
+		setParamsSmallGallery();
+				
+		setParamsBigGallery();
+		
+		//GridView gridview = (GridView) FRAGUEL.getInstance().findViewById(R.layout.imagegallery);
+	    //gridview.setAdapter(new ImageAdapter(FRAGUEL.getInstance().getApplicationContext()));
+
+		FRAGUEL.getInstance().addView(viewGroup);
+		
+		
+		
+		/*viewGroup = new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
 		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
 		
 			title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
@@ -80,7 +101,7 @@ public class ImageState extends State{
 		
 		
 		FRAGUEL.getInstance().addView(viewGroup);
-		//gallery.setSelection(0, true);
+		gallery.setSelection(0, true);*/
 		
 
 	}
@@ -113,13 +134,11 @@ public class ImageState extends State{
 	
 	
 	private void setParamsSmallGallery(){
-		gallery=new Gallery(FRAGUEL.getInstance().getApplicationContext());
-		gallery.setAdapter(new ImageAdapter(FRAGUEL.getInstance().getApplicationContext()));
-		gallery.setHorizontalScrollBarEnabled(true);
+		
 		
 		
 
-		gallery.setOnItemClickListener(new OnItemClickListener() {
+		((GridView) ( viewGroup).getChildAt(0)).setOnItemClickListener(new OnItemClickListener() {
 		
 
 		@Override
@@ -127,9 +146,12 @@ public class ImageState extends State{
 				long arg3) {
 			// TODO Auto-generated method stub
 			if (currentIndex==position){
+				//FRAGUEL.getInstance().addView(bigGallery);
 				viewGroup.removeAllViews();
+				
+				FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
 				viewGroup.addView(bigGallery);
-				bigGallery.setSelection(position, true);
+				//bigGallery.setSelection(position, true);
 				currentIndex=-1;
 				isBigGalleryDisplayed=true;
 				FRAGUEL.getInstance().stopTalking();
@@ -139,7 +161,7 @@ public class ImageState extends State{
 		}
 		});
 		
-		gallery.setOnItemSelectedListener(new OnItemSelectedListener(){
+		((GridView) ( viewGroup).getChildAt(0)).setOnItemSelectedListener(new OnItemSelectedListener(){
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -174,8 +196,8 @@ public class ImageState extends State{
 			// TODO Auto-generated method stub
 			if (currentIndex==position){
 				viewGroup.removeAllViews();
-				loadViews();
-				gallery.setSelection(position, true);
+				//loadViews();
+				//((GridView) viewGroup).setSelection(position, true);
 				currentIndex=-1;
 				isBigGalleryDisplayed=false;
 				FRAGUEL.getInstance().stopTalking();
@@ -192,7 +214,7 @@ public class ImageState extends State{
 					int position, long arg3) {
 				// TODO Auto-generated method stub
 				
-				text.setText("Posición: "+ position+"\n"+"\n"+"La posición en la que se encuentra el elemento pulsado es la "+position);
+//				text.setText("Posición: "+ position+"\n"+"\n"+"La posición en la que se encuentra el elemento pulsado es la "+position);
 				if (!isPresentation){
 					if (FRAGUEL.getInstance().isTalking())
 						FRAGUEL.getInstance().stopTalking();
@@ -232,7 +254,7 @@ public class ImageState extends State{
 	
 	private void loadViews(){
 		viewGroup.addView(title);
-		viewGroup.addView(gallery);
+		viewGroup.addView(((GridView) viewGroup));
 		viewGroup.addView(sv);
 		
 	}
@@ -305,8 +327,8 @@ public class ImageState extends State{
 			FRAGUEL.getInstance().stopTalking();
 			isPresentation=false;
 			viewGroup.removeAllViews();
-			loadViews();
-			gallery.setSelection(0, true);
+			//loadViews();
+			//((GridView) viewGroup).setSelection(0, true);
 			currentIndex=-1;
 			isBigGalleryDisplayed=false;
 			return true;
