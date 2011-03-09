@@ -60,7 +60,7 @@ public abstract class State implements Comparable<State> {
 	public void onRotationChanged(float[] values){}
 	/**
 	 * Method which provides the current location using the GPS.
-	 * @param values values[0]: .values[1]: . values[2]: .
+	 * @param values values[0]: Latitude. values[1]: Longitude. values[2]: Altitude.
 	 */
 	public void onLocationChanged(float[] values){}
 	public boolean dispatchKeyEvent(KeyEvent event){
