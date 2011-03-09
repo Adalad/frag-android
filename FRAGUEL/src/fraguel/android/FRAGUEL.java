@@ -444,6 +444,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 				if (SensorManager.getRotationMatrix(rotMatrix, incMatrix,
 						sAccelerometer, sMagnetic)) {
 					SensorManager.getOrientation(rotMatrix, sOrientation);
+					
+					//pasamos los valores de rotación sobre cada eje al estado actual
+					currentState.onRotationChanged(sOrientation);
 
 					if (currentState.getId() == 1) {
 						MenuState m = (MenuState) currentState;
