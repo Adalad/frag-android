@@ -78,10 +78,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	private float[] sOrientation = { 0, 0, 0 };
 	private float[] sAccelerometer = { 0, 0, 0 };
 	private float[] sMagnetic = { 0, 0, 0 };
-	private float[] rotMatrix = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0 };
-	private float[] incMatrix = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0 };
+	private float[] rotMatrix = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0 };
+	private float[] incMatrix = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0 };
 	private static final float RAD2DEG = (float) (180 / Math.PI);
 
 	// TextToSpeech
@@ -691,6 +689,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		private Route currentRoute = null;
 		private PointOI currentPoint = null;
 		private boolean isDialogDisplayed = false, hasBeenVisited;
+		
+		private float[] position = { 0, 0, 0 };
+		
 
 		private Me(GeoPoint arg0) {
 			currentLocation = arg0;
@@ -705,6 +706,16 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 			latitude = location.getLatitude();
 			longitude = location.getLongitude();
 			altitude = location.getAltitude();
+			
+			
+			//notify changes to current state
+			position[0]=(float) location.getLatitude();
+			position[1]=(float) location.getLongitude();
+			position[2]=(float) location.getAltitude();
+			currentState.onLocationChanged(position);
+			
+			
+			
 			currentLocation = new GeoPoint((int) (latitude * 1E6),
 					(int) (longitude * 1E6));
 			if (FRAGUEL.getInstance().getCurrentState().getId() == 1) {

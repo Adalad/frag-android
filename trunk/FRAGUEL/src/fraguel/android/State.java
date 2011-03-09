@@ -50,8 +50,18 @@ public abstract class State implements Comparable<State> {
 	//estos dos métodos son para probar los datos de los sensores
 
 	public abstract void onClick(View v);
+
 	public boolean onConfigurationChanged(Configuration newConfig){return false;}
+	
+	/**
+	 * Method which provides the three rotation values respect to the global axis.
+	 * @param values values[0]: azimuth, rotation around the Z axis. values[1]: pitch, rotation around the X axis. values[2]: roll, rotation around the Y axis. 
+	 */
 	public void onRotationChanged(float[] values){}
+	/**
+	 * Method which provides the current location using the GPS.
+	 * @param values values[0]: .values[1]: . values[2]: .
+	 */
 	public void onLocationChanged(float[] values){}
 	public boolean dispatchKeyEvent(KeyEvent event){
 		
