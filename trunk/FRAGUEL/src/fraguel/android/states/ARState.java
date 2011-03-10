@@ -1,5 +1,6 @@
 package fraguel.android.states;
 
+import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,12 +44,15 @@ public class ARState extends State {
 		//viewGroup.addView(glView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		//viewGroup.addView(mPreview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		// Añadir a la actividad
+		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		FRAGUEL.getInstance().setContentView(glView);
 		//FRAGUEL.getInstance().addView(viewGroup);
 	}
 
 	@Override
 	public void unload(){
+		//no estoy seguro de que esto sea User
+		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
 		FRAGUEL.getInstance().setContentView(FRAGUEL.getInstance().getView());
 		super.unload();
 	}
