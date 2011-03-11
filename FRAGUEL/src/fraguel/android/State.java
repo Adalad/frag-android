@@ -54,7 +54,7 @@ public abstract class State implements Comparable<State> {
 	public boolean onConfigurationChanged(Configuration newConfig){return false;}
 	
 	/**
-	 * Method which provides the three rotation values respect to the global axis.
+	 * Method which provides the three rotation values in degrees respect to the global axis.
 	 * @param values values[0]: azimuth, rotation around the Z axis. values[1]: pitch, rotation around the X axis. values[2]: roll, rotation around the Y axis. 
 	 */
 	public void onRotationChanged(float[] values){}
