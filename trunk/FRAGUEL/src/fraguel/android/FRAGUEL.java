@@ -47,6 +47,8 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 
+import fraguel.android.gps.GPSProximityListener;
+import fraguel.android.gps.GPSProximityRouteListener;
 import fraguel.android.notifications.GPSIgnoreButton;
 import fraguel.android.notifications.ProximityAlertNotificationButton;
 import fraguel.android.resources.ResourceManager;
@@ -202,8 +204,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		newSensorListener();
 
 		// GPS Listener
-		myPosition = new Me(new GeoPoint((int) (40.4435602 * 1000000),
-				(int) (-3.7257781 * 1000000)));
+		myPosition = new Me();
 
 		// requestUpdatesFromAllSensors
 		activateSensors();
@@ -444,6 +445,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 					SensorManager.getOrientation(rotMatrix, sOrientation);
 					
 					//pasamos los valores de rotación sobre cada eje al estado actual
+					sOrientation[0]=sOrientation[0]*RAD2DEG;
+					sOrientation[1]=sOrientation[1]*RAD2DEG;
+					sOrientation[2]=sOrientation[2]*RAD2DEG;
 					currentState.onRotationChanged(sOrientation);
 
 					if (currentState.getId() == 1) {
@@ -673,6 +677,18 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 		return false;
 	}
+	
+	public void showProgressDialog(){
+		dialog = ProgressDialog.show(FRAGUEL.getInstance(), "", 
+				"Cargando. Por favor espere...", true);
+
+	}
+
+	public void dismissProgressDialog(){
+		if(dialog!=null)
+			dialog.dismiss();
+
+	}
 
 	// ***********************************************************************************
 	// *************************************************************************************
@@ -680,7 +696,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 		public static final float proximityAlertDistance = 50;
 		public static final float proximityAlertError = 10;
-		private GeoPoint currentLocation;
+		
+		private GPSProximityRouteListener routeListener;
+		private GPSProximityListener pointListener;
+
 		private double latitude = 0, longitude = 0, altitude = 0;
 		private ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>> pointsVisited;
 		private float[] results = new float[3];
@@ -693,9 +712,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		private float[] position = { 0, 0, 0 };
 		
 
-		private Me(GeoPoint arg0) {
-			currentLocation = arg0;
-			pointsVisited = new ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>>();
+		private Me() {
+
+			routeListener=new GPSProximityRouteListener();
+			pointListener=new GPSProximityListener();
+			//pointsVisited = new ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>>();
 
 			// TODO Auto-generated constructor stub
 		}
@@ -716,9 +737,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 			
 			
 			
-			currentLocation = new GeoPoint((int) (latitude * 1E6),
-					(int) (longitude * 1E6));
-			if (FRAGUEL.getInstance().getCurrentState().getId() == 1) {
+			
+			/*if (FRAGUEL.getInstance().getCurrentState().getId() == 1) {
 				MenuState s = (MenuState) FRAGUEL.getInstance()
 						.getCurrentState();
 				s.setGPSText("Latitud: " + latitude + ", Longitud: "
@@ -794,17 +814,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 			}
 
 			currentRoute = null;
-			currentPoint = null;
+			currentPoint = null;*/
 
 		}
 
-		public void setPointVisited(Route r, PointOI p, float latitude,
-				float longitude) {
-			pointsVisited
-					.add(new Pair<Pair<Integer, Integer>, Pair<Float, Float>>(
-							new Pair<Integer, Integer>(r.id, p.id),
-							new Pair<Float, Float>(latitude, longitude)));
-		}
 
 		@Override
 		public void onProviderDisabled(String provider) {
@@ -832,9 +845,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 			}
 		}
 
-		public GeoPoint getCurrentLocation() {
-			return currentLocation;
-		}
 
 		public double getLatitude() {
 			return latitude;
@@ -858,16 +868,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 	}
 	
-	public void showProgressDialog(){
-		dialog = ProgressDialog.show(FRAGUEL.getInstance(), "", 
-				"Cargando. Por favor espere...", true);
 
-	}
-
-	public void dismissProgressDialog(){
-		if(dialog!=null)
-			dialog.dismiss();
-
-	}
 
 }
