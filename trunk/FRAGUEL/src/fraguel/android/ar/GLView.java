@@ -88,8 +88,8 @@ public class GLView extends GLSurfaceView implements ISceneController {
 	 */
 	public void updateScene() {
 		//_cube.rotation().y++;
-		objModel.rotation().x++;
-		objModel.rotation().z++;
+		//objModel.rotation().x++;
+		//objModel.rotation().z++;
 	}
 
 	/**
