@@ -242,7 +242,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		addState(new InfoState(), false);
 		addState(new ConfigState(), false);
 		addState(new RouteManagerState(), false);
-		addState(new PointInfoState(), false);
+		addState(new PointInfoState(), true);
 
 		// TextToSpeech init & instalation
 		checkTTSLibrary();
@@ -701,13 +701,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		private GPSProximityListener pointListener;
 
 		private double latitude = 0, longitude = 0, altitude = 0;
-		private ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>> pointsVisited;
-		private float[] results = new float[3];
-		private String msg;
-		private float distance = Float.MAX_VALUE;
-		private Route currentRoute = null;
-		private PointOI currentPoint = null;
-		private boolean isDialogDisplayed = false, hasBeenVisited;
+
+		private boolean isDialogDisplayed = false;
 		
 		private float[] position = { 0, 0, 0 };
 		
@@ -716,7 +711,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 			routeListener=new GPSProximityRouteListener();
 			pointListener=new GPSProximityListener();
-			//pointsVisited = new ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>>();
+
 
 			// TODO Auto-generated constructor stub
 		}
@@ -735,15 +730,13 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 			position[2]=(float) location.getAltitude();
 			currentState.onLocationChanged(position);
 			
+			pointListener.onLocationChanged(location);
+			//routeListener.onLocationChanged(location);
 			
 			
 			
-			/*if (FRAGUEL.getInstance().getCurrentState().getId() == 1) {
-				MenuState s = (MenuState) FRAGUEL.getInstance()
-						.getCurrentState();
-				s.setGPSText("Latitud: " + latitude + ", Longitud: "
-						+ longitude);
-			}
+			//ANTIGUO CODIGO
+			/*
 
 			// sacamos de visitados los puntos que ya no estén dentro del radio
 			// de acción(hemos salido)
@@ -864,6 +857,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 		public boolean isDialogDisplayed() {
 			return isDialogDisplayed;
+		}
+		
+		public void startRoute(Route r, PointOI p){
+			
 		}
 
 	}
