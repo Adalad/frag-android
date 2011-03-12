@@ -18,7 +18,7 @@ public class GPSProximityListener extends GPSProximity{
 	
 	public GPSProximityListener(){
 		
-		pointsVisited = new ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>>();
+		super();
 	}
 	@Override
 	public void onLocationChanged(Location location) {
@@ -69,6 +69,9 @@ public class GPSProximityListener extends GPSProximity{
 				msg = currentRoute.name + " - " + currentPoint.title + ": "+distance+" metros";
 				FRAGUEL.getInstance().createTwoButtonNotification(R.string.notification_proximityAlert_title_spanish,msg,R.string.notification_proximityAlert_possitiveButton_spanish,
 								R.string.notification_proximityAlert_negativeButton_spanish,new ProximityAlertNotificationButton(currentRoute, currentPoint),new GPSIgnoreButton());
+				
+				super.mediaNotification();
+				
 				pointsVisited.add(new Pair<Pair<Integer, Integer>, Pair<Float, Float>>(new Pair<Integer, Integer>(currentRoute.id,currentPoint.id),	new Pair<Float, Float>(currentPoint.coords[0],currentPoint.coords[0])));
 				
 				FRAGUEL.getInstance().getGPS().setDialogDisplayed(true);
