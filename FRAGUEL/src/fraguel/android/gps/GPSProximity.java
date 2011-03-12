@@ -14,6 +14,7 @@ public abstract class GPSProximity {
 	protected Route currentRoute = null;
 	protected PointOI currentPoint = null;
 	protected float[] results = new float[3];
+	protected String msg;
 	
 	protected double latitude=0,longitude=0,altitude=0;
 	
