@@ -221,11 +221,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 		routes = new ArrayList<Route>();
 		pointsOI = new ArrayList<PointOI>();
-		 ResourceManager.getInstance().initialize("fraguel");
+		 /*ResourceManager.getInstance().initialize("fraguel");
 		 routes = ResourceManager.getInstance().getXmlManager().readRoutes();
 		 for (Route r : routes) {
 			 r.pointsOI = ResourceManager.getInstance().getXmlManager().readPointsOI("route"+r.id);
-		 }
+		 }*/
 
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
@@ -242,7 +242,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		addState(new InfoState(), false);
 		addState(new ConfigState(), false);
 		addState(new RouteManagerState(), false);
-		addState(new PointInfoState(), false);
+		addState(new PointInfoState(), true);
 
 		// TextToSpeech init & instalation
 		checkTTSLibrary();

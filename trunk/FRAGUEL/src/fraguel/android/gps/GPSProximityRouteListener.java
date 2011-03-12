@@ -11,7 +11,7 @@ public class GPSProximityRouteListener extends GPSProximity{
 
 	public GPSProximityRouteListener(){
 		
-		pointsVisited = new ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>>();
+		super();
 	}
 	@Override
 	public void onLocationChanged(Location location) {
@@ -23,6 +23,10 @@ public class GPSProximityRouteListener extends GPSProximity{
 	public void setPointVisited(Route r, PointOI p, float latitude,
 			float longitude) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	public void startRoute (Route r, PointOI p){
 		
 	}
 
