@@ -242,7 +242,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		addState(new InfoState(), false);
 		addState(new ConfigState(), false);
 		addState(new RouteManagerState(), false);
-		addState(new PointInfoState(), false);
+		addState(new PointInfoState(), true);
 
 		// TextToSpeech init & instalation
 		checkTTSLibrary();

@@ -76,14 +76,18 @@ public class PointInfoState extends State{
 		
 		
 		image= new ImageView(FRAGUEL.getInstance().getApplicationContext());
-		image.setLayoutParams(new LayoutParams(WIDTH,heightAvailable ));
+		image.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,heightAvailable ));
+		
+		
 		image.setImageBitmap(getImageBitmap("http://www.navegabem.com/blog/wp-content/uploads/2009/04/firefox-icon.png"));
 		image.setPadding(10, 10, 10, 10);
+		image.setAdjustViewBounds(true);
+		
 		container.addView(image);
 		
 		
 		ScrollView sv = new ScrollView (FRAGUEL.getInstance().getApplicationContext());
-		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,heightAvailable));
+		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,heightAvailable-40));
 		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
 		text.setText("Aqui va el texto referente a la mínima explicación del punto");
 		sv.addView(text);
@@ -99,22 +103,7 @@ public class PointInfoState extends State{
 		setGridViewListener();
 		container.addView(gridView);
 		
-		
-		
-		/*gridView= new GridView(FRAGUEL.getInstance().getApplicationContext());
-		gridView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
-		gridView.setNumColumns(2);
-		Display display = ((WindowManager)FRAGUEL.getInstance().getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        int width = display.getWidth();
-		gridView.setColumnWidth(width/2);
-		gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
-		gridView.setGravity(Gravity.CENTER);
-		gridView.setAdapter(new InfoPointAdapter(FRAGUEL.getInstance().getApplicationContext()));
-		gridView.setScrollContainer(false);
-		setGridViewListener();*/
-		
-		
-		//container.addView(gridView);
+	
 		
         viewGroup=container;
         FRAGUEL.getInstance().addView(viewGroup);
@@ -132,20 +121,18 @@ public class PointInfoState extends State{
 				// TODO Auto-generated method stub
 				switch (position){
 				
+
 				case 0:
-					FRAGUEL.getInstance().changeState(InfoState.STATE_ID);
-					break;
-				case 1:
 
 					FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
 					break;
 					
-				case 2:
+				case 1:
 
-					FRAGUEL.getInstance().changeState(VideoGalleryState.STATE_ID);
+					FRAGUEL.getInstance().changeState(VideoState.STATE_ID);
 					break;
 					
-				case 3:
+				case 2:
 
 					FRAGUEL.getInstance().changeState(ARState.STATE_ID);
 					break;

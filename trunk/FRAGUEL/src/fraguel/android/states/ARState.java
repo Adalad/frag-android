@@ -46,11 +46,13 @@ public class ARState extends State {
 		// Añadir a la actividad
 		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		FRAGUEL.getInstance().setContentView(glView);
+		glView.setKeepScreenOn(true);
 		//FRAGUEL.getInstance().addView(viewGroup);
 	}
 
 	@Override
 	public void unload(){
+		glView.setKeepScreenOn(false);
 		//no estoy seguro de que esto sea User
 		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
 		FRAGUEL.getInstance().setContentView(FRAGUEL.getInstance().getView());
