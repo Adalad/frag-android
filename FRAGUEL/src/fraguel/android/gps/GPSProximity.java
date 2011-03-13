@@ -8,6 +8,7 @@ import android.os.Vibrator;
 import android.util.Pair;
 import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
+import fraguel.android.R;
 import fraguel.android.Route;
 
 public abstract class GPSProximity {
@@ -30,7 +31,7 @@ public abstract class GPSProximity {
 
 	public GPSProximity(){
 		v= (Vibrator)FRAGUEL.getInstance().getSystemService(FRAGUEL.getInstance().getApplicationContext().VIBRATOR_SERVICE);
-		//soundClip=MediaPlayer.create(FRAGUEL.getInstance().getApplicationContext(),null);
+		soundClip=MediaPlayer.create(FRAGUEL.getInstance().getApplicationContext(),R.raw.notification_sound);
 		pointsVisited = new ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>>();
 	}
 	
@@ -38,7 +39,7 @@ public abstract class GPSProximity {
 	public abstract void setPointVisited(Route r, PointOI p, float latitude,float longitude);
 	public void mediaNotification(){
 		v.vibrate(1000);
-		//soundClip.start();
+		soundClip.start();
 	}
 }
 

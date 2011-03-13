@@ -53,27 +53,14 @@ public class InfoPointAdapter extends BaseAdapter{
 		Display display = ((WindowManager)FRAGUEL.getInstance().getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		int height = display.getHeight();
         int width = display.getWidth();
-		
-        /*LinearLayout container= new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
-        container.setLayoutParams(new GridView.LayoutParams(width/2, (height-TitleTextView.HEIGHT)/2));
-		container.setOrientation(LinearLayout.VERTICAL);
-		container.setGravity(Gravity.CENTER);
-		container.setPadding(10, 10, 10, 10);*/
+
         
 		ImageView imageView;
         imageView = new ImageView(mContext);
-        imageView.setLayoutParams(new GridView.LayoutParams(width/3,LayoutParams.WRAP_CONTENT));
-        //imageView.setLayoutParams(new LayoutParams(60,60));
+        imageView.setLayoutParams(new GridView.LayoutParams(width/3,50));
         //imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setImageResource(mImageIds[position]);
         
-        /*TextView t= new TextView(FRAGUEL.getInstance().getApplicationContext());
-        t.setText(mTitlesIds[position]);
-		t.setGravity(Gravity.CENTER_HORIZONTAL);
-		t.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));*/
-        
-       /* container.addView(t);
-		container.addView(imageView);*/
         
         
         return imageView;
