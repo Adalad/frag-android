@@ -30,7 +30,7 @@ public class GPSProximityListener extends GPSProximity{
 		Iterator<Pair<Pair<Integer, Integer>, Pair<Float, Float>>> it = pointsVisited.iterator();
 			while (it.hasNext()) {
 				Pair<Pair<Integer, Integer>, Pair<Float, Float>> routeAndPoint = it.next();
-				Location.distanceBetween(latitude, longitude,routeAndPoint.second.first, routeAndPoint.second.first,results);
+				Location.distanceBetween(latitude, longitude,routeAndPoint.second.first, routeAndPoint.second.second,results);
 				if (results[0] >= proximityAlertDistance + proximityAlertError) {
 					it.remove();
 				}
@@ -72,7 +72,7 @@ public class GPSProximityListener extends GPSProximity{
 				
 				super.mediaNotification();
 				
-				pointsVisited.add(new Pair<Pair<Integer, Integer>, Pair<Float, Float>>(new Pair<Integer, Integer>(currentRoute.id,currentPoint.id),	new Pair<Float, Float>(currentPoint.coords[0],currentPoint.coords[0])));
+				pointsVisited.add(new Pair<Pair<Integer, Integer>, Pair<Float, Float>>(new Pair<Integer, Integer>(currentRoute.id,currentPoint.id),	new Pair<Float, Float>(currentPoint.coords[0],currentPoint.coords[1])));
 				
 				FRAGUEL.getInstance().getGPS().setDialogDisplayed(true);
 			}
