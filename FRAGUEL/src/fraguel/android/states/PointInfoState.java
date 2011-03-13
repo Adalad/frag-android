@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -56,7 +57,6 @@ public class PointInfoState extends State{
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
-		
 		LinearLayout container= new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
 		container.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		container.setOrientation(LinearLayout.VERTICAL);
@@ -109,6 +109,8 @@ public class PointInfoState extends State{
         FRAGUEL.getInstance().addView(viewGroup);
 		
 	}
+	
+	
 	
 	
 	public void setGridViewListener(){

@@ -53,8 +53,7 @@ public class ARState extends State {
 	@Override
 	public void unload(){
 		glView.setKeepScreenOn(false);
-		//no estoy seguro de que esto sea User
-		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
+		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 		FRAGUEL.getInstance().setContentView(FRAGUEL.getInstance().getView());
 		super.unload();
 	}
