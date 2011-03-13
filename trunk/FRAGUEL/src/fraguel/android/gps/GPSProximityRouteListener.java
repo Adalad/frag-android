@@ -20,6 +20,8 @@ public class GPSProximityRouteListener extends GPSProximity{
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
 		
+		
+		
 	}
 
 	@Override
@@ -45,9 +47,7 @@ public class GPSProximityRouteListener extends GPSProximity{
 						
 					}else{
 						pointsToVisit.add(new Pair<Pair<Integer, Integer>, Pair<Float, Float>>(new Pair<Integer, Integer>(route.id,point.id),new Pair<Float, Float>(point.coords[0],point.coords[1])));
-					}
-						
-					
+					}	
 				}
 				
 				break;
