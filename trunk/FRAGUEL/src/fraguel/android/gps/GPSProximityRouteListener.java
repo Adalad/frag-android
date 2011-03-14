@@ -4,15 +4,18 @@ import java.util.ArrayList;
 
 import android.location.Location;
 import android.util.Pair;
+import android.widget.Toast;
 import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
 import fraguel.android.Route;
 import fraguel.android.notifications.WarningNotificationButton;
+import fraguel.android.states.PointInfoState;
 
 public class GPSProximityRouteListener extends GPSProximity{
 
 	private ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>> pointsToVisit;
 	private float bearing;
+	private int pointid;
 	
 	public GPSProximityRouteListener(){
 		
@@ -38,12 +41,21 @@ public class GPSProximityRouteListener extends GPSProximity{
 				if (results[0]<distance){
 					distance=results[0];
 					bearing=results[1];
+					pointid=point.first.second;
 					
 				}
 			}
 			
 			if (distance<=proximityAlertDistance && !FRAGUEL.getInstance().getGPS().isDialogDisplayed()){
 				//hay un punto cerca, mostrar el estado del punto y ponerlo en la lista de visitados actualizando mapa
+				for (PointOI point: currentRoute.pointsOI){
+					if (point.id==pointid){
+						currentPoint=point;
+						break;
+					}
+				}
+				FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
+				FRAGUEL.getInstance().getCurrentState().loadData(currentRoute, currentPoint);
 				FRAGUEL.getInstance().getGPS().setDialogDisplayed(true);
 			}else{
 				//miramos si estamos cerca de los ya visitados
@@ -59,7 +71,7 @@ public class GPSProximityRouteListener extends GPSProximity{
 				}
 				if (distance<=proximityAlertDistance && !FRAGUEL.getInstance().getGPS().isDialogDisplayed()){
 					//hay un punto cerca de los ya visitados, llamar al pop-up del mapa
-					FRAGUEL.getInstance().getGPS().setDialogDisplayed(true);
+					Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Punto ya visitado", Toast.LENGTH_SHORT).show();
 				}
 				
 			}
