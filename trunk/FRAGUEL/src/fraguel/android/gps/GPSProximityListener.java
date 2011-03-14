@@ -26,6 +26,7 @@ public class GPSProximityListener extends GPSProximity{
 		latitude = location.getLatitude();
 		longitude = location.getLongitude();
 		altitude = location.getAltitude();
+		distance = Float.MAX_VALUE;
 		//sacamos puntos que hayamos visitado
 		Iterator<Pair<Pair<Integer, Integer>, Pair<Float, Float>>> it = pointsVisited.iterator();
 			while (it.hasNext()) {
@@ -82,8 +83,7 @@ public class GPSProximityListener extends GPSProximity{
 	}
 
 	@Override
-	public void setPointVisited(Route r, PointOI p, float latitude,
-			float longitude) {
+	public void setPointVisited(Route r, PointOI p, float latitude,	float longitude) {
 		// TODO Auto-generated method stub
 		
 	}
