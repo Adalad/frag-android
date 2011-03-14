@@ -493,8 +493,19 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		return myPosition;
 	}
 
-	public void createOneButtonNotification(int title, int msg,
-			DialogInterface.OnClickListener listener) {
+	public void createOneButtonNotification(int title, int msg,DialogInterface.OnClickListener listener) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(title);
+		builder.setMessage(msg);
+		builder.setCancelable(false);
+		builder.setPositiveButton(R.string.accept_spanish, listener);
+		AlertDialog alert = builder.create();
+		alert.getWindow().setGravity(Gravity.TOP);
+		alert.show();
+
+	}
+	
+	public void createOneButtonNotification(String title, String msg,DialogInterface.OnClickListener listener) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(title);
 		builder.setMessage(msg);
@@ -506,9 +517,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 	}
 
-	public void createTwoButtonNotification(int title, int msg,
-			int positiveButton, int negativeButton,
-			DialogInterface.OnClickListener listenerPositiveButton,
+	public void createTwoButtonNotification(int title, int msg,	int positiveButton, int negativeButton,	DialogInterface.OnClickListener listenerPositiveButton,
 			DialogInterface.OnClickListener listenerNegativeButton) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(
 				FRAGUEL.getInstance());
@@ -697,7 +706,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		private GPSProximityRouteListener routeListener;
 		private GPSProximityListener pointListener;
 
-		private double latitude = 0, longitude = 0, altitude = 0;
 
 		private boolean isDialogDisplayed = false,routeMode=false;
 		
@@ -717,9 +725,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		@Override
 		public synchronized void onLocationChanged(Location location) {
 			// TODO Auto-generated method stub
-			latitude = location.getLatitude();
-			longitude = location.getLongitude();
-			altitude = location.getAltitude();
+			
 			
 			
 			//notify changes to current state
@@ -765,15 +771,15 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 
 		public double getLatitude() {
-			return latitude;
+			return position[0];
 		}
 
 		public double getLongitude() {
-			return longitude;
+			return position[1];
 		}
 
 		public double getAltitude() {
-			return altitude;
+			return position[2];
 		}
 
 		public void setDialogDisplayed(boolean isDialogDisplayed) {
