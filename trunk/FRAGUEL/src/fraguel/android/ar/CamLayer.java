@@ -29,7 +29,7 @@ public class CamLayer extends SurfaceView implements SurfaceHolder.Callback, Pre
     Context context;
     boolean paused=true;
    
-    public GLLayer synchronCallback;
+    public GLView synchronCallback;
 
     public CamLayer(Context context, int previewWidth, int previewHeight) {
         super(context);

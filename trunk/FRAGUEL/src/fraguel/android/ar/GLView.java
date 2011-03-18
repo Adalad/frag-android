@@ -1,9 +1,12 @@
 package fraguel.android.ar;
 
 import android.content.Context;
+import android.graphics.PixelFormat;
+import android.hardware.Camera;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.util.Log;
+import android.view.SurfaceHolder;
 import fraguel.android.ar.core.Object3dContainer;
 import fraguel.android.ar.core.Scene;
 import fraguel.android.ar.interfaces.ISceneController;
@@ -12,7 +15,7 @@ import fraguel.android.ar.vos.Light;
 import fraguel.android.resources.ar.IParser;
 import fraguel.android.resources.ar.Parser;
 
-public class GLView extends GLSurfaceView implements ISceneController {
+public class GLView extends GLSurfaceView implements ISceneController, Camera.PreviewCallback {
 
 	public Scene scene;
 	protected GLSurfaceView _glSurfaceView;
@@ -51,8 +54,10 @@ public class GLView extends GLSurfaceView implements ISceneController {
 
 		_glSurfaceView = this;
 
+		_glSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
 		_glSurfaceView.setRenderer(r);
 		_glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+		_glSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
 	}
 
 	/**
@@ -67,6 +72,7 @@ public class GLView extends GLSurfaceView implements ISceneController {
 	public void initScene() {
 		scene.reset();
 		
+		scene.backgroundTransparent(true);
 		/*scene.lights().add(new Light());
 		
 		scene.backgroundColor().setAll(0xff444444);
@@ -128,5 +134,11 @@ public class GLView extends GLSurfaceView implements ISceneController {
 
 	public Runnable getUpdateSceneRunnable() {
 		return _updateSceneRunnable;
+	}
+
+	@Override
+	public void onPreviewFrame(byte[] data, Camera camera) {
+		// TODO Auto-generated method stub
+		
 	}
 }
