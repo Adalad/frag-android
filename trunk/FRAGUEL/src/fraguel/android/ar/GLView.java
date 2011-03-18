@@ -3,6 +3,7 @@ package fraguel.android.ar;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
+import android.util.Log;
 import fraguel.android.ar.core.Object3dContainer;
 import fraguel.android.ar.core.Scene;
 import fraguel.android.ar.interfaces.ISceneController;
@@ -79,7 +80,14 @@ public class GLView extends GLSurfaceView implements ISceneController {
 
 		objModel = parser.getParsedObject();
 		objModel.scale().x = objModel.scale().y = objModel.scale().z = .7f;
+		objModel.position().x = 0;
+		objModel.position().y = 0;
+		objModel.position().z = 0;
 		scene.addChild(objModel);
+		scene.camera().position.x = 0;
+		scene.camera().position.y = 0;
+		scene.camera().position.z = 10;
+		Log.d("FRAGUEL", "End AR load");
 	}
 
 	/**
