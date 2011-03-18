@@ -142,10 +142,10 @@ public class Renderer implements GLSurfaceView.Renderer
 		
 		_gl.glMatrixMode(GL10.GL_MODELVIEW);
 		_gl.glLoadIdentity();
-
-		_gl.glRotatef(-_scene.camera().rotation.x, 1, 0, 0);
-		_gl.glRotatef(-_scene.camera().rotation.y, 0, 1, 0);
-		_gl.glRotatef(-_scene.camera().rotation.z, 0, 0, 1);
+		
+		_gl.glRotatef(_scene.camera().rotation.x, 1, 0, 0);
+		_gl.glRotatef(_scene.camera().rotation.y, 0, 1, 0);
+		_gl.glRotatef(_scene.camera().rotation.z, 0, 0, 1);
 		_gl.glTranslatef(-_scene.camera().position.x, -_scene.camera().position.y, -_scene.camera().position.z);
 		/*GLU.gluLookAt(_gl, 
 			_scene.camera().position.x,_scene.camera().position.y,_scene.camera().position.z,
