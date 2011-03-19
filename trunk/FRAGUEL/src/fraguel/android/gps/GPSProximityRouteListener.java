@@ -9,11 +9,12 @@ import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
 import fraguel.android.Route;
 import fraguel.android.notifications.WarningNotificationButton;
+import fraguel.android.states.MapState;
 import fraguel.android.states.PointInfoState;
 
 public class GPSProximityRouteListener extends GPSProximity{
 
-	private ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>> pointsToVisit;
+	private ArrayList<Pair<Integer, Pair<Float, Float>>> pointsToVisit;
 	private float bearing;
 	private int pointid;
 	
@@ -35,19 +36,14 @@ public class GPSProximityRouteListener extends GPSProximity{
 			FRAGUEL.getInstance().createOneButtonNotification("Ruta finalizada", "Ha completado todos los puntos de interés de la ruta "+currentRoute.name, new WarningNotificationButton());
 			
 		}else{
-			for (Pair<Pair<Integer, Integer>, Pair<Float, Float>> point : pointsToVisit){
-				Location.distanceBetween(latitude, longitude,point.second.first, point.second.second,results);
-				
-				if (results[0]<distance){
-					distance=results[0];
-					bearing=results[1];
-					pointid=point.first.second;
-					
-				}
-			}
 			
-			if (distance<=proximityAlertDistance && !FRAGUEL.getInstance().getGPS().isDialogDisplayed()){
-				//hay un punto cerca, mostrar el estado del punto y ponerlo en la lista de visitados actualizando mapa
+			//miramos la distancia al siguiente punto a visitar en la ruta
+			Location.distanceBetween(latitude, longitude, pointsToVisit.get(0).second.first, pointsToVisit.get(0).second.second, results);
+			
+			if (results[0]<=proximityAlertDistance){
+				distance=results[0];
+				bearing=results[1];
+				pointid=pointsToVisit.get(0).first;
 				for (PointOI point: currentRoute.pointsOI){
 					if (point.id==pointid){
 						currentPoint=point;
@@ -57,25 +53,16 @@ public class GPSProximityRouteListener extends GPSProximity{
 				FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
 				FRAGUEL.getInstance().getCurrentState().loadData(currentRoute, currentPoint);
 				FRAGUEL.getInstance().getGPS().setDialogDisplayed(true);
+				//actualizar las listas y el MapState
+				pointsVisited.add(new Pair<Pair<Integer,Integer>, Pair<Float, Float>>(new Pair<Integer,Integer>(currentRoute.id,currentPoint.id),new Pair<Float, Float>(currentPoint.coords[0],currentPoint.coords[1])));
+				pointsToVisit.remove(0);
+				MapState.getInstance().refreshMapRouteMode();
+
 			}else{
-				//miramos si estamos cerca de los ya visitados
-				for (Pair<Pair<Integer, Integer>, Pair<Float, Float>> point : pointsVisited){
-					Location.distanceBetween(latitude, longitude,point.second.first, point.second.second,results);
-					
-					if (results[0]<distance){
-						distance=results[0];
-						bearing=results[1];
-						
-					}
-					
-				}
-				if (distance<=proximityAlertDistance && !FRAGUEL.getInstance().getGPS().isDialogDisplayed()){
-					//hay un punto cerca de los ya visitados, llamar al pop-up del mapa
-					Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Punto ya visitado", Toast.LENGTH_SHORT).show();
-				}
-				
-			}
-			
+				//mostrar info de la distancia y el bearing
+				//mirar a ver que hacemos si se ha entrado en un punto ya visitado o no 
+			}	
+
 		}
 	}
 
@@ -86,6 +73,8 @@ public class GPSProximityRouteListener extends GPSProximity{
 	}
 	
 	public void startRoute (Route selectedRoute, PointOI pointToStart){
+		pointsToVisit.removeAll(pointsToVisit);
+		pointsVisited.removeAll(pointsVisited);
 		boolean limit=false;
 		for (Route route : FRAGUEL.getInstance().routes) {
 			if (selectedRoute.id==route.id){
@@ -94,26 +83,27 @@ public class GPSProximityRouteListener extends GPSProximity{
 					if (!limit){
 						if (point.id==pointToStart.id){
 							limit=true;
-							pointsToVisit.add(new Pair<Pair<Integer, Integer>, Pair<Float, Float>>(new Pair<Integer, Integer>(route.id,point.id),new Pair<Float, Float>(point.coords[0],point.coords[1])));
+							pointsToVisit.add(new Pair<Integer, Pair<Float, Float>>(point.id,new Pair<Float, Float>(point.coords[0],point.coords[1])));
 						}else{
-							pointsVisited.add(new Pair<Pair<Integer, Integer>, Pair<Float, Float>>(new Pair<Integer, Integer>(route.id,point.id),new Pair<Float, Float>(point.coords[0],point.coords[1])));
+							pointsVisited.add(new Pair<Pair<Integer,Integer>, Pair<Float, Float>>(new Pair<Integer,Integer>(route.id,point.id),new Pair<Float, Float>(point.coords[0],point.coords[1])));
 						}	
 						
 					}else{
-						pointsToVisit.add(new Pair<Pair<Integer, Integer>, Pair<Float, Float>>(new Pair<Integer, Integer>(route.id,point.id),new Pair<Float, Float>(point.coords[0],point.coords[1])));
+						pointsToVisit.add(new Pair<Integer, Pair<Float, Float>>(point.id,new Pair<Float, Float>(point.coords[0],point.coords[1])));
 					}	
 				}
 				
 				break;
 			}
 		}
+		MapState.getInstance().startRoute();
 	}
 	
-	public ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>> pointsVisited(){
+	public ArrayList<Pair<Pair<Integer,Integer>, Pair<Float, Float>>> pointsVisited(){
 		return pointsVisited;
 	}
 	
-	public ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>> pointsToVisit(){
+	public ArrayList<Pair<Integer, Pair<Float, Float>>> pointsToVisit(){
 		return pointsToVisit;
 	}
 	
