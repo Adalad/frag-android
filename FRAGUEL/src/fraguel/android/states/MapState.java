@@ -1,5 +1,6 @@
 package fraguel.android.states;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ProgressDialog;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -116,7 +118,7 @@ public class MapState extends State implements OnTouchListener{
 
 		//Creamos los Overlays
 		mapOverlays = mapView.getOverlays();
-		Drawable drawable = FRAGUEL.getInstance().getResources().getDrawable(R.drawable.museumsalango);
+		Drawable drawable = FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_visited);
 		MapItemizedOverlays itemizedoverlay = new MapItemizedOverlays(drawable,FRAGUEL.getInstance());
  
 		FRAGUEL.getInstance().registerForContextMenu(mapView); 
@@ -150,7 +152,7 @@ public class MapState extends State implements OnTouchListener{
 		GeoPoint point;
 		OverlayItem item;
 		for (Route r : FRAGUEL.getInstance().routes) {
-			image=FRAGUEL.getInstance().getResources().getDrawable(R.drawable.museumsalango);
+			image=FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited);
 			capa=new MapItemizedOverlays(image,FRAGUEL.getInstance());
 			for (PointOI p : r.pointsOI) { 
 				point=new GeoPoint((int)p.coords[0]*1000000,(int)p.coords[1]*1000000);
@@ -245,6 +247,35 @@ public class MapState extends State implements OnTouchListener{
 		me = new MyPositionOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
 		mapOverlays.add(me);
 
+	}
+	
+	public void refreshMapRouteMode(){
+		mapOverlays.remove(1);
+		mapOverlays.remove(2);
+		addRouteOverlays();
+	}
+	private void addRouteOverlays(){
+		//pintamos los ya visitados
+		MapItemizedOverlays visited = new MapItemizedOverlays(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_visited),FRAGUEL.getInstance());
+		
+		for (Pair<Pair<Integer,Integer>, Pair<Float, Float>> point : FRAGUEL.getInstance().getGPS().getRoutePointsVisited()){
+			visited.addOverlay(new OverlayItem(null, null, null));
+		}
+		
+		mapOverlays.add(visited);
+		
+		//pintamos los no visitados
+		visited= new MapItemizedOverlays(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited),FRAGUEL.getInstance());
+		for (Pair<Integer, Pair<Float, Float>> point : FRAGUEL.getInstance().getGPS().getRoutePointsNotVisited()){
+			visited.addOverlay(new OverlayItem(null, null, null));
+		}
+		mapOverlays.add(visited);
+	}
+	public void startRoute(){
+		mapOverlays.removeAll(mapOverlays);
+		mapOverlays.add(me);
+		addRouteOverlays();
+		
 	}
 
 	//****************************************************************************************

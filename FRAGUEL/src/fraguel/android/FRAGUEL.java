@@ -242,7 +242,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		addState(new InfoState(), false);
 		addState(new ConfigState(), false);
 		addState(new RouteManagerState(), false);
-		addState(new PointInfoState(), true);
+		addState(new PointInfoState(), false);
 
 		// TextToSpeech init & instalation
 		checkTTSLibrary();
@@ -792,6 +792,22 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		
 		public void startRoute(Route r, PointOI p){
 			routeMode=true;
+			routeListener.startRoute(r, p);
+		}
+		
+		public ArrayList<Pair<Pair<Integer,Integer>, Pair<Float, Float>>> getRoutePointsVisited(){
+			if (routeMode==true)
+				return routeListener.pointsVisited();
+			else
+				return null;
+			
+		}
+		
+		public ArrayList<Pair<Integer, Pair<Float, Float>>> getRoutePointsNotVisited(){
+			if (routeMode==true)
+				return routeListener.pointsToVisit();
+			else
+				return null;
 		}
 		
 		public void stopRoute(){
