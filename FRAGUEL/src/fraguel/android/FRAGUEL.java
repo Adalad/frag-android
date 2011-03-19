@@ -698,6 +698,24 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 			dialog.dismiss();
 
 	}
+	
+	public Pair<Route,PointOI> getRouteandPointbyId(int routeId,int pointId){
+		Route route=null;
+		PointOI point=null;
+		for (Route r: routes){
+			if (r.id==routeId){
+				route=r;
+				for (PointOI p: route.pointsOI){
+					if (p.id==pointId){
+						point=p;
+						break;
+					}
+				}
+				break;
+			}
+		}
+		return new Pair<Route,PointOI>(route,point);
+	}
 
 	// ***********************************************************************************
 	// *************************************************************************************
