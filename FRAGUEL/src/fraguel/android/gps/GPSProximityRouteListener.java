@@ -60,7 +60,7 @@ public class GPSProximityRouteListener extends GPSProximity{
 
 			}else{
 				//mostrar info de la distancia y el bearing
-				//mirar a ver que hacemos si se ha entrado en un punto ya visitado o no 
+				
 			}	
 
 		}
