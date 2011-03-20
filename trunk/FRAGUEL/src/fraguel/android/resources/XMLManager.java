@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.util.Log;
 import fraguel.android.PointOI;
 import fraguel.android.Route;
+
 import fraguel.android.ar.AREntity;
 import fraguel.android.ar.ARMesh;
 
@@ -130,4 +131,29 @@ public class XMLManager {
 		return null;
 	}
 
+	public Route readRoute(final String fileName) {
+		try {
+			File routesFile = _root.listFiles(new FilenameFilter() {
+				public boolean accept(File dir, String filename) {
+					return filename.equals("routes");
+				}
+			})[0].listFiles(new FilenameFilter() {
+				public boolean accept(File dir, String filename) {
+					return filename.equals(fileName + ".xml");
+				}
+			})[0];
+			FileInputStream routesStream = new FileInputStream(routesFile);
+			RouteHandler rh = new RouteHandler();
+			_parser.setContentHandler(rh);
+			_parser.parse(new InputSource(routesStream));
+			return rh.getParsedData();
+		} catch (Exception e) {
+			// TODO Show error pop-up
+			// TODO Show language string
+			Log.d("FRAGUEL", "Error", e);
+		}
+		return null;
+	}
+	
+	
 }
