@@ -221,11 +221,19 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 		routes = new ArrayList<Route>();
 		pointsOI = new ArrayList<PointOI>();
-		 ResourceManager.getInstance().initialize("fraguel");
-		 routes = ResourceManager.getInstance().getXmlManager().readRoutes();
-		 for (Route r : routes) {
-			 r.pointsOI = ResourceManager.getInstance().getXmlManager().readPointsOI("route"+r.id);
-		 }
+		ResourceManager.getInstance().initialize("fraguel");
+		//routes.add(9,ResourceManager.getInstance().getXmlManager().readRoutes2("route9")); 
+		//Route ruta= new Route();
+		Route ruta=ResourceManager.getInstance().getXmlManager().readRoute("route9");
+		ruta.pointsOI = ResourceManager.getInstance().getXmlManager().readPointsOI("route9");
+		routes.add(ruta);
+		
+		
+		/*
+		routes = ResourceManager.getInstance().getXmlManager().readRoutes();
+		for (Route r : routes) {
+			r.pointsOI = ResourceManager.getInstance().getXmlManager().readPointsOI("route"+r.id);
+		}*/
 
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
