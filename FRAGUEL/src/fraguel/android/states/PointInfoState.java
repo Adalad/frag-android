@@ -71,7 +71,7 @@ public class PointInfoState extends State{
 		image.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,heightAvailable ));
 		
 		
-		image.setImageBitmap(getImageBitmap("http://www.navegabem.com/blog/wp-content/uploads/2009/04/firefox-icon.png"));
+		//image.setImageBitmap(getImageBitmap("http://www.navegabem.com/blog/wp-content/uploads/2009/04/firefox-icon.png"));
 		image.setPadding(10, 10, 10, 10);
 		image.setAdjustViewBounds(true);
 		
@@ -81,7 +81,7 @@ public class PointInfoState extends State{
 		ScrollView sv = new ScrollView (FRAGUEL.getInstance().getApplicationContext());
 		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,heightAvailable-40));
 		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
-		text.setText("Aqui va el texto referente a la mínima explicación del punto");
+		//text.setText("Aqui va el texto referente a la mínima explicación del punto");
 		sv.addView(text);
 		container.addView(sv);
 		
@@ -119,6 +119,7 @@ public class PointInfoState extends State{
 				case 0:
 
 					FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
+					FRAGUEL.getInstance().getCurrentState().loadData(route, point);
 					break;
 					
 				case 1:
@@ -150,14 +151,13 @@ public class PointInfoState extends State{
 	
 	@Override
 	public boolean loadData(Route route, PointOI point){
-		boolean ok=super.loadData(route, point);
 		
-		if (ok){
 			String titleText;
 			titleText=route.name+" - "+point.title;
 			title.setText(titleText);
-		}
-		return ok;
+			image.setImageBitmap(getImageBitmap(point.image));
+			text.setText(point.toString());
+			return true;
 		
 	}
 
