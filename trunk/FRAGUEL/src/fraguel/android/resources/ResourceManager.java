@@ -69,7 +69,7 @@ public class ResourceManager {
 		return _initialized;
 	}
 
-	String getRootPath() {
+	public String getRootPath() {
 		return _rootPath;
 	}
 
