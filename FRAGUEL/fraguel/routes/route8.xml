@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<route id="9">
-	<name>Nombre ruta de prueba</name>
-	<description>Descripcion de la ruta de prueba</description>
+<route id="8">
+	<name>Nombre ruta de prueba2</name>
+	<description>Descripcion de la ruta de prueba2</description>
 	<icon></icon>
 
 	<points>
 		<point id="0">
-			<coords x="40.4425602" y="-3.7257881" />
-			<title>Punto 0 ruta 9</title>
+			<coords x="40.4425602" y="-3.6257881" />
+			<title>Punto 0 ruta 8</title>
 			<pointdescription>El primer puntito de todos</pointdescription>
 			<icon></icon>
 			<image>http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg</image>
@@ -15,8 +15,8 @@
 			<ar></ar>
 		</point>
 		<point id="1">
-			<coords x="40.4415602" y="-3.7257881" />
-			<title>Punto 1 ruta 9</title>
+			<coords x="40.4415602" y="-3.6257881" />
+			<title>Punto 1 ruta 8</title>
 			<pointdescription>El segundo puntito</pointdescription>
 			<icon></icon>
 			<image>http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg</image>
@@ -24,8 +24,8 @@
 			<ar></ar>
 		</point>
 		<point id="2">
-			<coords x="40.4405602" y="-3.7257881" />
-			<title>Punto 2 ruta 9</title>
+			<coords x="40.4405602" y="-3.6257881" />
+			<title>Punto 2 ruta 8</title>
 			<pointdescription>El tercer puntito</pointdescription>
 			<icon></icon>
 			<image>http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg</image>

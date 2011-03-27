@@ -1,5 +1,7 @@
 package fraguel.android;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -219,22 +221,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		} else
 			Log.d("FRAGUEL", "SD Card ready");
 
-		routes = new ArrayList<Route>();
-		pointsOI = new ArrayList<PointOI>();
-		ResourceManager.getInstance().initialize("fraguel");
-		//routes.add(9,ResourceManager.getInstance().getXmlManager().readRoutes2("route9")); 
-		//Route ruta= new Route();
-		Route ruta=ResourceManager.getInstance().getXmlManager().readRoute("route9");
-		ruta.pointsOI = ResourceManager.getInstance().getXmlManager().readPointsOI("route9");
-		routes.add(ruta);
+		LoadRoutes();
 		
-		
-		/*
-		routes = ResourceManager.getInstance().getXmlManager().readRoutes();
-		for (Route r : routes) {
-			r.pointsOI = ResourceManager.getInstance().getXmlManager().readPointsOI("route"+r.id);
-		}*/
-
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
 		states = new ArrayList<State>();
@@ -843,5 +831,19 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	}
 	
 
+	private void LoadRoutes(){
+		int i=0;
+		routes = new ArrayList<Route>();
+		ResourceManager.getInstance().initialize("fraguel");
+		String[] rutas= new File(ResourceManager.getInstance().getRootPath()+"/routes").list();
+			while ( i<rutas.length){
+			Route ruta=ResourceManager.getInstance().getXmlManager().readRoute(rutas[i].split(".xml")[0]);
+			ruta.pointsOI = ResourceManager.getInstance().getXmlManager().readPointsOI(rutas[i].split(".xml")[0]);
+			routes.add(ruta);
+			i++;
+		}
+		
+	}
+	
 
 }
