@@ -6,6 +6,7 @@ public class PointOI {
 	public String title;
 	public String icon;
 	public String[] images;
+	public String pointdescription;
 	public String image;
 	public String video;
 	public String ar;
@@ -13,6 +14,7 @@ public class PointOI {
 	public PointOI() {
 		id = 0;
 		title = "";
+		pointdescription = "";
 	}
 	
 	
@@ -22,3 +24,4 @@ public class PointOI {
 		
 	}
 }
+

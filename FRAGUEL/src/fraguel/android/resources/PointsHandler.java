@@ -12,6 +12,7 @@ public class PointsHandler extends DefaultHandler {
 
 	private boolean _in_titletag;
 	private boolean _in_icontag;
+	private boolean _in_pointdescriptiontag;
 	private boolean _in_imagetag;
 	private boolean _in_videotag;
 	private boolean _in_artag;
@@ -28,7 +29,7 @@ public class PointsHandler extends DefaultHandler {
 		_in_imagetag = false;
 		_in_videotag = false;
 		_in_artag = false;
-
+		_in_pointdescriptiontag = false;
 		_points = new ArrayList<PointOI>();
 	}
 
@@ -38,7 +39,9 @@ public class PointsHandler extends DefaultHandler {
 			_currentPoint.title = new String(ch, start, length);
 		} else if (_in_icontag) {
 			_currentPoint.icon = new String(ch, start, length);
-		} else if (_in_imagetag) {
+		} else if (_in_pointdescriptiontag) {
+			_currentPoint.pointdescription = new String(ch, start, length);
+		}else if (_in_imagetag ) {
 			_currentPoint.setImages( new String(ch, start, length));
 		} else if (_in_videotag) {
 			_currentPoint.video = new String(ch, start, length);
@@ -61,7 +64,9 @@ public class PointsHandler extends DefaultHandler {
 			_in_titletag = true;
 		} else if (localName.equals("icon")) {
 			_in_icontag = true;
-		} else if (localName.equals("image")) {
+		} else if (localName.equals("pointdescription")) {
+			_in_pointdescriptiontag = true;
+		}else if (localName.equals("image")) {
 			_in_imagetag = true;
 		} else if (localName.equals("video")) {
 			_in_videotag = true;
@@ -78,11 +83,13 @@ public class PointsHandler extends DefaultHandler {
 			_in_titletag = false;
 		} else if (localName.equals("icon")) {
 			_in_icontag = false;
-		}else if (localName.equals("image")) {
+		} else if (localName.equals("pointdescription")) {
+			_in_pointdescriptiontag = false;
+		} else if (localName.equals("image")) {
 			_in_imagetag = false;
-		}else if (localName.equals("video")) {
+		} else if (localName.equals("video")) {
 			_in_videotag = false;
-		}else if (localName.equals("ar")) {
+		} else if (localName.equals("ar")) {
 			_in_artag = false;
 		}
 	}
