@@ -4,8 +4,10 @@ import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import fraguel.android.FRAGUEL;
 import fraguel.android.State;
+import fraguel.android.ar.CamLayer;
 import fraguel.android.ar.GLView;
 
 public class ARState extends State {
@@ -14,7 +16,7 @@ public class ARState extends State {
 
 	//ARCameraView camView;
 	GLView glView;
-	//private CamLayer mPreview;
+	private CamLayer mPreview;
 	//private GLLayer glView;
 
 	public ARState() {
@@ -24,6 +26,7 @@ public class ARState extends State {
 
 	@Override
 	public void load() {
+		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		// Inicializar viewGroup
 		//viewGroup = new FrameLayout(FRAGUEL.getInstance().getApplicationContext());
 		/*// Crear vista de la cámara
@@ -34,18 +37,19 @@ public class ARState extends State {
 				.getApplicationContext());
 		//glView = new ARGLView(viewGroup.getContext());
 		//viewGroup.addView(glView);
-		/*glView=new GLLayer(viewGroup.getContext());
+		/*glView=new GLLayer(viewGroup.getContext());*/
         
-		mPreview = new CamLayer(viewGroup.getContext(), 240, 160);
+		//mPreview = new CamLayer(viewGroup.getContext(), 240, 160);
+		mPreview = new CamLayer(glView.getContext(), 240, 160);
 		mPreview.synchronCallback=glView;
 		
-		FRAGUEL.getInstance().setContentView(glView);
+		/*FRAGUEL.getInstance().setContentView(glView);
 		FRAGUEL.getInstance().addContentView(mPreview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));*/
 		//viewGroup.addView(glView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		//viewGroup.addView(mPreview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		// Añadir a la actividad
-		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		FRAGUEL.getInstance().setContentView(glView);
+		FRAGUEL.getInstance().addContentView(mPreview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		glView.setKeepScreenOn(true);
 		//FRAGUEL.getInstance().addView(viewGroup);
 	}
@@ -59,12 +63,9 @@ public class ARState extends State {
 	}
 	@Override
 	public void onRotationChanged(float[] values) {
-		glView.scene.camera().rotation.x = values[0];
-		glView.scene.camera().rotation.y = values[1];
-		glView.scene.camera().rotation.z = values[2];
-	//	glView._worldRotation[0] = -values[0];
-	//	glView._worldRotation[1] = -values[1];
-	//	glView._worldRotation[2] = -values[2];
+		glView.scene.camera().rotation.x = values[2] + 90;
+		glView.scene.camera().rotation.y = values[0] + 90;
+		glView.scene.camera().rotation.z = -values[1];
 	}
 
 	@Override
@@ -76,19 +77,15 @@ public class ARState extends State {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
 		return menu;
 	}
 
 	@Override
 	public boolean onStateOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
