@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
@@ -34,6 +35,7 @@ import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.VideoPlayer;
 import fraguel.android.maps.MapItemizedOverlays;
+import fraguel.android.maps.RouteOverlay;
 import fraguel.android.resources.ResourceManager;
 
 public class MapState extends State implements OnTouchListener{
@@ -154,6 +156,8 @@ public class MapState extends State implements OnTouchListener{
 		for (Route r : FRAGUEL.getInstance().routes) {
 			image=FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited);
 			capa=new MapItemizedOverlays(image,FRAGUEL.getInstance());
+			RouteOverlay o= new RouteOverlay(r);
+			mapOverlays.add(o);
 			for (PointOI p : r.pointsOI) { 
 				point=new GeoPoint((int)p.coords[0]*1000000,(int)p.coords[1]*1000000);
 				item= new OverlayItem(point,p.title,p.title);
@@ -163,6 +167,7 @@ public class MapState extends State implements OnTouchListener{
 		}
 
 		mapOverlays.add(itemizedoverlay);
+		
 		addMyPosition();
 		isMyPosition=true;
 
@@ -254,6 +259,8 @@ public class MapState extends State implements OnTouchListener{
 		mapOverlays.remove(2);
 		addRouteOverlays();
 	}
+	
+	
 	private void addRouteOverlays(){
 		Pair<Route,PointOI> info = null;
 		int idroute;
