@@ -153,10 +153,10 @@ public class PointInfoState extends State{
 	public boolean loadData(Route route, PointOI point){
 		
 			String titleText;
-			titleText=route.name+" - "+point.title;
+			titleText=point.title+" ("+route.name+")";
 			title.setText(titleText);
 			image.setImageBitmap(getImageBitmap(point.image));
-			text.setText(point.toString());
+			text.setText(point.pointdescription);
 			return true;
 		
 	}
