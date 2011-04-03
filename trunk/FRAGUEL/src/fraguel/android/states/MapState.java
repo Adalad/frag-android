@@ -60,7 +60,6 @@ public class MapState extends State implements OnTouchListener{
 	private View popupView;
 	private View popupView2;
 	private List<Overlay> mapOverlays;
-	
 	private boolean isPopup;
 	private String[] videos={"http://daily3gp.com/vids/747.3gp",
 			"http://www.free-3gp-video.com/download.php?dancing-skeleton.3gp",
@@ -163,7 +162,7 @@ public class MapState extends State implements OnTouchListener{
 			RouteOverlay o= new RouteOverlay(r);
 			mapOverlays.add(o);
 			for (PointOI p : r.pointsOI) { 
-				point=new GeoPoint((int)p.coords[0]*1000000,(int)p.coords[1]*1000000);
+				point=new GeoPoint((int)(p.coords[0]*1000000),(int)(p.coords[1]*1000000));
 				item= new OverlayItem(point,p.title,p.title);
 				capa.addOverlay(item);
 			}
