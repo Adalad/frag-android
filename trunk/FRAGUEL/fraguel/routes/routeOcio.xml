@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<route id="1">
+	<name>Un viernes por moncloa</name>
+	<description>Un viernes, tras toda la semana solo queda divertirse por madrid. Este es el recorrido de aquel día, para aquel que aún no tenga plan... </description>
+	<icon></icon>
+
+	<points>
+		<point id="0">
+			<coords x="40.4327106" y="-3.7178161" />
+			<title>Manolo Bar</title>
+			<pointdescription>El emblematico bar Manolo, un sitio perfecto donde tomar unas cañas con los amigos.</pointdescription>
+			<icon></icon>
+			<image>http://t1.gstatic.com/images?q=tbn:ANd9GcQEZIEBDSbJgtcDSYxCx8a1PLHl67jK86m7hZNdEDbbOE2mBTHW_g</image>
+			<video>http://www.youtube.com/watch?v=3CZ-k3qyk2A</video>
+			<ar></ar>
+		</point>
+		<point id="1">
+			<coords x="40.4352261" y="-3.7183039" />
+			<title>Van Gogh Cafe</title>
+			<pointdescription>Por las calles perpendiculares a la de la Princesa, entran y salen de su barrio los vecinos y los comerciantes de Chamberi, muchos profesionales de la abogacia y el consulting, odontologos y libreros, pero sobre todo…estudiantes. Estas calles son el paraiso de las fotocopias de dia y “la marcha” de noche. En medio de todo este trasiego aparece Van Gogh Cafe como un oasis para todos los publicos. Un lugar amplio y coqueto donde coincidir para desayunar, tomar unas cañas, almorzar o cenar en una atmosfera cordial e informal.</pointdescription>
+			<icon></icon>
+			<image>http://media.salir-static.net/_images_/verticales/8/d/1/1/39004-van_gogh_cafe_pv.jpg</image>
+			<video>http://www.youtube.com/watch?v=cxLG2wtE7TM</video>
+			<ar></ar>
+		</point>
+		<point id="2">
+			<coords x="40.4353453" y="-3.7163066" />
+			<title>Coyote Lounge</title>
+			<pointdescription>En el espacio para eventos Coyote Lounge cuenta con dos ambientes perfectamente diferenciados, aforo para 600 personas, dos zonas VIP, aparcacoches, gogos, audiovisuales, lásers, escenario... En definitiva, todo lo que necesitas para celebrar la perfecta fiesta corporativa, convencion, presentacion de producto, rueda de prensa y todo tipo de evento empresarial. La sala esta totalmente reformada, con nuevo mobiliario y decoracion donde disfrutar de un ambiente unico y publico exclusivo en pleno centro de la ciudad.</pointdescription>
+			<icon></icon>
+			<image>http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg</image>
+			<video>http://www.youtube.com/watch?v=cxLG2wtE7TM</video>
+			<ar></ar>
+		</point>
+		<point id="3">
+			<coords x="40.4358828" y="-3.7165135" />
+			<title>Penelope</title>
+			<pointdescription>La discoteca Penelope</pointdescription>
+			<icon></icon>
+			<image>http://www.grupoparty.es/wp-content/uploads/2009/12/penelope-moncloa.jpg, http://www.grupoparty.es/wp-content/uploads/2009/12/penelope-sala.jpg </image>
+			<video>http://www.youtube.com/watch?v=G5rybIqeVhc</video>
+			<ar></ar>
+		</point>
+		<point id="4">
+			<coords x="40.4361524" y="-3.7164899" />
+			<title>Discoteca Inn</title>
+			<pointdescription>La discoteca Inn</pointdescription>
+			<icon></icon>
+			<image>http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg</image>
+			<video>http://www.youtube.com/watch?v=wF5tNogdBXc</video>
+			<ar></ar>
+		</point>
+		
+	
+	</points>
+
+
+</route>
