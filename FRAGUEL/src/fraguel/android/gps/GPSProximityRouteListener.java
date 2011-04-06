@@ -21,6 +21,7 @@ public class GPSProximityRouteListener extends GPSProximity{
 	public GPSProximityRouteListener(){
 		
 		super();
+		pointsToVisit= new ArrayList<Pair<Integer, Pair<Float, Float>>>();
 	}
 	@Override
 	public void onLocationChanged(Location location) {
@@ -73,8 +74,8 @@ public class GPSProximityRouteListener extends GPSProximity{
 	}
 	
 	public void startRoute (Route selectedRoute, PointOI pointToStart){
-		pointsToVisit.removeAll(pointsToVisit);
-		pointsVisited.removeAll(pointsVisited);
+		pointsToVisit.clear();
+		pointsVisited.clear();
 		boolean limit=false;
 		for (Route route : FRAGUEL.getInstance().routes) {
 			if (selectedRoute.id==route.id){
