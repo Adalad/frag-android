@@ -143,38 +143,15 @@ public class MapState extends State implements OnTouchListener{
 
 		itemizedoverlay.addOverlay(overlayitem3);
 		
-		
-		
-		
-		
-		//PUNTOS LEIDOS DE FICHERO
-		Drawable image;
-		MapItemizedOverlays capa;
-		GeoPoint point;
-		OverlayItem item;
-		for (Route r : FRAGUEL.getInstance().routes) {
-			if (r.icon==null)
-				image=FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited);
-			else
-				image=FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited);
-			
-			capa=new MapItemizedOverlays(image,FRAGUEL.getInstance());
-			RouteOverlay o= new RouteOverlay(r);
-			mapOverlays.add(o);
-			for (PointOI p : r.pointsOI) { 
-				point=new GeoPoint((int)(p.coords[0]*1000000),(int)(p.coords[1]*1000000));
-				item= new OverlayItem(point,p.title,p.title);
-				capa.addOverlay(item);
-			}
-			mapOverlays.add(capa);
-		}
-
 		mapOverlays.add(itemizedoverlay);
-		
-		addMyPosition();
+
+		me = new MyPositionOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
+
 		isMyPosition=true;
-
-
+		
+		//Cargamos todo
+		loadAllPoints();
+		
 	}
 
 	public boolean isPopup() {
@@ -250,16 +227,11 @@ public class MapState extends State implements OnTouchListener{
 	public void animateTo(GeoPoint g){
 		mapControl.animateTo(g);		
 	}
-
-	private void addMyPosition(){
-		me = new MyPositionOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
-		mapOverlays.add(me);
-
-	}
 	
 	public void refreshMapRouteMode(){
 		mapOverlays.remove(1);
 		mapOverlays.remove(2);
+		mapOverlays.remove(3);
 		addRouteOverlays();
 	}
 	
@@ -267,6 +239,8 @@ public class MapState extends State implements OnTouchListener{
 	private void addRouteOverlays(){
 		Pair<Route,PointOI> info = null;
 		int idroute;
+		//pintamos las líneas
+		mapOverlays.add(new RouteOverlay());
 		//pintamos los ya visitados
 		MapItemizedOverlays visited = new MapItemizedOverlays(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_visited),FRAGUEL.getInstance());
 		
@@ -284,12 +258,38 @@ public class MapState extends State implements OnTouchListener{
 			visited.addOverlay(new OverlayItem(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title));
 		}
 		mapOverlays.add(visited);
+		
+		
 	}
 	public void startRoute(){
-		mapOverlays.removeAll(mapOverlays);
+		mapOverlays.clear();
 		mapOverlays.add(me);
 		addRouteOverlays();
-		
+	}
+	
+	public void loadAllPoints(){
+		//PUNTOS LEIDOS DE FICHERO
+		Drawable image;
+		MapItemizedOverlays capa;
+		GeoPoint point;
+		OverlayItem item;
+		for (Route r : FRAGUEL.getInstance().routes) {
+			if (r.icon==null)
+				image=FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited);
+			else
+				image=FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited);
+			
+			capa=new MapItemizedOverlays(image,FRAGUEL.getInstance());
+			//RouteOverlay o= new RouteOverlay(r);
+			//mapOverlays.add(o);
+			for (PointOI p : r.pointsOI) { 
+				point=new GeoPoint((int)(p.coords[0]*1000000),(int)(p.coords[1]*1000000));
+				item= new OverlayItem(point,p.title,p.title);
+				capa.addOverlay(item);
+			}
+			mapOverlays.add(capa);
+		}
+		mapOverlays.add(me);
 	}
 
 	//****************************************************************************************
