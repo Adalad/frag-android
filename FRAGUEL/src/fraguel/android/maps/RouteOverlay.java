@@ -3,6 +3,7 @@ package fraguel.android.maps;
 import java.util.ArrayList;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.Pair;
@@ -42,7 +43,7 @@ public class RouteOverlay extends Overlay{
 		boolean first= false;
 		
 		if (route==null){
-			paint.setColor(200);
+			paint.setColor(Color.RED);
 			for (Pair<Pair<Integer, Integer>, Pair<Float, Float>> p: visited){
 				anterior=actual;
 				actual= new Point();
@@ -53,7 +54,7 @@ public class RouteOverlay extends Overlay{
 				else
 					first=true;	
 			}
-			paint.setColor(32);
+			paint.setColor(Color.GREEN);
 			for (Pair<Integer, Pair<Float, Float>> p: notVisited){
 				anterior=actual;
 				actual= new Point();
@@ -67,11 +68,11 @@ public class RouteOverlay extends Overlay{
 			
 			
 		}else{
-			paint.setColor(10);
+			paint.setColor(Color.BLUE);
 			for (PointOI p: route.pointsOI){
 				anterior=actual;
 				actual= new Point();
-				projection.toPixels(new GeoPoint((int)p.coords[0]*1000000,(int)p.coords[1]*1000000), actual);
+				projection.toPixels(new GeoPoint((int)(p.coords[0]*1000000),(int)(p.coords[1]*1000000)), actual);
 				if (first){
 					canvas.drawLine(actual.x, actual.y, anterior.x, anterior.y, paint);
 				}
