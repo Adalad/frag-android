@@ -35,6 +35,7 @@ import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.VideoPlayer;
 import fraguel.android.maps.MapItemizedOverlays;
+import fraguel.android.maps.NextPointOverlay;
 import fraguel.android.maps.RouteOverlay;
 import fraguel.android.resources.ResourceManager;
 
@@ -229,9 +230,9 @@ public class MapState extends State implements OnTouchListener{
 	}
 	
 	public void refreshMapRouteMode(){
-		mapOverlays.remove(1);
 		mapOverlays.remove(2);
 		mapOverlays.remove(3);
+		mapOverlays.remove(4);
 		addRouteOverlays();
 	}
 	
@@ -264,6 +265,7 @@ public class MapState extends State implements OnTouchListener{
 	public void startRoute(){
 		mapOverlays.clear();
 		mapOverlays.add(me);
+		mapOverlays.add(new NextPointOverlay());
 		addRouteOverlays();
 	}
 	
@@ -290,6 +292,10 @@ public class MapState extends State implements OnTouchListener{
 			mapOverlays.add(capa);
 		}
 		mapOverlays.add(me);
+	}
+	
+	public GeoPoint getLocationFromOverlay(){
+		return me.getMyLocation();
 	}
 
 	//****************************************************************************************
