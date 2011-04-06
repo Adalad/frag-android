@@ -243,6 +243,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		// TextToSpeech init & instalation
 		checkTTSLibrary();
 		initHandler();
+		
+		//FRAGUEL.getInstance().getGPS().startRoute(this.routes.get(0), this.routes.get(0).pointsOI.get(2));
 	}
 
 	public static FRAGUEL getInstance() {
@@ -712,6 +714,21 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		}
 		return new Pair<Route,PointOI>(route,point);
 	}
+	
+
+	private void LoadRoutes(){
+		int i=0;
+		routes = new ArrayList<Route>();
+		ResourceManager.getInstance().initialize("fraguel");
+		String[] rutas= new File(ResourceManager.getInstance().getRootPath()+"/routes").list();
+			while ( i<rutas.length){
+			Route ruta=ResourceManager.getInstance().getXmlManager().readRoute(rutas[i].split(".xml")[0]);
+			ruta.pointsOI = ResourceManager.getInstance().getXmlManager().readPointsOI(rutas[i].split(".xml")[0]);
+			routes.add(ruta);
+			i++;
+		}
+		
+	}
 
 	// ***********************************************************************************
 	// *************************************************************************************
@@ -829,21 +846,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		}
 
 	}
-	
 
-	private void LoadRoutes(){
-		int i=0;
-		routes = new ArrayList<Route>();
-		ResourceManager.getInstance().initialize("fraguel");
-		String[] rutas= new File(ResourceManager.getInstance().getRootPath()+"/routes").list();
-			while ( i<rutas.length){
-			Route ruta=ResourceManager.getInstance().getXmlManager().readRoute(rutas[i].split(".xml")[0]);
-			ruta.pointsOI = ResourceManager.getInstance().getXmlManager().readPointsOI(rutas[i].split(".xml")[0]);
-			routes.add(ruta);
-			i++;
-		}
-		
-	}
 	
 
 }
