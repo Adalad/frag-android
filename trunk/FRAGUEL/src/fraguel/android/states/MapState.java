@@ -269,6 +269,11 @@ public class MapState extends State implements OnTouchListener{
 		addRouteOverlays();
 	}
 	
+	public void reStartMap(){
+		mapOverlays.clear();
+		loadAllPoints();
+	}
+	
 	public void loadAllPoints(){
 		//PUNTOS LEIDOS DE FICHERO
 		Drawable image;
