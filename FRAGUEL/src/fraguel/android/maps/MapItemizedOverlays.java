@@ -91,18 +91,12 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 	
 	public void showPopup(OverlayItem item){
 
-		Point point = MapState.getInstance().getMapView().getProjection().toPixels(item.getPoint(), null);
-		//int height=item.getMarker(0).getIntrinsicHeight();
-		//int width=item.getMarker(0).getIntrinsicWidth();
-		MapState.getInstance().setPopup(true);
-		View popup= MapState.getInstance().getPopupView();
-		((TextView) popup.findViewById(R.id.popupPI_texto1)).setText(item.getTitle());
-		//((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT ,LayoutParams.FILL_PARENT ));
-		//Resources res = FRAGUEL.getInstance().getResources();
-		//Drawable imagenPI = res.getDrawable(R.drawable.popupfacultad1);
-		//imagenPI.setBounds(new Rect(0,0,1,1));
-		//((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setImageDrawable(imagenPI);
+		//Point point = MapState.getInstance().getMapView().getProjection().toPixels(item.getPoint(), null);
 		
+		MapState.getInstance().setPopup(true);
+		View popup= MapState.getInstance().getPopupPI();
+		((TextView) popup.findViewById(R.id.popupPI_texto1)).setText(item.getTitle());
+				
 		((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setScaleType(ScaleType.CENTER_INSIDE);
 		((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setImageResource(R.drawable.popup_facultad1);
 		popup.findViewById(R.id.btn_popupPI_info).setOnClickListener((OnClickListener) FRAGUEL.getInstance());

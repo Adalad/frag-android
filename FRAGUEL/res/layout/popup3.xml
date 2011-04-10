@@ -1,39 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:id="@+id/popupPI3" android:layout_width="fill_parent"
-	android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android">
+<FrameLayout android:id="@+id/popuponroute"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<LinearLayout android:id="@+id/popupPI3_container"
-		android:orientation="horizontal" android:layout_width="wrap_content"
-		android:layout_height="wrap_content">
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:background="@drawable/popup_complete">
+
+		<TextView android:id="@+id/popuponroute_texto1"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:textStyle="bold" android:gravity="left" android:paddingTop="2dip" />
+
+
+		<LinearLayout android:id="@+id/popuponroute_container"
+			android:orientation="horizontal" android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
 
 
 
-		<LinearLayout android:layout_width="wrap_content"
-			android:orientation="vertical"
-			android:layout_height="wrap_content" android:background="@drawable/popup_leftpointer1"
-			android:paddingLeft="2dip" android:paddingTop="2dip">
+			<FrameLayout android:layout_width="wrap_content"
+				android:layout_height="wrap_content">
 
-			<ImageView android:layout_width="wrap_content"
-				android:layout_height="wrap_content" android:id="@+id/popupPI3_imagen2"
-				android:paddingLeft="10dip" android:paddingTop="7dip" />
+				<ImageView android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:id="@+id/popuponroute_orientation"
+					android:paddingLeft="5dip" android:paddingTop="5dip" />
+
+			</FrameLayout>
+
+
+			<LinearLayout android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:orientation="horizontal"
+				android:layout_gravity="center" android:gravity="center">
+
+				<FrameLayout android:layout_width="fill_parent"
+					android:layout_height="wrap_content">
+					<TextView android:id="@+id/popuponroute_distance"
+						android:layout_width="wrap_content" android:layout_height="wrap_content"
+						android:textStyle="bold" android:gravity="center"
+						android:paddingTop="2dip" />
+				</FrameLayout>
+
+
+			</LinearLayout>
+
 
 		</LinearLayout>
-
-
-		<FrameLayout android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:background="@drawable/popup_middlebg1">
-
-			<TextView android:id="@+id/popupPI3_texto1"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:gravity="center" android:paddingTop="7dip" />
-
-		</FrameLayout>
-
-
-		<ImageView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/popupPI3_imagen3"
-			android:src="@drawable/popup_right1" />
-
 
 
 	</LinearLayout>
