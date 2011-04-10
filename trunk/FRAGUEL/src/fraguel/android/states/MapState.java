@@ -58,8 +58,9 @@ public class MapState extends State implements OnTouchListener{
 
 	private MapController mapControl;
 	private MapView mapView;
-	private View popupView;
-	private View popupView2;
+	private View popupPI;
+	private View popupPIonroute;
+	private View popupOnRoute;
 	private List<Overlay> mapOverlays;
 	private boolean isPopup;
 	private String[] videos={"http://daily3gp.com/vids/747.3gp",
@@ -92,15 +93,21 @@ public class MapState extends State implements OnTouchListener{
 
 		//Creamos e importamos el popup del xml
 		setPopup(false);
-		popupView= li.inflate(R.layout.popup,  null);
+		popupPI= li.inflate(R.layout.popup,  null);
 		//LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		//popupView.setLayoutParams(params);
-        popupView.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
+        popupPI.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
         
         //Creamos e importamos el popup onroute del xml
 		setPopup(false);
-		popupView2= li.inflate(R.layout.popup2,  null);
-		popupView2.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
+		popupPIonroute= li.inflate(R.layout.popup2,  null);
+		popupPIonroute.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
+		
+		//Creamos e importamos el popup onroute del xml
+		setPopup(false);
+		popupOnRoute= li.inflate(R.layout.popup3,  null);
+		popupOnRoute.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
+		
 
 		//Creamos, importamos y configuramos la mapview del xml
 		mapView = (MapView) FRAGUEL.getInstance().findViewById(R.id.mapview);
@@ -166,7 +173,7 @@ public class MapState extends State implements OnTouchListener{
 	@Override
 	public void onClick(View v) {
 
-		FRAGUEL.getInstance().getView().removeView(popupView);
+		FRAGUEL.getInstance().getView().removeView(popupPI);
 
 		switch (v.getId()) {
 		case R.id.btn_popupPI_info:
@@ -199,13 +206,13 @@ public class MapState extends State implements OnTouchListener{
 	@Override
 	public boolean onTouch(View view, MotionEvent mev) {
 		// TODO Auto-generated method stub
-		if (view==popupView && isPopup()){
-		  FRAGUEL.getInstance().getView().removeView(popupView);
+		if (view==popupPI && isPopup()){
+		  FRAGUEL.getInstance().getView().removeView(popupPI);
 		  setPopup(false);
 		}
           
-		if (view==popupView2 && isPopup()){
-			  FRAGUEL.getInstance().getView().removeView(popupView2);
+		if (view==popupPIonroute && isPopup()){
+			  FRAGUEL.getInstance().getView().removeView(popupPIonroute);
 			  setPopup(false);
 			}
    
@@ -217,12 +224,16 @@ public class MapState extends State implements OnTouchListener{
 		return mapView;
 	}
 
-	public View getPopupView() {
-		return popupView;
+	public View getPopupPI() {
+		return popupPI;
 	}
 	
-	public View getPopupView2() {
-		return popupView2;
+	public View getPopupPIonroute() {
+		return popupPIonroute;
+	}
+	
+	public View getPopupOnRoute() {
+		return popupOnRoute;
 	}
 
 	public void animateTo(GeoPoint g){
