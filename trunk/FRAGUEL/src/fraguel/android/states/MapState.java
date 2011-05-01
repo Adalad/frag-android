@@ -127,35 +127,11 @@ public class MapState extends State implements OnTouchListener{
 
 		//Creamos los Overlays
 		mapOverlays = mapView.getOverlays();
-		Drawable drawable = FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_visited);
-		MapItemizedOverlays itemizedoverlay = new MapItemizedOverlays(drawable,FRAGUEL.getInstance());
- 
-		FRAGUEL.getInstance().registerForContextMenu(mapView); 
 		
-		//primer punto
-		GeoPoint point1 = new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7257881 * 1000000));
-		OverlayItem overlayitem = new OverlayItem(point1, "Facultad A", "En el año...");
-
-		itemizedoverlay.addOverlay(overlayitem);
-
-		//segundo punto
-		GeoPoint point2 = new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7297881 * 1000000));
-		OverlayItem overlayitem2 = new OverlayItem(point2, "Facultad B", "En el año...");
-
-		itemizedoverlay.addOverlay(overlayitem2);
-
-		//mi casa
-
-		GeoPoint point3 = new GeoPoint((int) (40.44929 * 1000000), (int) (-3.64072927 * 1000000));
-		OverlayItem overlayitem3 = new OverlayItem(point3, "Mi casa", "My house...");
-
-		itemizedoverlay.addOverlay(overlayitem3);
-		
-		mapOverlays.add(itemizedoverlay);
 
 		me = new MyPositionOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
 
-		isMyPosition=true;
+		isMyPosition=false;
 		
 		//Cargamos todo
 		loadAllPoints();
@@ -260,8 +236,11 @@ public class MapState extends State implements OnTouchListener{
 			info=FRAGUEL.getInstance().getRouteandPointbyId(point.first.first,point.first.second);
 			visited.addOverlay(new OverlayItem(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title));
 		}
-		idroute=info.first.id;
-		mapOverlays.add(visited);
+
+			idroute=FRAGUEL.getInstance().getGPS().getRouteId();
+			
+		if (visited.size()!=0)	
+			mapOverlays.add(visited);
 		
 		//pintamos los no visitados
 		visited= new MapItemizedOverlays(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited),FRAGUEL.getInstance());
@@ -269,7 +248,9 @@ public class MapState extends State implements OnTouchListener{
 			info=FRAGUEL.getInstance().getRouteandPointbyId(idroute,point.first);
 			visited.addOverlay(new OverlayItem(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title));
 		}
-		mapOverlays.add(visited);
+		if (visited.size()!=0)	
+			mapOverlays.add(visited);
+		
 		
 		
 	}
