@@ -38,6 +38,8 @@ public class PointInfoState extends State{
 	private TitleTextView title;
 	private ImageView image;
 	private TextView text;
+	private Route r;
+	private PointOI p;
 	
 	
 	public PointInfoState() {
@@ -99,7 +101,8 @@ public class PointInfoState extends State{
 		
         viewGroup=container;
         FRAGUEL.getInstance().addView(viewGroup);
-		
+		r=null;
+		p=null;
 	}
 	
 	
@@ -119,17 +122,19 @@ public class PointInfoState extends State{
 				case 0:
 
 					FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
-					FRAGUEL.getInstance().getCurrentState().loadData(route, point);
+					FRAGUEL.getInstance().getCurrentState().loadData(r, p);
 					break;
 					
 				case 1:
 
 					FRAGUEL.getInstance().changeState(VideoState.STATE_ID);
+					FRAGUEL.getInstance().getCurrentState().loadData(r,p);
 					break;
 					
 				case 2:
 
 					FRAGUEL.getInstance().changeState(ARState.STATE_ID);
+					FRAGUEL.getInstance().getCurrentState().loadData(r,p);
 					break;
 				
 				}
@@ -157,6 +162,8 @@ public class PointInfoState extends State{
 			title.setText(titleText);
 			image.setImageBitmap(getImageBitmap(point.image));
 			text.setText(point.pointdescription);
+			r=route;
+			p=point;
 			return true;
 		
 	}
