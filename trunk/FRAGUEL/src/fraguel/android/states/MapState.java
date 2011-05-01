@@ -217,9 +217,9 @@ public class MapState extends State implements OnTouchListener{
 	}
 	
 	public void refreshMapRouteMode(){
-		mapOverlays.remove(2);
-		mapOverlays.remove(3);
-		mapOverlays.remove(4);
+		mapOverlays.clear();
+		mapOverlays.add(me);
+		mapOverlays.add(new NextPointOverlay());
 		addRouteOverlays();
 	}
 	
@@ -255,10 +255,7 @@ public class MapState extends State implements OnTouchListener{
 		
 	}
 	public void startRoute(){
-		mapOverlays.clear();
-		mapOverlays.add(me);
-		mapOverlays.add(new NextPointOverlay());
-		addRouteOverlays();
+		this.refreshMapRouteMode();
 	}
 	
 	public void reStartMap(){
