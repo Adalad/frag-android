@@ -131,7 +131,7 @@ public class MapState extends State implements OnTouchListener{
 
 		me = new MyPositionOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
 
-		isMyPosition=false;
+		isMyPosition=true;
 		
 		//Cargamos todo
 		loadAllPoints();
