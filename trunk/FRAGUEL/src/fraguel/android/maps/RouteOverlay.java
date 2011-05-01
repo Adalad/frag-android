@@ -36,6 +36,8 @@ public class RouteOverlay extends Overlay{
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) { 
 		Projection projection=mapView.getProjection();
 		Paint paint= new Paint();
+		paint.setAntiAlias(true);
+		paint.setDither(true);
 		Point actual=null;
 		Point  anterior=null;
 		paint.setStrokeWidth(5);
