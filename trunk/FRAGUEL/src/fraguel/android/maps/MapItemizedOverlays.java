@@ -77,7 +77,7 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 	
 		//Evento general del punto de interés
 		Toast t= Toast.makeText(mContext, title, Toast.LENGTH_SHORT);
-		t.show();
+		//t.show();
 
 		//Sacamos el popup del punto de interés
 		showPopup(item);
