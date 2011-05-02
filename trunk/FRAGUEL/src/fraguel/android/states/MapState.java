@@ -158,11 +158,11 @@ public class MapState extends State implements OnTouchListener{
 		this.isPopupPI = true;
 	}
 	public void setPopupPIOnRoute() {
-		FRAGUEL.getInstance().addView(popupOnRoute);
+		FRAGUEL.getInstance().addView(popupPIonroute);
 		this.isPopupPIOnRoute = true;
 	}
 	public void setPopupOnRoute() {
-		FRAGUEL.getInstance().addView(popupPIonroute);
+		FRAGUEL.getInstance().addView(popupOnRoute);
 		this.isPopupOnRoute = true;
 	}
 	
@@ -172,12 +172,12 @@ public class MapState extends State implements OnTouchListener{
 		 
 	}
 	public void removePopUpOnRoute(){
-		FRAGUEL.getInstance().getView().removeView(popupPI);
+		FRAGUEL.getInstance().getView().removeView(popupOnRoute);
 		this.isPopupOnRoute = false;
 		 
 	}
 	public void removePopUpPIOnRoute(){
-		FRAGUEL.getInstance().getView().removeView(popupPI);
+		FRAGUEL.getInstance().getView().removeView(popupPIonroute);
 		this.isPopupPIOnRoute = false;
 		 
 	}
@@ -185,7 +185,9 @@ public class MapState extends State implements OnTouchListener{
 	@Override
 	public void onClick(View v) {
 
-		FRAGUEL.getInstance().getView().removeView(popupPI);
+		this.removePopUpPI();
+		this.removePopUpOnRoute();
+		this.removePopUpPIOnRoute();
 
 		switch (v.getId()) {
 		case R.id.btn_popupPI_info:
@@ -225,6 +227,9 @@ public class MapState extends State implements OnTouchListener{
 		if (view==popupPIonroute && isPopUpPIOnRoute()){
 			  removePopUpPIOnRoute();
 			}
+		if (view==popupOnRoute && isPopupOnRoute()){
+			removePopUpOnRoute();
+		}
    
 		return true;
 	}
