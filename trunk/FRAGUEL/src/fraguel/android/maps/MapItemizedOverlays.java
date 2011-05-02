@@ -93,7 +93,6 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 
 		//Point point = MapState.getInstance().getMapView().getProjection().toPixels(item.getPoint(), null);
 		
-		MapState.getInstance().setPopup(true);
 		View popup= MapState.getInstance().getPopupPI();
 		((TextView) popup.findViewById(R.id.popupPI_texto1)).setText(item.getTitle());
 				
@@ -113,7 +112,7 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 				isPopup= true;
 		}
 		if (!isPopup)
-			FRAGUEL.getInstance().addView(popup);
+			MapState.getInstance().setPopupPI();
 
 	}
 
