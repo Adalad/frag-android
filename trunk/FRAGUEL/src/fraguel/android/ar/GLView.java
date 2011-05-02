@@ -19,6 +19,7 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 
 	public Scene scene;
 	protected GLSurfaceView _glSurfaceView;
+	public static final float RADIO_TIERRA=6371000;
 
 	protected Handler _initSceneHander;
 	protected Handler _updateSceneHander;
@@ -86,9 +87,10 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 
 		objModel = parser.getParsedObject();
 		objModel.scale().x = objModel.scale().y = objModel.scale().z = .7f;
-		objModel.position().x = 0;
-		objModel.position().y = 0;
-		objModel.position().z = 0;
+		objModel.position().x = (float) (40.417923*RADIO_TIERRA);
+		objModel.position().y = 670;
+		objModel.position().z = (float) (-3.67011*RADIO_TIERRA);
+		//40.417923,-3.67011,670metros
 		scene.addChild(objModel);
 		scene.camera().position.x = 0;
 		scene.camera().position.y = 0;
