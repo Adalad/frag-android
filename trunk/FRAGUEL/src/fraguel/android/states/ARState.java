@@ -64,9 +64,9 @@ public class ARState extends State {
 	}
 	@Override
 	public void onRotationChanged(float[] values) {
-		glView.scene.camera().rotation.x = values[2] + 90;
-		glView.scene.camera().rotation.y = values[0] + 90;
-		glView.scene.camera().rotation.z = -values[1];
+		glView.scene.camera().rotation.x = values[1]+90;
+		glView.scene.camera().rotation.y = values[0]+90;
+		glView.scene.camera().rotation.z = values[2];
 	}
 
 	@Override
