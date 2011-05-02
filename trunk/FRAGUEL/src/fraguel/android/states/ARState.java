@@ -13,6 +13,7 @@ import fraguel.android.ar.GLView;
 public class ARState extends State {
 	
 	public static final int STATE_ID = 5;
+	public static final double RADIO_TIERRA=6371000;
 
 	//ARCameraView camView;
 	GLView glView;
@@ -70,9 +71,15 @@ public class ARState extends State {
 
 	@Override
 	public void onLocationChanged(float[] values) {
-	//	glView._worldPosition[0] = -values[0];
-	//	glView._worldPosition[1] = -values[1];
-	//	glView._worldPosition[2] = -values[2];
+		
+		
+		float x=(float) (values[0]*RADIO_TIERRA);
+		float y=(float) (values[1]*RADIO_TIERRA);
+		float z=values[2];
+		
+		glView.scene.camera().position.x = x;
+		glView.scene.camera().position.y = z;
+		glView.scene.camera().position.z = y;
 	}
 
 	@Override
