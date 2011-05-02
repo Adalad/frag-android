@@ -2,8 +2,12 @@ package fraguel.android.gps;
 
 import java.util.ArrayList;
 
+
+import fraguel.android.R;
 import android.location.Location;
 import android.util.Pair;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
@@ -60,8 +64,12 @@ public class GPSProximityRouteListener extends GPSProximity{
 				MapState.getInstance().refreshMapRouteMode();
 
 			}else{
-				//mostrar info de la distancia y el bearing
+				//mostrar info de la distancia y el bearing si no hay ningun popup
+				((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText(Float.toString(distance)+ " metros para llegar a "+pointsToVisit.get(0).toString());
+				if (!MapState.getInstance().isAnyPopUp())
+					MapState.getInstance().setPopupOnRoute();
 				
+
 			}	
 
 		}
