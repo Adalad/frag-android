@@ -92,9 +92,12 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 		objModel.position().z = (float) (-3.67011*RADIO_TIERRA);
 		//40.417923,-3.67011,670metros
 		scene.addChild(objModel);
+		scene.camera().rotation.x = 0;
+		scene.camera().rotation.y = 0;
+		scene.camera().rotation.z = 0;
 		scene.camera().position.x = 0;
 		scene.camera().position.y = 0;
-		scene.camera().position.z = 10;
+		scene.camera().position.z = 0;
 		Log.d("FRAGUEL", "End AR load");
 	}
 
