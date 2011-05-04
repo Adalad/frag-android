@@ -156,7 +156,7 @@ public class PointInfoState extends State{
 	
 	@Override
 	public boolean loadData(Route route, PointOI point){
-			image.setImageBitmap(getImageBitmap(point.image));
+			image.setImageBitmap(FRAGUEL.getInstance().getImageBitmap(point.image));
 			String titleText;
 			titleText=point.title+" ("+route.name+")";
 			title.setText(titleText);
@@ -180,22 +180,7 @@ public class PointInfoState extends State{
 		return false;
 	}
 	
-	private Bitmap getImageBitmap(String url) {
-        Bitmap bm = null;
-        try {
-            URL aURL = new URL(url);
-            URLConnection conn = aURL.openConnection();
-            conn.connect();
-            InputStream is = conn.getInputStream();
-            BufferedInputStream bis = new BufferedInputStream(is);
-            bm = BitmapFactory.decodeStream(bis);
-            bis.close();
-            is.close();
-       } catch (IOException e) {
-           Log.e("Image", "Error getting bitmap", e);
-       }
-       return bm;
-    } 
+	
 
 }
 
