@@ -36,6 +36,7 @@ import fraguel.android.State;
 import fraguel.android.VideoPlayer;
 import fraguel.android.maps.MapItemizedOverlays;
 import fraguel.android.maps.NextPointOverlay;
+import fraguel.android.maps.PointOverlay;
 import fraguel.android.maps.RouteOverlay;
 import fraguel.android.resources.ResourceManager;
 
@@ -307,7 +308,7 @@ public class MapState extends State implements OnTouchListener{
 		Drawable image;
 		MapItemizedOverlays capa;
 		GeoPoint point;
-		OverlayItem item;
+		PointOverlay item;
 		for (Route r : FRAGUEL.getInstance().routes) {
 			if (r.icon==null)
 				image=FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited);
@@ -319,7 +320,7 @@ public class MapState extends State implements OnTouchListener{
 			//mapOverlays.add(o);
 			for (PointOI p : r.pointsOI) { 
 				point=new GeoPoint((int)(p.coords[0]*1000000),(int)(p.coords[1]*1000000));
-				item= new OverlayItem(point,p.title,p.title);
+				item= new PointOverlay(point,p.title,p.title,p,r);
 				capa.addOverlay(item);
 			}
 			mapOverlays.add(capa);
