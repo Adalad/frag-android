@@ -92,12 +92,14 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 	public void showPopup(OverlayItem item){
 
 		//Point point = MapState.getInstance().getMapView().getProjection().toPixels(item.getPoint(), null);
+		PointOverlay overlay= (PointOverlay) item;
 		
 		View popup= MapState.getInstance().getPopupPI();
-		((TextView) popup.findViewById(R.id.popupPI_texto1)).setText(item.getTitle());
+		((TextView) popup.findViewById(R.id.popupPI_texto1)).setText(overlay.getTitle());
 				
 		((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setScaleType(ScaleType.CENTER_INSIDE);
-		((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setImageResource(R.drawable.popup_facultad1);
+		((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setImageBitmap(FRAGUEL.getInstance().getImageBitmap(overlay.getPointOI().image));
+		
 		popup.findViewById(R.id.btn_popupPI_info).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		popup.findViewById(R.id.btn_popupPI_photo).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		popup.findViewById(R.id.btn_popupPI_ar).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
