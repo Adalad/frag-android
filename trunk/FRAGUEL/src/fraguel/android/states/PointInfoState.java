@@ -7,8 +7,10 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -126,9 +128,7 @@ public class PointInfoState extends State{
 					break;
 					
 				case 1:
-
-					FRAGUEL.getInstance().changeState(VideoState.STATE_ID);
-					FRAGUEL.getInstance().getCurrentState().loadData(r,p);
+					FRAGUEL.getInstance().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(point.video)));
 					break;
 					
 				case 2:
@@ -156,11 +156,11 @@ public class PointInfoState extends State{
 	
 	@Override
 	public boolean loadData(Route route, PointOI point){
-		
+			image.setImageBitmap(getImageBitmap(point.image));
 			String titleText;
 			titleText=point.title+" ("+route.name+")";
 			title.setText(titleText);
-			image.setImageBitmap(getImageBitmap(point.image));
+			
 			text.setText(point.pointdescription);
 			r=route;
 			p=point;
@@ -198,3 +198,5 @@ public class PointInfoState extends State{
     } 
 
 }
+
+
