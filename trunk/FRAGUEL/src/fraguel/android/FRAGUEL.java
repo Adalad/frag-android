@@ -1,7 +1,12 @@
 package fraguel.android;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,6 +19,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -44,6 +51,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -243,8 +251,12 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		// TextToSpeech init & instalation
 		checkTTSLibrary();
 		initHandler();
-		
-		//FRAGUEL.getInstance().getGPS().startRoute(this.routes.get(0), this.routes.get(0).pointsOI.get(2));
+	
+		//FRAGUEL.getInstance().getGPS().startRoute(this.routes.get(0), this.routes.get(0).pointsOI.get(0));
+		//MapState.getInstance().removePopUpPI();
+		//((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText(20+ " metros para llegar a Milán");
+		//MapState.getInstance().setPopupOnRoute();
+		//FRAGUEL.getInstance().getCurrentState().loadData(routes.get(0), routes.get(0).pointsOI.get(0));
 	}
 
 	public static FRAGUEL getInstance() {
@@ -729,6 +741,22 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		}
 		
 	}
+	public Bitmap getImageBitmap(String url) {
+        Bitmap bm = null;
+        try {
+            URL aURL = new URL(url);
+            URLConnection conn = aURL.openConnection();
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+            bm = BitmapFactory.decodeStream(bis);
+            bis.close();
+            is.close();
+       } catch (IOException e) {
+           Log.e("Image", "Error getting bitmap", e);
+       }
+       return bm;
+    } 
 
 	// ***********************************************************************************
 	// *************************************************************************************
@@ -741,6 +769,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		private boolean isDialogDisplayed = false,routeMode=false;
 		
 		private float[] position = { 0, 0, 0 };
+		
+		private int routeid;
 		
 		
 
@@ -823,7 +853,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		
 		public void startRoute(Route r, PointOI p){
 			routeMode=true;
+			routeid=r.id;
 			routeListener.startRoute(r, p);
+			
 		}
 		
 		public ArrayList<Pair<Pair<Integer,Integer>, Pair<Float, Float>>> getRoutePointsVisited(){
@@ -843,6 +875,17 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		
 		public void stopRoute(){
 			routeMode=false;
+			MapState.getInstance().reStartMap();
+		}
+		
+		public boolean isRouteMode(){
+			return routeMode;
+		}
+		public int getRouteId(){
+			if (routeMode==true) 
+				return routeid;
+			else
+				return -1;
 		}
 
 	}
