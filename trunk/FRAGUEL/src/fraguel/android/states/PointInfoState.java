@@ -155,22 +155,26 @@ public class PointInfoState extends State{
 	
 	@Override
 	public boolean loadData(Route route, PointOI point){
-			imageThread= new ImageDownloadingThread(point.image,0);
-			imageThread.start();
-			String titleText;
-			titleText=point.title+" ("+route.name+")";
-			title.setText(titleText);
+		if (FRAGUEL.getInstance().bmp==null || FRAGUEL.getInstance().bmp.length!=1)
+			FRAGUEL.getInstance().bmp= new Bitmap[1];
+		imageThread= new ImageDownloadingThread("http://xxxhwatanuki.files.wordpress.com/2008/06/get-firefox.jpg",0);
+		imageThread.start();
+		String titleText;
+		titleText=point.title+" ("+route.name+")";
+		title.setText(titleText);
 			
-			text.setText(point.pointdescription);
-			this.route=route;
-			this.point=point;
-			return true;
+		text.setText(point.pointdescription);
+		this.route=route;
+		this.point=point;
+		return true;
 		
 	}
 	@Override
 	public void imageLoaded(int index){
-		if (index==0)
-			image.setImageBitmap(FRAGUEL.getInstance().bmp);
+		if (index==0){
+			image.setImageBitmap(FRAGUEL.getInstance().bmp[index]);
+			image.invalidate();
+		}
 		
 	}
 

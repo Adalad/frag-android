@@ -186,6 +186,9 @@ public class MapState extends State implements OnTouchListener{
 		this.removePopUpPI();
 		this.removePopUpOnRoute();
 		this.removePopUpPIOnRoute();
+		
+		if (imageThread!=null && imageThread.isAlive())
+			imageThread.stop();
 
 		switch (v.getId()) {
 		case R.id.btn_popupPI_info:
@@ -217,7 +220,8 @@ public class MapState extends State implements OnTouchListener{
 	@Override
 	public void imageLoaded(int index){
 		if (index==0){
-			((ImageView) popupPI.findViewById(R.id.popupPI_imagen2)).setImageBitmap(FRAGUEL.getInstance().bmp);
+			((ImageView) popupPI.findViewById(R.id.popupPI_imagen2)).setImageBitmap(FRAGUEL.getInstance().bmp[index]);
+			popupPI.invalidate();
 		}
 	}
 	
@@ -226,15 +230,21 @@ public class MapState extends State implements OnTouchListener{
 		// TODO Auto-generated method stub
 		if (view==popupPI && isPopupPI()){
 		  removePopUpPI();
+			if (imageThread!=null && imageThread.isAlive())
+				imageThread.stop();
 		}
           
 		if (view==popupPIonroute && isPopUpPIOnRoute()){
 			  removePopUpPIOnRoute();
+				if (imageThread!=null && imageThread.isAlive())
+					imageThread.stop();
 			}
 		if (view==popupOnRoute && isPopupOnRoute()){
 			removePopUpOnRoute();
+			if (imageThread!=null && imageThread.isAlive())
+				imageThread.stop();
 		}
-   
+
 		return true;
 	}
 

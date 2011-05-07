@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -101,17 +102,23 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 		((TextView) popup.findViewById(R.id.popupPI_texto1)).setText(overlay.getTitle());
 		
 		ImageView v = ((ImageView) popup.findViewById(R.id.popupPI_imagen2));
-		v.setScaleType(ScaleType.CENTER_INSIDE);
+		//v.setScaleType(ScaleType.CENTER_INSIDE);
+		v.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 		v.setAdjustViewBounds(true);
 		//((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setImageBitmap(FRAGUEL.getInstance().getImageBitmap(overlay.getPointOI().image,0));
 		
-		
+		if (FRAGUEL.getInstance().bmp==null || FRAGUEL.getInstance().bmp.length!=1)
+			FRAGUEL.getInstance().bmp= new Bitmap[1];
 		ImageDownloadingThread t = MapState.getInstance().getImageThread();
 		
 		if (t!=null && t.isAlive())
-			t.stopThread();
+			t.stop();
 		
-		t= new ImageDownloadingThread("http://xxxhwatanuki.files.wordpress.com/2008/06/get-firefox.jpg",0);
+		
+		if (overlay.getRoute().id==8)
+			t= new ImageDownloadingThread("http://xxxhwatanuki.files.wordpress.com/2008/06/get-firefox.jpg",0);
+		else
+			t= new ImageDownloadingThread("http://www.vinagreasesino.com/imagenes/articulos/54/icono-virus.jpg",0);
 		t.start();
 		
 		popup.findViewById(R.id.btn_popupPI_info).setOnClickListener((OnClickListener) FRAGUEL.getInstance());

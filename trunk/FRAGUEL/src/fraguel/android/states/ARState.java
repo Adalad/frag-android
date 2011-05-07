@@ -6,6 +6,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import fraguel.android.FRAGUEL;
+import fraguel.android.PointOI;
+import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.ar.CamLayer;
 import fraguel.android.ar.GLView;
@@ -73,6 +75,14 @@ public class ARState extends State {
 				ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 		FRAGUEL.getInstance().setContentView(FRAGUEL.getInstance().getView());
 		super.unload();
+	}
+	
+	@Override
+	public boolean loadData(Route r,PointOI p){
+		route=r;
+		point=p;
+		FRAGUEL.getInstance().talk(point.pointdescription);
+		return true;
 	}
 
 	@Override
