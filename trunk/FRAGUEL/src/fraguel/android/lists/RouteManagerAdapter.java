@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import fraguel.android.FRAGUEL;
@@ -67,6 +68,7 @@ public class RouteManagerAdapter extends BaseAdapter{
 		drawable.setImageBitmap(FRAGUEL.getInstance().getImageBitmap(images.get(position)));
 		drawable.setLayoutParams(new LayoutParams(40,40));
 		drawable.setPadding(10, 5, 5, 5);
+		drawable.setScaleType(ScaleType.CENTER_INSIDE);
 		
 		
 		LinearLayout text = new LinearLayout(context);
