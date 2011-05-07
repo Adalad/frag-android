@@ -70,17 +70,19 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 	@Override
 	protected boolean onTap(int index) {
 
-		OverlayItem item = mOverlays.get(index);
-		String title= item.getTitle();
+		//OverlayItem item = mOverlays.get(index);
+		PointOverlay i= (PointOverlay) mOverlays.get(index);
+		MapState.getInstance().loadData(i.getRoute(), i.getPointOI());
+		//String title= item.getTitle();
 		//Drawable drawable = FRAGUEL.getInstance().getResources().getDrawable(R.drawable.icon);
 		//item.setMarker(drawable);
 	
 		//Evento general del punto de interés
-		Toast t= Toast.makeText(mContext, title, Toast.LENGTH_SHORT);
+		//Toast t= Toast.makeText(mContext, title, Toast.LENGTH_SHORT);
 		//t.show();
 
 		//Sacamos el popup del punto de interés
-		showPopup(item);
+		showPopup(i);
         
 		return true;
 
@@ -89,10 +91,10 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 
 	
 	
-	public void showPopup(OverlayItem item){
+	public void showPopup(PointOverlay item){
 
 		//Point point = MapState.getInstance().getMapView().getProjection().toPixels(item.getPoint(), null);
-		PointOverlay overlay= (PointOverlay) item;
+		PointOverlay overlay= item;
 		
 		View popup= MapState.getInstance().getPopupPI();
 		((TextView) popup.findViewById(R.id.popupPI_texto1)).setText(overlay.getTitle());

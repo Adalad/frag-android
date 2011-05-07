@@ -66,10 +66,6 @@ public class MapState extends State implements OnTouchListener{
 	private boolean isPopupPI;
 	private boolean isPopupOnRoute;
 	private boolean isPopupPIOnRoute;
-	private String[] videos={"http://daily3gp.com/vids/747.3gp",
-			"http://www.free-3gp-video.com/download.php?dancing-skeleton.3gp",
-			"http://www.free-3gp-video.com/download.php?gay_referee.3gp",
-	"http://www.free-3gp-video.com/download.php?do-beer-not-drugs.3gp"};
 
 
 	public MapState() {
@@ -193,23 +189,22 @@ public class MapState extends State implements OnTouchListener{
 		switch (v.getId()) {
 		case R.id.btn_popupPI_info:
 			FRAGUEL.getInstance().changeState(InfoState.STATE_ID);
+			FRAGUEL.getInstance().getCurrentState().loadData(route, point);
 			break;
 		case R.id.btn_popupPI_photo:
 			FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
+			FRAGUEL.getInstance().getCurrentState().loadData(route, point);
 			break;
 		case R.id.btn_popupPI_video:
-			VideoState.getInstance().setVideoPath(videos[0]);
-			//FRAGUEL.getInstance().showProgressDialog();
-			//Intent lVideoIntent = new Intent(null, Uri.parse("ytv://w65_FH4X938"), FRAGUEL.getInstance(), IntroVideoActivity.class);
-		    //FRAGUEL.getInstance().startActivity(lVideoIntent);
-			FRAGUEL.getInstance().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=cxLG2wtE7TM")));
-			//VideoState.getInstance().setVideoPath("");
-			//FRAGUEL.getInstance().changeState(VideoState.STATE_ID);
+			FRAGUEL.getInstance().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(point.video)));
 			break;
 		case R.id.btn_popupPI_ar:
 			FRAGUEL.getInstance().changeState(ARState.STATE_ID);
 			break;
-
+		case R.id.btn_popupPIonroute_moreinfo:
+			FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
+			FRAGUEL.getInstance().getCurrentState().loadData(route, point);
+			break;
 		default:
 			
 

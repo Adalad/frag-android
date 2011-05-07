@@ -1,7 +1,9 @@
 package fraguel.android.states;
 
 import fraguel.android.FRAGUEL;
+import fraguel.android.PointOI;
 import fraguel.android.R;
+import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.utils.InfoText;
 import fraguel.android.utils.TitleTextView;
@@ -51,14 +53,12 @@ public class InfoState extends State{
 		
 		ScrollView container= new ScrollView(FRAGUEL.getInstance().getApplicationContext());
 		text= new InfoText(FRAGUEL.getInstance().getApplicationContext());
-		text.setText("Toda la información referente al punto de interés. Ahora mismo te estoy hablando, así que enciende los altavoces para que puedas oirme." +
-				" Ahora voy a intentar que el usuario, es decir, tú, puedas parar y arrancar el sonido cuando desees. Espero que lo disfrutes."+
-				"\n"+"Como podemos ver a en la esquina superior izquierda se divisa una gárgola singular."+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+
-				"A la izquierda de nosotros, mirando en la parte inferior se ve un jabalí pardo, típico de la zona central del reino de Wisconsin (Alabama)."+"\n"+
-				"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"\n"+"¿Cómo va el rollo?");
+		text.setText("");
+		if (route!=null && point!=null)
+			this.loadData(route, point);
 		container.addView(text);
 		
-		FRAGUEL.getInstance().talk((String)text.getText());
+		
 		
 		
 		
@@ -67,6 +67,16 @@ public class InfoState extends State{
 		
 	}
 
+	@Override
+	public boolean loadData(Route r, PointOI p){
+			this.route=r;
+			this.point=p;
+			
+			text.setText(point.pointdescription);
+			FRAGUEL.getInstance().talk((String)text.getText());
+			return true;
+		
+	}
 
 
 	@Override
