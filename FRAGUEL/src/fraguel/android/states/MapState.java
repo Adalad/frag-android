@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -213,6 +214,13 @@ public class MapState extends State implements OnTouchListener{
 
 	}
 
+	@Override
+	public void imageLoaded(int index){
+		if (index==0){
+			((ImageView) popupPI.findViewById(R.id.popupPI_imagen2)).setImageBitmap(FRAGUEL.getInstance().bmp);
+		}
+	}
+	
 	@Override
 	public boolean onTouch(View view, MotionEvent mev) {
 		// TODO Auto-generated method stub

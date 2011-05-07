@@ -30,6 +30,7 @@ import fraguel.android.PointOI;
 import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.lists.InfoPointAdapter;
+import fraguel.android.threads.ImageDownloadingThread;
 import fraguel.android.utils.TitleTextView;
 
 public class PointInfoState extends State{
@@ -73,7 +74,6 @@ public class PointInfoState extends State{
 		image.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,heightAvailable ));
 		
 		
-		//image.setImageBitmap(getImageBitmap("http://www.navegabem.com/blog/wp-content/uploads/2009/04/firefox-icon.png"));
 		image.setPadding(10, 10, 10, 10);
 		image.setAdjustViewBounds(true);
 		
@@ -155,7 +155,8 @@ public class PointInfoState extends State{
 	
 	@Override
 	public boolean loadData(Route route, PointOI point){
-			image.setImageBitmap(FRAGUEL.getInstance().getImageBitmap(point.image));
+			imageThread= new ImageDownloadingThread(point.image,0);
+			imageThread.start();
 			String titleText;
 			titleText=point.title+" ("+route.name+")";
 			title.setText(titleText);
@@ -164,6 +165,12 @@ public class PointInfoState extends State{
 			this.route=route;
 			this.point=point;
 			return true;
+		
+	}
+	@Override
+	public void imageLoaded(int index){
+		if (index==0)
+			image.setImageBitmap(FRAGUEL.getInstance().bmp);
 		
 	}
 
