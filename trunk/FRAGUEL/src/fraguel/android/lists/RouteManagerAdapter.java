@@ -61,10 +61,10 @@ public class RouteManagerAdapter extends BaseAdapter{
 		ViewGroup row= new LinearLayout(context);
 		((LinearLayout) row).setOrientation(LinearLayout.HORIZONTAL);
 		
-		row.setBackgroundColor((position & 1) == 1 ? Color.WHITE : Color.rgb(0, 200, 0));
+		row.setBackgroundColor((position & 1) == 1 ? Color.WHITE : Color.LTGRAY);
 		
 		ImageView drawable = new ImageView(context);
-		drawable.setImageResource(R.drawable.museumsalango);
+		drawable.setImageBitmap(FRAGUEL.getInstance().getImageBitmap(images.get(position)));
 		drawable.setLayoutParams(new LayoutParams(40,40));
 		drawable.setPadding(10, 5, 5, 5);
 		
