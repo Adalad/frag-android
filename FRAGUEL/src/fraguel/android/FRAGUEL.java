@@ -100,7 +100,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	private HashMap<String, String> ttsHashMap = new HashMap<String, String>();
 	private Handler handler;
 	public Handler imageHandler;
-	public Bitmap bmp;
+	public Bitmap[] bmp=null;
 
 	// View container
 	private ViewGroup view;

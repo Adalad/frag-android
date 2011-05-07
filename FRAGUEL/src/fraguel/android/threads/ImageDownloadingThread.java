@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import fraguel.android.FRAGUEL;
+import fraguel.android.R;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,6 +21,8 @@ public class ImageDownloadingThread extends Thread{
 	private URLConnection conn;
 	private InputStream is;
 	private BufferedInputStream bis;
+	private URL aURL;
+	private Bitmap bm;
 	public ImageDownloadingThread(String path,int imageIndex){
 		url=path;
 		index=imageIndex;
@@ -28,12 +31,12 @@ public class ImageDownloadingThread extends Thread{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		FRAGUEL.getInstance().bmp=getImageBitmap(url,index);
+		FRAGUEL.getInstance().bmp[index]=getImageBitmap(url,index);
 	}
 	private Bitmap getImageBitmap(String url,int imageIndex) {
-        Bitmap bm = null;
+        bm = null;
         try {
-            URL aURL = new URL(url);
+            aURL = new URL(url);
             conn = aURL.openConnection();
             conn.connect();
             is = conn.getInputStream();
@@ -51,13 +54,6 @@ public class ImageDownloadingThread extends Thread{
        return bm;
     } 
 	public void stopThread(){
-		try {
-			bis.close();
-			is.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 	}
 
