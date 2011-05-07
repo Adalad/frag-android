@@ -128,10 +128,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		menu.clear();
 		// Menu de opciones creado por defecto
 		menu.add(0, MENU_MAIN, 0, R.string.menu_menu).setIcon(R.drawable.info);
-		menu.add(0, MENU_CONFIG, 0, R.string.menu_config).setIcon(
-				R.drawable.geotaging);
-		menu.add(0, MENU_ROUTE, 0, R.string.menu_route)
-				.setIcon(R.drawable.info);
+		menu.add(0, MENU_CONFIG, 0, R.string.menu_config).setIcon(R.drawable.geotaging);
+		menu.add(0, MENU_ROUTE, 0, R.string.menu_route).setIcon(R.drawable.info);
 		menu.add(0, MENU_EXIT, 0, R.string.menu_exit).setIcon(R.drawable.info);
 
 		// Menu de opciones del estado
