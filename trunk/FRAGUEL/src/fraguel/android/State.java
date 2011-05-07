@@ -80,5 +80,5 @@ public abstract class State implements Comparable<State> {
 	//public abstract void onTouch(View v, MotionEvent event);
 	public void onActivityResult(int requestCode, int resultCode, Intent data){}
 	public void onUtteranceCompleted(String arg0) {}
-	public boolean loadData(Route r,PointOI p){return false;}
+	public boolean loadData(Route r,PointOI p){route=r;point=p;return false;}
 }
