@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -22,6 +23,7 @@ import com.google.android.maps.OverlayItem;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.states.MapState;
+import fraguel.android.threads.ImageDownloadingThread;
 
 public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListener{
 
@@ -93,14 +95,24 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 	
 	public void showPopup(PointOverlay item){
 
-		//Point point = MapState.getInstance().getMapView().getProjection().toPixels(item.getPoint(), null);
 		PointOverlay overlay= item;
 		
 		View popup= MapState.getInstance().getPopupPI();
 		((TextView) popup.findViewById(R.id.popupPI_texto1)).setText(overlay.getTitle());
-				
-		((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setScaleType(ScaleType.CENTER_INSIDE);
-		((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setImageBitmap(FRAGUEL.getInstance().getImageBitmap(overlay.getPointOI().image));
+		
+		ImageView v = ((ImageView) popup.findViewById(R.id.popupPI_imagen2));
+		v.setScaleType(ScaleType.CENTER_INSIDE);
+		v.setAdjustViewBounds(true);
+		//((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setImageBitmap(FRAGUEL.getInstance().getImageBitmap(overlay.getPointOI().image,0));
+		
+		
+		ImageDownloadingThread t = MapState.getInstance().getImageThread();
+		
+		if (t!=null && t.isAlive())
+			t.stopThread();
+		
+		t= new ImageDownloadingThread("http://xxxhwatanuki.files.wordpress.com/2008/06/get-firefox.jpg",0);
+		t.start();
 		
 		popup.findViewById(R.id.btn_popupPI_info).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		popup.findViewById(R.id.btn_popupPI_photo).setOnClickListener((OnClickListener) FRAGUEL.getInstance());

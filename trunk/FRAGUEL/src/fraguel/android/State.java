@@ -2,6 +2,8 @@ package fraguel.android;
 
 import java.util.Iterator;
 
+import fraguel.android.threads.ImageDownloadingThread;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
@@ -17,6 +19,7 @@ public abstract class State implements Comparable<State> {
 	protected ViewGroup viewGroup;
 	protected PointOI point=null;
 	protected Route route=null;
+	protected ImageDownloadingThread imageThread=null;
 	
 
 	public State() {
@@ -28,6 +31,8 @@ public abstract class State implements Comparable<State> {
 	public void unload() {
 		if (FRAGUEL.getInstance().isTalking())
 			FRAGUEL.getInstance().stopTalking();
+		if (imageThread!=null && imageThread.isAlive())
+			imageThread.stopThread();
 		FRAGUEL.getInstance().removeAllViews();
 	}
 
@@ -42,6 +47,7 @@ public abstract class State implements Comparable<State> {
 	public int getId() {
 		return id;
 	}
+	public ImageDownloadingThread getImageThread(){return imageThread;}
 
 	public ViewGroup getViewGroup() {
 		return viewGroup;
@@ -81,4 +87,5 @@ public abstract class State implements Comparable<State> {
 	public void onActivityResult(int requestCode, int resultCode, Intent data){}
 	public void onUtteranceCompleted(String arg0) {}
 	public boolean loadData(Route r,PointOI p){route=r;point=p;return false;}
+	public void imageLoaded(int index){}
 }

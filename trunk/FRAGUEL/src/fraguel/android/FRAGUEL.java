@@ -99,6 +99,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	private int MY_DATA_CHECK_CODE;
 	private HashMap<String, String> ttsHashMap = new HashMap<String, String>();
 	private Handler handler;
+	public Handler imageHandler;
+	public Bitmap bmp;
 
 	// View container
 	private ViewGroup view;
@@ -249,6 +251,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		// TextToSpeech init & instalation
 		checkTTSLibrary();
 		initHandler();
+		initImageHandler();
 	
 		//FRAGUEL.getInstance().getGPS().startRoute(this.routes.get(0), this.routes.get(0).pointsOI.get(0));
 		//MapState.getInstance().removePopUpPI();
@@ -618,6 +621,15 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 		};
 	}
+	
+	private void initImageHandler(){
+		imageHandler = new Handler(){
+			@Override
+			public void handleMessage(Message msg) {
+				currentState.imageLoaded(msg.arg2);
+			}
+		};
+	}
 
 	@Override
 	public void onUtteranceCompleted(String arg0) {
@@ -739,7 +751,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		}
 		
 	}
-	public Bitmap getImageBitmap(String url) {
+	public Bitmap getImageBitmap(String url,int imageIndex) {
         Bitmap bm = null;
         try {
             URL aURL = new URL(url);
@@ -750,6 +762,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
             bm = BitmapFactory.decodeStream(bis);
             bis.close();
             is.close();
+            
+            Message m = new Message();
+    		m.arg2 = imageIndex;
+    		imageHandler.sendMessage(m);
        } catch (IOException e) {
            Log.e("Image", "Error getting bitmap", e);
        }
