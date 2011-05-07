@@ -41,6 +41,7 @@ public class RouteManagerState extends State {
 	private ListView list;
 	private ArrayList<String> currentDataTitle;
 	private ArrayList<String> currentDataDescrip;
+	private ArrayList<String> currentDataImages;
 	//0->routes,1->points,2->pointData
 	private int internalState;
 	private int selectedRoute,selectedPoint;
@@ -132,13 +133,16 @@ private void addOnItemLongClickListenerToListView(){
 		setAdapter();
 		currentDataTitle=new ArrayList<String>();
 		currentDataDescrip= new ArrayList<String>();
+		currentDataImages= new ArrayList<String>();
 		ArrayList<PointOI> points= FRAGUEL.getInstance().routes.get(route).pointsOI;
 		for (PointOI p : points){
 			currentDataTitle.add(p.title);
 			currentDataDescrip.add(p.icon);
+			currentDataImages.add(p.image);
 		}
 		adapter.setTitle(currentDataTitle);
 		adapter.setDescription(currentDataDescrip);
+		adapter.setImages(currentDataImages);
 		internalState=1;
 		list.setSelection(selectedPoint);
 	}
@@ -151,12 +155,15 @@ private void addOnItemLongClickListenerToListView(){
 		setAdapter();
 		currentDataTitle=new ArrayList<String>();
 		currentDataDescrip= new ArrayList<String>();
+		currentDataImages= new ArrayList<String>();
 		for (Route r : FRAGUEL.getInstance().routes) {
 			currentDataTitle.add(r.name);
 			currentDataDescrip.add(r.description);
+			currentDataImages.add(r.icon);
 		}
 		adapter.setTitle(currentDataTitle);
 		adapter.setDescription(currentDataDescrip);
+		adapter.setImages(currentDataImages);
 		internalState=0;
 		list.setSelection(routeFocus);
 		
@@ -166,7 +173,7 @@ private void addOnItemLongClickListenerToListView(){
 		list= new ListView(FRAGUEL.getInstance().getApplicationContext());
 		list.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		list.setCacheColorHint(0);
-		list.setSelector(R.drawable.selector);
+		//list.setSelector(R.drawable.selector);
 		list.setDrawSelectorOnTop(true);
 		adapter = new RouteManagerAdapter(FRAGUEL.getInstance().getApplicationContext());
 		list.setAdapter(adapter);
