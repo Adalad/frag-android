@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
+import fraguel.android.states.RouteManagerState;
+import fraguel.android.threads.ImageDownloadingThread;
 
 public class RouteManagerAdapter extends BaseAdapter{
 
@@ -65,6 +67,13 @@ public class RouteManagerAdapter extends BaseAdapter{
 		row.setBackgroundColor((position & 1) == 1 ? Color.WHITE : Color.LTGRAY);
 		
 		ImageView drawable = new ImageView(context);
+		
+		ImageDownloadingThread thread = RouteManagerState.getInstance().getImageThread();
+		if (RouteManagerState.getInstance().getInternalState()==0)
+			thread = new ImageDownloadingThread(images.get(position),position,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(position).id)+"image");
+		else if (RouteManagerState.getInstance().getInternalState()==1)
+			thread = new ImageDownloadingThread(images.get(position),position,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).id)+"point"+FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).pointsOI.get(position).id+"image");
+		thread.start();
 		drawable.setLayoutParams(new LayoutParams(40,40));
 		drawable.setPadding(10, 5, 5, 5);
 		drawable.setScaleType(ScaleType.CENTER_INSIDE);
