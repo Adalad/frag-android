@@ -31,6 +31,7 @@ import fraguel.android.utils.TitleTextView;
 public class RouteManagerState extends State {
 	
 	public static final int STATE_ID = 8;
+	private static RouteManagerState instance;
 	// Variables de los botones del menu
 	private static final int ROUTEMANAGERSTATE_ADDROUTE = 1;
 	private static final int ROUTEMANAGERSTATE_DELETEROUTE = 2;
@@ -46,9 +47,18 @@ public class RouteManagerState extends State {
 	private int internalState;
 	private int selectedRoute,selectedPoint;
 	
+	
 	public RouteManagerState() {
 		super();
 		id = STATE_ID;
+		// Singleton
+		instance = this;
+	}
+
+	public static RouteManagerState getInstance() {
+		if (instance == null)
+			instance = new RouteManagerState();
+		return instance;
 	}
 	
 	@Override
@@ -224,5 +234,12 @@ private void addOnItemLongClickListenerToListView(){
 			return true;
 		}
 		return false;
+	}
+	
+	public int getInternalState(){
+		return internalState;
+	}
+	public int getSelectedRoute(){
+		return selectedRoute;
 	}
 }
