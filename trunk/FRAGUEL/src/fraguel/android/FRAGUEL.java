@@ -72,6 +72,7 @@ import fraguel.android.states.MainMenuState;
 import fraguel.android.states.MapState;
 import fraguel.android.states.MenuState;
 import fraguel.android.states.PointInfoState;
+import fraguel.android.states.RouteInfoState;
 import fraguel.android.states.RouteManagerState;
 import fraguel.android.states.VideoGalleryState;
 import fraguel.android.states.VideoState;
@@ -241,6 +242,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		addState(new VideoGalleryState(), false);
 		addState(new ImageGalleryState(), false);
 		//addState(new ImageState(), false);
+		addState(new RouteInfoState(),false);
 		addState(new ARState(), false);
 		addState(new InfoState(), false);
 		addState(new ConfigState(), false);
