@@ -289,7 +289,7 @@ public class MapState extends State implements OnTouchListener{
 			visited.addOverlay(new OverlayItem(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title));
 		}
 
-			idroute=FRAGUEL.getInstance().getGPS().getRouteId();
+		//	idroute=FRAGUEL.getInstance().getGPS().getRouteId();
 			
 		if (visited.size()!=0)	
 			mapOverlays.add(visited);
@@ -297,7 +297,7 @@ public class MapState extends State implements OnTouchListener{
 		//pintamos los no visitados
 		visited= new MapItemizedOverlays(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited),FRAGUEL.getInstance());
 		for (Pair<Integer, Pair<Float, Float>> point : FRAGUEL.getInstance().getGPS().getRoutePointsNotVisited()){
-			info=FRAGUEL.getInstance().getRouteandPointbyId(idroute,point.first);
+			//info=FRAGUEL.getInstance().getRouteandPointbyId(idroute,point.first);
 			visited.addOverlay(new OverlayItem(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title));
 		}
 		if (visited.size()!=0)	

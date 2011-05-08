@@ -62,7 +62,7 @@ public class PointsHandler extends DefaultHandler {
 			.parseFloat(attributes.getValue("y"));
 		} else if (localName.equals("title")) {
 			_in_titletag = true;
-		} else if (localName.equals("icon")) {
+		} else if (localName.equals("pointicon")) {
 			_in_icontag = true;
 		} else if (localName.equals("pointdescription")) {
 			_in_pointdescriptiontag = true;
@@ -81,7 +81,7 @@ public class PointsHandler extends DefaultHandler {
 			_points.add(_currentPoint);
 		} else if (localName.equals("title")) {
 			_in_titletag = false;
-		} else if (localName.equals("icon")) {
+		} else if (localName.equals("pointicon")) {
 			_in_icontag = false;
 		} else if (localName.equals("pointdescription")) {
 			_in_pointdescriptiontag = false;
