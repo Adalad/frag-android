@@ -138,7 +138,7 @@ private void addOnItemLongClickListenerToListView(){
 	private void loadPoints(int route){
 		System.gc();
 		title.setText(R.string.routemanagerstate_title_points_spanish);
-		title.setText(title.getText()+" "+ route);
+		title.setText(title.getText()+" "+ FRAGUEL.getInstance().routes.get(route).name);
 		container.removeView(list);
 		setAdapter();
 		currentDataTitle=new ArrayList<String>();
@@ -147,8 +147,8 @@ private void addOnItemLongClickListenerToListView(){
 		ArrayList<PointOI> points= FRAGUEL.getInstance().routes.get(route).pointsOI;
 		for (PointOI p : points){
 			currentDataTitle.add(p.title);
-			currentDataDescrip.add(p.icon);
-			currentDataImages.add(p.image);
+			currentDataDescrip.add("");
+			currentDataImages.add(p.icon);
 		}
 		adapter.setTitle(currentDataTitle);
 		adapter.setDescription(currentDataDescrip);
@@ -183,7 +183,6 @@ private void addOnItemLongClickListenerToListView(){
 		list= new ListView(FRAGUEL.getInstance().getApplicationContext());
 		list.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		list.setCacheColorHint(0);
-		//list.setSelector(R.drawable.selector);
 		list.setDrawSelectorOnTop(true);
 		adapter = new RouteManagerAdapter(FRAGUEL.getInstance().getApplicationContext());
 		list.setAdapter(adapter);
@@ -244,6 +243,6 @@ private void addOnItemLongClickListenerToListView(){
 	}
 	@Override
 	public void imageLoaded(int index){
-		list.invalidate();		
+		//setAdapter();
 	}
 }

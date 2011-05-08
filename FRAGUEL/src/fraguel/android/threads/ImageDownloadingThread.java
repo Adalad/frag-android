@@ -28,22 +28,26 @@ public class ImageDownloadingThread extends Thread{
 	private BufferedInputStream bis;
 	private URL aURL;
 	private Bitmap bm,tmp;
+	private File f ;
 	public ImageDownloadingThread(String path,int imageIndex,String n){
 		url=path;
 		index=imageIndex;
 		name=n;
 		tmp=null;
+		f=null;
 	}
 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		String absolutePath=ResourceManager.getInstance().getRootPath()+"/tmp/"+name+".png";
-		File f = new File(absolutePath);
+		f = new File(absolutePath);
+		
 		
 		if (!f.exists()){
-			tmp=getImageBitmap(url);
+			
 			try{
+				tmp=getImageBitmap(url);
 				FileOutputStream fileOutputStream = new FileOutputStream(absolutePath);
 
 				BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
@@ -54,7 +58,7 @@ public class ImageDownloadingThread extends Thread{
 
 				bos.close();
 			}catch(Exception e){
-				
+				f.delete();
 			}
 
 		}
@@ -63,7 +67,6 @@ public class ImageDownloadingThread extends Thread{
 		m.arg2 = index;
 		FRAGUEL.getInstance().imageHandler.sendMessage(m);
 		
-		//bm.compress(CompressFormat.JPEG, , stream);
 	}
 	private Bitmap getImageBitmap(String url) {
         bm = null;

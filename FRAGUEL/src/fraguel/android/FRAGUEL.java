@@ -244,7 +244,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		addState(new ARState(), false);
 		addState(new InfoState(), false);
 		addState(new ConfigState(), false);
-		addState(new RouteManagerState(), true);
+		addState(new RouteManagerState(), false);
 		addState(new PointInfoState(), false);
 
 		// TextToSpeech init & instalation
@@ -409,8 +409,21 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
-		super.onDestroy();
+		cleanCache();
 		tts.shutdown();
+		super.onDestroy();
+		
+	}
+	
+	public void cleanCache(){
+		String[] rutas= new File(ResourceManager.getInstance().getRootPath()+"/tmp").list();
+		int i = 0;
+		File f;
+		while ( i<rutas.length){
+			f= new File(ResourceManager.getInstance().getRootPath()+"/tmp/"+rutas[i]);
+			f.delete();
+			i++;
+		}
 	}
 
 	public LocationManager getLocationManager() {

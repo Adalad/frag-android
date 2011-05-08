@@ -1,26 +1,18 @@
 package fraguel.android.states;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridView;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -30,27 +22,15 @@ import fraguel.android.PointOI;
 import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.State;
-import fraguel.android.lists.InfoPointAdapter;
 import fraguel.android.resources.ResourceManager;
 import fraguel.android.threads.ImageDownloadingThread;
 import fraguel.android.utils.TitleTextView;
 
-public class PointInfoState extends State{
-	public static final int STATE_ID = 20;
-	public static final int WIDTH = 50;
-	public static final int HEIGHT = 50;
-	private GridView gridView;
+public class RouteInfoState extends State{
+	public static final int STATE_ID = 57;
 	private TitleTextView title;
 	private ImageView image;
 	private TextView text;
-	
-	
-	public PointInfoState() {
-		super();
-		id = STATE_ID;
-	}
-	
-	
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
@@ -85,95 +65,51 @@ public class PointInfoState extends State{
 		ScrollView sv = new ScrollView (FRAGUEL.getInstance().getApplicationContext());
 		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,heightAvailable-40));
 		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
-		//text.setText("Aqui va el texto referente a la mínima explicación del punto");
 		sv.addView(text);
 		container.addView(sv);
 		
-		gridView=new GridView(FRAGUEL.getInstance().getApplicationContext());
-		gridView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-		gridView.setNumColumns(3);
-		gridView.setColumnWidth(width/3);
-		gridView.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
-		gridView.setAdapter(new InfoPointAdapter(FRAGUEL.getInstance().getApplicationContext()));
-		gridView.setScrollContainer(false);
-		setGridViewListener();
-		container.addView(gridView);
-		
-	
-		
-        viewGroup=container;
-        FRAGUEL.getInstance().addView(viewGroup);
-        
-        if (route!=null && point!=null)
-        	this.loadData(route, point);
-	}
-	
-	
-	
-	
-	public void setGridViewListener(){
-		
-		gridView.setOnItemClickListener(new OnItemClickListener(){
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-					long arg3) {
-				// TODO Auto-generated method stub
-				switch (position){
-				
-
-				case 0:
-
-					FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
-					FRAGUEL.getInstance().getCurrentState().loadData(route, point);
-					break;
-					
-				case 1:
-					FRAGUEL.getInstance().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(point.video)));
-					break;
-					
-				case 2:
-
-					FRAGUEL.getInstance().changeState(ARState.STATE_ID);
-					FRAGUEL.getInstance().getCurrentState().loadData(route,point);
-					break;
-				
-				}
-			}});
-		
+		Button b= new Button(FRAGUEL.getInstance().getApplicationContext());
+		b.setId(0);
+		b.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+		b.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
+		b.setText("Continuar");
+		b.setGravity(Gravity.CENTER);
 	}
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+		switch (v.getId()){
+		
+			case 0: 
+				FRAGUEL.getInstance().getGPS().startRoute(route, point);
+				break;
+			default:
+				break;
+			
+		}
 		
 	}
 	
 	@Override
-	public void unload(){
-		FRAGUEL.getInstance().getGPS().setDialogDisplayed(false);
-		super.unload();
-	}
-	
-	@Override
-	public boolean loadData(Route route, PointOI point){
-		imageThread= new ImageDownloadingThread(point.icon,0,"route"+Integer.toString(route.id)+"point"+point.id+"image");
+	public boolean loadData(Route r, PointOI p){
+		
+		title.setText(r.name);
+		text.setText(r.description);
+		
+		imageThread= new ImageDownloadingThread(r.icon,0,"route"+Integer.toString(route.id)+"image");
 		imageThread.start();
 		image.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
-		String titleText;
-		titleText=point.title+" ("+route.name+")";
-		title.setText(titleText);
-			
-		text.setText(point.pointdescription);
-		this.route=route;
-		this.point=point;
-		return true;
 		
+		route=r;
+		point=p;
+		return true;
 	}
+	
 	@Override
 	public void imageLoaded(int index){
 		if (index==0){
-			String path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(route.id)+"point"+point.id+"image"+".png";
+			String path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(route.id)+"image"+".png";
 			Bitmap bmp = BitmapFactory.decodeFile(path);
 			image.setImageBitmap(bmp);
 			image.invalidate();
@@ -192,9 +128,5 @@ public class PointInfoState extends State{
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	
 
 }
-
-

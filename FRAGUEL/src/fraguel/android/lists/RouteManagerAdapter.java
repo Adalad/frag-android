@@ -92,11 +92,12 @@ public class RouteManagerAdapter extends BaseAdapter{
 				thread = new ImageDownloadingThread(images.get(position),position,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(position).id)+"image");
 			else if (RouteManagerState.getInstance().getInternalState()==1)
 				thread = new ImageDownloadingThread(images.get(position),position,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).id)+"point"+FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).pointsOI.get(position).id+"image");
-			thread.start();
+				thread.start();
+				
 		}
 		
-		drawable.setLayoutParams(new LayoutParams(40,40));
-		drawable.setPadding(10, 5, 5, 5);
+		drawable.setLayoutParams(new LayoutParams(55,50));
+		drawable.setPadding(5, 5, 5, 5);
 		drawable.setAdjustViewBounds(true);
 		
 		
