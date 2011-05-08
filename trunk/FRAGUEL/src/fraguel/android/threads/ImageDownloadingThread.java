@@ -44,7 +44,7 @@ public class ImageDownloadingThread extends Thread{
 		f = new File(absolutePath);
 		
 		
-		if (!f.exists()){
+		if (!f.exists()&& url!=null){
 			
 			try{
 				tmp=getImageBitmap(url);
@@ -57,15 +57,21 @@ public class ImageDownloadingThread extends Thread{
 				bos.flush();
 
 				bos.close();
+
+		        Message m = new Message();
+				m.arg2 = index;
+				FRAGUEL.getInstance().imageHandler.sendMessage(m);
 			}catch(Exception e){
 				f.delete();
 			}
 
+		}else if (f.exists()){
+
+	        Message m = new Message();
+			m.arg2 = index;
+			FRAGUEL.getInstance().imageHandler.sendMessage(m);
 		}
 		
-        Message m = new Message();
-		m.arg2 = index;
-		FRAGUEL.getInstance().imageHandler.sendMessage(m);
 		
 	}
 	private Bitmap getImageBitmap(String url) {
