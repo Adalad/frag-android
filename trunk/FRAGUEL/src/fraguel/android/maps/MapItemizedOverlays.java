@@ -1,11 +1,13 @@
 package fraguel.android.maps;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -96,15 +98,26 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 		((TextView) popup.findViewById(R.id.popupPI_texto1)).setText(overlay.getTitle());
 		
 		ImageView v = ((ImageView) popup.findViewById(R.id.popupPI_imagen2));
-		v.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 		v.setAdjustViewBounds(true);
 		
-		ImageDownloadingThread t = MapState.getInstance().getImageThread();
+
 		
 		MapState.getInstance().loadData(overlay.getRoute(), overlay.getPointOI());
 		
-		t= new ImageDownloadingThread(overlay.getPointOI().image,0,"route"+Integer.toString(overlay.getRoute().id)+"point"+overlay.getPointOI().id+"image");
-		t.start();
+		String path="route"+Integer.toString(overlay.getRoute().id)+"point"+overlay.getPointOI().id+"image";
+		
+		File f= new File(path);
+		if (f.exists()){
+			Bitmap bmp = BitmapFactory.decodeFile(path);
+			v.setImageBitmap(bmp);
+		}else{
+			v.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
+			ImageDownloadingThread t = MapState.getInstance().getImageThread();
+			t= new ImageDownloadingThread(overlay.getPointOI().icon,0,path);
+			t.start();
+		}
+		
+		
 		
 		popup.findViewById(R.id.btn_popupPI_info).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		popup.findViewById(R.id.btn_popupPI_photo).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
