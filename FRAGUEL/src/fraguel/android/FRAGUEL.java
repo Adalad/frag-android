@@ -100,7 +100,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	private HashMap<String, String> ttsHashMap = new HashMap<String, String>();
 	private Handler handler;
 	public Handler imageHandler;
-	public Bitmap[] bmp=null;
 
 	// View container
 	private ViewGroup view;
@@ -751,27 +750,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		}
 		
 	}
-	public Bitmap getImageBitmap(String url,int imageIndex) {
-        Bitmap bm = null;
-        try {
-            URL aURL = new URL(url);
-            URLConnection conn = aURL.openConnection();
-            conn.connect();
-            InputStream is = conn.getInputStream();
-            BufferedInputStream bis = new BufferedInputStream(is);
-            bm = BitmapFactory.decodeStream(bis);
-            bis.close();
-            is.close();
-            
-            Message m = new Message();
-    		m.arg2 = imageIndex;
-    		imageHandler.sendMessage(m);
-       } catch (IOException e) {
-           Log.e("Image", "Error getting bitmap", e);
-       }
-       return bm;
-    } 
-
+	
 	// ***********************************************************************************
 	// *************************************************************************************
 	public class Me implements LocationListener {

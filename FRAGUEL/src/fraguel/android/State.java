@@ -31,8 +31,6 @@ public abstract class State implements Comparable<State> {
 	public void unload() {
 		if (FRAGUEL.getInstance().isTalking())
 			FRAGUEL.getInstance().stopTalking();
-		if (imageThread!=null && imageThread.isAlive())
-			imageThread.stopThread();
 		FRAGUEL.getInstance().removeAllViews();
 	}
 

@@ -30,6 +30,7 @@ import fraguel.android.PointOI;
 import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.lists.InfoPointAdapter;
+import fraguel.android.resources.ResourceManager;
 import fraguel.android.threads.ImageDownloadingThread;
 import fraguel.android.utils.TitleTextView;
 
@@ -155,9 +156,7 @@ public class PointInfoState extends State{
 	
 	@Override
 	public boolean loadData(Route route, PointOI point){
-		if (FRAGUEL.getInstance().bmp==null || FRAGUEL.getInstance().bmp.length!=1)
-			FRAGUEL.getInstance().bmp= new Bitmap[1];
-		imageThread= new ImageDownloadingThread("http://xxxhwatanuki.files.wordpress.com/2008/06/get-firefox.jpg",0);
+		imageThread= new ImageDownloadingThread(point.image,0,"route"+Integer.toString(route.id)+"point"+point.id+"image");
 		imageThread.start();
 		String titleText;
 		titleText=point.title+" ("+route.name+")";
@@ -172,7 +171,9 @@ public class PointInfoState extends State{
 	@Override
 	public void imageLoaded(int index){
 		if (index==0){
-			image.setImageBitmap(FRAGUEL.getInstance().bmp[index]);
+			String path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(route.id)+"point"+point.id+"image"+".png";
+			Bitmap bmp = BitmapFactory.decodeFile(path);
+			image.setImageBitmap(bmp);
 			image.invalidate();
 		}
 		
