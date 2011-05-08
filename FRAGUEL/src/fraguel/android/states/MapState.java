@@ -322,10 +322,7 @@ public class MapState extends State implements OnTouchListener{
 		GeoPoint point;
 		PointOverlay item;
 		for (Route r : FRAGUEL.getInstance().routes) {
-			if (r.icon==null)
-				image=FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited);
-			else
-				image=FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited);
+			image=FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited);
 			
 			capa=new MapItemizedOverlays(image,FRAGUEL.getInstance());
 			//RouteOverlay o= new RouteOverlay(r);
