@@ -1,9 +1,12 @@
 package fraguel.android.lists;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
+import fraguel.android.resources.ResourceManager;
 import fraguel.android.states.RouteManagerState;
 import fraguel.android.threads.ImageDownloadingThread;
 
@@ -67,16 +71,32 @@ public class RouteManagerAdapter extends BaseAdapter{
 		row.setBackgroundColor((position & 1) == 1 ? Color.WHITE : Color.LTGRAY);
 		
 		ImageView drawable = new ImageView(context);
+		drawable.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 		
-		ImageDownloadingThread thread = RouteManagerState.getInstance().getImageThread();
+		String path=null;
+		
+		
 		if (RouteManagerState.getInstance().getInternalState()==0)
-			thread = new ImageDownloadingThread(images.get(position),position,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(position).id)+"image");
+			path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(FRAGUEL.getInstance().routes.get(position).id)+"image"+".png";
 		else if (RouteManagerState.getInstance().getInternalState()==1)
-			thread = new ImageDownloadingThread(images.get(position),position,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).id)+"point"+FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).pointsOI.get(position).id+"image");
-		thread.start();
+			path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).id)+"point"+FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).pointsOI.get(position).id+"image"+".png";
+		
+		File f= new File(path);
+		if (f.exists()){
+			Bitmap bmp = BitmapFactory.decodeFile(path);
+			drawable.setImageBitmap(bmp);
+		}else{
+			ImageDownloadingThread thread = RouteManagerState.getInstance().getImageThread();
+			if (RouteManagerState.getInstance().getInternalState()==0)
+				thread = new ImageDownloadingThread(images.get(position),position,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(position).id)+"image");
+			else if (RouteManagerState.getInstance().getInternalState()==1)
+				thread = new ImageDownloadingThread(images.get(position),position,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).id)+"point"+FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).pointsOI.get(position).id+"image");
+			thread.start();
+		}
+		
 		drawable.setLayoutParams(new LayoutParams(40,40));
 		drawable.setPadding(10, 5, 5, 5);
-		drawable.setScaleType(ScaleType.CENTER_INSIDE);
+		drawable.setAdjustViewBounds(true);
 		
 		
 		LinearLayout text = new LinearLayout(context);

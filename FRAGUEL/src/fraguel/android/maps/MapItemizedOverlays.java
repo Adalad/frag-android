@@ -134,6 +134,7 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 		// TODO Auto-generated method stub
 
 	}
+	
 
 }
 

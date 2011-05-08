@@ -242,4 +242,8 @@ private void addOnItemLongClickListenerToListView(){
 	public int getSelectedRoute(){
 		return selectedRoute;
 	}
+	@Override
+	public void imageLoaded(int index){
+		list.invalidate();		
+	}
 }
