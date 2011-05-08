@@ -73,16 +73,10 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 	@Override
 	protected boolean onTap(int index) {
 
-		//OverlayItem item = mOverlays.get(index);
+
 		PointOverlay i= (PointOverlay) mOverlays.get(index);
 		MapState.getInstance().loadData(i.getRoute(), i.getPointOI());
-		//String title= item.getTitle();
-		//Drawable drawable = FRAGUEL.getInstance().getResources().getDrawable(R.drawable.icon);
-		//item.setMarker(drawable);
-	
-		//Evento general del punto de interés
-		//Toast t= Toast.makeText(mContext, title, Toast.LENGTH_SHORT);
-		//t.show();
+
 
 		//Sacamos el popup del punto de interés
 		showPopup(i);
@@ -102,32 +96,21 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 		((TextView) popup.findViewById(R.id.popupPI_texto1)).setText(overlay.getTitle());
 		
 		ImageView v = ((ImageView) popup.findViewById(R.id.popupPI_imagen2));
-		//v.setScaleType(ScaleType.CENTER_INSIDE);
 		v.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 		v.setAdjustViewBounds(true);
-		//((ImageView) popup.findViewById(R.id.popupPI_imagen2)).setImageBitmap(FRAGUEL.getInstance().getImageBitmap(overlay.getPointOI().image,0));
 		
-		if (FRAGUEL.getInstance().bmp==null || FRAGUEL.getInstance().bmp.length!=1)
-			FRAGUEL.getInstance().bmp= new Bitmap[1];
 		ImageDownloadingThread t = MapState.getInstance().getImageThread();
 		
-		if (t!=null && t.isAlive())
-			t.stop();
+		MapState.getInstance().loadData(overlay.getRoute(), overlay.getPointOI());
 		
-		
-		if (overlay.getRoute().id==8)
-			t= new ImageDownloadingThread("http://xxxhwatanuki.files.wordpress.com/2008/06/get-firefox.jpg",0);
-		else
-			t= new ImageDownloadingThread("http://www.vinagreasesino.com/imagenes/articulos/54/icono-virus.jpg",0);
+		t= new ImageDownloadingThread(overlay.getPointOI().image,0,"route"+Integer.toString(overlay.getRoute().id)+"point"+overlay.getPointOI().id+"image");
 		t.start();
 		
 		popup.findViewById(R.id.btn_popupPI_info).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		popup.findViewById(R.id.btn_popupPI_photo).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		popup.findViewById(R.id.btn_popupPI_ar).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		popup.findViewById(R.id.btn_popupPI_video).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-       
-		//MapState.getInstance().getMapView().addView(popup);
-		//popup.layout(point.x - 25, point.y -60,point.x + 140, point.y +50);
+
 		
 		boolean isPopup= false;
 		for (int i=0 ; i<FRAGUEL.getInstance().getView().getChildCount(); i++){

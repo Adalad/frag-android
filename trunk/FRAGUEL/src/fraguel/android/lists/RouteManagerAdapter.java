@@ -65,7 +65,6 @@ public class RouteManagerAdapter extends BaseAdapter{
 		row.setBackgroundColor((position & 1) == 1 ? Color.WHITE : Color.LTGRAY);
 		
 		ImageView drawable = new ImageView(context);
-		drawable.setImageBitmap(FRAGUEL.getInstance().getImageBitmap(images.get(position),position));
 		drawable.setLayoutParams(new LayoutParams(40,40));
 		drawable.setPadding(10, 5, 5, 5);
 		drawable.setScaleType(ScaleType.CENTER_INSIDE);

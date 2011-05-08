@@ -6,6 +6,8 @@ import java.util.List;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -187,8 +189,6 @@ public class MapState extends State implements OnTouchListener{
 		this.removePopUpOnRoute();
 		this.removePopUpPIOnRoute();
 		
-		if (imageThread!=null && imageThread.isAlive())
-			imageThread.stop();
 
 		switch (v.getId()) {
 		case R.id.btn_popupPI_info:
@@ -220,7 +220,9 @@ public class MapState extends State implements OnTouchListener{
 	@Override
 	public void imageLoaded(int index){
 		if (index==0){
-			((ImageView) popupPI.findViewById(R.id.popupPI_imagen2)).setImageBitmap(FRAGUEL.getInstance().bmp[index]);
+			String path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(route.id)+"point"+point.id+"image"+".png";
+			Bitmap bmp = BitmapFactory.decodeFile(path);
+			((ImageView) popupPI.findViewById(R.id.popupPI_imagen2)).setImageBitmap(bmp);
 			popupPI.invalidate();
 		}
 	}
@@ -230,19 +232,16 @@ public class MapState extends State implements OnTouchListener{
 		// TODO Auto-generated method stub
 		if (view==popupPI && isPopupPI()){
 		  removePopUpPI();
-			if (imageThread!=null && imageThread.isAlive())
-				imageThread.stop();
+
 		}
           
 		if (view==popupPIonroute && isPopUpPIOnRoute()){
 			  removePopUpPIOnRoute();
-				if (imageThread!=null && imageThread.isAlive())
-					imageThread.stop();
+
 			}
 		if (view==popupOnRoute && isPopupOnRoute()){
 			removePopUpOnRoute();
-			if (imageThread!=null && imageThread.isAlive())
-				imageThread.stop();
+
 		}
 
 		return true;
