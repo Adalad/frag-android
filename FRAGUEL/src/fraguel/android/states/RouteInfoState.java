@@ -48,7 +48,7 @@ public class RouteInfoState extends State{
         heightAvailable=heightAvailable/2;
 
 		title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
-		title.setText("Aquí va el título del punto de interés");
+		title.setText("Aquí va el título de la ruta");
 		container.addView(title);
 		
 		
@@ -74,6 +74,11 @@ public class RouteInfoState extends State{
 		b.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		b.setText("Continuar");
 		b.setGravity(Gravity.CENTER);
+		
+		container.addView(b);
+		
+		viewGroup=container;
+        FRAGUEL.getInstance().addView(viewGroup);
 	}
 
 	@Override
