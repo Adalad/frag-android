@@ -274,7 +274,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated methd stub
 		return super.onContextItemSelected(item);
 	}
 

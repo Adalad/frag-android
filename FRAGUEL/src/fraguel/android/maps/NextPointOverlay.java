@@ -22,7 +22,7 @@ public class NextPointOverlay extends Overlay{
 	@Override
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 		
-	if (FRAGUEL.getInstance().getGPS().isRouteMode()){
+	/*if (FRAGUEL.getInstance().getGPS().isRouteMode()){
 			Projection projection=mapView.getProjection();
 			Paint paint= new Paint();
 			Point me=new Point();
@@ -33,7 +33,7 @@ public class NextPointOverlay extends Overlay{
 			projection.toPixels(MapState.getInstance().getLocationFromOverlay(), me);
 			projection.toPixels(new GeoPoint((int)(FRAGUEL.getInstance().getGPS().getRoutePointsNotVisited().get(0).second.first*1000000),(int)(FRAGUEL.getInstance().getGPS().getRoutePointsNotVisited().get(0).second.second*1000000)),target );
 			canvas.drawLine(me.x,me.y, target.x, target.y, paint);
-		}
+		}*/
 		
 		super.draw(canvas, mapView, shadow);
 	}

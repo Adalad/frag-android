@@ -9,7 +9,7 @@
 			<coords x="40.4425602" y="-3.7257881" />
 			<title>Punto 0 ruta 9</title>
 			<pointdescription>El primer puntito de todos</pointdescription>
-			<icon>http://exopolis.files.wordpress.com/2010/08/firefox-icon.png</icon>
+			<pointicon>http://exopolis.files.wordpress.com/2010/08/firefox-icon.png</pointicon>
 			<image>http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg, http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg</image>
 			<video>http://www.youtube.com/watch?v=cxLG2wtE7TM</video>
 			<ar></ar>
@@ -18,7 +18,7 @@
 			<coords x="40.4415602" y="-3.7257881" />
 			<title>Punto 1 ruta 9</title>
 			<pointdescription>El segundo puntito</pointdescription>
-			<icon>http://exopolis.files.wordpress.com/2010/08/firefox-icon.png</icon>
+			<pointicon>http://exopolis.files.wordpress.com/2010/08/firefox-icon.png</pointicon>
 			<image>http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg</image>
 			<video>http://www.youtube.com/watch?v=cxLG2wtE7TM</video>
 			<ar></ar>
@@ -27,7 +27,7 @@
 			<coords x="40.4405602" y="-3.7257881" />
 			<title>Punto 2 ruta 9</title>
 			<pointdescription>El tercer puntito</pointdescription>
-			<icon>http://exopolis.files.wordpress.com/2010/08/firefox-icon.png</icon>
+			<pointicon>http://exopolis.files.wordpress.com/2010/08/firefox-icon.png</pointicon>
 			<image>http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg</image>
 			<video>http://www.youtube.com/watch?v=cxLG2wtE7TM</video>
 			<ar></ar>
