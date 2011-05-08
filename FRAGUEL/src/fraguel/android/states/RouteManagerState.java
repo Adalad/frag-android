@@ -243,6 +243,6 @@ private void addOnItemLongClickListenerToListView(){
 	}
 	@Override
 	public void imageLoaded(int index){
-		//setAdapter();
+		adapter.notifyDataSetChanged();
 	}
 }
