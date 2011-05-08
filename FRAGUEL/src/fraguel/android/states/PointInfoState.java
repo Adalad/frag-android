@@ -27,6 +27,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
+import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.lists.InfoPointAdapter;
@@ -158,6 +159,7 @@ public class PointInfoState extends State{
 	public boolean loadData(Route route, PointOI point){
 		imageThread= new ImageDownloadingThread(point.image,0,"route"+Integer.toString(route.id)+"point"+point.id+"image");
 		imageThread.start();
+		image.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 		String titleText;
 		titleText=point.title+" ("+route.name+")";
 		title.setText(titleText);

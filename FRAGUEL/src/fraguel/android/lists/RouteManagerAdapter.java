@@ -73,7 +73,7 @@ public class RouteManagerAdapter extends BaseAdapter{
 		ImageView drawable = new ImageView(context);
 		drawable.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 		
-		String path=null;
+		String path="";
 		
 		
 		if (RouteManagerState.getInstance().getInternalState()==0)
@@ -86,6 +86,7 @@ public class RouteManagerAdapter extends BaseAdapter{
 			Bitmap bmp = BitmapFactory.decodeFile(path);
 			drawable.setImageBitmap(bmp);
 		}else{
+			drawable.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 			ImageDownloadingThread thread = RouteManagerState.getInstance().getImageThread();
 			if (RouteManagerState.getInstance().getInternalState()==0)
 				thread = new ImageDownloadingThread(images.get(position),position,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(position).id)+"image");
