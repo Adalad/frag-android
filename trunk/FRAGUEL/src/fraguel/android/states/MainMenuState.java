@@ -29,9 +29,7 @@ public class MainMenuState extends State {
 
 	// Variables menu de opciones
 	private static final int MENU_MAIN = 1;
-	private static final int MENU_CONFIG = 2;
-	private static final int MENU_ROUTE = 3;
-	private static final int MENU_EXIT = 4;
+	private static final int MENU_EXIT = 2;
 
 	protected TextView gps;
 	protected TextView orientation;
@@ -114,13 +112,14 @@ public class MainMenuState extends State {
 			FRAGUEL.getInstance().changeState(MapState.STATE_ID);
 			break;
 		case R.id.btn_routemode:
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
+			FRAGUEL.getInstance().changeState(RouteManagerState.STATE_ID);
 			break;
 		case R.id.btn_interactivemode:
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
+			FRAGUEL.getInstance().cleanCache();
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Caché borrada con éxito", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.btn_manager:
-			FRAGUEL.getInstance().changeState(RouteManagerState.STATE_ID);
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
 			break;
 		/*case R.id.btn_config:
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
@@ -138,12 +137,23 @@ public class MainMenuState extends State {
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
+		
+		menu.clear();
+		// Menu de opciones creado por defecto
+		//menu.add(0, MENU_MAIN, 0, R.string.menu_menu).setIcon(R.drawable.info);
+		menu.add(0, MENU_EXIT, 0, R.string.menu_exit).setIcon(R.drawable.info);
+		
 		return menu;
 	}
 
 	@Override
 	public boolean onStateOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case MENU_EXIT:
+			System.exit(0);
+			return true;
+		}
 		return false;
 	}
 	
