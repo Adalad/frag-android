@@ -7,6 +7,8 @@ import fraguel.android.threads.ImageDownloadingThread;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -86,4 +88,6 @@ public abstract class State implements Comparable<State> {
 	public void onUtteranceCompleted(String arg0) {}
 	public boolean loadData(Route r,PointOI p){route=r;point=p;return false;}
 	public void imageLoaded(int index){}
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {}
+	public boolean onContextItemSelected(MenuItem item) {return false;}
 }
