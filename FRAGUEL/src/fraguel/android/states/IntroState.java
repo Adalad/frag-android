@@ -121,6 +121,7 @@ public class IntroState extends State{
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
+		menu.clear();
 		return menu;
 	}
 
