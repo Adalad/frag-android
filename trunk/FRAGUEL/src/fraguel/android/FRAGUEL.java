@@ -115,9 +115,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 	// Menu variable buttons
 	private static final int MENU_MAIN = 1;
-	private static final int MENU_CONFIG = 2;
-	private static final int MENU_ROUTE = 3;
-	private static final int MENU_EXIT = 4;
+	private static final int MENU_EXIT = 2;
 	
 	private ProgressDialog dialog;
 
@@ -130,8 +128,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		menu.clear();
 		// Menu de opciones creado por defecto
 		menu.add(0, MENU_MAIN, 0, R.string.menu_menu).setIcon(R.drawable.info);
-		menu.add(0, MENU_CONFIG, 0, R.string.menu_config).setIcon(R.drawable.geotaging);
-		menu.add(0, MENU_ROUTE, 0, R.string.menu_route).setIcon(R.drawable.info);
 		menu.add(0, MENU_EXIT, 0, R.string.menu_exit).setIcon(R.drawable.info);
 
 		// Menu de opciones del estado
@@ -165,17 +161,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 			// Eventos del menu de opciones creados por defecto
 			switch (item.getItemId()) {
 			case MENU_MAIN:
-				changeState(MenuState.STATE_ID);
-				return true;
-			case MENU_CONFIG:
-				Toast t1 = Toast.makeText(this.getApplicationContext(),
-						"Por definir", Toast.LENGTH_SHORT);
-				t1.show();
-				return true;
-			case MENU_ROUTE:
-				Toast t2 = Toast.makeText(this.getApplicationContext(),
-						"Por definir", Toast.LENGTH_SHORT);
-				t2.show();
+				changeState(MainMenuState.STATE_ID);
 				return true;
 			case MENU_EXIT:
 				System.exit(0);
@@ -187,6 +173,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		return true;
 		// return super.onOptionsItemSelected(item);
 	}
+	
 
 	/** Called when the activity is first created. */
 	@Override
@@ -234,10 +221,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
 		states = new ArrayList<State>();
-		//addState(new IntroState(), true);
-		//addState(new MainMenuState(), false);
+		addState(new IntroState(), true);
+		addState(new MainMenuState(), false);
 		//addState(new MenuState(), false);
-		addState(new MapState(), true);
+		addState(new MapState(), false);
 		addState(new VideoState(), false);
 		addState(new VideoGalleryState(), false);
 		addState(new ImageGalleryState(), false);
@@ -259,6 +246,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		//((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText(20+ " metros para llegar a Milán");
 		//MapState.getInstance().setPopupOnRoute();
 		//FRAGUEL.getInstance().getCurrentState().loadData(routes.get(0), routes.get(0).pointsOI.get(0));
+		
+		
 	}
 
 	public static FRAGUEL getInstance() {
@@ -275,18 +264,24 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated methd stub
-		return super.onContextItemSelected(item);
+		super.onContextItemSelected(item);
+		
+		return currentState.onContextItemSelected(item);
 	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
+		menu.clear();
 		super.onCreateContextMenu(menu, v, menuInfo);
-		 menu.setHeaderTitle("Context Menu");  
-	     menu.add(0, v.getId(), 0, "Action 1");  
-	     menu.add(0, v.getId(), 0, "Action 2"); 
+		currentState.onCreateContextMenu(menu, v, menuInfo);
+		menu.setHeaderTitle("Context Menu");  
+	    menu.add(0, v.getId(), 0, "Action 1");  
+	    menu.add(0, v.getId(), 0, "Action 2"); 
+		
 	}
+	
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
@@ -348,7 +343,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 			currentState.load();
 		} catch (Exception e) {
 			currentState = null;
-			changeState(1);
+			changeState(MainMenuState.STATE_ID);
 		}
 	}
 
@@ -411,7 +406,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
-		cleanCache();
 		tts.shutdown();
 		super.onDestroy();
 		
