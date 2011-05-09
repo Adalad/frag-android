@@ -193,7 +193,6 @@ private void addOnItemLongClickListenerToListView(){
 		addOnItemLongClickListenerToListView();
 		container.addView(list);
 		
-		
 	}
 	
 	
