@@ -9,19 +9,25 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.util.Pair;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.RelativeLayout.LayoutParams;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
@@ -37,6 +43,7 @@ import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.VideoPlayer;
+import fraguel.android.lists.RouteManagerAdapter;
 import fraguel.android.maps.MapItemizedOverlays;
 import fraguel.android.maps.NextPointOverlay;
 import fraguel.android.maps.PointOverlay;
@@ -56,6 +63,7 @@ public class MapState extends State implements OnTouchListener{
 	private static final int MAPSTATE_MENU_EXPLORE_MAP = 3;
 	private static final int MAPSTATE_MENU_COMPASS=4;
 	private static final int MAPSTATE_MENU_BACKMENU = 5;
+	private static final int MAPSTATE_MENU_STARTROUTE=6;
 
 
 	public static final int STATE_ID = 2;
@@ -138,6 +146,8 @@ public class MapState extends State implements OnTouchListener{
 		//Cargamos todo
 		loadAllPoints();
 		
+		FRAGUEL.getInstance().registerForContextMenu(mapView);
+		
 	}
 
 	public boolean isPopupPI() {
@@ -189,7 +199,7 @@ public class MapState extends State implements OnTouchListener{
 		this.removePopUpOnRoute();
 		this.removePopUpPIOnRoute();
 		
-
+		
 		switch (v.getId()) {
 		case R.id.btn_popupPI_info:
 			FRAGUEL.getInstance().changeState(InfoState.STATE_ID);
@@ -379,6 +389,7 @@ public class MapState extends State implements OnTouchListener{
 		menu.add(0, MAPSTATE_MENU_MY_POSITION, 0,R.string.mapstate_menu_my_position).setIcon(R.drawable.ic_menu_mylocation);
 		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,R.string.mapstate_menu_explore_map).setIcon(R.drawable.ic_menu_search);
 		menu.add(0, MAPSTATE_MENU_COMPASS, 0,R.string.mapstate_menu_compass).setIcon(R.drawable.ic_menu_compass);
+		menu.add(0, MAPSTATE_MENU_STARTROUTE, 0, "Empezar ruta").setIcon(R.drawable.ic_menu_home);
 		menu.add(0, MAPSTATE_MENU_BACKMENU, 0, R.string.mapstate_menu_backmenu).setIcon(R.drawable.ic_menu_home);
 
 		return menu;
@@ -419,11 +430,33 @@ public class MapState extends State implements OnTouchListener{
 		case MAPSTATE_MENU_BACKMENU:
 			FRAGUEL.getInstance().changeState(MenuState.STATE_ID);
 			return true;
+		case MAPSTATE_MENU_STARTROUTE:
+			
+			return true;
 		}
 
 		return false;
 	}
 
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated methd stub
+		switch (item.getItemId()) {
+			
+		
+		}
+		
+		return true;
+	}
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		if (v.getId()==R.id.mapview){
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "FUNCIONA!!!", Toast.LENGTH_LONG).show();
+		}
+		
+	}
 
 }
