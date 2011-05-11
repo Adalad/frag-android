@@ -167,6 +167,7 @@ public class PointInfoState extends State{
 		text.setText(point.pointdescription);
 		this.route=route;
 		this.point=point;
+		FRAGUEL.getInstance().talk(point.title+"                             "+point.pointdescription);
 		return true;
 		
 	}
