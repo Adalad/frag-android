@@ -1,16 +1,11 @@
 package fraguel.android.states;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
@@ -25,10 +20,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.RelativeLayout.LayoutParams;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -37,13 +29,10 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 import fraguel.android.FRAGUEL;
-import fraguel.android.IntroVideoActivity;
 import fraguel.android.PointOI;
 import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.State;
-import fraguel.android.VideoPlayer;
-import fraguel.android.lists.RouteManagerAdapter;
 import fraguel.android.maps.MapItemizedOverlays;
 import fraguel.android.maps.NextPointOverlay;
 import fraguel.android.maps.PointOverlay;
@@ -77,6 +66,7 @@ public class MapState extends State implements OnTouchListener{
 	private boolean isPopupPI;
 	private boolean isPopupOnRoute;
 	private boolean isPopupPIOnRoute;
+	private boolean isContextMenuDisplayed;
 
 
 	public MapState() {
@@ -84,6 +74,7 @@ public class MapState extends State implements OnTouchListener{
 		id = STATE_ID;
 		// Singleton
 		mapInstance = this;
+		
 	}
 
 	public static MapState getInstance() {
@@ -147,6 +138,7 @@ public class MapState extends State implements OnTouchListener{
 		loadAllPoints();
 		
 		FRAGUEL.getInstance().registerForContextMenu(mapView);
+		isContextMenuDisplayed=false;
 		
 	}
 
@@ -299,7 +291,7 @@ public class MapState extends State implements OnTouchListener{
 			visited.addOverlay(new OverlayItem(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title));
 		}
 
-		//	idroute=FRAGUEL.getInstance().getGPS().getRouteId();
+			idroute=FRAGUEL.getInstance().getGPS().getRouteId();
 			
 		if (visited.size()!=0)	
 			mapOverlays.add(visited);
@@ -307,7 +299,7 @@ public class MapState extends State implements OnTouchListener{
 		//pintamos los no visitados
 		visited= new MapItemizedOverlays(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited),FRAGUEL.getInstance());
 		for (Pair<Integer, Pair<Float, Float>> point : FRAGUEL.getInstance().getGPS().getRoutePointsNotVisited()){
-			//info=FRAGUEL.getInstance().getRouteandPointbyId(idroute,point.first);
+			info=FRAGUEL.getInstance().getRouteandPointbyId(idroute,point.first);
 			visited.addOverlay(new OverlayItem(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title));
 		}
 		if (visited.size()!=0)	
@@ -317,6 +309,9 @@ public class MapState extends State implements OnTouchListener{
 		
 	}
 	public void startRoute(){
+		removePopUpPI();
+		this.removePopUpOnRoute();
+		this.removePopUpPIOnRoute();
 		this.refreshMapRouteMode();
 	}
 	
@@ -389,7 +384,6 @@ public class MapState extends State implements OnTouchListener{
 		menu.add(0, MAPSTATE_MENU_MY_POSITION, 0,R.string.mapstate_menu_my_position).setIcon(R.drawable.ic_menu_mylocation);
 		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,R.string.mapstate_menu_explore_map).setIcon(R.drawable.ic_menu_search);
 		menu.add(0, MAPSTATE_MENU_COMPASS, 0,R.string.mapstate_menu_compass).setIcon(R.drawable.ic_menu_compass);
-		menu.add(0, MAPSTATE_MENU_STARTROUTE, 0, "Empezar ruta").setIcon(R.drawable.ic_menu_home);
 		menu.add(0, MAPSTATE_MENU_BACKMENU, 0, R.string.mapstate_menu_backmenu).setIcon(R.drawable.ic_menu_home);
 
 		return menu;
@@ -428,10 +422,7 @@ public class MapState extends State implements OnTouchListener{
 			return true;
 
 		case MAPSTATE_MENU_BACKMENU:
-			FRAGUEL.getInstance().changeState(MenuState.STATE_ID);
-			return true;
-		case MAPSTATE_MENU_STARTROUTE:
-			
+			FRAGUEL.getInstance().changeState(MainMenuState.STATE_ID);
 			return true;
 		}
 
@@ -442,8 +433,31 @@ public class MapState extends State implements OnTouchListener{
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated methd stub
 		switch (item.getItemId()) {
-			
-		
+		case 0:
+			isContextMenuDisplayed=false;
+			FRAGUEL.getInstance().closeContextMenu();
+			FRAGUEL.getInstance().getGPS().startRoute(route, route.pointsOI.get(0));
+			break;
+		case 1:
+			isContextMenuDisplayed=false;
+			FRAGUEL.getInstance().closeContextMenu();
+			FRAGUEL.getInstance().getGPS().startRoute(route, point);
+
+			break;
+		case 2:
+			isContextMenuDisplayed=false;
+			FRAGUEL.getInstance().closeContextMenu();
+
+			break;	
+		case 3:
+			isContextMenuDisplayed=false;
+			FRAGUEL.getInstance().closeContextMenu();
+			FRAGUEL.getInstance().getGPS().stopRoute();
+			break;	
+		case 4:
+			isContextMenuDisplayed=false;
+			FRAGUEL.getInstance().closeContextMenu();
+			break;	
 		}
 		
 		return true;
@@ -453,10 +467,27 @@ public class MapState extends State implements OnTouchListener{
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
-		if (v.getId()==R.id.mapview){
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "FUNCIONA!!!", Toast.LENGTH_LONG).show();
-		}
 		
+		if (!FRAGUEL.getInstance().getGPS().isRouteMode()){
+			menu.setHeaderTitle("Comenzar Ruta: "+ route.name);  
+			menu.add(0, 0, 0, "Desde el principio");
+			menu.add(0, 1, 0, "Desde: "+point.title);
+			menu.add(0, 2, 0, "Elegir otra ruta"); 
+			menu.add(0, 4, 0, "Cerrar diálogo");
+	    } 
+		else{
+			menu.setHeaderTitle("¿Desea abandonar la ruta?");
+			menu.add(0, 3, 0, "Abandonar ruta");
+		}
 	}
+
+	public void setContextMenuDisplayed(boolean isContextMenuDisplayed) {
+		this.isContextMenuDisplayed = isContextMenuDisplayed;
+	}
+
+	public boolean isContextMenuDisplayed() {
+		return isContextMenuDisplayed;
+	}
+	
 
 }
