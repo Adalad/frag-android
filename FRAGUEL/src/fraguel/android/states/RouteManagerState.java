@@ -1,15 +1,18 @@
 package fraguel.android.states;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
+import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,6 +28,7 @@ import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.lists.RouteManagerAdapter;
+import fraguel.android.resources.ResourceManager;
 import fraguel.android.utils.TitleTextView;
 
 
@@ -76,7 +80,7 @@ public class RouteManagerState extends State {
 		selectedPoint=0;
 		
 		FRAGUEL.getInstance().addView(viewGroup);
-		
+		FRAGUEL.getInstance().registerForContextMenu(container);
 	}
 
 	@Override
@@ -228,10 +232,37 @@ private void addOnItemLongClickListenerToListView(){
 			return true;
 
 		case ROUTEMANAGERSTATE_DELETEROUTE:
-			loadRoutes(selectedRoute);
+			FRAGUEL.getInstance().openContextMenu(list);
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated methd stub
+			
+			FRAGUEL.getInstance().closeContextMenu();
+			deleteSelectedRoute(FRAGUEL.getInstance().routes.get(item.getItemId()).id);
+			
+		
+		return true;
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		
+			menu.setHeaderTitle("Seleccione la ruta a eliminar");
+			int i=0;
+			for (Route r: FRAGUEL.getInstance().routes){
+				menu.add(0, i, 0, r.name);
+				i++;
+			}
+
+	    
+
 	}
 	
 	public int getInternalState(){
@@ -244,4 +275,41 @@ private void addOnItemLongClickListenerToListView(){
 	public void imageLoaded(int index){
 		adapter.notifyDataSetChanged();
 	}
+	private void deleteSelectedRoute(int id){
+		
+		FRAGUEL.getInstance().routes.remove(selectedRoute);
+		String[] rutas= new File(ResourceManager.getInstance().getRootPath()+"/routes").list();
+		int i = 0;
+		boolean cont=true;
+		File f=null;
+		
+		//Borramos el xml
+		while (cont && i<rutas.length){
+			
+			Route ruta=ResourceManager.getInstance().getXmlManager().readRoute(rutas[i].split(".xml")[0]);
+			if (ruta.id==id){
+				cont=false;
+				f= new File(ResourceManager.getInstance().getRootPath()+"/routes/"+rutas[i]);
+			}else
+				i++;
+		}
+		f.delete();		
+		
+		//Borramos sus archivos temporales
+		String[] files= new File(ResourceManager.getInstance().getRootPath()+"/tmp").list();
+		int j=0;
+		File file=null;
+		
+		while (j<files.length){
+			
+			if (files[0].startsWith("route"+id)){
+				file=new File(ResourceManager.getInstance().getRootPath()+"/tmp/"+files[j]);
+				file.delete();
+			}
+			j++;
+		}
+		
+		loadRoutes(0);
+	}
+	
 }
