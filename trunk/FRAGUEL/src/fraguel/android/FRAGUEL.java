@@ -761,9 +761,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		ResourceManager.getInstance().initialize("fraguel");
 		String[] rutas= new File(ResourceManager.getInstance().getRootPath()+"/routes").list();
 			while ( i<rutas.length){
-			Route ruta=ResourceManager.getInstance().getXmlManager().readRoute(rutas[i].split(".xml")[0]);
-			ruta.pointsOI = ResourceManager.getInstance().getXmlManager().readPointsOI(rutas[i].split(".xml")[0]);
-			routes.add(ruta);
+				if (rutas[i].endsWith(".xml")){
+					Route ruta=ResourceManager.getInstance().getXmlManager().readRoute(rutas[i].split(".xml")[0]);
+					ruta.pointsOI = ResourceManager.getInstance().getXmlManager().readPointsOI(rutas[i].split(".xml")[0]);
+					routes.add(ruta);
+				}
 			i++;
 		}
 	}
