@@ -11,8 +11,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
@@ -20,36 +24,51 @@ import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 import fraguel.android.FRAGUEL;
+import fraguel.android.PointOI;
 import fraguel.android.R;
+import fraguel.android.Route;
 import fraguel.android.states.MapState;
 import fraguel.android.threads.ImageDownloadingThread;
 
-public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListener{
+public class MapItemizedOverlays extends ItemizedOverlay  implements OnGestureListener{
 
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	private Context mContext;
 	private Activity act;
+	private GestureDetector gestureDetector;
+	private float[] results = new float[3];
 
 	public MapItemizedOverlays(Drawable arg0) {
 		super(boundCenterBottom(arg0));
+		gestureDetector= new GestureDetector((OnGestureListener)this);
 		// TODO Auto-generated constructor stub
 	}
 
 	public MapItemizedOverlays(Drawable defaultMarker, Context context) {
 		super(boundCenterBottom(defaultMarker));
 		mContext = context;
+		gestureDetector= new GestureDetector((OnGestureListener)this);
 
 	}
 
 	public MapItemizedOverlays(Drawable defaultMarker, Activity actividad) {
 		super(boundCenterBottom(defaultMarker));
 		act = actividad;
-		mContext= actividad.getApplicationContext();	
+		mContext= actividad.getApplicationContext();
+		gestureDetector= new GestureDetector((OnGestureListener)this);
 
+
+	}
+	
+	public ArrayList<OverlayItem> getOverlayItems(){
+		return this.mOverlays;
 	}
 
 	@Override
@@ -140,13 +159,84 @@ public class MapItemizedOverlays extends ItemizedOverlay implements OnClickListe
 
 	}
 
-	
+	@Override
+	public boolean onDown(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	@Override
-	public void onClick(View v) {
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		if (!MapState.getInstance().isContextMenuDisplayed()&&!FRAGUEL.getInstance().getGPS().isRouteMode()){
+			GeoPoint point=MapState.getInstance().getMapView().getProjection().fromPixels((int)e.getX(),(int) e.getY());
+			float latitude=(float)point.getLatitudeE6()/1000000;
+			float longitude=(float)point.getLongitudeE6()/1000000;
+			float distance=Float.MAX_VALUE;
+			Route rTmp = null;
+			PointOI pTmp = null;
+			float[] results= new float[3];
+			
+			for (Route r : FRAGUEL.getInstance().routes){
+				for (PointOI p: r.pointsOI){
+					Location.distanceBetween(latitude,longitude, p.coords[0], p.coords[1], results);
+					
+					if (results[0]<distance){
+						rTmp=r;
+						pTmp=p;
+						distance=results[0];
+					}
+					
+				}
+			}
+			
+			MapState.getInstance().loadData(rTmp, pTmp);
+			MapState.getInstance().setContextMenuDisplayed(true);
+			FRAGUEL.getInstance().openContextMenu(MapState.getInstance().getMapView());
+		}else if (!MapState.getInstance().isContextMenuDisplayed()){
+			MapState.getInstance().setContextMenuDisplayed(true);
+			FRAGUEL.getInstance().openContextMenu(MapState.getInstance().getMapView());
+		}
+		
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
 
+		return false;
 	}
+	
+	 @Override 
+     public boolean onTouchEvent(MotionEvent event, MapView mapView) { 
+               if(this.gestureDetector.onTouchEvent(event)) 
+            	   return true; 
+               else 
+            	   return super.onTouchEvent(event, mapView); 
+} 
+
+	
+
+
 	
 
 }

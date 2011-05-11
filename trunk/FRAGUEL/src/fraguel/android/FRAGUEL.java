@@ -50,6 +50,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -221,10 +222,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
 		states = new ArrayList<State>();
-		addState(new IntroState(), true);
+		addState(new IntroState(), false);
 		addState(new MainMenuState(), false);
 		//addState(new MenuState(), false);
-		addState(new MapState(), false);
+		addState(new MapState(), true);
 		addState(new VideoState(), false);
 		addState(new VideoGalleryState(), false);
 		addState(new ImageGalleryState(), false);
@@ -241,11 +242,12 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		initHandler();
 		initImageHandler();
 	
-		//FRAGUEL.getInstance().getGPS().startRoute(this.routes.get(0), this.routes.get(0).pointsOI.get(0));
+//		FRAGUEL.getInstance().getGPS().startRoute(this.routes.get(0), this.routes.get(0).pointsOI.get(0));
 		//MapState.getInstance().removePopUpPI();
 		//((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText(20+ " metros para llegar a Milán");
 		//MapState.getInstance().setPopupOnRoute();
 		//FRAGUEL.getInstance().getCurrentState().loadData(routes.get(0), routes.get(0).pointsOI.get(0));
+		//FRAGUEL.getInstance().registerForContextMenu(((Button) FRAGUEL.getInstance().findViewById(R.id.btn_manager)));
 		
 		
 	}
@@ -264,24 +266,31 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated methd stub
-		super.onContextItemSelected(item);
+		if (currentState.onContextItemSelected(item))
+			return true;
+		else
+			return super.onContextItemSelected(item);
 		
-		return currentState.onContextItemSelected(item);
 	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
-		menu.clear();
 		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.clear();
+		
 		currentState.onCreateContextMenu(menu, v, menuInfo);
-		menu.setHeaderTitle("Context Menu");  
-	    menu.add(0, v.getId(), 0, "Action 1");  
-	    menu.add(0, v.getId(), 0, "Action 2"); 
+		 
 		
 	}
 	
+	@Override
+	public void onContextMenuClosed(Menu menu) {
+		// TODO Auto-generated method stub
+		MapState.getInstance().setContextMenuDisplayed(false);
+		super.onContextMenuClosed(menu);
+	}
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
@@ -773,6 +782,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		private float[] position = { 0, 0, 0 };
 		
 		private int routeid;
+		private Route r=null;
 		
 		
 
@@ -856,6 +866,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		public void startRoute(Route r, PointOI p){
 			routeMode=true;
 			routeid=r.id;
+			this.r=r;
 			routeListener.startRoute(r, p);
 			
 		}
@@ -877,6 +888,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		
 		public void stopRoute(){
 			routeMode=false;
+			this.r=null;
 			MapState.getInstance().reStartMap();
 		}
 		
@@ -888,6 +900,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 				return routeid;
 			else
 				return -1;
+		}
+		public Route getCurrentRoute(){
+			return r;
 		}
 
 	}

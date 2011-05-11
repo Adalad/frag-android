@@ -2,6 +2,7 @@ package fraguel.android;
 
 import java.util.Iterator;
 
+import fraguel.android.states.MapState;
 import fraguel.android.threads.ImageDownloadingThread;
 
 import android.content.Intent;
@@ -70,11 +71,16 @@ public abstract class State implements Comparable<State> {
 	 */
 	public void onLocationChanged(float[] values){}
 	public boolean dispatchKeyEvent(KeyEvent event){
-		
+		MapState.getInstance().setContextMenuDisplayed(false);
+		FRAGUEL.getInstance().closeContextMenu();
 		if (event.getKeyCode()==KeyEvent.KEYCODE_BACK & event.getAction()==KeyEvent.ACTION_DOWN){ 
+			MapState.getInstance().setContextMenuDisplayed(false);
+			FRAGUEL.getInstance().closeContextMenu();
 			FRAGUEL.getInstance().returnState();
 			if (FRAGUEL.getInstance().isTalking())
 				FRAGUEL.getInstance().stopTalking();
+			
+
 			return true;
 		}else
 			return false;
