@@ -766,7 +766,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 			routes.add(ruta);
 			i++;
 		}
-		
 	}
 	
 	// ***********************************************************************************
