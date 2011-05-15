@@ -44,7 +44,7 @@ public class MapState extends State implements OnTouchListener{
 	// Singleton
 	private static MapState mapInstance;
 	private boolean isMyPosition;
-	private MyPositionOverlay me;
+	private MyPositionOverlay me=null;
 
 	// Variables de los botones del men
 	private static final int MAPSTATE_MENU_CHANGEMAP = 1;
@@ -66,7 +66,7 @@ public class MapState extends State implements OnTouchListener{
 	private boolean isPopupPI;
 	private boolean isPopupOnRoute;
 	private boolean isPopupPIOnRoute;
-	private boolean isContextMenuDisplayed,chooseAnotherRoute,choosePoint;
+	private boolean isContextMenuDisplayed,chooseAnotherRoute,choosePoint,routeStarted;
 	private Route routeContext;
 
 
@@ -130,18 +130,21 @@ public class MapState extends State implements OnTouchListener{
 		//Creamos los Overlays
 		mapOverlays = mapView.getOverlays();
 		
-
-		me = new MyPositionOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
+		if (me==null)
+			me = new MyPositionOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
+		
 
 		isMyPosition=true;
 		
 		//Cargamos todo
-		loadAllPoints();
+		if (!routeStarted)
+			this.reStartMap();
 		
 		FRAGUEL.getInstance().registerForContextMenu(mapView);
 		isContextMenuDisplayed=false;
 		chooseAnotherRoute=false;
 		choosePoint=false;
+		routeStarted=false;
 		routeContext=null;
 		
 	}
@@ -186,6 +189,10 @@ public class MapState extends State implements OnTouchListener{
 		FRAGUEL.getInstance().getView().removeView(popupPIonroute);
 		this.isPopupPIOnRoute = false;
 		 
+	}
+	
+	public void setRouteStarted(boolean b){
+		routeStarted=b;
 	}
 
 	@Override
@@ -442,11 +449,19 @@ public class MapState extends State implements OnTouchListener{
 				isContextMenuDisplayed=false;
 				FRAGUEL.getInstance().closeContextMenu();
 				FRAGUEL.getInstance().getGPS().startRoute(route, route.pointsOI.get(0));
+				routeStarted=true;
+				FRAGUEL.getInstance().changeState(RouteInfoState.STATE_ID);
+				FRAGUEL.getInstance().getCurrentState().loadData(route, route.pointsOI.get(0) );
+				
 				break;
 			case 1:
 				isContextMenuDisplayed=false;
 				FRAGUEL.getInstance().closeContextMenu();
 				FRAGUEL.getInstance().getGPS().startRoute(route, point);
+				routeStarted=true;
+				FRAGUEL.getInstance().changeState(RouteInfoState.STATE_ID);
+				FRAGUEL.getInstance().getCurrentState().loadData(route, point );
+				
 	
 				break;
 			case 2:
@@ -479,10 +494,18 @@ public class MapState extends State implements OnTouchListener{
 		}else if (item.getGroupId()==2){
 			if (item.getItemId()==-1){
 				FRAGUEL.getInstance().getGPS().startRoute(routeContext, routeContext.pointsOI.get(0));
+				routeStarted=true;
+				FRAGUEL.getInstance().changeState(RouteInfoState.STATE_ID);
+				FRAGUEL.getInstance().getCurrentState().loadData(routeContext, routeContext.pointsOI.get(0));
+				
 			}else if (item.getItemId()>=routeContext.pointsOI.size()){
 				FRAGUEL.getInstance().closeContextMenu();
 			}else{
 				FRAGUEL.getInstance().getGPS().startRoute(routeContext, routeContext.pointsOI.get(item.getItemId()));
+				routeStarted=true;
+				FRAGUEL.getInstance().changeState(RouteInfoState.STATE_ID);
+				FRAGUEL.getInstance().getCurrentState().loadData(routeContext, routeContext.pointsOI.get(item.getItemId()));
+				
 			}
 			choosePoint=false;
 			routeContext=null;
