@@ -139,6 +139,8 @@ public class MapState extends State implements OnTouchListener{
 		//Cargamos todo
 		if (!routeStarted)
 			this.reStartMap();
+		else
+			mapControl.setCenter(me.getMyLocation());
 		
 		FRAGUEL.getInstance().registerForContextMenu(mapView);
 		isContextMenuDisplayed=false;
