@@ -31,6 +31,12 @@ public class RouteInfoState extends State{
 	private TitleTextView title;
 	private ImageView image;
 	private TextView text;
+	
+	public RouteInfoState() {
+		super();
+		id = STATE_ID;
+	}
+	
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
@@ -79,6 +85,8 @@ public class RouteInfoState extends State{
 		
 		viewGroup=container;
         FRAGUEL.getInstance().addView(viewGroup);
+        if (route!= null && point!=null)
+        	this.loadData(route,point);
 	}
 
 	@Override
@@ -87,7 +95,7 @@ public class RouteInfoState extends State{
 		switch (v.getId()){
 		
 			case 0: 
-				FRAGUEL.getInstance().getGPS().startRoute(route, point);
+				FRAGUEL.getInstance().changeState(MapState.STATE_ID);
 				break;
 			default:
 				break;
@@ -97,17 +105,22 @@ public class RouteInfoState extends State{
 	}
 	
 	@Override
+	public void unload() {
+		super.unload();	
+	}
+	
+	@Override
 	public boolean loadData(Route r, PointOI p){
-		
+		route=r;
+		point=p;
 		title.setText(r.name);
 		text.setText(r.description);
 		
 		imageThread= new ImageDownloadingThread(r.icon,0,"route"+Integer.toString(route.id)+"image");
 		imageThread.start();
 		image.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
-		FRAGUEL.getInstance().talk(r.name+"                             "+r.description);
-		route=r;
-		point=p;
+		FRAGUEL.getInstance().talk(r.name+" \n \n \n \n \n \n "+r.description);
+
 		return true;
 	}
 	
