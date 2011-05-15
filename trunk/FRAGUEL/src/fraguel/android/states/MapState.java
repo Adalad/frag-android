@@ -66,7 +66,8 @@ public class MapState extends State implements OnTouchListener{
 	private boolean isPopupPI;
 	private boolean isPopupOnRoute;
 	private boolean isPopupPIOnRoute;
-	private boolean isContextMenuDisplayed;
+	private boolean isContextMenuDisplayed,chooseAnotherRoute,choosePoint;
+	private Route routeContext;
 
 
 	public MapState() {
@@ -139,6 +140,9 @@ public class MapState extends State implements OnTouchListener{
 		
 		FRAGUEL.getInstance().registerForContextMenu(mapView);
 		isContextMenuDisplayed=false;
+		chooseAnotherRoute=false;
+		choosePoint=false;
+		routeContext=null;
 		
 	}
 
@@ -432,32 +436,56 @@ public class MapState extends State implements OnTouchListener{
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated methd stub
-		switch (item.getItemId()) {
-		case 0:
-			isContextMenuDisplayed=false;
-			FRAGUEL.getInstance().closeContextMenu();
-			FRAGUEL.getInstance().getGPS().startRoute(route, route.pointsOI.get(0));
-			break;
-		case 1:
-			isContextMenuDisplayed=false;
-			FRAGUEL.getInstance().closeContextMenu();
-			FRAGUEL.getInstance().getGPS().startRoute(route, point);
-
-			break;
-		case 2:
-			isContextMenuDisplayed=false;
-			FRAGUEL.getInstance().closeContextMenu();
-
-			break;	
-		case 3:
-			isContextMenuDisplayed=false;
-			FRAGUEL.getInstance().closeContextMenu();
-			FRAGUEL.getInstance().getGPS().stopRoute();
-			break;	
-		case 4:
-			isContextMenuDisplayed=false;
-			FRAGUEL.getInstance().closeContextMenu();
-			break;	
+		if (item.getGroupId()==0){
+			switch (item.getItemId()) {
+			case 0:
+				isContextMenuDisplayed=false;
+				FRAGUEL.getInstance().closeContextMenu();
+				FRAGUEL.getInstance().getGPS().startRoute(route, route.pointsOI.get(0));
+				break;
+			case 1:
+				isContextMenuDisplayed=false;
+				FRAGUEL.getInstance().closeContextMenu();
+				FRAGUEL.getInstance().getGPS().startRoute(route, point);
+	
+				break;
+			case 2:
+				isContextMenuDisplayed=false;
+				FRAGUEL.getInstance().closeContextMenu();
+				this.chooseAnotherRoute=true;
+				FRAGUEL.getInstance().openContextMenu(mapView);
+				break;	
+			case 3:
+				isContextMenuDisplayed=false;
+				FRAGUEL.getInstance().closeContextMenu();
+				FRAGUEL.getInstance().getGPS().stopRoute();
+				break;	
+			case 4:
+				isContextMenuDisplayed=false;
+				FRAGUEL.getInstance().closeContextMenu();
+				break;	
+			}
+		}else if (item.getGroupId()==1){
+			if (item.getItemId()>=FRAGUEL.getInstance().routes.size()){
+				FRAGUEL.getInstance().closeContextMenu();
+				chooseAnotherRoute=false;
+			}else{
+				FRAGUEL.getInstance().closeContextMenu();
+				choosePoint=true;
+				routeContext=FRAGUEL.getInstance().routes.get(item.getItemId());
+				chooseAnotherRoute=false;
+				FRAGUEL.getInstance().openContextMenu(mapView);
+			}
+		}else if (item.getGroupId()==2){
+			if (item.getItemId()==-1){
+				FRAGUEL.getInstance().getGPS().startRoute(routeContext, routeContext.pointsOI.get(0));
+			}else if (item.getItemId()>=routeContext.pointsOI.size()){
+				FRAGUEL.getInstance().closeContextMenu();
+			}else{
+				FRAGUEL.getInstance().getGPS().startRoute(routeContext, routeContext.pointsOI.get(item.getItemId()));
+			}
+			choosePoint=false;
+			routeContext=null;
 		}
 		
 		return true;
@@ -468,16 +496,35 @@ public class MapState extends State implements OnTouchListener{
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
 		
-		if (!FRAGUEL.getInstance().getGPS().isRouteMode()){
+		if (!FRAGUEL.getInstance().getGPS().isRouteMode()&& !chooseAnotherRoute && !choosePoint){
 			menu.setHeaderTitle("Comenzar Ruta: "+ route.name);  
 			menu.add(0, 0, 0, "Desde el principio");
 			menu.add(0, 1, 0, "Desde: "+point.title);
 			menu.add(0, 2, 0, "Elegir otra ruta"); 
 			menu.add(0, 4, 0, "Cerrar diálogo");
 	    } 
-		else{
+		else if (FRAGUEL.getInstance().getGPS().isRouteMode() && !chooseAnotherRoute && !choosePoint){
 			menu.setHeaderTitle("¿Desea abandonar la ruta?");
 			menu.add(0, 3, 0, "Abandonar ruta");
+		}else if (chooseAnotherRoute){
+			menu.setHeaderTitle("Elegir ruta"); 
+			int i=0;
+			for (Route r: FRAGUEL.getInstance().routes){
+				menu.add(1, i, 0, r.name);
+				i++;
+			}
+			menu.add(1, i, 0, "Cerrar diálogo");
+			
+		}else if (choosePoint){
+			menu.setHeaderTitle("Elegir punto de comienzo"); 
+			menu.add(2, -1, 0, "Desde el principio");
+			int i=0;
+			for (PointOI p: routeContext.pointsOI){
+				menu.add(2, i, 0, p.title);
+				i++;
+			}
+			menu.add(2, i, 0, "Cerrar diálogo");
+			
 		}
 	}
 
