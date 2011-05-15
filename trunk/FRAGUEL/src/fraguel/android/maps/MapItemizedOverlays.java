@@ -94,7 +94,7 @@ public class MapItemizedOverlays extends ItemizedOverlay  implements OnGestureLi
 	@Override
 	protected boolean onTap(int index) {
 
-
+		
 		PointOverlay i= (PointOverlay) mOverlays.get(index);
 		MapState.getInstance().loadData(i.getRoute(), i.getPointOI());
 
