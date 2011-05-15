@@ -288,7 +288,7 @@ public class MapState extends State implements OnTouchListener{
 		
 		for (Pair<Pair<Integer,Integer>, Pair<Float, Float>> point : FRAGUEL.getInstance().getGPS().getRoutePointsVisited()){
 			info=FRAGUEL.getInstance().getRouteandPointbyId(point.first.first,point.first.second);
-			visited.addOverlay(new OverlayItem(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title));
+			visited.addOverlay(new PointOverlay(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title,info.second,info.first));
 		}
 
 			idroute=FRAGUEL.getInstance().getGPS().getRouteId();
@@ -300,7 +300,7 @@ public class MapState extends State implements OnTouchListener{
 		visited= new MapItemizedOverlays(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited),FRAGUEL.getInstance());
 		for (Pair<Integer, Pair<Float, Float>> point : FRAGUEL.getInstance().getGPS().getRoutePointsNotVisited()){
 			info=FRAGUEL.getInstance().getRouteandPointbyId(idroute,point.first);
-			visited.addOverlay(new OverlayItem(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title));
+			visited.addOverlay(new PointOverlay(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title,info.second,info.first));
 		}
 		if (visited.size()!=0)	
 			mapOverlays.add(visited);
