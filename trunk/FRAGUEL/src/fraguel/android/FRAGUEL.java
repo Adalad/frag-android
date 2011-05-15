@@ -242,14 +242,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		initHandler();
 		initImageHandler();
 	
-//		FRAGUEL.getInstance().getGPS().startRoute(this.routes.get(0), this.routes.get(0).pointsOI.get(0));
+		//FRAGUEL.getInstance().getGPS().startRoute(this.routes.get(0), this.routes.get(0).pointsOI.get(1));
 		//MapState.getInstance().removePopUpPI();
 		//((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText(20+ " metros para llegar a Milán");
 		//MapState.getInstance().setPopupOnRoute();
-		//FRAGUEL.getInstance().getCurrentState().loadData(routes.get(0), routes.get(0).pointsOI.get(0));
-		//FRAGUEL.getInstance().registerForContextMenu(((Button) FRAGUEL.getInstance().findViewById(R.id.btn_manager)));
-		
-		
+		//FRAGUEL.getInstance().getCurrentState().loadData(routes.get(0), routes.get(0).pointsOI.get(0));		
 	}
 
 	public static FRAGUEL getInstance() {
@@ -868,6 +865,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 			routeMode=true;
 			routeid=r.id;
 			this.r=r;
+			if (p==null)
+				p=r.pointsOI.get(0);
 			routeListener.startRoute(r, p);
 			
 		}
