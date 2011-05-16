@@ -30,6 +30,7 @@ public class ImageDownloadingThread extends Thread{
 	private Bitmap bm,tmp;
 	private File f ;
 	public ImageDownloadingThread(String path,int imageIndex,String n){
+		super();
 		url=path;
 		index=imageIndex;
 		name=n;
