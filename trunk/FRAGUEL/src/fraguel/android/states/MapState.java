@@ -52,7 +52,8 @@ public class MapState extends State implements OnTouchListener{
 	private static final int MAPSTATE_MENU_EXPLORE_MAP = 3;
 	private static final int MAPSTATE_MENU_COMPASS=4;
 	private static final int MAPSTATE_MENU_BACKMENU = 5;
-	private static final int MAPSTATE_MENU_STARTROUTE=6;
+	private static final int MAPSTATE_MENU_DRAWPATH=6;
+	
 
 
 	public static final int STATE_ID = 2;
@@ -394,8 +395,12 @@ public class MapState extends State implements OnTouchListener{
 		menu.clear();
 		//Añadimos las opciones del menu
 		if (FRAGUEL.getInstance().getGPS().isRouteMode())
-			menu.add(0, MAPSTATE_MENU_CHANGEMAP, 0, "Mostrar camino").setIcon(R.drawable.ic_menu_mapmode);
-				
+			if (showWay)
+				menu.add(0, MAPSTATE_MENU_DRAWPATH, 0, "¡Guíame!").setIcon(R.drawable.ic_menu_routeadd);
+			else
+				menu.add(0, MAPSTATE_MENU_DRAWPATH, 0, "No guíar").setIcon(R.drawable.ic_menu_routerem);
+		
+		menu.add(0, MAPSTATE_MENU_CHANGEMAP, 0, R.string.mapstate_menu_changemap).setIcon(R.drawable.ic_menu_mapmode);		
 		menu.add(0, MAPSTATE_MENU_MY_POSITION, 0,R.string.mapstate_menu_my_position).setIcon(R.drawable.ic_menu_mylocation);
 		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,R.string.mapstate_menu_explore_map).setIcon(R.drawable.ic_menu_search);
 		menu.add(0, MAPSTATE_MENU_COMPASS, 0,R.string.mapstate_menu_compass).setIcon(R.drawable.ic_menu_compass);
@@ -412,6 +417,13 @@ public class MapState extends State implements OnTouchListener{
 		switch (item.getItemId()) {
 
 		case MAPSTATE_MENU_CHANGEMAP:
+			if (mapView.isSatellite())
+				mapView.setSatellite(false);
+			else
+				mapView.setSatellite(true);
+			return true;
+		
+		case MAPSTATE_MENU_DRAWPATH:
 			if(showWay){
 				mapOverlays.add(new NextPointOverlay());
 			}
