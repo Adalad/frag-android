@@ -44,9 +44,8 @@ public class GPSProximityRouteListener extends GPSProximity{
 			
 			//miramos la distancia al siguiente punto a visitar en la ruta
 			Location.distanceBetween(latitude, longitude, pointsToVisit.get(0).second.first, pointsToVisit.get(0).second.second, results);
-			
+			distance=results[0];
 			if (results[0]<=proximityAlertDistance){
-				distance=results[0];
 				bearing=results[1];
 				pointid=pointsToVisit.get(0).first;
 				for (PointOI point: currentRoute.pointsOI){
@@ -65,7 +64,7 @@ public class GPSProximityRouteListener extends GPSProximity{
 
 			}else{
 				//mostrar info de la distancia y el bearing si no hay ningun popup
-				((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText(Float.toString(distance)+ " metros para llegar a "+pointsToVisit.get(0).toString());
+				((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText(distance+ " metros para llegar a "+pointsToVisit.get(0).first);
 				if (!MapState.getInstance().isAnyPopUp())
 					MapState.getInstance().setPopupOnRoute();
 				
