@@ -28,6 +28,7 @@ import com.google.android.maps.Projection;
 import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
 import fraguel.android.Route;
+import fraguel.android.threads.RouteThread;
 
 public class RouteOverlay extends Overlay{
 
@@ -40,6 +41,7 @@ public class RouteOverlay extends Overlay{
 	private ArrayList<GeoPoint> rutaActual;
 	private GeoPoint anterior,actual;
 	private boolean first;
+	private RouteThread thread;
 	
 
 	public RouteOverlay (Route r){
@@ -57,7 +59,9 @@ public class RouteOverlay extends Overlay{
 				anterior=actual;
 				actual= new GeoPoint((int)(p.second.first*1000000),(int)(p.second.second*1000000));
 				rutaActual= new ArrayList<GeoPoint>();
-				this.GetPath(anterior, actual, rutaActual);
+				thread= new RouteThread(anterior,actual,rutaActual);
+				thread.start();
+				//this.GetPath(anterior, actual, rutaActual);
 				rutasRojo.add(rutaActual);
 			}
 			else{
@@ -72,7 +76,9 @@ public class RouteOverlay extends Overlay{
 				anterior=actual;
 				actual= new GeoPoint((int)(p.second.first*1000000),(int)(p.second.second*1000000));
 				rutaActual= new ArrayList<GeoPoint>();
-				this.GetPath(anterior, actual, rutaActual);
+				//this.GetPath(anterior, actual, rutaActual);
+				thread= new RouteThread(anterior,actual,rutaActual);
+				thread.start();
 				rutasVerde.add(rutaActual);
 			}
 			else{
