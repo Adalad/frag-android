@@ -98,6 +98,7 @@ public class NextPointOverlay extends Overlay{
 		urlString.append( Double.toString((double)dest.getLatitudeE6()/1.0E6 ));
 		urlString.append(",");
 		urlString.append( Double.toString((double)dest.getLongitudeE6()/1.0E6 ));
+		urlString.append("&dirflg=w");
 		urlString.append("&ie=UTF8&0&om=0&output=kml");
 		Log.d("xxx","URL="+urlString.toString());
 		// get the kml (XML) doc. And parse it to get the coordinates(direction route).
@@ -122,7 +123,7 @@ public class NextPointOverlay extends Overlay{
 					result=true;
 					//String path = doc.getElementsByTagName("GeometryCollection").item(0).getFirstChild().getFirstChild().getNodeName();
 					String path = doc.getElementsByTagName("GeometryCollection").item(0).getFirstChild().getFirstChild().getFirstChild().getNodeValue() ;
-					Log.d("xxx","path="+ path);
+					//Log.d("xxx","path="+ path);
 					String [] pairs = path.split(" "); 
 					String[] lngLat = pairs[0].split(","); // lngLat[0]=longitude lngLat[1]=latitude lngLat[2]=height
 					// src
@@ -131,17 +132,15 @@ public class NextPointOverlay extends Overlay{
 					//ruta.add(startGP);
 					GeoPoint gp1;
 					//GeoPoint gp2 = startGP; 
+					ruta.add(src);
 					for(int i=0;i<pairs.length;i++) // the last one would be crash
 					{
 							lngLat = pairs[i].split(",");
-							//gp1 = gp2;
 							// watch out! For GeoPoint, first:latitude, second:longitude
 							gp1 = new GeoPoint((int)(Double.parseDouble(lngLat[1])*1E6),(int)(Double.parseDouble(lngLat[0])*1E6));
 							ruta.add(gp1);
-							//mMapView01.getOverlays().add(new MyOverLay(gp1,gp2,2,color));
-							Log.d("xxx","pair:" + pairs[i]);
+							//Log.d("xxx","pair:" + pairs[i]);
 					}
-					//mMapView01.getOverlays().add(new MyOverLay(dest,dest, 3)); // use the default color
 					ruta.add(dest);
 					
 				} 
@@ -161,6 +160,8 @@ public class NextPointOverlay extends Overlay{
 		catch (SAXException e)
 		{
 			e.printStackTrace();
+			Log.d("xxx", e.getMessage());
+			Log.d("xxx", e.getLocalizedMessage());
 		}
 
 		return result;
