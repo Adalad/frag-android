@@ -66,7 +66,7 @@ public class MapState extends State implements OnTouchListener{
 	private boolean isPopupPI;
 	private boolean isPopupOnRoute;
 	private boolean isPopupPIOnRoute;
-	private boolean isContextMenuDisplayed,chooseAnotherRoute,choosePoint,routeStarted;
+	private boolean isContextMenuDisplayed,chooseAnotherRoute,choosePoint,routeStarted,showWay;
 	private Route routeContext;
 
 
@@ -148,6 +148,7 @@ public class MapState extends State implements OnTouchListener{
 		choosePoint=false;
 		routeStarted=false;
 		routeContext=null;
+		showWay=true;
 		
 	}
 
@@ -286,7 +287,6 @@ public class MapState extends State implements OnTouchListener{
 	public void refreshMapRouteMode(){
 		mapOverlays.clear();
 		mapOverlays.add(me);
-		mapOverlays.add(new NextPointOverlay());
 		addRouteOverlays();
 	}
 	
@@ -393,7 +393,9 @@ public class MapState extends State implements OnTouchListener{
 		//Borramos el menu de opciones anterior
 		menu.clear();
 		//Añadimos las opciones del menu
-		menu.add(0, MAPSTATE_MENU_CHANGEMAP, 0, R.string.mapstate_menu_changemap).setIcon(R.drawable.ic_menu_mapmode);
+		if (FRAGUEL.getInstance().getGPS().isRouteMode())
+			menu.add(0, MAPSTATE_MENU_CHANGEMAP, 0, "Mostrar camino").setIcon(R.drawable.ic_menu_mapmode);
+				
 		menu.add(0, MAPSTATE_MENU_MY_POSITION, 0,R.string.mapstate_menu_my_position).setIcon(R.drawable.ic_menu_mylocation);
 		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,R.string.mapstate_menu_explore_map).setIcon(R.drawable.ic_menu_search);
 		menu.add(0, MAPSTATE_MENU_COMPASS, 0,R.string.mapstate_menu_compass).setIcon(R.drawable.ic_menu_compass);
@@ -410,15 +412,13 @@ public class MapState extends State implements OnTouchListener{
 		switch (item.getItemId()) {
 
 		case MAPSTATE_MENU_CHANGEMAP:
-			if(!mapView.isSatellite()){
-			   mapView.setSatellite(true);
-			   //mapView.setStreetView(false);
+			if(showWay){
+				mapOverlays.add(new NextPointOverlay());
 			}
 			else{
-				mapView.setSatellite(false);
-				//mapView.setStreetView(true);
-			
+				this.refreshMapRouteMode();			
 			}
+			showWay=!showWay;
 			return true;
 		case MAPSTATE_MENU_EXPLORE_MAP:
 			isMyPosition=false;
