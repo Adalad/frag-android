@@ -37,6 +37,7 @@ import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.State;
+import fraguel.android.notifications.UserRouteNotification;
 import fraguel.android.resources.ResourceManager;
 
 public class MainMenuState extends State {
@@ -176,22 +177,7 @@ public class MainMenuState extends State {
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
 		builder.setTitle(title);
-		builder.setItems(items, new DialogInterface.OnClickListener() {
-		    public void onClick(DialogInterface dialog, int item) {
-		    	
-		    	switch(item){
-				case 0:
-					createXMLTemplate("new",20);
-					break;
-				case 1: 
-					Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
-					break;
-			
-		    	}
-		    	
-		        dialog.dismiss();
-		    }
-		});
+		builder.setItems(items, new UserRouteNotification());
 		
 		builder.setOnKeyListener(new OnKeyListener(){
 
@@ -199,8 +185,7 @@ public class MainMenuState extends State {
 			public boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2) {
 				// TODO Auto-generated method stub
 				if (arg2.getKeyCode()==KeyEvent.KEYCODE_BACK){
-					Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Para atrás!!!", Toast.LENGTH_SHORT).show();
-					return false;
+					return true;
 				}
 				return false;
 			}
@@ -210,97 +195,6 @@ public class MainMenuState extends State {
 		alert.show();
 	}
 	
-	private void createXMLTemplate(String fileName,int routeId){
-		
-		File file = new File(ResourceManager.getInstance().getRootPath()+"/tmp/"+fileName+".xml");
-		
-		try {
-			file.createNewFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		FileOutputStream fileos = null;
-		
-		try {
-			fileos = new FileOutputStream(file);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		XmlSerializer serializer = Xml.newSerializer();
-		
-		try {
-			
-			serializer.setOutput(fileos, "UTF-8");
-			serializer.startDocument(null, null);
-			serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
-			
-			serializer.startTag(null, "route");
-			serializer.attribute(null, "id", Integer.toString(routeId));
-					
-					serializer.startTag(null, "name");
-		            serializer.endTag(null, "name");
-					serializer.startTag(null, "description");
-		            serializer.endTag(null, "description");
-					serializer.startTag(null, "icon");
-		            serializer.endTag(null, "icon");
-		            
-					serializer.startTag(null, "points");
-							
-							serializer.startTag(null, "point");
-							serializer.attribute(null, "id", "1");
-							
-									serializer.startTag(null, "coords");
-									serializer.attribute(null, "x", "0");
-									serializer.attribute(null, "y", "0");
-						            serializer.endTag(null, "coords");
-						            
-									serializer.startTag(null, "title");
-						            serializer.endTag(null, "title");
-						            
-									serializer.startTag(null, "pointdescription");
-						            serializer.endTag(null, "pointdescription");
-						            
-									serializer.startTag(null, "pointicon");
-						            serializer.endTag(null, "pointicon");
-						            
-									serializer.startTag(null, "image");
-						            serializer.endTag(null, "image");
-						            
-									serializer.startTag(null, "video");
-						            serializer.endTag(null, "video");
-						            
-									serializer.startTag(null, "ar");
-						            serializer.endTag(null, "ar");
-							
-				            serializer.endTag(null, "point");
-					
-					
-		            serializer.endTag(null, "points");
-		            
-		
-			serializer.endTag(null, "route");
-			
-			serializer.endDocument();
-			serializer.flush();
-			fileos.close();
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Plantilla Creada", Toast.LENGTH_SHORT).show();
-			
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		
-	}
+	
 	
 }
