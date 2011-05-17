@@ -9,8 +9,10 @@ import org.xmlpull.v1.XmlSerializer;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnKeyListener;
 import android.util.Xml;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -189,6 +191,20 @@ public class MainMenuState extends State {
 		    	
 		        dialog.dismiss();
 		    }
+		});
+		
+		builder.setOnKeyListener(new OnKeyListener(){
+
+			@Override
+			public boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2) {
+				// TODO Auto-generated method stub
+				if (arg2.getKeyCode()==KeyEvent.KEYCODE_BACK){
+					Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Para atrás!!!", Toast.LENGTH_SHORT).show();
+					return false;
+				}
+				return false;
+			}
+			
 		});
 		AlertDialog alert = builder.create();
 		alert.show();
