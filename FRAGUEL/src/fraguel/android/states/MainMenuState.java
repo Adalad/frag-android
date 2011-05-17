@@ -7,11 +7,15 @@ import java.io.IOException;
 
 import org.xmlpull.v1.XmlSerializer;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.util.Xml;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -29,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
+import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.resources.ResourceManager;
 
@@ -42,6 +47,7 @@ public class MainMenuState extends State {
 
 	protected TextView gps;
 	protected TextView orientation;
+	final CharSequence[] options = {"Plantilla en blanco", "Mediante 'GeoTagging'"};
 	public MainMenuState() {
 		super();
 		id = STATE_ID;
@@ -109,8 +115,6 @@ public class MainMenuState extends State {
 		//((Button) FRAGUEL.getInstance().findViewById(R.id.btn_exit)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 
 
-
-
 	}
 
 	@Override
@@ -128,8 +132,7 @@ public class MainMenuState extends State {
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Caché borrada con éxito", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.btn_manager:
-			//Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
-			this.createXMLTemplate("new",20);
+			this.createDialog("Opciones", options);
 			break;
 		/*case R.id.btn_config:
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
@@ -167,9 +170,33 @@ public class MainMenuState extends State {
 		return false;
 	}
 	
-	private void createXMLTemplate(String name,int routeId){
+	private void createDialog(String title,final CharSequence[] items){
 		
-		File file = new File(ResourceManager.getInstance().getRootPath()+"/tmp/"+name+".xml");
+		AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
+		builder.setTitle(title);
+		builder.setItems(items, new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int item) {
+		    	
+		    	switch(item){
+				case 0:
+					createXMLTemplate("new",20);
+					break;
+				case 1: 
+					Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
+					break;
+			
+		    	}
+		    	
+		        dialog.dismiss();
+		    }
+		});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
+	
+	private void createXMLTemplate(String fileName,int routeId){
+		
+		File file = new File(ResourceManager.getInstance().getRootPath()+"/tmp/"+fileName+".xml");
 		
 		try {
 			file.createNewFile();
@@ -190,9 +217,6 @@ public class MainMenuState extends State {
 		XmlSerializer serializer = Xml.newSerializer();
 		
 		try {
-			//serializer.setOutput(fileos, "UTF-8");
-			//serializer.startDocument(null, Boolean.valueOf(true));
-			//serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
 			
 			serializer.setOutput(fileos, "UTF-8");
 			serializer.startDocument(null, null);
@@ -248,8 +272,6 @@ public class MainMenuState extends State {
 			serializer.flush();
 			fileos.close();
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Plantilla Creada", Toast.LENGTH_SHORT).show();
-			
-			
 			
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
