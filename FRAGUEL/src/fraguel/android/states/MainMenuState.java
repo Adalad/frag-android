@@ -179,18 +179,6 @@ public class MainMenuState extends State {
 		builder.setTitle(title);
 		builder.setItems(items, new UserRouteNotification());
 		
-		builder.setOnKeyListener(new OnKeyListener(){
-
-			@Override
-			public boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2) {
-				// TODO Auto-generated method stub
-				if (arg2.getKeyCode()==KeyEvent.KEYCODE_BACK){
-					return true;
-				}
-				return false;
-			}
-			
-		});
 		AlertDialog alert = builder.create();
 		alert.show();
 	}
