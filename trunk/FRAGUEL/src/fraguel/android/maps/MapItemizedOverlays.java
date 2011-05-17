@@ -199,7 +199,7 @@ public class MapItemizedOverlays extends ItemizedOverlay  implements OnGestureLi
 			
 			MapState.getInstance().loadData(rTmp, pTmp);
 			MapState.getInstance().setContextMenuDisplayed(true);
-			FRAGUEL.getInstance().openContextMenu(MapState.getInstance().getMapView());
+			MapState.getInstance().chooseStartPointDialog();
 		}else if (!MapState.getInstance().isContextMenuDisplayed()){
 			MapState.getInstance().setContextMenuDisplayed(true);
 			FRAGUEL.getInstance().openContextMenu(MapState.getInstance().getMapView());
