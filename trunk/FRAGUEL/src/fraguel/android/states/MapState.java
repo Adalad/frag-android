@@ -523,8 +523,7 @@ public class MapState extends State implements OnTouchListener{
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
 		
 		if (!FRAGUEL.getInstance().getGPS().isRouteMode()&& !chooseAnotherRoute && !choosePoint){
