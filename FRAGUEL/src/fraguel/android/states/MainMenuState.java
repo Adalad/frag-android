@@ -1,5 +1,13 @@
 package fraguel.android.states;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.xmlpull.v1.XmlSerializer;
+
+import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +30,7 @@ import android.widget.Toast;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.State;
+import fraguel.android.resources.ResourceManager;
 
 public class MainMenuState extends State {
 
@@ -119,7 +128,8 @@ public class MainMenuState extends State {
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Caché borrada con éxito", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.btn_manager:
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
+			this.createXMLTemplate("new",20);
 			break;
 		/*case R.id.btn_config:
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
@@ -155,6 +165,104 @@ public class MainMenuState extends State {
 			return true;
 		}
 		return false;
+	}
+	
+	private void createXMLTemplate(String name,int routeId){
+		
+		File file = new File(ResourceManager.getInstance().getRootPath()+"/tmp/"+name+".xml");
+		
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		FileOutputStream fileos = null;
+		
+		try {
+			fileos = new FileOutputStream(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		XmlSerializer serializer = Xml.newSerializer();
+		
+		try {
+			//serializer.setOutput(fileos, "UTF-8");
+			//serializer.startDocument(null, Boolean.valueOf(true));
+			//serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+			
+			serializer.setOutput(fileos, "UTF-8");
+			serializer.startDocument(null, null);
+			serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+			
+			serializer.startTag(null, "route");
+			serializer.attribute(null, "id", Integer.toString(routeId));
+					
+					serializer.startTag(null, "name");
+		            serializer.endTag(null, "name");
+					serializer.startTag(null, "description");
+		            serializer.endTag(null, "description");
+					serializer.startTag(null, "icon");
+		            serializer.endTag(null, "icon");
+		            
+					serializer.startTag(null, "points");
+							
+							serializer.startTag(null, "point");
+							serializer.attribute(null, "id", "1");
+							
+									serializer.startTag(null, "coords");
+									serializer.attribute(null, "x", "0");
+									serializer.attribute(null, "y", "0");
+						            serializer.endTag(null, "coords");
+						            
+									serializer.startTag(null, "title");
+						            serializer.endTag(null, "title");
+						            
+									serializer.startTag(null, "pointdescription");
+						            serializer.endTag(null, "pointdescription");
+						            
+									serializer.startTag(null, "pointicon");
+						            serializer.endTag(null, "pointicon");
+						            
+									serializer.startTag(null, "image");
+						            serializer.endTag(null, "image");
+						            
+									serializer.startTag(null, "video");
+						            serializer.endTag(null, "video");
+						            
+									serializer.startTag(null, "ar");
+						            serializer.endTag(null, "ar");
+							
+				            serializer.endTag(null, "point");
+					
+					
+		            serializer.endTag(null, "points");
+		            
+		
+			serializer.endTag(null, "route");
+			
+			serializer.endDocument();
+			serializer.flush();
+			fileos.close();
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Plantilla Creada", Toast.LENGTH_SHORT).show();
+			
+			
+			
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
 	}
 	
 }
