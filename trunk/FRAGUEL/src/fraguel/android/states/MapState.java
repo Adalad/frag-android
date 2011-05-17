@@ -470,7 +470,7 @@ public class MapState extends State implements OnTouchListener{
 				FRAGUEL.getInstance().closeContextMenu();
 				FRAGUEL.getInstance().getGPS().startRoute(route, point);
 				FRAGUEL.getInstance().changeState(RouteInfoState.STATE_ID);
-				FRAGUEL.getInstance().getCurrentState().loadData(route, point );
+				FRAGUEL.getInstance().getCurrentState().loadData(route,point);
 				
 	
 				break;
@@ -544,7 +544,8 @@ public class MapState extends State implements OnTouchListener{
 				menu.add(1, i, 0, r.name);
 				i++;
 			}
-			menu.add(1, i, 0, "Cerrar diálogo");
+			//menu.add(1, i, 0, "Cerrar diálogo");
+			chooseAnotherRoute=false;
 			
 		}else if (choosePoint){
 			menu.setHeaderTitle("Elegir punto de comienzo"); 
@@ -554,7 +555,8 @@ public class MapState extends State implements OnTouchListener{
 				menu.add(2, i, 0, p.title);
 				i++;
 			}
-			menu.add(2, i, 0, "Cerrar diálogo");
+			//menu.add(2, i, 0, "Cerrar diálogo");
+			choosePoint=false;
 			
 		}
 	}
