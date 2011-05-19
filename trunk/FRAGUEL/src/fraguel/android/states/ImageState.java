@@ -63,7 +63,6 @@ public class ImageState extends State{
 			
 			setParamsSmallGallery();
 			
-			
 			setParamsBigGallery();
 		
 		
@@ -297,7 +296,7 @@ public class ImageState extends State{
 			}
 			bigGallery.setSelection(0, true);
 			presentationIndex=0;
-			FRAGUEL.getInstance().talkSpeech((String)text.getText(),0);
+			//FRAGUEL.getInstance().talkSpeech((String)text.getText(),0);
 			bigGallery.setKeepScreenOn(true);
 			isPresentation=true;
 			return true;
