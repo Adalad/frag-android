@@ -23,6 +23,11 @@ public class ImageAdapter extends BaseAdapter {
         return mThumbIds.length;
     }
 
+   // public void setThumbIds(String[] s){
+  //  	this.mThumbIds
+   // 	imageView.se
+  //  }
+    
     public Object getItem(int position) {
         return null;
     }
