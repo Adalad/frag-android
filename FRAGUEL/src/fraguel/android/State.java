@@ -48,6 +48,14 @@ public abstract class State implements Comparable<State> {
 	public int getId() {
 		return id;
 	}
+	
+	public Route getRoute() {
+		return route;
+	}
+	
+	public PointOI getPointOI() {
+		return point;
+	}
 	public ImageDownloadingThread getImageThread(){return imageThread;}
 
 	public ViewGroup getViewGroup() {
