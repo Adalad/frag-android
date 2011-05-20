@@ -34,6 +34,9 @@ import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
 import fraguel.android.R;
 import fraguel.android.Route;
+import fraguel.android.notifications.BackKeyNotification;
+import fraguel.android.notifications.StartRouteNotification;
+import fraguel.android.notifications.StopRouteNotification;
 import fraguel.android.states.MapState;
 import fraguel.android.threads.ImageDownloadingThread;
 
@@ -44,6 +47,7 @@ public class MapItemizedOverlays extends ItemizedOverlay  implements OnGestureLi
 	private Activity act;
 	private GestureDetector gestureDetector;
 	private float[] results = new float[3];
+	final CharSequence[] options = {"Abandonar ruta"};
 
 	public MapItemizedOverlays(Drawable arg0) {
 		super(boundCenterBottom(arg0));
@@ -199,10 +203,13 @@ public class MapItemizedOverlays extends ItemizedOverlay  implements OnGestureLi
 			
 			MapState.getInstance().loadData(rTmp, pTmp);
 			MapState.getInstance().setContextMenuDisplayed(true);
-			MapState.getInstance().chooseStartPointDialog();
+			MapState.getInstance().options[1]="Desde: "+MapState.getInstance().getPointOI().title;
+			FRAGUEL.getInstance().createDialog("Comenzar Ruta: ", MapState.getInstance().options, new StartRouteNotification(), new BackKeyNotification());
+			//MapState.getInstance().chooseStartPointDialog();
 		}else if (!MapState.getInstance().isContextMenuDisplayed()){
 			MapState.getInstance().setContextMenuDisplayed(true);
-			FRAGUEL.getInstance().openContextMenu(MapState.getInstance().getMapView());
+			FRAGUEL.getInstance().createDialog("¿Desea abandonar la ruta?", options, new StopRouteNotification(), new BackKeyNotification());
+			//FRAGUEL.getInstance().openContextMenu(MapState.getInstance().getMapView());
 		}
 		
 	}
