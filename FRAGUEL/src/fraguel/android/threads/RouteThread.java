@@ -13,9 +13,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import android.os.Message;
 import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
+
+import fraguel.android.FRAGUEL;
 
 public class RouteThread extends Thread{
 	
@@ -96,6 +99,9 @@ public class RouteThread extends Thread{
 					ruta.add(dest);
 					
 				} 
+				Message m = new Message();
+				m.arg2 = 0;
+				FRAGUEL.getInstance().routeHandler.sendMessage(m);
 		}
 		catch (MalformedURLException e)
 		{
