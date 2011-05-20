@@ -1,15 +1,8 @@
 package fraguel.android;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Stack;
 
@@ -19,9 +12,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -50,23 +40,17 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 
 import fraguel.android.gps.GPSProximityListener;
 import fraguel.android.gps.GPSProximityRouteListener;
-import fraguel.android.notifications.GPSIgnoreButton;
-import fraguel.android.notifications.ProximityAlertNotificationButton;
 import fraguel.android.resources.ResourceManager;
 import fraguel.android.states.ARState;
 import fraguel.android.states.ConfigState;
 import fraguel.android.states.ImageGalleryState;
-import fraguel.android.states.ImageState;
 import fraguel.android.states.InfoState;
 import fraguel.android.states.IntroState;
 import fraguel.android.states.MainMenuState;
@@ -102,6 +86,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	private HashMap<String, String> ttsHashMap = new HashMap<String, String>();
 	private Handler handler;
 	public Handler imageHandler;
+	public Handler routeHandler;
 
 	// View container
 	private ViewGroup view;
@@ -222,10 +207,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
 		states = new ArrayList<State>();
-		addState(new IntroState(), false);
+		addState(new IntroState(), true);
 		addState(new MainMenuState(), false);
 		//addState(new MenuState(), false);
-		addState(new MapState(), true);
+		addState(new MapState(), false);
 		addState(new VideoState(), false);
 		addState(new VideoGalleryState(), false);
 		addState(new ImageGalleryState(), false);
@@ -241,6 +226,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		checkTTSLibrary();
 		initHandler();
 		initImageHandler();
+		initRouteHandler();
 	
 		//FRAGUEL.getInstance().getGPS().startRoute(this.routes.get(0), this.routes.get(0).pointsOI.get(1));
 		//MapState.getInstance().removePopUpPI();
@@ -556,9 +542,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		alert.show();
 	}
 
-	public void createTwoButtonNotification(String title, String msg,
-			int positiveButton, int negativeButton,
-			DialogInterface.OnClickListener listenerPositiveButton,
+	public void createTwoButtonNotification(String title, String msg,int positiveButton, int negativeButton,DialogInterface.OnClickListener listenerPositiveButton,
 			DialogInterface.OnClickListener listenerNegativeButton) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(
 				FRAGUEL.getInstance());
@@ -587,6 +571,18 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		alert.getWindow().setGravity(Gravity.TOP);
 		alert.show();
 	}
+	
+public void createDialog(String title,final CharSequence[] items,DialogInterface.OnClickListener clickListener,DialogInterface.OnKeyListener keyListener){
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
+		builder.setTitle(title);
+		builder.setItems(items, clickListener);
+		if (keyListener!=null)
+			builder.setOnKeyListener(keyListener);
+		
+		AlertDialog alert = builder.create();
+		alert.show();
+}
 
 	@Override
 	protected boolean isLocationDisplayed() {
@@ -641,6 +637,16 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 			@Override
 			public void handleMessage(Message msg) {
 				currentState.imageLoaded(msg.arg2);
+			}
+		};
+	}
+	
+	private void initRouteHandler(){
+		routeHandler = new Handler(){
+			@Override
+			public void handleMessage(Message msg) {
+				if (currentState.id==MapState.STATE_ID)
+					MapState.getInstance().getMapView().invalidate();
 			}
 		};
 	}
