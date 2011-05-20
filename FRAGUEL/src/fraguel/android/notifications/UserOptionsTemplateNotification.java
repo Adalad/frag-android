@@ -5,7 +5,7 @@ import fraguel.android.resources.ResourceManager;
 import android.content.DialogInterface;
 import android.widget.Toast;
 
-public class UserRouteNotification implements DialogInterface.OnClickListener{
+public class UserOptionsTemplateNotification implements DialogInterface.OnClickListener{
 
 	@Override
 	public void onClick(DialogInterface arg0, int arg1) {
