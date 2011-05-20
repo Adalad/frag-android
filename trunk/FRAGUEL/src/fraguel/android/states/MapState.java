@@ -73,7 +73,7 @@ public class MapState extends State implements OnTouchListener{
 	private boolean isPopupPIOnRoute;
 	private boolean isContextMenuDisplayed,chooseAnotherRoute,choosePoint,showWay=true;
 	private Route routeContext;
-	final CharSequence[] options = {"Desde el principio", "","Elegir otra ruta"};
+	public final CharSequence[] options = {"Desde el principio", "","Elegir otra ruta"};
 
 
 	public MapState() {
@@ -506,10 +506,7 @@ public class MapState extends State implements OnTouchListener{
 	public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
 		
-		 if (FRAGUEL.getInstance().getGPS().isRouteMode() && !chooseAnotherRoute && !choosePoint){
-			menu.setHeaderTitle("¿Desea abandonar la ruta?");
-			menu.add(0, 0, 0, "Abandonar ruta");
-		}else if (chooseAnotherRoute){
+		if (chooseAnotherRoute){
 			menu.setHeaderTitle("Elegir ruta"); 
 			int i=0;
 			for (Route r: FRAGUEL.getInstance().routes){
@@ -533,67 +530,17 @@ public class MapState extends State implements OnTouchListener{
 		
 	}
 	
-public void chooseStartPointDialog(){
-	options[1]="Desde: "+point.title;
-	createDialog("Comenzar Ruta: "+ route.name,options);
-}
-	
-private void createDialog(String title,final CharSequence[] items){
-		
-		AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
-		builder.setTitle(title);
-		builder.setItems(items, new DialogInterface.OnClickListener() {
-		    public void onClick(DialogInterface dialog, int item) {
-		    	
-		    	switch(item){
-				case 0:
-					isContextMenuDisplayed=false;
-					FRAGUEL.getInstance().closeContextMenu();
-					FRAGUEL.getInstance().getGPS().startRoute(route, route.pointsOI.get(0));
-					FRAGUEL.getInstance().changeState(RouteInfoState.STATE_ID);
-					FRAGUEL.getInstance().getCurrentState().loadData(route, route.pointsOI.get(0) );
-					break;
-				case 1: 
-					isContextMenuDisplayed=false;
-					FRAGUEL.getInstance().closeContextMenu();
-					FRAGUEL.getInstance().getGPS().startRoute(route, point);
-					FRAGUEL.getInstance().changeState(RouteInfoState.STATE_ID);
-					FRAGUEL.getInstance().getCurrentState().loadData(route,point);
-					break;
-				case 2: 
-					isContextMenuDisplayed=false;
-					isContextMenuDisplayed=false;
-					FRAGUEL.getInstance().closeContextMenu();
-					chooseAnotherRoute=true;
-					FRAGUEL.getInstance().openContextMenu(mapView);
-					break;
-			
-		    	}
-		    	
-		        dialog.dismiss();
-		    }
-		});
-		
-		builder.setOnKeyListener(new OnKeyListener(){
-
-			@Override
-			public boolean onKey(DialogInterface arg0, int arg1, KeyEvent arg2) {
-				// TODO Auto-generated method stub
-				if (arg2.getKeyCode()==KeyEvent.KEYCODE_BACK){
-					isContextMenuDisplayed=false;
-					arg0.dismiss();
-					return true;
-				}
-				return false;
-			}
-			
-		});
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
 
 	public void setContextMenuDisplayed(boolean isContextMenuDisplayed) {
 		this.isContextMenuDisplayed = isContextMenuDisplayed;
+	}
+	
+	public void setChooseAnotherRoute(boolean chooseRoute) {
+		this.chooseAnotherRoute = chooseRoute;
+	}
+	
+	public void setChooseAnotherPoint(boolean choosePoint) {
+		this.choosePoint = choosePoint;
 	}
 
 	public boolean isContextMenuDisplayed() {
