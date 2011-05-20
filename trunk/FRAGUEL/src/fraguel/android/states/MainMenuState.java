@@ -1,44 +1,25 @@
 package fraguel.android.states;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import org.xmlpull.v1.XmlSerializer;
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnKeyListener;
-import android.util.Xml;
-import android.view.ContextMenu;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.RotateAnimation;
-import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
-import fraguel.android.Route;
 import fraguel.android.State;
-import fraguel.android.notifications.UserRouteNotification;
-import fraguel.android.resources.ResourceManager;
+import fraguel.android.notifications.UserOptionsTemplateNotification;
 
 public class MainMenuState extends State {
 
@@ -135,7 +116,7 @@ public class MainMenuState extends State {
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Caché borrada con éxito", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.btn_manager:
-			this.createDialog("Opciones", options);
+			FRAGUEL.getInstance().createDialog("Opciones", options,new UserOptionsTemplateNotification(),null );
 			break;
 		/*case R.id.btn_config:
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
@@ -173,15 +154,7 @@ public class MainMenuState extends State {
 		return false;
 	}
 	
-	private void createDialog(String title,final CharSequence[] items){
-		
-		AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
-		builder.setTitle(title);
-		builder.setItems(items, new UserRouteNotification());
-		
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
+	
 	
 	
 	
