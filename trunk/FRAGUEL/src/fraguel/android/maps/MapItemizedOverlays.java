@@ -203,8 +203,8 @@ public class MapItemizedOverlays extends ItemizedOverlay  implements OnGestureLi
 			
 			MapState.getInstance().loadData(rTmp, pTmp);
 			MapState.getInstance().setContextMenuDisplayed(true);
-			MapState.getInstance().options[1]="Desde: "+MapState.getInstance().getPointOI().title;
-			FRAGUEL.getInstance().createDialog("Comenzar Ruta: ", MapState.getInstance().options, new StartRouteNotification(), new BackKeyNotification());
+			MapState.getInstance().options[1]="Desde: "+pTmp.title;
+			FRAGUEL.getInstance().createDialog("Comenzar Ruta: "+rTmp.name, MapState.getInstance().options, new StartRouteNotification(), new BackKeyNotification());
 			//MapState.getInstance().chooseStartPointDialog();
 		}else if (!MapState.getInstance().isContextMenuDisplayed()){
 			MapState.getInstance().setContextMenuDisplayed(true);
