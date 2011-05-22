@@ -40,7 +40,6 @@ public class RouteInfoDialog extends Dialog{
 			image.setImageBitmap(bmp);
 		}else{
 			image.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
-			ImageDownloadingThread t = MapState.getInstance().getImageThread();
 			ImageDownloadingThread imageThread= new ImageDownloadingThread(r.icon,1,"route"+Integer.toString(r.id)+"image");
 			imageThread.start();
 		}
