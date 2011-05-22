@@ -1,9 +1,12 @@
 package fraguel.android.utils;
 
+import java.io.File;
+
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.resources.ResourceManager;
+import fraguel.android.states.MapState;
 import fraguel.android.threads.ImageDownloadingThread;
 import android.app.Dialog;
 import android.content.Context;
@@ -28,9 +31,22 @@ public class RouteInfoDialog extends Dialog{
 		container.setOrientation(LinearLayout.VERTICAL);
 		
 		image = new ImageView(context);
-		ImageDownloadingThread imageThread= new ImageDownloadingThread(r.icon,1,"route"+Integer.toString(r.id)+"image");
-		imageThread.start();
-		image.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,80 ));		
+		
+		String path="route"+Integer.toString(r.id)+"image";
+		
+		File f= new File(path);
+		if (f.exists()){
+			Bitmap bmp = BitmapFactory.decodeFile(path);
+			image.setImageBitmap(bmp);
+		}else{
+			image.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
+			ImageDownloadingThread t = MapState.getInstance().getImageThread();
+			ImageDownloadingThread imageThread= new ImageDownloadingThread(r.icon,1,"route"+Integer.toString(r.id)+"image");
+			imageThread.start();
+		}
+		
+		
+		image.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,120 ));		
 		image.setPadding(5, 5, 5, 5);
 		image.setAdjustViewBounds(true);
 		image.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
@@ -38,7 +54,7 @@ public class RouteInfoDialog extends Dialog{
 		container.addView(image);
 		
 		ScrollView sv = new ScrollView(FRAGUEL.getInstance().getApplicationContext());
-		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,60));
+		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,120));
 		
 		
 		
