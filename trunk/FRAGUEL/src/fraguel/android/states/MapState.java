@@ -42,6 +42,7 @@ import fraguel.android.maps.NextPointOverlay;
 import fraguel.android.maps.PointOverlay;
 import fraguel.android.maps.RouteOverlay;
 import fraguel.android.resources.ResourceManager;
+import fraguel.android.utils.RouteInfoDialog;
 
 public class MapState extends State implements OnTouchListener{
 
@@ -74,6 +75,7 @@ public class MapState extends State implements OnTouchListener{
 	private boolean isContextMenuDisplayed,chooseAnotherRoute,choosePoint,showWay=true;
 	private Route routeContext;
 	public final CharSequence[] options = {"Desde el principio", "","Elegir otra ruta"};
+	private RouteInfoDialog dialog;
 
 
 	public MapState() {
@@ -243,6 +245,8 @@ public class MapState extends State implements OnTouchListener{
 			Bitmap bmp = BitmapFactory.decodeFile(path);
 			((ImageView) popupPI.findViewById(R.id.popupPI_imagen2)).setImageBitmap(bmp);
 			popupPI.invalidate();
+		}else{
+			setImageToDialog();
 		}
 	}
 	
@@ -477,6 +481,18 @@ public class MapState extends State implements OnTouchListener{
 	}
 	public void setContextRoute (Route r){
 		routeContext=r;
+	}
+
+	private void setImageToDialog() {
+		if (dialog!=null)
+			dialog.imageLoaded();
+	}
+
+	public RouteInfoDialog getDialog() {
+		return dialog;
+	}
+	public void setRouteInfoDialog(RouteInfoDialog d){
+		dialog=d;
 	}
 	
 
