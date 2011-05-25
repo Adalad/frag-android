@@ -1,5 +1,8 @@
 package fraguel.android.states;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +23,7 @@ import fraguel.android.FRAGUEL;
 import fraguel.android.R;
 import fraguel.android.State;
 import fraguel.android.notifications.UserOptionsTemplateNotification;
+import fraguel.android.utils.NewRouteForm;
 
 public class MainMenuState extends State {
 
@@ -31,7 +35,9 @@ public class MainMenuState extends State {
 
 	protected TextView gps;
 	protected TextView orientation;
-	final CharSequence[] options = {"Plantilla en blanco", "Mediante 'GeoTagging'"};
+	private final CharSequence[] options = {"Plantilla en blanco", "Mediante 'GeoTagging'"};
+	
+	private NewRouteForm blankForm=null;
 	public MainMenuState() {
 		super();
 		id = STATE_ID;
@@ -116,7 +122,7 @@ public class MainMenuState extends State {
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Caché borrada con éxito", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.btn_manager:
-			FRAGUEL.getInstance().createDialog("Opciones", options,new UserOptionsTemplateNotification(),null );
+			FRAGUEL.getInstance().createDialog("Crear ruta", options,new UserOptionsTemplateNotification(),null );
 			break;
 		/*case R.id.btn_config:
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
@@ -153,6 +159,15 @@ public class MainMenuState extends State {
 		}
 		return false;
 	}
+
+	public NewRouteForm getBlankForm() {
+		return blankForm;
+	}
+	public void setBlankForm(NewRouteForm f){
+		blankForm=f;
+	}
+	
+	
 	
 	
 	
