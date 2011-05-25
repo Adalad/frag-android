@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.Gravity;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class NewRouteForm extends LinearLayout{
@@ -14,7 +15,14 @@ public class NewRouteForm extends LinearLayout{
 	public NewRouteForm(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
+		
 		this.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		
+		ScrollView sv = new ScrollView(context);
+		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		sv.setVerticalScrollBarEnabled(false);
+		sv.setScrollBarStyle(ScrollView.SCROLLBARS_INSIDE_INSET);
+		
 		LinearLayout container = new LinearLayout(context);
 		container.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		container.setOrientation(LinearLayout.VERTICAL);
@@ -63,7 +71,8 @@ public class NewRouteForm extends LinearLayout{
 		numbers.setGravity(Gravity.CENTER_HORIZONTAL);
 		
 		container.addView(numbers);
-		this.addView(container);
+		sv.addView(container);
+		this.addView(sv);
 	}
 	
 	public String getFileName(){
