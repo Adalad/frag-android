@@ -92,7 +92,7 @@ public class ResourceManager {
 		return xmlManager;
 	}
 	
-public void createXMLTemplate(String fileName,int routeId,int numPoints){
+public void createXMLTemplate(String fileName,String routeName,int routeId,int numPoints){
 		
 		File file = new File(ResourceManager.getInstance().getRootPath()+"/user/"+fileName+".xml");
 		
@@ -124,7 +124,7 @@ public void createXMLTemplate(String fileName,int routeId,int numPoints){
 			serializer.attribute(null, "id", Integer.toString(routeId));
 					
 					serializer.startTag(null, "name");
-					//serializer.text(fileName);
+					serializer.text(routeName);
 		            serializer.endTag(null, "name");
 					serializer.startTag(null, "description");
 		            serializer.endTag(null, "description");
