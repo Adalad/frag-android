@@ -7,7 +7,6 @@ import fraguel.android.utils.NewRouteForm;
 import android.content.DialogInterface;
 
 public class NewRouteNotification implements DialogInterface.OnClickListener{
-
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		// TODO Auto-generated method stub
