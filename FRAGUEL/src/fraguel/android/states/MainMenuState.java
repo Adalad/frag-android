@@ -1,5 +1,7 @@
 package fraguel.android.states;
 
+import java.util.ArrayList;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.Gravity;
@@ -20,10 +22,12 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import fraguel.android.FRAGUEL;
+import fraguel.android.PointOI;
 import fraguel.android.R;
 import fraguel.android.State;
 import fraguel.android.notifications.UserOptionsTemplateNotification;
 import fraguel.android.utils.NewRouteForm;
+import fraguel.android.utils.NewRouteGeoTaggingForm;
 
 public class MainMenuState extends State {
 
@@ -36,6 +40,11 @@ public class MainMenuState extends State {
 	protected TextView gps;
 	protected TextView orientation;
 	private final CharSequence[] options = {"Plantilla en blanco", "Mediante 'GeoTagging'"};
+	
+	//GeoTagging
+	private ArrayList<PointOI> geoTaggingPoints;
+	private String routeName;
+	private NewRouteGeoTaggingForm f=null;
 	
 	private NewRouteForm blankForm=null;
 	public MainMenuState() {
@@ -165,6 +174,30 @@ public class MainMenuState extends State {
 	}
 	public void setBlankForm(NewRouteForm f){
 		blankForm=f;
+	}
+
+	public void setGeoTaggingPoints(ArrayList<PointOI> geoTaggingPoints) {
+		this.geoTaggingPoints = geoTaggingPoints;
+	}
+
+	public ArrayList<PointOI> getGeoTaggingPoints() {
+		return geoTaggingPoints;
+	}
+
+	public void setRouteName(String routeName) {
+		this.routeName = routeName;
+	}
+
+	public String getRouteName() {
+		return routeName;
+	}
+
+	public void setGeoTaggingForm(NewRouteGeoTaggingForm f) {
+		this.f = f;
+	}
+
+	public NewRouteGeoTaggingForm getGeoTaggingForm() {
+		return f;
 	}
 	
 	
