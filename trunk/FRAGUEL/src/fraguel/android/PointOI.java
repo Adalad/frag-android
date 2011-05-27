@@ -1,6 +1,9 @@
 package fraguel.android;
 
-public class PointOI {
+import java.io.Serializable;
+
+public class PointOI implements Serializable{
+	private static final long serialVersionUID = 8799656478674716638L;
 	public int id;
 	public float[] coords = { 0.0f, 0.0f };
 	public String title;
