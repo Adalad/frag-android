@@ -207,8 +207,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
 		states = new ArrayList<State>();
-		addState(new IntroState(), true);
-		addState(new MainMenuState(), false);
+		addState(new IntroState(), false);
+		addState(new MainMenuState(), true);
 		//addState(new MenuState(), false);
 		addState(new MapState(), false);
 		addState(new VideoState(), false);
@@ -582,6 +582,44 @@ public void createDialog(String title,final CharSequence[] items,DialogInterface
 		
 		AlertDialog alert = builder.create();
 		alert.show();
+}
+public void createDialogWithRadioButtons(String title,final CharSequence[] items,DialogInterface.OnClickListener clickListener,DialogInterface.OnKeyListener keyListener){
+	
+	AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
+	builder.setTitle(title);
+	builder.setSingleChoiceItems(items, -1, clickListener);
+	if (keyListener!=null)
+		builder.setOnKeyListener(keyListener);
+	
+	AlertDialog alert = builder.create();
+	alert.show();
+}
+
+public void createCustomDialog(String title, View view,DialogInterface.OnClickListener listenerPositiveButton,String button,DialogInterface.OnKeyListener keyListener){
+	AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
+	builder.setTitle(title);
+	builder.setView(view);
+	builder.setNeutralButton(button, listenerPositiveButton);
+	//builder.setPositiveButton(button, listenerPositiveButton);
+	if (keyListener!=null)
+		builder.setOnKeyListener(keyListener);
+	AlertDialog alert = builder.create();
+	alert.show();
+}
+
+public void createCustomDialog(String title, View view,DialogInterface.OnClickListener listenerFirstButton,String firstButton,DialogInterface.OnClickListener listenerSecondButton,String secondButton,DialogInterface.OnKeyListener keyListener){
+	AlertDialog.Builder builder = new AlertDialog.Builder(FRAGUEL.getInstance());
+	builder.setTitle(title);
+	builder.setView(view);
+	builder.setNeutralButton(firstButton, listenerFirstButton);
+	builder.setNegativeButton(secondButton, listenerSecondButton);
+	//builder.setPositiveButton(firstButton, listenerFirstButton);
+	//builder.setNegativeButton(secondButton, listenerSecondButton);
+	if (keyListener!=null)
+		builder.setOnKeyListener(keyListener);
+	AlertDialog alert = builder.create();
+	alert.show();
+	
 }
 
 	@Override
