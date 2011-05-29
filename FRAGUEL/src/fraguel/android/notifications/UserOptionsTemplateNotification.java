@@ -1,5 +1,7 @@
 package fraguel.android.notifications;
 
+import java.io.File;
+
 import fraguel.android.FRAGUEL;
 import fraguel.android.resources.ResourceManager;
 import fraguel.android.states.MainMenuState;
@@ -19,6 +21,8 @@ import android.widget.Toast;
 public class UserOptionsTemplateNotification implements DialogInterface.OnClickListener{
 
 	private final CharSequence[] options = {"Nueva ruta", "Continuar ruta: "};
+	private String[] rutas= new File(ResourceManager.getInstance().getRootPath()+"/user").list();
+	private final CharSequence[] op = new CharSequence[1];
 	@Override
 	public void onClick(DialogInterface arg0, int arg1) {
 		// TODO Auto-generated method stub
