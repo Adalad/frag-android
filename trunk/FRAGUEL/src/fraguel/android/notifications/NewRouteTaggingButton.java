@@ -17,7 +17,7 @@ public class NewRouteTaggingButton implements DialogInterface.OnClickListener{
 		state.setRouteName(state.getGeoTaggingForm().getRouteName());
 		state.setGeoTaggingPoints(new ArrayList<PointOI>());
 		
-		FRAGUEL.getInstance().createCustomDialog(state.getGeoTaggingForm().getRouteName()+": captura de coordenadas", new SavePointTemplate(FRAGUEL.getInstance().getApplicationContext()), new CaptureCoordinatesButton(), "Capturar", null, "Finalizar ruta", null);
+		FRAGUEL.getInstance().createCustomDialog(state.getGeoTaggingForm().getRouteName()+": captura de coordenadas", new SavePointTemplate(FRAGUEL.getInstance().getApplicationContext()), new CaptureCoordinatesButton(), "Capturar", new EndPointCaptureButton(), "Finalizar ruta", null);
 		dialog.dismiss();
 	}
 
