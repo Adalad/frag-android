@@ -80,7 +80,7 @@ public class ImageAdapter extends BaseAdapter {
              R.drawable.guerracivil_4,R.drawable.guerracivil_1,
              R.drawable.guerracivil_2,
              R.drawable.guerracivil_3,
-             R.drawable.guerracivil_4,R.drawable.guerracivil_1,
+            R.drawable.guerracivil_4,R.drawable.guerracivil_1,
              R.drawable.guerracivil_2,
              R.drawable.guerracivil_3,
              R.drawable.guerracivil_4,R.drawable.guerracivil_1,
