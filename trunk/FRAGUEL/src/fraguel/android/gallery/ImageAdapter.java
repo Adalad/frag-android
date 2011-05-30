@@ -1,11 +1,20 @@
 package fraguel.android.gallery;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import fraguel.android.FRAGUEL;
 import fraguel.android.R;
+import fraguel.android.resources.ResourceManager;
+import fraguel.android.states.RouteManagerState;
+import fraguel.android.threads.ImageDownloadingThread;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.GridView;
@@ -13,96 +22,16 @@ import android.widget.ImageView;
 
 
 public class ImageAdapter extends BaseAdapter {
-    private Context mContext;
-
-    public ImageAdapter(Context c) {
-        mContext = c;
-    }
-
-    public int getCount() {
-        return mThumbIds.length;
-    }
-
-   // public void setThumbIds(String[] s){
-  //  	this.mThumbIds
-   // 	imageView.se
-  //  }
-    
-    public Object getItem(int position) {
-        return null;
-    }
-
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    // create a new ImageView for each item referenced by the Adapter
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView;
-        if (convertView == null) {  // if it's not recycled, initialize some attributes
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
-        } else {
-            imageView = (ImageView) convertView;
-        }
-
-        imageView.setImageResource(mThumbIds[position]);
-        return imageView;
-    }
-
-    // references to our images
-    private Integer[] mThumbIds = {
-    		 R.drawable.guerracivil_1,
-             R.drawable.guerracivil_2,
-             R.drawable.guerracivil_3,
-             R.drawable.guerracivil_4,
-             R.drawable.guerracivil_1,
-             R.drawable.guerracivil_2,
-             R.drawable.guerracivil_3,
-             R.drawable.guerracivil_4,
-             R.drawable.guerracivil_1,
-             R.drawable.guerracivil_2,
-             R.drawable.guerracivil_3,
-             R.drawable.guerracivil_4,R.drawable.guerracivil_1,
-             R.drawable.guerracivil_2,
-             R.drawable.guerracivil_3,
-             R.drawable.guerracivil_4,R.drawable.guerracivil_1,
-             R.drawable.guerracivil_2,
-             R.drawable.guerracivil_3,
-             R.drawable.guerracivil_4,R.drawable.guerracivil_1,
-             R.drawable.guerracivil_2,
-             R.drawable.guerracivil_3,
-             R.drawable.guerracivil_4,R.drawable.guerracivil_1,
-             R.drawable.guerracivil_2,
-             R.drawable.guerracivil_3,
-             R.drawable.guerracivil_4,R.drawable.guerracivil_1,
-             R.drawable.guerracivil_2,
-             R.drawable.guerracivil_3,
-            R.drawable.guerracivil_4,R.drawable.guerracivil_1,
-             R.drawable.guerracivil_2,
-             R.drawable.guerracivil_3,
-             R.drawable.guerracivil_4,R.drawable.guerracivil_1,
-             R.drawable.guerracivil_2,
-             R.drawable.guerracivil_3,
-             R.drawable.guerracivil_4,
-            
-    };
-}
-
-
-
-/*public class ImageAdapter extends BaseAdapter {
     int mGalleryItemBackground;
     private Context mContext;
 
-    private Integer[] mImageIds = {
+    /*private Integer[] mImageIds = {
             R.drawable.guerracivil_1,
             R.drawable.guerracivil_2,
             R.drawable.guerracivil_3,
             R.drawable.guerracivil_4,
-    };
+    };*/
+    private ArrayList<String> urls=new ArrayList<String>();
 
     public ImageAdapter(Context c) {
         mContext = c;
@@ -113,7 +42,7 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return mImageIds.length;
+    	return urls.size();
     }
 
     public Object getItem(int position) {
@@ -123,15 +52,38 @@ public class ImageAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+    public void setData(ArrayList<String> data){
+    	urls=data;
+    }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView i = new ImageView(mContext);
-
-        i.setImageResource(mImageIds[position]);
-        i.setLayoutParams(new Gallery.LayoutParams(200, 150));
-        i.setScaleType(ImageView.ScaleType.FIT_XY);
-        i.setBackgroundResource(mGalleryItemBackground);
+    	ImageView i;
+    	if (convertView==null){
+    		i = new ImageView(mContext);
+	        
+	        i.setLayoutParams(new Gallery.LayoutParams(200, 150));
+	        i.setScaleType(ImageView.ScaleType.FIT_XY);
+	        i.setBackgroundResource(mGalleryItemBackground);
+        
+    	}else {
+            i = (ImageView) convertView;
+        }
+    	
+	    	String path="";
+	    	path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getRoute().id)+"point"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getPointOI().id)+"images"+position+".png";
+	    	
+	    	File f= new File(path);
+			if (f.exists()){
+				Bitmap bmp = BitmapFactory.decodeFile(path);
+				i.setImageBitmap(bmp);
+			}else{
+				i.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
+				ImageDownloadingThread thread = RouteManagerState.getInstance().getImageThread();
+				thread = new ImageDownloadingThread(urls.get(position),position,"route"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getRoute().id)+"point"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getPointOI().id)+"images"+position);
+				thread.start();				
+			}
+    	
 
         return i;
     }
-}*/
+}
