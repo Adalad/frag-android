@@ -1,5 +1,7 @@
 package fraguel.android.states;
 
+import java.util.ArrayList;
+
 import android.content.res.Configuration;
 import android.view.Gravity;
 import android.view.Menu;
@@ -14,7 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import fraguel.android.FRAGUEL;
+import fraguel.android.PointOI;
 import fraguel.android.R;
+import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.gallery.BigImageAdapter;
 import fraguel.android.gallery.FullScreenGallery;
@@ -35,6 +39,8 @@ public class ImageState extends State{
 	private Gallery gallery;
 	private ScrollView sv;
 	private FullScreenGallery bigGallery;
+	private ImageAdapter imageAdapter;
+	private BigImageAdapter bigAdapter;
 	private int currentIndex;
 	private boolean isBigGalleryDisplayed,isPresentation,automaticChange,stop,orientationChange;
 	private int presentationIndex=0;
@@ -52,7 +58,7 @@ public class ImageState extends State{
 		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
 		
 			title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
-			title.setText("Facultad A - Galería de fotos");
+			//title.setText("Facultad A - Galería de fotos");
 			title.setGravity(Gravity.CENTER_HORIZONTAL);
 			
 			isBigGalleryDisplayed=false;
@@ -79,11 +85,25 @@ public class ImageState extends State{
 		
 		
 		FRAGUEL.getInstance().addView(viewGroup);
-		//gallery.setSelection(0, true);
+		gallery.setSelection(0, true);
 		
 
 	}
 
+	@Override
+	public boolean loadData(Route r, PointOI p){
+		super.loadData(r, p);
+		title.setText(p.title+" - "+r.name);
+		ArrayList<String> data = new ArrayList<String>();
+		for(String s: p.images){
+			data.add(s);
+		}
+		imageAdapter.setData(data);
+		bigAdapter.setData(data);
+		imageAdapter.notifyDataSetChanged();
+		bigAdapter.notifyDataSetChanged();
+		return true;
+	}
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -113,7 +133,8 @@ public class ImageState extends State{
 	
 	private void setParamsSmallGallery(){
 		gallery=new Gallery(FRAGUEL.getInstance().getApplicationContext());
-		gallery.setAdapter(new ImageAdapter(FRAGUEL.getInstance().getApplicationContext()));
+		imageAdapter=new ImageAdapter(FRAGUEL.getInstance().getApplicationContext());
+		gallery.setAdapter(imageAdapter);
 		gallery.setHorizontalScrollBarEnabled(true);
 		
 		
@@ -161,7 +182,8 @@ public class ImageState extends State{
 	
 	private void setParamsBigGallery(){
 		bigGallery=new FullScreenGallery(FRAGUEL.getInstance().getApplicationContext());
-		bigGallery.setAdapter(new BigImageAdapter(FRAGUEL.getInstance().getApplicationContext()));
+		bigAdapter= new BigImageAdapter(FRAGUEL.getInstance().getApplicationContext());
+		bigGallery.setAdapter(bigAdapter);
 		bigGallery.setHorizontalScrollBarEnabled(true);
 		
 
@@ -296,7 +318,7 @@ public class ImageState extends State{
 			}
 			bigGallery.setSelection(0, true);
 			presentationIndex=0;
-			//FRAGUEL.getInstance().talkSpeech((String)text.getText(),0);
+			FRAGUEL.getInstance().talkSpeech((String)text.getText(),0);
 			bigGallery.setKeepScreenOn(true);
 			isPresentation=true;
 			return true;
@@ -312,6 +334,15 @@ public class ImageState extends State{
 		
 		}
 		return false;
+	}
+	
+	@Override
+	public void imageLoaded(int index){
+		if (!isBigGalleryDisplayed)
+			imageAdapter.notifyDataSetChanged();
+		else
+			bigAdapter.notifyDataSetChanged();
+			
 	}
 
 
