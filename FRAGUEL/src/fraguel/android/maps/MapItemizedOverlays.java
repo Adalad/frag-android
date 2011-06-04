@@ -136,7 +136,8 @@ public class MapItemizedOverlays extends ItemizedOverlay  implements OnGestureLi
 		}else{
 			v.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 			ImageDownloadingThread t = MapState.getInstance().getImageThread();
-			t= new ImageDownloadingThread(overlay.getPointOI().icon,0,path);
+			String[] url={overlay.getPointOI().icon};
+			t= new ImageDownloadingThread(url,path,0);
 			t.start();
 		}
 		

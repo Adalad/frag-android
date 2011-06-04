@@ -77,10 +77,7 @@ public class ImageAdapter extends BaseAdapter {
 				Bitmap bmp = BitmapFactory.decodeFile(path);
 				i.setImageBitmap(bmp);
 			}else{
-				i.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
-				ImageDownloadingThread thread = RouteManagerState.getInstance().getImageThread();
-				thread = new ImageDownloadingThread(urls.get(position),position,"route"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getRoute().id)+"point"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getPointOI().id)+"images"+position);
-				thread.start();				
+				i.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));				
 			}
     	
 

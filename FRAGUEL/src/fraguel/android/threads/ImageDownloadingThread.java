@@ -21,7 +21,8 @@ import android.util.Log;
 
 public class ImageDownloadingThread extends Thread{
 
-	private String url,name;
+	private String[] urls;
+	private String name;
 	private int index;
 	private URLConnection conn;
 	private InputStream is;
@@ -29,48 +30,66 @@ public class ImageDownloadingThread extends Thread{
 	private URL aURL;
 	private Bitmap bm,tmp;
 	private File f ;
-	public ImageDownloadingThread(String path,int imageIndex,String n){
+	public ImageDownloadingThread(String[] paths,String n,int indice){
 		super();
-		url=path;
-		index=imageIndex;
+		urls=paths;
 		name=n;
 		tmp=null;
 		f=null;
+		index=indice;
+	}
+	public ImageDownloadingThread(String[] paths,String n){
+		super();
+		urls=paths;
+		name=n;
+		tmp=null;
+		f=null;
+		index=0;
 	}
 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		String absolutePath=ResourceManager.getInstance().getRootPath()+"/tmp/"+name+".png";
-		f = new File(absolutePath);
+		int i=0;
+		String absolutePath;
+		for (String url: urls){
+				if (urls.length==1)
+					absolutePath=ResourceManager.getInstance().getRootPath()+"/tmp/"+name+".png";
+				else
+					absolutePath=ResourceManager.getInstance().getRootPath()+"/tmp/"+name+i+".png";
+				
+				f = new File(absolutePath);
+				
+				
+				if (!f.exists()&& url!=null){
+					
+					try{
+						tmp=getImageBitmap(url);
+						FileOutputStream fileOutputStream = new FileOutputStream(absolutePath);
 		
+						BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
 		
-		if (!f.exists()&& url!=null){
-			
-			try{
-				tmp=getImageBitmap(url);
-				FileOutputStream fileOutputStream = new FileOutputStream(absolutePath);
-
-				BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
-
-				tmp.compress(CompressFormat.PNG, 100, bos);
-
-				bos.flush();
-
-				bos.close();
-
-		        Message m = new Message();
-				m.arg2 = index;
-				FRAGUEL.getInstance().imageHandler.sendMessage(m);
-			}catch(Exception e){
-				f.delete();
-			}
-
-		}else if (f.exists()){
-
-	        Message m = new Message();
-			m.arg2 = index;
-			FRAGUEL.getInstance().imageHandler.sendMessage(m);
+						tmp.compress(CompressFormat.PNG, 50, bos);
+		
+						bos.flush();
+		
+						bos.close();
+		
+				        Message m = new Message();
+						m.arg2 = index;
+						FRAGUEL.getInstance().imageHandler.sendMessage(m);
+						i++;
+					}catch(Exception e){
+						f.delete();
+					}
+		
+				}else if (f.exists()){
+		
+			        Message m = new Message();
+					m.arg2 = index;
+					FRAGUEL.getInstance().imageHandler.sendMessage(m);
+				}
+		
 		}
 		
 		

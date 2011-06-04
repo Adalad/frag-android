@@ -88,10 +88,11 @@ public class RouteManagerAdapter extends BaseAdapter{
 		}else{
 			drawable.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 			ImageDownloadingThread thread = RouteManagerState.getInstance().getImageThread();
+			String[] urls={images.get(position)};
 			if (RouteManagerState.getInstance().getInternalState()==0)
-				thread = new ImageDownloadingThread(images.get(position),position,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(position).id)+"image");
+				thread = new ImageDownloadingThread(urls,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(position).id)+"image",position);
 			else if (RouteManagerState.getInstance().getInternalState()==1)
-				thread = new ImageDownloadingThread(images.get(position),position,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).id)+"point"+FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).pointsOI.get(position).id+"image");
+				thread = new ImageDownloadingThread(urls,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).id)+"point"+FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).pointsOI.get(position).id+"image",position);
 				thread.start();
 				
 		}

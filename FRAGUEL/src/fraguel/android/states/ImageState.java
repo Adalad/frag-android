@@ -23,6 +23,8 @@ import fraguel.android.State;
 import fraguel.android.gallery.BigImageAdapter;
 import fraguel.android.gallery.FullScreenGallery;
 import fraguel.android.gallery.ImageAdapter;
+import fraguel.android.resources.ResourceManager;
+import fraguel.android.threads.ImageDownloadingThread;
 import fraguel.android.utils.InfoText;
 import fraguel.android.utils.TitleTextView;
 
@@ -100,6 +102,7 @@ public class ImageState extends State{
 		}
 		imageAdapter.setData(data);
 		bigAdapter.setData(data);
+		this.imageThread= new ImageDownloadingThread(p.images,ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getRoute().id)+"point"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getPointOI().id)+"images",0);
 		imageAdapter.notifyDataSetChanged();
 		bigAdapter.notifyDataSetChanged();
 		return true;
