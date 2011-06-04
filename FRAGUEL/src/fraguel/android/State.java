@@ -32,8 +32,7 @@ public abstract class State implements Comparable<State> {
 	public abstract void load();
 
 	public void unload() {
-		if (FRAGUEL.getInstance().isTalking())
-			FRAGUEL.getInstance().stopTalking();
+		FRAGUEL.getInstance().stopTalking();
 		FRAGUEL.getInstance().removeAllViews();
 	}
 
@@ -85,10 +84,7 @@ public abstract class State implements Comparable<State> {
 			MapState.getInstance().setContextMenuDisplayed(false);
 			FRAGUEL.getInstance().closeContextMenu();
 			FRAGUEL.getInstance().returnState();
-			if (FRAGUEL.getInstance().isTalking())
-				FRAGUEL.getInstance().stopTalking();
-			
-
+			FRAGUEL.getInstance().stopTalking();
 			return true;
 		}else
 			return false;
