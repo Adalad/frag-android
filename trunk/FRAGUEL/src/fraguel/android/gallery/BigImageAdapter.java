@@ -76,17 +76,13 @@ public class BigImageAdapter extends BaseAdapter{
 			i.setImageBitmap(bmp);
 			
 		}else{
-			i.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
-			ImageDownloadingThread thread = RouteManagerState.getInstance().getImageThread();
-			thread = new ImageDownloadingThread(images.get(position),position,"route"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getRoute().id)+"point"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getPointOI().id)+"images"+position);
-			thread.start();				
+			i.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));				
 		}
                
         Display display = ((WindowManager)mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         int width = display.getWidth(); 
         int height= display.getHeight();
         
-        Drawable d = i.getDrawable();
         int currentImageWidth=0;
     	int currentImageHeight=0;
         

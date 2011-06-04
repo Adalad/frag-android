@@ -157,7 +157,8 @@ public class PointInfoState extends State{
 	
 	@Override
 	public boolean loadData(Route route, PointOI point){
-		imageThread= new ImageDownloadingThread(point.icon,0,"route"+Integer.toString(route.id)+"point"+point.id+"image");
+		String[] url={point.icon};
+		imageThread= new ImageDownloadingThread(url,"route"+Integer.toString(route.id)+"point"+point.id+"image");
 		imageThread.start();
 		image.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 		String titleText;
