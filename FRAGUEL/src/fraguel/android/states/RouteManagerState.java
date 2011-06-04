@@ -29,6 +29,7 @@ import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.lists.RouteManagerAdapter;
 import fraguel.android.resources.ResourceManager;
+import fraguel.android.utils.RouteInfoDialog;
 import fraguel.android.utils.TitleTextView;
 
 
@@ -50,6 +51,7 @@ public class RouteManagerState extends State {
 	//0->routes,1->points,2->pointData
 	private int internalState;
 	private int selectedRoute,selectedPoint;
+	private boolean displayRouteInfo;
 	
 	
 	public RouteManagerState() {
@@ -81,6 +83,7 @@ public class RouteManagerState extends State {
 		
 		FRAGUEL.getInstance().addView(viewGroup);
 		FRAGUEL.getInstance().registerForContextMenu(container);
+		displayRouteInfo=false;
 	}
 
 	@Override
@@ -127,10 +130,13 @@ private void addOnItemLongClickListenerToListView(){
 				
 				switch (internalState){
 				case 0:
-					Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Long Press routes", Toast.LENGTH_SHORT).show();
+					displayRouteInfo=true;
+					FRAGUEL.getInstance().openContextMenu(container);
+					route=FRAGUEL.getInstance().routes.get(position);
+					//Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Long Press routes", Toast.LENGTH_SHORT).show();
 					break;
 				case 1:
-					Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Long Press points", Toast.LENGTH_SHORT).show();
+					//Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Long Press points", Toast.LENGTH_SHORT).show();
 					break;
 				}
 				return true;
@@ -243,7 +249,15 @@ private void addOnItemLongClickListenerToListView(){
 		// TODO Auto-generated methd stub
 			
 			FRAGUEL.getInstance().closeContextMenu();
-			deleteSelectedRoute(FRAGUEL.getInstance().routes.get(item.getItemId()).id);
+			if (item.getGroupId()==0)
+				deleteSelectedRoute(FRAGUEL.getInstance().routes.get(item.getItemId()).id);
+			else{
+				if (item.getItemId()==0)
+					 new RouteInfoDialog(FRAGUEL.getInstance(),route).show();
+				else
+					deleteSelectedRoute(route.id);
+			}
+				
 			
 		
 		return true;
@@ -253,13 +267,22 @@ private void addOnItemLongClickListenerToListView(){
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
-		
-			menu.setHeaderTitle("Seleccione la ruta a eliminar");
-			int i=0;
-			for (Route r: FRAGUEL.getInstance().routes){
-				menu.add(0, i, 0, r.name);
-				i++;
+			
+			if (!displayRouteInfo){
+				menu.setHeaderTitle("Seleccione la ruta a eliminar");
+				int i=0;
+				for (Route r: FRAGUEL.getInstance().routes){
+					menu.add(0, i, 0, r.name);
+					i++;
+				}
+			}else{
+				menu.setHeaderTitle("Ruta: "+route.name);
+				menu.add(1, 0, 0, "Mostrar descripción");
+				menu.add(1, 1, 0, "Eliminar ruta");
+				displayRouteInfo=false;
 			}
+			
+			
 
 	    
 
