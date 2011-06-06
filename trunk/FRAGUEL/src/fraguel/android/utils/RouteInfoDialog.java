@@ -12,6 +12,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.view.Display;
+import android.view.WindowManager;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +32,12 @@ public class RouteInfoDialog extends Dialog{
 		LinearLayout container = new LinearLayout(context);
 		container.setOrientation(LinearLayout.VERTICAL);
 		
+		Display display = ((WindowManager)FRAGUEL.getInstance().getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        int width = display.getWidth(); 
+        int height= display.getHeight();
+		
+        container.setLayoutParams(new LayoutParams(width-20,height-20));
+        
 		image = new ImageView(context);
 		
 		String path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(r.id)+"icon"+".png";
@@ -44,18 +52,17 @@ public class RouteInfoDialog extends Dialog{
 			ImageDownloadingThread imageThread= new ImageDownloadingThread(url,"route"+Integer.toString(r.id)+"icon",ResourceManager.getInstance().getRootPath()+"/tmp/",1);
 			imageThread.start();
 		}
-		
-		
-		image.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,120 ));		
-		image.setPadding(5, 5, 5, 5);
+		int heightAvailable=height-20;
+		int div=heightAvailable/3;
+		image.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,div ));		
+		//image.setPadding(5, 5, 5, 5);
 		image.setAdjustViewBounds(true);
-		image.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 		
 		container.addView(image);
 		
 		ScrollView sv = new ScrollView(FRAGUEL.getInstance().getApplicationContext());
-		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,120));
-		
+		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+		sv.setPadding(5, 5, 5, 5);
 		
 		
 		TextView text = new TextView(context);
@@ -64,8 +71,8 @@ public class RouteInfoDialog extends Dialog{
 		sv.addView(text);
 		
 		container.addView(sv);
-		
-		FRAGUEL.getInstance().talk(r.description);
+		if(!FRAGUEL.getInstance().isTalking())
+			FRAGUEL.getInstance().talk(r.description);
 		
 		
 		this.setContentView(container);
