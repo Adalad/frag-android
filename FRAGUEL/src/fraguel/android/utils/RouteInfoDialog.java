@@ -32,7 +32,7 @@ public class RouteInfoDialog extends Dialog{
 		
 		image = new ImageView(context);
 		
-		String path="route"+Integer.toString(r.id)+"image";
+		String path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(r.id)+"icon"+".png";
 		
 		File f= new File(path);
 		if (f.exists()){
@@ -41,7 +41,7 @@ public class RouteInfoDialog extends Dialog{
 		}else{
 			image.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 			String[] url = {r.icon};
-			ImageDownloadingThread imageThread= new ImageDownloadingThread(url,"route"+Integer.toString(r.id)+"image",1);
+			ImageDownloadingThread imageThread= new ImageDownloadingThread(url,"route"+Integer.toString(r.id)+"icon",ResourceManager.getInstance().getRootPath()+"/tmp/",1);
 			imageThread.start();
 		}
 		
@@ -72,7 +72,7 @@ public class RouteInfoDialog extends Dialog{
 	}
 	
 	public void imageLoaded(){
-		String path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(route.id)+"image"+".png";
+		String path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(route.id)+"icon"+".png";
 		Bitmap bmp = BitmapFactory.decodeFile(path);
 		image.setImageBitmap(bmp);
 		image.invalidate();
