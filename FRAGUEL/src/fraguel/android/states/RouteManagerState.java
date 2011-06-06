@@ -343,16 +343,7 @@ private void addOnItemLongClickListenerToListView(){
 		//borramos los archivos temporales de la carpeta de la propia ruta
 		File dir=new File(ResourceManager.getInstance().getRootPath()+"/tmp/route"+id);	
 		if (dir.exists()){
-			String[] files= new File(ResourceManager.getInstance().getRootPath()+"/tmp/route"+id).list();
-			int j=0;
-			File file=null;
-			
-			while (j<files.length){
-
-					file=new File(ResourceManager.getInstance().getRootPath()+"/tmp/route"+id+"/"+files[j]);
-					file.delete();	
-					j++;
-			}
+			FRAGUEL.getInstance().cleanDir(dir.getPath());
 			dir.delete();
 		}
 		loadRoutes(0);
