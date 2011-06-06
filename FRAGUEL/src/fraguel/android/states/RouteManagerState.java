@@ -154,7 +154,7 @@ private void addOnItemLongClickListenerToListView(){
 		currentDataTitle=new ArrayList<String>();
 		currentDataDescrip= new ArrayList<String>();
 		ArrayList<PointOI> points= FRAGUEL.getInstance().routes.get(route).pointsOI;
-		String[] urls=new String[FRAGUEL.getInstance().routes.size()];
+		String[] urls=new String[points.size()];
 		String[] names= new String[urls.length];
 		int i =0;
 		for (PointOI p : points){
@@ -168,6 +168,7 @@ private void addOnItemLongClickListenerToListView(){
 		adapter.setDescription(currentDataDescrip);
 		adapter.notifyDataSetChanged();
 		this.imageThread= new ImageDownloadingThread(urls,names,ResourceManager.getInstance().getRootPath()+"/tmp/route"+FRAGUEL.getInstance().routes.get(route).id+"/");
+		imageThread.start();
 		internalState=1;
 		list.setSelection(selectedPoint);
 	}
@@ -194,6 +195,7 @@ private void addOnItemLongClickListenerToListView(){
 		adapter.setDescription(currentDataDescrip);
 		adapter.notifyDataSetChanged();
 		this.imageThread= new ImageDownloadingThread(urls,names,ResourceManager.getInstance().getRootPath()+"/tmp/");
+		imageThread.start();
 		internalState=0;
 		list.setSelection(routeFocus);
 		
