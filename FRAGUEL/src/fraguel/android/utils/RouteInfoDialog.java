@@ -24,7 +24,7 @@ public class RouteInfoDialog extends Dialog{
 
 	private Route route;
 	private ImageView image;
-	public RouteInfoDialog(Context context,Route r) {
+	public RouteInfoDialog(Context context,Route r,boolean talk) {
 		super(context);
 		// TODO Auto-generated constructor stub
 		route=r;
@@ -71,7 +71,7 @@ public class RouteInfoDialog extends Dialog{
 		sv.addView(text);
 		
 		container.addView(sv);
-		if(!FRAGUEL.getInstance().isTalking())
+		if(talk && !FRAGUEL.getInstance().isTalking())
 			FRAGUEL.getInstance().talk(r.description);
 		
 		

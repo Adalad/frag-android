@@ -266,7 +266,7 @@ private void addOnItemLongClickListenerToListView(){
 				deleteSelectedRoute(FRAGUEL.getInstance().routes.get(item.getItemId()).id);
 			else{
 				if (item.getItemId()==0){
-					 this.routeInfo=new RouteInfoDialog(FRAGUEL.getInstance(),route);
+					 this.routeInfo=new RouteInfoDialog(FRAGUEL.getInstance(),route,false);
 					 routeInfo.show();
 				}else
 					deleteSelectedRoute(route.id);
