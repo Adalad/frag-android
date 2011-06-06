@@ -26,7 +26,6 @@ public class RouteManagerAdapter extends BaseAdapter{
 
 	private ArrayList<String> titles=new ArrayList<String>();
 	private ArrayList<String> descriptions=new ArrayList<String>();
-	private ArrayList<String> images=new ArrayList<String>();
 	private Context context;
 	
 	public RouteManagerAdapter(Context c) {
@@ -57,10 +56,6 @@ public class RouteManagerAdapter extends BaseAdapter{
 	public void setDescription(ArrayList<String> s){
 		descriptions=s;
 	}
-	public void setImages(ArrayList<String> s){
-		images=s;
-	}
-
 	@Override
 	public View getView(int position, View arg1, ViewGroup arg2) {
 		// TODO Auto-generated method stub
@@ -74,12 +69,11 @@ public class RouteManagerAdapter extends BaseAdapter{
 		drawable.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 		
 		String path="";
-		
-		
+
 		if (RouteManagerState.getInstance().getInternalState()==0)
-			path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(FRAGUEL.getInstance().routes.get(position).id)+"image"+".png";
+			path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(FRAGUEL.getInstance().routes.get(position).id)+"icon"+".png";
 		else if (RouteManagerState.getInstance().getInternalState()==1)
-			path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).id)+"point"+FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).pointsOI.get(position).id+"image"+".png";
+			path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).id)+"/point"+FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).pointsOI.get(position).id+"icon"+".png";
 		
 		File f= new File(path);
 		if (f.exists()){
@@ -87,14 +81,13 @@ public class RouteManagerAdapter extends BaseAdapter{
 			drawable.setImageBitmap(bmp);
 		}else{
 			drawable.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
-			ImageDownloadingThread thread = RouteManagerState.getInstance().getImageThread();
+			/*ImageDownloadingThread thread = RouteManagerState.getInstance().getImageThread();
 			String[] urls={images.get(position)};
 			if (RouteManagerState.getInstance().getInternalState()==0)
 				thread = new ImageDownloadingThread(urls,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(position).id)+"image",position);
 			else if (RouteManagerState.getInstance().getInternalState()==1)
 				thread = new ImageDownloadingThread(urls,"route"+Integer.toString(FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).id)+"point"+FRAGUEL.getInstance().routes.get(RouteManagerState.getInstance().getSelectedRoute()).pointsOI.get(position).id+"image",position);
-				thread.start();
-				
+				thread.start();*/				
 		}
 		
 		drawable.setLayoutParams(new LayoutParams(55,50));
@@ -117,7 +110,7 @@ public class RouteManagerAdapter extends BaseAdapter{
 		description.setTextAppearance(FRAGUEL.getInstance().getApplicationContext(), R.style.ListText);
 		
 		text.addView(title);
-		text.addView(description);
+		//text.addView(description);
 		
 		row.addView(drawable);
 		row.addView(text);
