@@ -45,6 +45,11 @@ public class PointInfoState extends State{
 	private TitleTextView title;
 	private ImageView image;
 	private TextView text;
+	private static final int MENU_POINTINFO_STARTTALK = 0;
+	private static final int MENU_POINTINFO_STOPTALK = 1;
+	private static final int MENU_POINTINFO_MAINMENU = 2;
+	private static final int MENU_POINTINFO_BACK = 3;
+	
 	
 	
 	public PointInfoState() {
@@ -180,7 +185,7 @@ public class PointInfoState extends State{
 		text.setText(point.pointdescription);
 		this.route=route;
 		this.point=point;
-		FRAGUEL.getInstance().talk(point.title+"                             "+point.pointdescription);
+		FRAGUEL.getInstance().talk(point.title+" \n \n \n "+point.pointdescription);
 		return true;
 		
 	}
@@ -198,12 +203,34 @@ public class PointInfoState extends State{
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
+		menu.clear();
+		
+		if (FRAGUEL.getInstance().isTalking())
+			menu.add(0, MENU_POINTINFO_STOPTALK, 0, "Detener audio").setIcon(R.drawable.ic_menu_talkstop);
+		else
+			menu.add(0, MENU_POINTINFO_STARTTALK, 0, "Comenzar audio").setIcon(R.drawable.ic_menu_talkplay);
+		menu.add(0, MENU_POINTINFO_MAINMENU, 0, "Menu principal").setIcon(R.drawable.back);
+		menu.add(0, MENU_POINTINFO_BACK, 0, "Atrás").setIcon(R.drawable.back);
 		return menu;
 	}
 
 	@Override
 	public boolean onStateOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case MENU_POINTINFO_STOPTALK:
+			FRAGUEL.getInstance().stopTalking();
+			return true;
+		case MENU_POINTINFO_STARTTALK:
+			FRAGUEL.getInstance().talk(point.title+" \n \n \n "+point.pointdescription);
+			return true;
+		case MENU_POINTINFO_MAINMENU:
+			FRAGUEL.getInstance().changeState(MainMenuState.STATE_ID);
+			return true;
+		case MENU_POINTINFO_BACK:
+			FRAGUEL.getInstance().returnState();
+			return true;
+		}
 		return false;
 	}
 	
