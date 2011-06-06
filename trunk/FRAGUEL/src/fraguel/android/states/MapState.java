@@ -407,7 +407,7 @@ public class MapState extends State implements OnTouchListener{
 			else
 				menu.add(0, MAPSTATE_MENU_DRAWPATH, 0, "No guiar").setIcon(R.drawable.ic_menu_routerem);
 		if (FRAGUEL.getInstance().isTalking())
-			menu.add(0,MAPSTATE_MENU_STOPTALKING, 0, "Detener voz").setIcon(R.drawable.ic_menu_talkstop);
+			menu.add(0,MAPSTATE_MENU_STOPTALKING, 0, "Detener audio").setIcon(R.drawable.ic_menu_talkstop);
 		menu.add(0, MAPSTATE_MENU_CHANGEMAP, 0, R.string.mapstate_menu_changemap).setIcon(R.drawable.ic_menu_mapmode);		
 		menu.add(0, MAPSTATE_MENU_MY_POSITION, 0,R.string.mapstate_menu_my_position).setIcon(R.drawable.ic_menu_mylocation);
 		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,R.string.mapstate_menu_explore_map).setIcon(R.drawable.ic_menu_search);
