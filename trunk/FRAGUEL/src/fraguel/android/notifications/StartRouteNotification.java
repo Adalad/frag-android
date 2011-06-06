@@ -17,7 +17,7 @@ public class StartRouteNotification implements DialogInterface.OnClickListener{
 		case 0:
 			MapState.getInstance().setContextMenuDisplayed(false);
 			FRAGUEL.getInstance().getGPS().startRoute(MapState.getInstance().getRoute(), MapState.getInstance().getRoute().pointsOI.get(0));
-			routeDialog= new RouteInfoDialog(FRAGUEL.getInstance(),MapState.getInstance().getRoute());
+			routeDialog= new RouteInfoDialog(FRAGUEL.getInstance(),MapState.getInstance().getRoute(),true);
 			MapState.getInstance().setRouteInfoDialog(routeDialog);
 			routeDialog.show();
 			//FRAGUEL.getInstance().changeState(RouteInfoState.STATE_ID);
@@ -26,7 +26,7 @@ public class StartRouteNotification implements DialogInterface.OnClickListener{
 		case 1: 
 			MapState.getInstance().setContextMenuDisplayed(false);
 			FRAGUEL.getInstance().getGPS().startRoute(MapState.getInstance().getRoute(), MapState.getInstance().getPointOI());
-			routeDialog= new RouteInfoDialog(FRAGUEL.getInstance(),MapState.getInstance().getRoute());
+			routeDialog= new RouteInfoDialog(FRAGUEL.getInstance(),MapState.getInstance().getRoute(),true);
 			MapState.getInstance().setRouteInfoDialog(routeDialog);
 			routeDialog.show();
 			//FRAGUEL.getInstance().changeState(RouteInfoState.STATE_ID);
