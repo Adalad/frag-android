@@ -807,6 +807,7 @@ public void createCustomDialog(String title, View view,DialogInterface.OnClickLi
 					Route ruta=ResourceManager.getInstance().getXmlManager().readRoute(rutas[i].split(".xml")[0]);
 					ruta.pointsOI = ResourceManager.getInstance().getXmlManager().readPointsOI(rutas[i].split(".xml")[0]);
 					routes.add(ruta);
+					new File(ResourceManager.getInstance().getRootPath() + "/tmp" + "/route"+ruta.id).mkdir();
 				}
 			i++;
 		}
