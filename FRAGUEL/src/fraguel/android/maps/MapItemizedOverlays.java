@@ -37,6 +37,7 @@ import fraguel.android.Route;
 import fraguel.android.notifications.BackKeyNotification;
 import fraguel.android.notifications.StartRouteNotification;
 import fraguel.android.notifications.StopRouteNotification;
+import fraguel.android.resources.ResourceManager;
 import fraguel.android.states.MapState;
 import fraguel.android.threads.ImageDownloadingThread;
 
@@ -127,7 +128,7 @@ public class MapItemizedOverlays extends ItemizedOverlay  implements OnGestureLi
 		
 		MapState.getInstance().loadData(overlay.getRoute(), overlay.getPointOI());
 		
-		String path="route"+Integer.toString(overlay.getRoute().id)+"point"+overlay.getPointOI().id+"image";
+		String path=ResourceManager.getInstance().getRootPath()+"/tmp/route"+overlay.getRoute().id+"/point"+overlay.getPointOI().id+"icon.png";
 		
 		File f= new File(path);
 		if (f.exists()){
@@ -137,7 +138,7 @@ public class MapItemizedOverlays extends ItemizedOverlay  implements OnGestureLi
 			v.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 			ImageDownloadingThread t = MapState.getInstance().getImageThread();
 			String[] url={overlay.getPointOI().icon};
-			t= new ImageDownloadingThread(url,path,0);
+			t= new ImageDownloadingThread(url,"point"+overlay.getPointOI().id+"icon",ResourceManager.getInstance().getRootPath()+"/tmp/route"+overlay.getRoute().id+"/",0);
 			t.start();
 		}
 		
