@@ -76,7 +76,6 @@ public class RouteInfoDialog extends Dialog{
 		Bitmap bmp = BitmapFactory.decodeFile(path);
 		image.setImageBitmap(bmp);
 		image.invalidate();
-		
 	}
 
 	

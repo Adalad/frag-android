@@ -52,6 +52,7 @@ public class RouteManagerState extends State {
 	private int internalState;
 	private int selectedRoute,selectedPoint;
 	private boolean displayRouteInfo;
+	private RouteInfoDialog routeInfo=null;
 	
 	
 	public RouteManagerState() {
@@ -264,9 +265,10 @@ private void addOnItemLongClickListenerToListView(){
 			if (item.getGroupId()==0)
 				deleteSelectedRoute(FRAGUEL.getInstance().routes.get(item.getItemId()).id);
 			else{
-				if (item.getItemId()==0)
-					 new RouteInfoDialog(FRAGUEL.getInstance(),route).show();
-				else
+				if (item.getItemId()==0){
+					 this.routeInfo=new RouteInfoDialog(FRAGUEL.getInstance(),route);
+					 routeInfo.show();
+				}else
 					deleteSelectedRoute(route.id);
 			}
 				
@@ -308,7 +310,10 @@ private void addOnItemLongClickListenerToListView(){
 	}
 	@Override
 	public void imageLoaded(int index){
-		adapter.notifyDataSetChanged();
+		if (index==1 && routeInfo!=null && displayRouteInfo)
+			routeInfo.imageLoaded();
+		else
+			adapter.notifyDataSetChanged();
 	}
 	private void deleteSelectedRoute(int id){
 		
