@@ -100,7 +100,7 @@ public class ImageDownloadingThread extends Thread{
 				        Message m = new Message();
 						m.arg2 = index;
 						FRAGUEL.getInstance().imageHandler.sendMessage(m);
-						i++;
+						
 					}catch(Exception e){
 						f.delete();
 						i++;
@@ -111,7 +111,10 @@ public class ImageDownloadingThread extends Thread{
 			        Message m = new Message();
 					m.arg2 = index;
 					FRAGUEL.getInstance().imageHandler.sendMessage(m);
+					
 				}
+				i++;
+					
 		
 		}
 		
