@@ -335,20 +335,26 @@ private void addOnItemLongClickListenerToListView(){
 		}
 		f.delete();		
 		
-		//Borramos sus archivos temporales
-		String[] files= new File(ResourceManager.getInstance().getRootPath()+"/tmp").list();
-		int j=0;
-		File file=null;
+		//Borramos sus archivos temporales de /tmp
+		File icon=new File(ResourceManager.getInstance().getRootPath()+"/tmp/route"+id+"icon.png");
+		if (icon.exists())
+			icon.delete();
 		
-		while (j<files.length){
+		//borramos los archivos temporales de la carpeta de la propia ruta
+		File dir=new File(ResourceManager.getInstance().getRootPath()+"/tmp/route"+id);	
+		if (dir.exists()){
+			String[] files= new File(ResourceManager.getInstance().getRootPath()+"/tmp/route"+id).list();
+			int j=0;
+			File file=null;
 			
-			if (files[0].startsWith("route"+id)){
-				file=new File(ResourceManager.getInstance().getRootPath()+"/tmp/"+files[j]);
-				file.delete();
+			while (j<files.length){
+
+					file=new File(ResourceManager.getInstance().getRootPath()+"/tmp/route"+id+"/"+files[j]);
+					file.delete();	
+					j++;
 			}
-			j++;
+			dir.delete();
 		}
-		
 		loadRoutes(0);
 	}
 	
