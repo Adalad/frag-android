@@ -70,8 +70,8 @@ public class ImageAdapter extends BaseAdapter {
         }
     	
 	    	String path="";
-	    	path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getRoute().id)+"point"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getPointOI().id)+"images"+position+".png";
-	    	
+	    	path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getRoute().id)+"/"+"point"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getPointOI().id)+"images"+position+".png";
+	    		    	
 	    	File f= new File(path);
 			if (f.exists()){
 				Bitmap bmp = BitmapFactory.decodeFile(path);
