@@ -103,7 +103,6 @@ public class ImageDownloadingThread extends Thread{
 						
 					}catch(Exception e){
 						f.delete();
-						i++;
 					}
 		
 				}else if (f.exists()){
