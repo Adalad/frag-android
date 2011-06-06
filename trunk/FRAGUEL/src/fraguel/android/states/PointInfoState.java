@@ -1,6 +1,7 @@
 package fraguel.android.states;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -8,6 +9,7 @@ import java.net.URLConnection;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -53,6 +55,7 @@ public class PointInfoState extends State{
 	
 	@Override
 	public void load() {
+		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		// TODO Auto-generated method stub
 		LinearLayout container= new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
 		container.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
@@ -68,7 +71,7 @@ public class PointInfoState extends State{
         heightAvailable=heightAvailable/2;
 
 		title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
-		title.setText("Aquí va el título del punto de interés");
+		//title.setText("Aquí va el título del punto de interés");
 		container.addView(title);
 		
 		
@@ -151,6 +154,8 @@ public class PointInfoState extends State{
 	
 	@Override
 	public void unload(){
+		super.unload();
+		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 		FRAGUEL.getInstance().getGPS().setDialogDisplayed(false);
 		super.unload();
 	}
@@ -158,9 +163,16 @@ public class PointInfoState extends State{
 	@Override
 	public boolean loadData(Route route, PointOI point){
 		String[] url={point.icon};
-		imageThread= new ImageDownloadingThread(url,"route"+Integer.toString(route.id)+"point"+point.id+"image");
-		imageThread.start();
-		image.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
+		String path=ResourceManager.getInstance().getRootPath()+"/tmp/route"+route.id+"/point"+point.id+"icon.png";
+		File f= new File(path);
+		if (f.exists()){
+			Bitmap bmp = BitmapFactory.decodeFile(path);
+			image.setImageBitmap(bmp);
+		}else{
+			imageThread= new ImageDownloadingThread(url,"point"+point.id+"icon",ResourceManager.getInstance().getRootPath()+"/tmp/route"+route.id+"/");
+			imageThread.start();
+			image.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
+		}
 		String titleText;
 		titleText=point.title+" ("+route.name+")";
 		title.setText(titleText);
@@ -175,7 +187,7 @@ public class PointInfoState extends State{
 	@Override
 	public void imageLoaded(int index){
 		if (index==0){
-			String path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(route.id)+"point"+point.id+"image"+".png";
+			String path=ResourceManager.getInstance().getRootPath()+"/tmp/route"+route.id+"/point"+point.id+"icon"+".png";
 			Bitmap bmp = BitmapFactory.decodeFile(path);
 			image.setImageBitmap(bmp);
 			image.invalidate();

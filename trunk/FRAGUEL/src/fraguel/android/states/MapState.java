@@ -58,6 +58,7 @@ public class MapState extends State implements OnTouchListener{
 	private static final int MAPSTATE_MENU_COMPASS=4;
 	private static final int MAPSTATE_MENU_BACKMENU = 5;
 	private static final int MAPSTATE_MENU_DRAWPATH=6;
+	private static final int MAPSTATE_MENU_STOPTALKING=7;
 	
 
 
@@ -241,7 +242,7 @@ public class MapState extends State implements OnTouchListener{
 	@Override
 	public void imageLoaded(int index){
 		if (index==0){
-			String path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(route.id)+"point"+point.id+"image"+".png";
+			String path=ResourceManager.getInstance().getRootPath()+"/tmp/route"+Integer.toString(route.id)+"/point"+point.id+"icon.png";
 			Bitmap bmp = BitmapFactory.decodeFile(path);
 			((ImageView) popupPI.findViewById(R.id.popupPI_imagen2)).setImageBitmap(bmp);
 			popupPI.invalidate();
@@ -405,7 +406,8 @@ public class MapState extends State implements OnTouchListener{
 				menu.add(0, MAPSTATE_MENU_DRAWPATH, 0, "¡Guíame!").setIcon(R.drawable.ic_menu_routeadd);
 			else
 				menu.add(0, MAPSTATE_MENU_DRAWPATH, 0, "No guiar").setIcon(R.drawable.ic_menu_routerem);
-		
+		if (FRAGUEL.getInstance().isTalking())
+			menu.add(0,MAPSTATE_MENU_STOPTALKING, 0, "Detener voz").setIcon(R.drawable.ic_menu_talkstop);
 		menu.add(0, MAPSTATE_MENU_CHANGEMAP, 0, R.string.mapstate_menu_changemap).setIcon(R.drawable.ic_menu_mapmode);		
 		menu.add(0, MAPSTATE_MENU_MY_POSITION, 0,R.string.mapstate_menu_my_position).setIcon(R.drawable.ic_menu_mylocation);
 		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,R.string.mapstate_menu_explore_map).setIcon(R.drawable.ic_menu_search);
@@ -454,6 +456,9 @@ public class MapState extends State implements OnTouchListener{
 
 		case MAPSTATE_MENU_BACKMENU:
 			FRAGUEL.getInstance().changeState(MainMenuState.STATE_ID);
+			return true;
+		case MAPSTATE_MENU_STOPTALKING:
+			FRAGUEL.getInstance().stopTalking();
 			return true;
 		}
 
