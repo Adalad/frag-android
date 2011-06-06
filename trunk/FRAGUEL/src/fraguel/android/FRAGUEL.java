@@ -410,6 +410,19 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		File f;
 		while ( i<rutas.length){
 			f= new File(ResourceManager.getInstance().getRootPath()+"/tmp/"+rutas[i]);
+			if (f.isDirectory())
+				cleanDir(f.getPath());
+			f.delete();
+			i++;
+		}
+	}
+	
+	public void cleanDir(String path){
+		String[] ficheros= new File(path).list();
+		int i = 0;
+		File f;
+		while ( i<ficheros.length){
+			f= new File(path+"/"+ficheros[i]);
 			f.delete();
 			i++;
 		}
