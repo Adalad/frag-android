@@ -73,7 +73,8 @@ public class InfoState extends State{
 			this.point=p;
 			
 			text.setText(point.pointdescription);
-			FRAGUEL.getInstance().talk((String)text.getText());
+			title.setText(p.title+" - "+r.name);
+			FRAGUEL.getInstance().talk((String)title.getText()+" /n /n /n "+(String)text.getText());
 			return true;
 		
 	}
@@ -110,7 +111,7 @@ public class InfoState extends State{
 			return true;
 
 		case INFOSTATE_REPEAT_RECORD:
-			FRAGUEL.getInstance().talk((String)text.getText());
+			FRAGUEL.getInstance().talk((String)title.getText()+" /n /n /n "+(String)text.getText());
 			return true;
 		}
 		return false;
