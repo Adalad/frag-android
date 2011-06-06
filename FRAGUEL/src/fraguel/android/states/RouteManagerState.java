@@ -29,6 +29,7 @@ import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.lists.RouteManagerAdapter;
 import fraguel.android.resources.ResourceManager;
+import fraguel.android.threads.ImageDownloadingThread;
 import fraguel.android.utils.RouteInfoDialog;
 import fraguel.android.utils.TitleTextView;
 
@@ -47,7 +48,6 @@ public class RouteManagerState extends State {
 	private ListView list;
 	private ArrayList<String> currentDataTitle;
 	private ArrayList<String> currentDataDescrip;
-	private ArrayList<String> currentDataImages;
 	//0->routes,1->points,2->pointData
 	private int internalState;
 	private int selectedRoute,selectedPoint;
@@ -131,8 +131,8 @@ private void addOnItemLongClickListenerToListView(){
 				switch (internalState){
 				case 0:
 					displayRouteInfo=true;
-					FRAGUEL.getInstance().openContextMenu(container);
 					route=FRAGUEL.getInstance().routes.get(position);
+					FRAGUEL.getInstance().openContextMenu(container);
 					//Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Long Press routes", Toast.LENGTH_SHORT).show();
 					break;
 				case 1:
@@ -148,21 +148,26 @@ private void addOnItemLongClickListenerToListView(){
 	private void loadPoints(int route){
 		System.gc();
 		title.setText(R.string.routemanagerstate_title_points_spanish);
-		title.setText(title.getText()+" "+ FRAGUEL.getInstance().routes.get(route).name);
+		title.setText(title.getText()+" '"+ FRAGUEL.getInstance().routes.get(route).name+"'");
 		container.removeView(list);
 		setAdapter();
 		currentDataTitle=new ArrayList<String>();
 		currentDataDescrip= new ArrayList<String>();
-		currentDataImages= new ArrayList<String>();
 		ArrayList<PointOI> points= FRAGUEL.getInstance().routes.get(route).pointsOI;
+		String[] urls=new String[FRAGUEL.getInstance().routes.size()];
+		String[] names= new String[urls.length];
+		int i =0;
 		for (PointOI p : points){
 			currentDataTitle.add(p.title);
 			currentDataDescrip.add("");
-			currentDataImages.add(p.icon);
+			urls[i]=p.icon;
+			names[i]="point"+p.id+"icon";
+			i++;
 		}
 		adapter.setTitle(currentDataTitle);
 		adapter.setDescription(currentDataDescrip);
-		adapter.setImages(currentDataImages);
+		adapter.notifyDataSetChanged();
+		this.imageThread= new ImageDownloadingThread(urls,names,ResourceManager.getInstance().getRootPath()+"/tmp/route"+FRAGUEL.getInstance().routes.get(route).id+"/");
 		internalState=1;
 		list.setSelection(selectedPoint);
 	}
@@ -175,15 +180,20 @@ private void addOnItemLongClickListenerToListView(){
 		setAdapter();
 		currentDataTitle=new ArrayList<String>();
 		currentDataDescrip= new ArrayList<String>();
-		currentDataImages= new ArrayList<String>();
+		String[] urls=new String[FRAGUEL.getInstance().routes.size()];
+		String[] names= new String[urls.length];
+		int i =0;
 		for (Route r : FRAGUEL.getInstance().routes) {
 			currentDataTitle.add(r.name);
 			currentDataDescrip.add(r.description);
-			currentDataImages.add(r.icon);
+			urls[i]=r.icon;
+			names[i]="route"+r.id+"icon";
+			i++;
 		}
 		adapter.setTitle(currentDataTitle);
 		adapter.setDescription(currentDataDescrip);
-		adapter.setImages(currentDataImages);
+		adapter.notifyDataSetChanged();
+		this.imageThread= new ImageDownloadingThread(urls,names,ResourceManager.getInstance().getRootPath()+"/tmp/");
 		internalState=0;
 		list.setSelection(routeFocus);
 		

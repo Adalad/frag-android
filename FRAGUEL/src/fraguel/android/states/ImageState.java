@@ -102,7 +102,8 @@ public class ImageState extends State{
 		}
 		imageAdapter.setData(data);
 		bigAdapter.setData(data);
-		this.imageThread= new ImageDownloadingThread(p.images,ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getRoute().id)+"point"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getPointOI().id)+"images",0);
+		this.imageThread= new ImageDownloadingThread(p.images,"point"+Integer.toString(point.id)+"images",ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(route.id)+"/");
+		imageThread.start();
 		imageAdapter.notifyDataSetChanged();
 		bigAdapter.notifyDataSetChanged();
 		return true;

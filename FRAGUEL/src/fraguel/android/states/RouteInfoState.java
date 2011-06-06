@@ -116,8 +116,8 @@ public class RouteInfoState extends State{
 		title.setText(r.name);
 		text.setText(r.description);
 		String[] url = {r.icon};
-		imageThread= new ImageDownloadingThread(url,"route"+Integer.toString(route.id)+"image");
-		imageThread.start();
+		//imageThread= new ImageDownloadingThread(url,"route"+Integer.toString(route.id)+"image");
+		//imageThread.start();
 		image.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));
 		FRAGUEL.getInstance().talk(r.name+" \n \n \n \n \n \n "+r.description);
 
