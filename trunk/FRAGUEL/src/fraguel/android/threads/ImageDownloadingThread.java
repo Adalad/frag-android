@@ -21,7 +21,7 @@ import android.util.Log;
 
 public class ImageDownloadingThread extends Thread{
 
-	private String[] urls;
+	private String[] urls,names;
 	private String name;
 	private int index;
 	private URLConnection conn;
@@ -30,21 +30,39 @@ public class ImageDownloadingThread extends Thread{
 	private URL aURL;
 	private Bitmap bm,tmp;
 	private File f ;
-	public ImageDownloadingThread(String[] paths,String n,int indice){
+	private String savedData;
+	private boolean sequencial;
+	public ImageDownloadingThread(String[] paths,String filename,String savingPath,int indice){
 		super();
 		urls=paths;
-		name=n;
+		name=filename;
 		tmp=null;
 		f=null;
 		index=indice;
+		savedData=savingPath;
+		names=null;
 	}
-	public ImageDownloadingThread(String[] paths,String n){
+	public ImageDownloadingThread(String[] paths,String filename,String savingPath){
 		super();
 		urls=paths;
-		name=n;
+		name=filename;
 		tmp=null;
 		f=null;
 		index=0;
+		savedData=savingPath;
+		sequencial=true;
+		names=null;
+	}
+	public ImageDownloadingThread(String[] paths,String[] filenames,String savingPath){
+		super();
+		urls=paths;
+		name=null;
+		names=filenames;
+		tmp=null;
+		f=null;
+		index=0;
+		savedData=savingPath;
+		sequencial=false;
 	}
 	
 	@Override
@@ -54,9 +72,13 @@ public class ImageDownloadingThread extends Thread{
 		String absolutePath;
 		for (String url: urls){
 				if (urls.length==1)
-					absolutePath=ResourceManager.getInstance().getRootPath()+"/tmp/"+name+".png";
-				else
-					absolutePath=ResourceManager.getInstance().getRootPath()+"/tmp/"+name+i+".png";
+					absolutePath=savedData+name+".png";
+				else{
+					if (sequencial)
+						absolutePath=savedData+name+i+".png";
+					else
+						absolutePath=savedData+names[i]+".png";
+					}
 				
 				f = new File(absolutePath);
 				
@@ -81,6 +103,7 @@ public class ImageDownloadingThread extends Thread{
 						i++;
 					}catch(Exception e){
 						f.delete();
+						i++;
 					}
 		
 				}else if (f.exists()){
