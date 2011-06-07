@@ -153,7 +153,7 @@ public class MainMenuState extends State {
 		menu.clear();
 		// Menu de opciones creado por defecto
 		//menu.add(0, MENU_MAIN, 0, R.string.menu_menu).setIcon(R.drawable.info);
-		menu.add(0, MENU_EXIT, 0, R.string.menu_exit).setIcon(R.drawable.info);
+		menu.add(0, MENU_EXIT, 0, R.string.menu_exit).setIcon(R.drawable.ic_menu_exit);
 		
 		return menu;
 	}
