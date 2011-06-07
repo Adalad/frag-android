@@ -7,6 +7,7 @@ import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.utils.InfoText;
 import fraguel.android.utils.TitleTextView;
+import android.content.pm.ActivityInfo;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,6 +28,7 @@ public class InfoState extends State{
 	
 	private TitleTextView title;
 	private InfoText text;
+	private boolean talk=true;
 	public InfoState() {
 		super();
 		id = STATE_ID;
@@ -54,8 +56,11 @@ public class InfoState extends State{
 		ScrollView container= new ScrollView(FRAGUEL.getInstance().getApplicationContext());
 		text= new InfoText(FRAGUEL.getInstance().getApplicationContext());
 		text.setText("");
-		if (route!=null && point!=null)
+		if (route!=null && point!=null){
+			talk=false;
 			this.loadData(route, point);
+		}
+		
 		container.addView(text);
 		
 		
@@ -63,7 +68,7 @@ public class InfoState extends State{
 		
 		
 		viewGroup.addView(container);
-		
+		talk=true;
 		
 	}
 
@@ -74,9 +79,17 @@ public class InfoState extends State{
 			
 			text.setText(point.pointdescription);
 			title.setText(p.title+" - "+r.name);
-			FRAGUEL.getInstance().talk((String)title.getText()+" /n /n /n "+(String)text.getText());
+			if (talk){
+				FRAGUEL.getInstance().talk((String)title.getText()+" /n /n /n "+(String)text.getText());
+				talk=false;
+			}
 			return true;
 		
+	}
+	@Override
+	public void unload(){
+		talk=true;
+		super.unload();
 	}
 
 

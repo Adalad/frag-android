@@ -38,6 +38,7 @@ public class PointInfoState extends State{
 	private TitleTextView title;
 	private ImageView image;
 	private TextView text;
+	private boolean talk=true;
 	private static final int MENU_POINTINFO_STARTTALK = 0;
 	private static final int MENU_POINTINFO_STOPTALK = 1;
 	private static final int MENU_POINTINFO_MAINMENU = 2;
@@ -105,8 +106,11 @@ public class PointInfoState extends State{
         viewGroup=container;
         FRAGUEL.getInstance().addView(viewGroup);
         
-        if (route!=null && point!=null)
+        if (route!=null && point!=null){
+        	talk=false;
         	this.loadData(route, point);
+        }
+        talk=true;
 	}
 	
 	
@@ -152,6 +156,7 @@ public class PointInfoState extends State{
 	
 	@Override
 	public void unload(){
+		talk=true;
 		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 		FRAGUEL.getInstance().getGPS().setDialogDisplayed(false);
 		super.unload();
@@ -177,7 +182,10 @@ public class PointInfoState extends State{
 		text.setText(point.pointdescription);
 		this.route=route;
 		this.point=point;
-		FRAGUEL.getInstance().talk(point.title+" \n \n \n "+point.pointdescription);
+		if (talk){
+			FRAGUEL.getInstance().talk(point.title+" \n \n \n "+point.pointdescription);
+			talk=false;
+		}
 		return true;
 		
 	}
