@@ -34,7 +34,6 @@ public class StartRouteNotification implements DialogInterface.OnClickListener{
 			break;
 		case 2: 
 			MapState.getInstance().setContextMenuDisplayed(false);
-			MapState.getInstance().setChooseAnotherRoute(true);
 			int i=0;
 			for (Route r: FRAGUEL.getInstance().routes){
 				options[i]=r.name;

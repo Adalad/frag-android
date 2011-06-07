@@ -12,8 +12,6 @@ public class RouteSelectionNotification implements DialogInterface.OnClickListen
 		// TODO Auto-generated method stub
 		MapState.getInstance().setContextRoute(FRAGUEL.getInstance().routes.get(which));
 		
-		MapState.getInstance().setChooseAnotherRoute(false);
-		MapState.getInstance().setChooseAnotherPoint(true);
 		
 		final CharSequence[] options = new CharSequence[MapState.getInstance().getContextRoute().pointsOI.size()];
 		
