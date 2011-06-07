@@ -2,36 +2,27 @@ package fraguel.android.states;
 
 import java.util.List;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.DialogInterface.OnKeyListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.util.Pair;
-import android.view.ContextMenu;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
-
 import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
 import fraguel.android.R;
@@ -73,7 +64,7 @@ public class MapState extends State implements OnTouchListener{
 	private boolean isPopupPI;
 	private boolean isPopupOnRoute;
 	private boolean isPopupPIOnRoute;
-	private boolean isContextMenuDisplayed,chooseAnotherRoute,choosePoint,showWay=true;
+	private boolean isContextMenuDisplayed,showWay=true;
 	private Route routeContext;
 	public final CharSequence[] options = {"Desde el principio", "","Elegir otra ruta"};
 	private RouteInfoDialog dialog;
@@ -155,8 +146,6 @@ public class MapState extends State implements OnTouchListener{
 		
 		
 		isContextMenuDisplayed=false;
-		chooseAnotherRoute=false;
-		choosePoint=false;
 		routeContext=null;
 
 		
@@ -469,14 +458,6 @@ public class MapState extends State implements OnTouchListener{
 		this.isContextMenuDisplayed = isContextMenuDisplayed;
 	}
 	
-	public void setChooseAnotherRoute(boolean chooseRoute) {
-		this.chooseAnotherRoute = chooseRoute;
-	}
-	
-	public void setChooseAnotherPoint(boolean choosePoint) {
-		this.choosePoint = choosePoint;
-	}
-
 	public boolean isContextMenuDisplayed() {
 		return isContextMenuDisplayed;
 	}
