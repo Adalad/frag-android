@@ -86,6 +86,8 @@ public class PointsHandler extends DefaultHandler {
 	public void endElement(String uri, String localName, String qName)
 	throws SAXException {
 		if (localName.equals("point")) {
+			_currentPoint.title=_currentPoint.title.replace("\\n", "\n");
+			_currentPoint.pointdescription=_currentPoint.pointdescription.replace("\\n", "\n").replace("\\t", "\t");
 			_points.add(_currentPoint);
 		} else if (localName.equals("title")) {
 			_in_titletag = false;
