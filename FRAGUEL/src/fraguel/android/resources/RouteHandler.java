@@ -64,6 +64,8 @@ public class RouteHandler extends DefaultHandler {
 			throws SAXException {
 		if (localName.equals("route")) {
 			_route=_currentRoute;
+			_route.name=_route.name.replace("\\n", "\n");
+			_route.description=_route.description.replace("\\n", "\n").replace("\\t", "\t");
 		} else if (localName.equals("name")) {
 			_in_nametag = false;
 		} else if (localName.equals("description")) {
