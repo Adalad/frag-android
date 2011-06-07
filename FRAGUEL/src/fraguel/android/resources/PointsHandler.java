@@ -19,6 +19,7 @@ public class PointsHandler extends DefaultHandler {
 
 	private ArrayList<PointOI> _points;
 	private PointOI _currentPoint;
+	private StringBuffer buffer;
 
 	public void endDocument() throws SAXException {
 	}
@@ -36,22 +37,29 @@ public class PointsHandler extends DefaultHandler {
 	public void characters(char[] ch, int start, int length)
 	throws SAXException {
 		if (_in_titletag) {
-			_currentPoint.title = new String(ch, start, length);
+			buffer.append(ch, start, length);
+			_currentPoint.title=buffer.toString();
 		} else if (_in_icontag) {
-			_currentPoint.icon = new String(ch, start, length);
+			buffer.append(ch, start, length);
+			_currentPoint.icon = buffer.toString();
 		} else if (_in_pointdescriptiontag) {
-			_currentPoint.pointdescription = new String(ch, start, length);
+			buffer.append(ch, start, length);
+			_currentPoint.pointdescription=buffer.toString();
 		}else if (_in_imagetag ) {
-			_currentPoint.setImages( new String(ch, start, length));
+			buffer.append(ch, start, length);
+			_currentPoint.setImages( buffer.toString());
 		} else if (_in_videotag) {
-			_currentPoint.video = new String(ch, start, length);
+			buffer.append(ch, start, length);
+			_currentPoint.video = buffer.toString();
 		} else if (_in_artag) {
-			_currentPoint.ar = new String(ch, start, length);
+			buffer.append(ch, start, length);
+			_currentPoint.ar = buffer.toString();
 		}
 	}
 
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
+		buffer=new StringBuffer();
 		if (localName.equals("point")) {
 			_currentPoint = new PointOI();
 			_currentPoint.id = Integer.parseInt(attributes.getValue("id"));
