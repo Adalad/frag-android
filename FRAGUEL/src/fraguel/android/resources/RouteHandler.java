@@ -18,6 +18,7 @@ public class RouteHandler extends DefaultHandler {
 	//private ArrayList<Route> _routes;
 	private Route _currentRoute;
 	private Route _route;
+	private StringBuffer buffer;
 
 	public void endDocument() throws SAXException {
 	}
@@ -33,16 +34,20 @@ public class RouteHandler extends DefaultHandler {
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 		if (_in_nametag) {
-			_currentRoute.name = new String(ch, start, length);
+			buffer.append(ch, start, length);
+			_currentRoute.name= buffer.toString();
 		} else if (_in_descriptiontag) {
-			_currentRoute.description = new String(ch, start, length);
+			buffer.append(ch, start, length);
+			_currentRoute.description=buffer.toString();
 		} else if (_in_icontag) {
-			_currentRoute.icon = new String(ch, start, length);
+			buffer.append(ch, start, length);
+			_currentRoute.icon = buffer.toString();
 		}
 	}
 
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
+		buffer = new StringBuffer();
 		if (localName.equals("route")) {
 			//_currentRoute = new Route();
 			_currentRoute.id = Integer.parseInt(attributes.getValue("id"));
