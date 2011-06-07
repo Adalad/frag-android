@@ -210,7 +210,7 @@ public class PointInfoState extends State{
 			menu.add(0, MENU_POINTINFO_STARTTALK, 0, "Comenzar audio").setIcon(R.drawable.ic_menu_talkplay);
 		
 		menu.add(0, MENU_POINTINFO_MAINMENU, 0, "Menu principal").setIcon(R.drawable.ic_menu_home);
-		menu.add(0, MENU_POINTINFO_BACK, 0, "Atrás").setIcon(R.drawable.back);
+		menu.add(0, MENU_POINTINFO_BACK, 0, "Atrás").setIcon(R.drawable.ic_menu_back);
 		
 		return menu;
 	}
