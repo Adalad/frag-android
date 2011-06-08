@@ -452,14 +452,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 					if (currentState.getId() == 1) {
 						MenuState m = (MenuState) currentState;
-						m.setOrientationText("X: " + sOrientation[0] * RAD2DEG
-								+ ", Y: " + sOrientation[1] * RAD2DEG + ",Z: "
-								+ sOrientation[2] * RAD2DEG);
-					}
-					//rotMatrix[3] = (float) myPosition.getLongitude();
-					//rotMatrix[7] = (float) myPosition.getLatitude();
-					//rotMatrix[11] = (float) myPosition.getAltitude();
-					// rotMatrix: matriz 4X4 de rotación para pasarla a OpenGL
+						m.setOrientationText("X: " + sOrientation[0] * RAD2DEG	+ ", Y: " + sOrientation[1] * RAD2DEG + ",Z: "	+ sOrientation[2] * RAD2DEG);
+					}					
 				}
 
 			}

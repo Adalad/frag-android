@@ -11,9 +11,11 @@ public class PointSelectionNotification implements DialogInterface.OnClickListen
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		// TODO Auto-generated method stub
-		MapState.getInstance().getGPS().startRoute(MapState.getInstance().getContextRoute(), MapState.getInstance().getContextRoute().pointsOI.get(which));
-		//FRAGUEL.getInstance().changeState(RouteInfoState.STATE_ID);
-		//FRAGUEL.getInstance().getCurrentState().loadData(MapState.getInstance().getContextRoute(), MapState.getInstance().getContextRoute().pointsOI.get(which));
+		if (which==0)
+			MapState.getInstance().getGPS().startRoute(MapState.getInstance().getContextRoute(), MapState.getInstance().getContextRoute().pointsOI.get(0));
+		else
+			MapState.getInstance().getGPS().startRoute(MapState.getInstance().getContextRoute(), MapState.getInstance().getContextRoute().pointsOI.get(which-1));
+		
 		RouteInfoDialog routeDialog= new RouteInfoDialog(FRAGUEL.getInstance(),MapState.getInstance().getContextRoute(),true);
 		MapState.getInstance().setRouteInfoDialog(routeDialog);
 		routeDialog.show();
