@@ -8,7 +8,7 @@ import fraguel.android.utils.RouteInfoDialog;
 import android.content.DialogInterface;
 
 public class StartRouteNotification implements DialogInterface.OnClickListener{
-	final CharSequence[] options = new CharSequence[FRAGUEL.getInstance().routes.size()];
+	//final CharSequence[] options = new CharSequence[FRAGUEL.getInstance().routes.size()];
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		// TODO Auto-generated method stub
@@ -20,8 +20,6 @@ public class StartRouteNotification implements DialogInterface.OnClickListener{
 			routeDialog= new RouteInfoDialog(FRAGUEL.getInstance(),MapState.getInstance().getRoute(),true);
 			MapState.getInstance().setRouteInfoDialog(routeDialog);
 			routeDialog.show();
-			//FRAGUEL.getInstance().changeState(RouteInfoState.STATE_ID);
-			//FRAGUEL.getInstance().getCurrentState().loadData(MapState.getInstance().getRoute(), MapState.getInstance().getRoute().pointsOI.get(0) );
 			break;
 		case 1: 
 			MapState.getInstance().setContextMenuDisplayed(false);
@@ -29,18 +27,17 @@ public class StartRouteNotification implements DialogInterface.OnClickListener{
 			routeDialog= new RouteInfoDialog(FRAGUEL.getInstance(),MapState.getInstance().getRoute(),true);
 			MapState.getInstance().setRouteInfoDialog(routeDialog);
 			routeDialog.show();
-			//FRAGUEL.getInstance().changeState(RouteInfoState.STATE_ID);
-			//FRAGUEL.getInstance().getCurrentState().loadData(MapState.getInstance().getRoute(), MapState.getInstance().getPointOI());
 			break;
 		case 2: 
 			MapState.getInstance().setContextMenuDisplayed(false);
 			int i=0;
+			
 			for (Route r: FRAGUEL.getInstance().routes){
-				options[i]=r.name;
+				MapState.getInstance().rutas[i]=r.name;
 				i++;
 			}
 			
-			FRAGUEL.getInstance().createDialog("Elegir ruta", options, new RouteSelectionNotification(), new BackKeyNotification());
+			FRAGUEL.getInstance().createDialog("Elegir ruta", MapState.getInstance().rutas, new RouteSelectionNotification(), new BackKeyNotification());
 			
 			break;
 	

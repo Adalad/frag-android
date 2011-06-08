@@ -13,9 +13,10 @@ public class RouteSelectionNotification implements DialogInterface.OnClickListen
 		MapState.getInstance().setContextRoute(FRAGUEL.getInstance().routes.get(which));
 		
 		
-		final CharSequence[] options = new CharSequence[MapState.getInstance().getContextRoute().pointsOI.size()];
+		final CharSequence[] options = new CharSequence[MapState.getInstance().getContextRoute().pointsOI.size()+1];
 		
-		int i=0;
+		options[0]="Desde el principio";
+		int i=1;
 		for (PointOI p: MapState.getInstance().getContextRoute().pointsOI){
 			options[i]=p.title;
 			i++;
