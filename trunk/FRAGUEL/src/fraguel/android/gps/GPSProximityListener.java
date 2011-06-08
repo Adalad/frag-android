@@ -11,6 +11,7 @@ import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.notifications.GPSIgnoreButton;
 import fraguel.android.notifications.ProximityAlertNotificationButton;
+import fraguel.android.states.MapState;
 import fraguel.android.states.PointInfoState;
 
 public class GPSProximityListener extends GPSProximity{
@@ -65,7 +66,7 @@ public class GPSProximityListener extends GPSProximity{
 				}
 			}
 			//si hay algún punto dentro del radio de acción mostramos una notificación
-			if (currentRoute != null && currentPoint != null && !FRAGUEL.getInstance().getGPS().isDialogDisplayed()) {
+			if (currentRoute != null && currentPoint != null && !MapState.getInstance().getGPS().isDialogDisplayed()) {
 					
 				msg = currentRoute.name + " - " + currentPoint.title + ": "+distance+" metros";
 				FRAGUEL.getInstance().createTwoButtonNotification(R.string.notification_proximityAlert_title_spanish,msg,R.string.notification_proximityAlert_possitiveButton_spanish,
@@ -75,7 +76,7 @@ public class GPSProximityListener extends GPSProximity{
 				
 				pointsVisited.add(new Pair<Pair<Integer, Integer>, Pair<Float, Float>>(new Pair<Integer, Integer>(currentRoute.id,currentPoint.id),	new Pair<Float, Float>(currentPoint.coords[0],currentPoint.coords[1])));
 				
-				FRAGUEL.getInstance().getGPS().setDialogDisplayed(true);
+				MapState.getInstance().getGPS().setDialogDisplayed(true);
 			}
 
 			currentRoute = null;

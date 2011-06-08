@@ -181,7 +181,7 @@ public class MapItemizedOverlays extends ItemizedOverlay  implements OnGestureLi
 	@Override
 	public void onLongPress(MotionEvent e) {
 		// TODO Auto-generated method stub
-		if (!MapState.getInstance().isContextMenuDisplayed()&&!FRAGUEL.getInstance().getGPS().isRouteMode()){
+		if (!MapState.getInstance().isContextMenuDisplayed()&&!MapState.getInstance().getGPS().isRouteMode()){
 			GeoPoint point=MapState.getInstance().getMapView().getProjection().fromPixels((int)e.getX(),(int) e.getY());
 			float latitude=(float)point.getLatitudeE6()/1000000;
 			float longitude=(float)point.getLongitudeE6()/1000000;

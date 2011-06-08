@@ -72,13 +72,12 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	// Sensors info
 	private SensorManager sensorManager;
 	private SensorEventListener sensorListener;
-	private Me myPosition;
 	private LocationManager locationManager;
 	private float[] sOrientation = { 0, 0, 0 };
 	private float[] sAccelerometer = { 0, 0, 0 };
 	private float[] sMagnetic = { 0, 0, 0 };
-	private float[] rotMatrix = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0 };
-	private float[] incMatrix = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0 };
+	private float[] rotMatrix = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	private float[] incMatrix = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	private static final float RAD2DEG = (float) (180 / Math.PI);
 
 	// TextToSpeech
@@ -187,12 +186,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 		newSensorListener();
 
-		// GPS Listener
-		myPosition = new Me();
 
 		// requestUpdatesFromAllSensors
 		activateSensors();
-		activateGPS();
 
 		// Routes and points OI
 		String state = Environment.getExternalStorageState();
@@ -354,22 +350,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		sensorManager.registerListener(sensorListener,sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 	}
 
-	public void activateGPS() {
-
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,	0, myPosition);
-
-	}
-
 	public void deactivateSensors() {
 		sensorManager.unregisterListener(sensorListener);
 
 	}
 
-	public void deactivateGPS() {
-
-		locationManager.removeUpdates(myPosition);
-
-	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -379,13 +364,11 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	public void onPause(Bundle savedInstanceState) {
 		super.onPause();
 		deactivateSensors();
-		deactivateGPS();
 	}
 
 	public void onResume(Bundle savedInstanceState) {
 		super.onResume();
 		activateSensors();
-		activateGPS();
 
 	}
 
@@ -473,9 +456,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 								+ ", Y: " + sOrientation[1] * RAD2DEG + ",Z: "
 								+ sOrientation[2] * RAD2DEG);
 					}
-					rotMatrix[3] = (float) myPosition.getLongitude();
-					rotMatrix[7] = (float) myPosition.getLatitude();
-					rotMatrix[11] = (float) myPosition.getAltitude();
+					//rotMatrix[3] = (float) myPosition.getLongitude();
+					//rotMatrix[7] = (float) myPosition.getLatitude();
+					//rotMatrix[11] = (float) myPosition.getAltitude();
 					// rotMatrix: matriz 4X4 de rotación para pasarla a OpenGL
 				}
 
@@ -504,10 +487,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	public State getCurrentState() {
 
 		return this.currentState;
-	}
-
-	public Me getGPS() {
-		return myPosition;
 	}
 
 	public void createOneButtonNotification(int title, int msg,DialogInterface.OnClickListener listener) {
@@ -817,147 +796,6 @@ public void createCustomDialog(String title, View view,DialogInterface.OnClickLi
 			i++;
 		}
 	}
-	
-	// ***********************************************************************************
-	// *************************************************************************************
-	public class Me implements LocationListener {
-
-		private GPSProximityRouteListener routeListener;
-		private GPSProximityListener pointListener;
-
-
-		private boolean isDialogDisplayed = false,routeMode=false;
 		
-		private float[] position = { 0, 0, 0 };
-		
-		private int routeid;
-		private Route r=null;
-		
-		
-
-		private Me() {
-
-			routeListener=new GPSProximityRouteListener();
-			pointListener=new GPSProximityListener();
-
-
-			// TODO Auto-generated constructor stub
-		}
-
-		@Override
-		public synchronized void onLocationChanged(Location location) {
-			// TODO Auto-generated method stub
-			
-			
-			
-			//notify changes to current state
-			position[0]=(float) location.getLatitude();
-			position[1]=(float) location.getLongitude();
-			position[2]=(float) location.getAltitude();
-			currentState.onLocationChanged(position);
-			
-			if (!routeMode)
-				pointListener.onLocationChanged(location);
-			else
-				routeListener.onLocationChanged(location);
-			
-
-		}
-
-
-		@Override
-		public void onProviderDisabled(String provider) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onProviderEnabled(String provider) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onStatusChanged(String provider, int status, Bundle extras) {
-			// TODO Auto-generated method stub
-			switch (status) {
-			case LocationProvider.AVAILABLE:
-				break;
-			case LocationProvider.OUT_OF_SERVICE:
-				break;
-			case LocationProvider.TEMPORARILY_UNAVAILABLE:
-				break;
-
-			}
-		}
-
-
-		public double getLatitude() {
-			return position[0];
-		}
-
-		public double getLongitude() {
-			return position[1];
-		}
-
-		public double getAltitude() {
-			return position[2];
-		}
-
-		public void setDialogDisplayed(boolean isDialogDisplayed) {
-			this.isDialogDisplayed = isDialogDisplayed;
-		}
-
-		public boolean isDialogDisplayed() {
-			return isDialogDisplayed;
-		}
-		
-		public void startRoute(Route r, PointOI p){
-			routeMode=true;
-			routeid=r.id;
-			this.r=r;
-			if (p==null)
-				p=r.pointsOI.get(0);
-			routeListener.startRoute(r, p);
-			
-		}
-		
-		public ArrayList<Pair<Pair<Integer,Integer>, Pair<Float, Float>>> getRoutePointsVisited(){
-			if (routeMode==true)
-				return routeListener.pointsVisited();
-			else
-				return null;
-			
-		}
-		
-		public ArrayList<Pair<Integer, Pair<Float, Float>>> getRoutePointsNotVisited(){
-			if (routeMode==true)
-				return routeListener.pointsToVisit();
-			else
-				return null;
-		}
-		
-		public void stopRoute(){
-			routeMode=false;
-			this.r=null;
-			MapState.getInstance().reStartMap();
-		}
-		
-		public boolean isRouteMode(){
-			return routeMode;
-		}
-		public int getRouteId(){
-			if (routeMode==true) 
-				return routeid;
-			else
-				return -1;
-		}
-		public Route getCurrentRoute(){
-			return r;
-		}
-
-	}
-
-	
 
 }

@@ -158,7 +158,7 @@ public class PointInfoState extends State{
 	public void unload(){
 		talk=true;
 		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-		FRAGUEL.getInstance().getGPS().setDialogDisplayed(false);
+		MapState.getInstance().getGPS().setDialogDisplayed(false);
 		super.unload();
 	}
 	

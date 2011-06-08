@@ -11,7 +11,7 @@ public class StopRouteNotification implements DialogInterface.OnClickListener{
 	public void onClick(DialogInterface arg0, int arg1) {
 		// TODO Auto-generated method stub
 			MapState.getInstance().setContextMenuDisplayed(false);
-			FRAGUEL.getInstance().getGPS().stopRoute();
+			MapState.getInstance().getGPS().stopRoute();
 			FRAGUEL.getInstance().stopTalking();
 	}
 
