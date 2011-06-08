@@ -356,33 +356,6 @@ public class MapState extends State implements OnTouchListener{
 		return me.getMyLocation();
 	}
 
-	//****************************************************************************************
-	//****************************************************************************************
-	private class MyPositionOverlay extends MyLocationOverlay{
-
-		public MyPositionOverlay(Context context, MapView mapView) {
-			super(context, mapView);
-			this.disableCompass();
-			this.enableMyLocation();
-			// TODO Auto-generated constructor stub
-		}
-
-		@Override
-		public synchronized void onLocationChanged(Location location) {
-			// TODO Auto-generated method stub
-			super.onLocationChanged(location);
-			if (isMyPosition)
-				mapControl.animateTo(getMyLocation());
-		}
-
-		@Override
-		public void onProviderDisabled(String provider) {
-			// TODO Auto-generated method stub
-			super.onProviderDisabled(provider);
-		}
-
-	}
-
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
@@ -479,6 +452,34 @@ public class MapState extends State implements OnTouchListener{
 	}
 	public void setRouteInfoDialog(RouteInfoDialog d){
 		dialog=d;
+	}
+	
+
+	//****************************************************************************************
+	//****************************************************************************************
+	private class MyPositionOverlay extends MyLocationOverlay{
+
+		public MyPositionOverlay(Context context, MapView mapView) {
+			super(context, mapView);
+			this.disableCompass();
+			this.enableMyLocation();
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public synchronized void onLocationChanged(Location location) {
+			// TODO Auto-generated method stub
+			super.onLocationChanged(location);
+			if (isMyPosition)
+				mapControl.animateTo(getMyLocation());
+		}
+
+		@Override
+		public void onProviderDisabled(String provider) {
+			// TODO Auto-generated method stub
+			super.onProviderDisabled(provider);
+		}
+
 	}
 	
 
