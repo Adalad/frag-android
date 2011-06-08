@@ -349,21 +349,14 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	}
 
 	public void activateSensors() {
-		sensorManager.registerListener(sensorListener,
-				sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
-				SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
-		sensorManager.registerListener(sensorListener,
-				sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
-				SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
-		sensorManager.registerListener(sensorListener,
-				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-				SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+		sensorManager.registerListener(sensorListener,sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+		sensorManager.registerListener(sensorListener,sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
+		sensorManager.registerListener(sensorListener,sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),SensorManager.SENSOR_STATUS_ACCURACY_HIGH);
 	}
 
 	public void activateGPS() {
 
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
-				0, myPosition);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,	0, myPosition);
 
 	}
 
@@ -434,10 +427,8 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	}
 
 	private void requestServices() {
-		locationManager = (LocationManager) this
-				.getSystemService(Context.LOCATION_SERVICE);
-		sensorManager = (SensorManager) this
-				.getSystemService(Context.SENSOR_SERVICE);
+		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
 	}
 
 	private void newSensorListener() {
