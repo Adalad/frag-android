@@ -35,6 +35,8 @@ import fraguel.android.maps.MapItemizedOverlays;
 import fraguel.android.maps.NextPointOverlay;
 import fraguel.android.maps.PointOverlay;
 import fraguel.android.maps.RouteOverlay;
+import fraguel.android.notifications.BackKeyNotification;
+import fraguel.android.notifications.RouteSelectionNotification;
 import fraguel.android.resources.ResourceManager;
 import fraguel.android.utils.RouteInfoDialog;
 
@@ -50,7 +52,7 @@ public class MapState extends State implements OnTouchListener{
 	private static final int MAPSTATE_MENU_MY_POSITION = 2;
 	private static final int MAPSTATE_MENU_EXPLORE_MAP = 3;
 	private static final int MAPSTATE_MENU_COMPASS=4;
-	private static final int MAPSTATE_MENU_BACKMENU = 5;
+	private static final int MAPSTATE_MENU_STARTROUTE = 5;
 	private static final int MAPSTATE_MENU_DRAWPATH=6;
 	private static final int MAPSTATE_MENU_STOPTALKING=7;
 	
@@ -70,6 +72,7 @@ public class MapState extends State implements OnTouchListener{
 	private boolean isContextMenuDisplayed,showWay=true;
 	private Route routeContext;
 	public final CharSequence[] options = {"Desde el principio", "","Elegir otra ruta"};
+	public final CharSequence[] rutas=new CharSequence[FRAGUEL.getInstance().routes.size()];
 	private RouteInfoDialog dialog;
 
 
@@ -343,8 +346,6 @@ public class MapState extends State implements OnTouchListener{
 			image=FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited);
 			
 			capa=new MapItemizedOverlays(image,FRAGUEL.getInstance());
-			//RouteOverlay o= new RouteOverlay(r);
-			//mapOverlays.add(o);
 			for (PointOI p : r.pointsOI) { 
 				point=new GeoPoint((int)(p.coords[0]*1000000),(int)(p.coords[1]*1000000));
 				item= new PointOverlay(point,p.title,p.title,p,r);
@@ -377,7 +378,7 @@ public class MapState extends State implements OnTouchListener{
 		menu.add(0, MAPSTATE_MENU_MY_POSITION, 0,R.string.mapstate_menu_my_position).setIcon(R.drawable.ic_menu_mylocation);
 		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,R.string.mapstate_menu_explore_map).setIcon(R.drawable.ic_menu_search);
 		menu.add(0, MAPSTATE_MENU_COMPASS, 0,R.string.mapstate_menu_compass).setIcon(R.drawable.ic_menu_compass);
-		menu.add(0, MAPSTATE_MENU_BACKMENU, 0, R.string.mapstate_menu_backmenu).setIcon(R.drawable.ic_menu_home);
+		menu.add(0, MAPSTATE_MENU_STARTROUTE, 0, "Comenzar ruta").setIcon(R.drawable.ic_menu_route);
 
 		return menu;
 	}
@@ -419,8 +420,15 @@ public class MapState extends State implements OnTouchListener{
 				me.enableCompass();
 			return true;
 
-		case MAPSTATE_MENU_BACKMENU:
-			FRAGUEL.getInstance().changeState(MainMenuState.STATE_ID);
+		case MAPSTATE_MENU_STARTROUTE:
+			int i=0;
+			for (Route r: FRAGUEL.getInstance().routes){
+				rutas[i]=r.name;
+				i++;
+			}
+			
+			FRAGUEL.getInstance().createDialog("Elegir ruta", rutas, new RouteSelectionNotification(), new BackKeyNotification());
+						
 			return true;
 		case MAPSTATE_MENU_STOPTALKING:
 			FRAGUEL.getInstance().stopTalking();
@@ -501,6 +509,13 @@ public class MapState extends State implements OnTouchListener{
 			
 			if (isMyPosition)
 				mapControl.animateTo(getMyLocation());
+			
+			//Añadir información de la posición a la matriz de rotación general
+			// rotMatrix: matriz 4X4 de rotación para pasarla a OpenGL
+			float[] rotMatrix=FRAGUEL.getInstance().getRotMatrix();
+			rotMatrix[3] = position[0];
+			rotMatrix[7] = position[1];
+			rotMatrix[11] = position[2];
 		}
 
 		@Override
