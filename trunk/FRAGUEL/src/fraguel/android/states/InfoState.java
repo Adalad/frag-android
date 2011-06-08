@@ -48,7 +48,7 @@ public class InfoState extends State{
 		FRAGUEL.getInstance().addView(viewGroup);
 		
 		title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
-		title.setText("INFORMACIÓN");
+		//title.setText("INFORMACIÓN");
 		
 		viewGroup.addView(title);
 		
@@ -79,7 +79,7 @@ public class InfoState extends State{
 			text.setText(point.pointdescription);
 			title.setText(p.title+" - "+r.name);
 			if (talk){
-				FRAGUEL.getInstance().talk((String)title.getText()+" /n /n /n "+(String)text.getText());
+				FRAGUEL.getInstance().talk(p.title+" /n /n /n "+p.pointdescription);
 				talk=false;
 			}
 			return true;
@@ -104,8 +104,8 @@ public class InfoState extends State{
 		// TODO Auto-generated method stub
 		menu.clear();
 		
-		menu.add(0, INFOSTATE_STOP_RECORD, 0, R.string.infostate_menu_stop).setIcon(R.drawable.stop);
-		menu.add(0, INFOSTATE_REPEAT_RECORD, 0, R.string.infostate_menu_repeat).setIcon(R.drawable.play);
+		menu.add(0, INFOSTATE_STOP_RECORD, 0, R.string.infostate_menu_stop).setIcon(R.drawable.ic_menu_talkstop);
+		menu.add(0, INFOSTATE_REPEAT_RECORD, 0, R.string.infostate_menu_repeat).setIcon(R.drawable.ic_menu_talkplay);
 		
 		return menu;
 		
@@ -123,7 +123,7 @@ public class InfoState extends State{
 			return true;
 
 		case INFOSTATE_REPEAT_RECORD:
-			FRAGUEL.getInstance().talk((String)title.getText()+" /n /n /n "+(String)text.getText());
+			FRAGUEL.getInstance().talk(point.title+" /n /n /n "+point.pointdescription);
 			return true;
 		}
 		return false;
