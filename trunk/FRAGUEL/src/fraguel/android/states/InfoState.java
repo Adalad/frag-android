@@ -74,8 +74,7 @@ public class InfoState extends State{
 
 	@Override
 	public boolean loadData(Route r, PointOI p){
-			this.route=r;
-			this.point=p;
+			super.loadData(r, p);
 			
 			text.setText(point.pointdescription);
 			title.setText(p.title+" - "+r.name);

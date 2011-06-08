@@ -79,8 +79,7 @@ public class ARState extends State {
 	
 	@Override
 	public boolean loadData(Route r,PointOI p){
-		route=r;
-		point=p;
+		super.loadData(r, p);
 		//FRAGUEL.getInstance().talk(point.pointdescription);
 		return true;
 	}

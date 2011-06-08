@@ -164,6 +164,7 @@ public class PointInfoState extends State{
 	
 	@Override
 	public boolean loadData(Route route, PointOI point){
+		super.loadData(route, point);
 		String[] url={point.icon};
 		String path=ResourceManager.getInstance().getRootPath()+"/tmp/route"+route.id+"/point"+point.id+"icon.png";
 		File f= new File(path);
@@ -180,8 +181,6 @@ public class PointInfoState extends State{
 		title.setText(titleText);
 			
 		text.setText(point.pointdescription);
-		this.route=route;
-		this.point=point;
 		if (talk){
 			FRAGUEL.getInstance().talk(point.title+" \n \n \n "+point.pointdescription);
 			talk=false;
