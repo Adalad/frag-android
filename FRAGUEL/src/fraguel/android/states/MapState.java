@@ -1,5 +1,6 @@
 package fraguel.android.states;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -28,6 +29,8 @@ import fraguel.android.PointOI;
 import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.State;
+import fraguel.android.gps.GPSProximityListener;
+import fraguel.android.gps.GPSProximityRouteListener;
 import fraguel.android.maps.MapItemizedOverlays;
 import fraguel.android.maps.NextPointOverlay;
 import fraguel.android.maps.PointOverlay;
@@ -137,7 +140,7 @@ public class MapState extends State implements OnTouchListener{
 		isMyPosition=true;
 		
 		//Cargamos todo
-		if (!FRAGUEL.getInstance().getGPS().isRouteMode())
+		if (!me.isRouteMode())
 			this.reStartMap();
 		else{
 			mapControl.setCenter(me.getMyLocation());
@@ -296,19 +299,19 @@ public class MapState extends State implements OnTouchListener{
 		//pintamos los ya visitados
 		MapItemizedOverlays visited = new MapItemizedOverlays(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_visited),FRAGUEL.getInstance());
 		
-		for (Pair<Pair<Integer,Integer>, Pair<Float, Float>> point : FRAGUEL.getInstance().getGPS().getRoutePointsVisited()){
+		for (Pair<Pair<Integer,Integer>, Pair<Float, Float>> point : me.getRoutePointsVisited()){
 			info=FRAGUEL.getInstance().getRouteandPointbyId(point.first.first,point.first.second);
 			visited.addOverlay(new PointOverlay(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title,info.second,info.first));
 		}
 
-			idroute=FRAGUEL.getInstance().getGPS().getRouteId();
+			idroute=me.getRouteId();
 			
 		if (visited.size()!=0)	
 			mapOverlays.add(visited);
 		
 		//pintamos los no visitados
 		visited= new MapItemizedOverlays(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited),FRAGUEL.getInstance());
-		for (Pair<Integer, Pair<Float, Float>> point : FRAGUEL.getInstance().getGPS().getRoutePointsNotVisited()){
+		for (Pair<Integer, Pair<Float, Float>> point : me.getRoutePointsNotVisited()){
 			info=FRAGUEL.getInstance().getRouteandPointbyId(idroute,point.first);
 			visited.addOverlay(new PointOverlay(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title,info.second,info.first));
 		}
@@ -363,7 +366,7 @@ public class MapState extends State implements OnTouchListener{
 		//Borramos el menu de opciones anterior
 		menu.clear();
 		//Añadimos las opciones del menu
-		if (FRAGUEL.getInstance().getGPS().isRouteMode())
+		if (me.isRouteMode())
 			if (showWay)
 				menu.add(0, MAPSTATE_MENU_DRAWPATH, 0, "¡Guíame!").setIcon(R.drawable.ic_menu_routeadd);
 			else
@@ -453,14 +456,28 @@ public class MapState extends State implements OnTouchListener{
 	public void setRouteInfoDialog(RouteInfoDialog d){
 		dialog=d;
 	}
+	public MyPositionOverlay getGPS(){
+		return me;
+	}
 	
 
 	//****************************************************************************************
 	//****************************************************************************************
-	private class MyPositionOverlay extends MyLocationOverlay{
+	public class MyPositionOverlay extends MyLocationOverlay{
 
+		private GPSProximityRouteListener routeListener;
+		private GPSProximityListener pointListener;
+		private boolean isDialogDisplayed = false,routeMode=false;
+		
+		private float[] position = { 0, 0, 0 };
+		
+		private int routeid;
+		private Route r=null;
+		
 		public MyPositionOverlay(Context context, MapView mapView) {
 			super(context, mapView);
+			routeListener=new GPSProximityRouteListener();
+			pointListener=new GPSProximityListener();
 			this.disableCompass();
 			this.enableMyLocation();
 			// TODO Auto-generated constructor stub
@@ -470,6 +487,18 @@ public class MapState extends State implements OnTouchListener{
 		public synchronized void onLocationChanged(Location location) {
 			// TODO Auto-generated method stub
 			super.onLocationChanged(location);
+			
+			//notify changes to current state
+			position[0]=(float) location.getLatitude();
+			position[1]=(float) location.getLongitude();
+			position[2]=(float) location.getAltitude();
+			FRAGUEL.getInstance().getCurrentState().onLocationChanged(position);
+			
+			if (!routeMode)
+				pointListener.onLocationChanged(location);
+			else
+				routeListener.onLocationChanged(location);
+			
 			if (isMyPosition)
 				mapControl.animateTo(getMyLocation());
 		}
@@ -478,6 +507,69 @@ public class MapState extends State implements OnTouchListener{
 		public void onProviderDisabled(String provider) {
 			// TODO Auto-generated method stub
 			super.onProviderDisabled(provider);
+		}
+		public double getLatitude() {
+			return position[0];
+		}
+
+		public double getLongitude() {
+			return position[1];
+		}
+
+		public double getAltitude() {
+			return position[2];
+		}
+
+		public void setDialogDisplayed(boolean isDialogDisplayed) {
+			this.isDialogDisplayed = isDialogDisplayed;
+		}
+
+		public boolean isDialogDisplayed() {
+			return isDialogDisplayed;
+		}
+		
+		public void startRoute(Route r, PointOI p){
+			routeMode=true;
+			routeid=r.id;
+			this.r=r;
+			if (p==null)
+				p=r.pointsOI.get(0);
+			routeListener.startRoute(r, p);
+			
+		}
+		
+		public ArrayList<Pair<Pair<Integer,Integer>, Pair<Float, Float>>> getRoutePointsVisited(){
+			if (routeMode==true)
+				return routeListener.pointsVisited();
+			else
+				return null;
+			
+		}
+		
+		public ArrayList<Pair<Integer, Pair<Float, Float>>> getRoutePointsNotVisited(){
+			if (routeMode==true)
+				return routeListener.pointsToVisit();
+			else
+				return null;
+		}
+		
+		public void stopRoute(){
+			routeMode=false;
+			this.r=null;
+			MapState.getInstance().reStartMap();
+		}
+		
+		public boolean isRouteMode(){
+			return routeMode;
+		}
+		public int getRouteId(){
+			if (routeMode==true) 
+				return routeid;
+			else
+				return -1;
+		}
+		public Route getCurrentRoute(){
+			return r;
 		}
 
 	}

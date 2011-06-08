@@ -56,7 +56,7 @@ public class GPSProximityRouteListener extends GPSProximity{
 				}
 				FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
 				FRAGUEL.getInstance().getCurrentState().loadData(currentRoute, currentPoint);
-				FRAGUEL.getInstance().getGPS().setDialogDisplayed(true);
+				MapState.getInstance().getGPS().setDialogDisplayed(true);
 				//actualizar las listas y el MapState
 				pointsVisited.add(new Pair<Pair<Integer,Integer>, Pair<Float, Float>>(new Pair<Integer,Integer>(currentRoute.id,currentPoint.id),new Pair<Float, Float>(currentPoint.coords[0],currentPoint.coords[1])));
 				pointsToVisit.remove(0);

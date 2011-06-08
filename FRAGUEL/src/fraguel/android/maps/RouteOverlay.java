@@ -28,6 +28,7 @@ import com.google.android.maps.Projection;
 import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
 import fraguel.android.Route;
+import fraguel.android.states.MapState;
 import fraguel.android.threads.RouteThread;
 
 public class RouteOverlay extends Overlay{
@@ -49,8 +50,8 @@ public class RouteOverlay extends Overlay{
 	}
 	public RouteOverlay(){
 		first=false;
-		visited= FRAGUEL.getInstance().getGPS().getRoutePointsVisited();
-		notVisited=FRAGUEL.getInstance().getGPS().getRoutePointsNotVisited();
+		visited= MapState.getInstance().getGPS().getRoutePointsVisited();
+		notVisited=MapState.getInstance().getGPS().getRoutePointsNotVisited();
 		rutasVerde= new ArrayList<ArrayList<GeoPoint>>();
 		rutasRojo= new ArrayList<ArrayList<GeoPoint>>();
 		
