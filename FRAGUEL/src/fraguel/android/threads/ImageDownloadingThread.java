@@ -121,19 +121,21 @@ public class ImageDownloadingThread extends Thread{
 	}
 	private Bitmap getImageBitmap(String url) {
         bm = null;
-        try {
-            aURL = new URL(url);
-            conn = aURL.openConnection();
-            conn.connect();
-            is = conn.getInputStream();
-            bis = new BufferedInputStream(is);
-            bm = BitmapFactory.decodeStream(bis);
-            bis.close();
-            is.close();
-            
-       } catch (IOException e) {
-           Log.e("Image", "Error getting bitmap", e);
-       }
+	        try {
+	        	
+		            aURL = new URL(url);
+		            conn = aURL.openConnection();
+		            conn.connect();
+		            is = conn.getInputStream();
+		            bis = new BufferedInputStream(is);
+		            bm = BitmapFactory.decodeStream(bis);
+		            bis.close();
+		            is.close();
+	            
+	       } catch (IOException e) {
+	           Log.e("Image", "Error getting bitmap", e);
+	       }
+       
        return bm;
     } 
 
