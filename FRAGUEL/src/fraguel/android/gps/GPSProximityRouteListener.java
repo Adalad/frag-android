@@ -60,7 +60,24 @@ public class GPSProximityRouteListener extends GPSProximity{
 			}else{
 				//mostrar info de la distancia y el bearing si no hay ningun popup
 				((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText((int)distance+ " metros para llegar a "+pointsToVisit.get(0).title);
-				((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.play);
+				//elegimos la flecha correspondiente al bearing
+				if (results[1]<=22.5 && results[1]>337.5 )
+					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_norte);
+				else if (results[1]<=67.5 && results[1]>22.5 )
+					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_norte_este);
+				else if (results[1]<=112.5 && results[1]>67.5 )
+					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_este);
+				else if (results[1]<=157.5 && results[1]>112.5 )
+					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_sur_este);
+				else if (results[1]<=202.5 && results[1]>157.5 )
+					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_sur);
+				else if (results[1]<=247.5 && results[1]>202.5 )
+					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_sur_oeste);
+				else if (results[1]<=292.5 && results[1]>247.5 )
+					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_oeste);
+				else if (results[1]<=337.5 && results[1]>292.5 )
+					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_norte_oeste);
+				//mostramos el pop-up
 				if (!MapState.getInstance().isAnyPopUp())
 					MapState.getInstance().setPopupOnRoute();
 				
