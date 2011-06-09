@@ -1,50 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout android:id="@+id/popuponroute"
-	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:layout_width="fill_parent" android:layout_height="30dip"
 	xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<LinearLayout android:orientation="vertical"
+	<LinearLayout android:orientation="horizontal"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:background="@drawable/popup_complete">
 
-		<TextView android:id="@+id/popuponroute_texto1"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:textStyle="bold" android:gravity="center_vertical" android:paddingTop="2dip" />
-
-
-		<LinearLayout android:id="@+id/popuponroute_container"
-			android:orientation="horizontal" android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
-
-
-
-			<FrameLayout android:layout_width="wrap_content"
+		
+		
+		<FrameLayout android:layout_width="wrap_content"
 				android:layout_height="wrap_content">
 
 				<ImageView android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:id="@+id/popuponroute_orientation"
-					android:paddingLeft="5dip" android:paddingTop="5dip" />
+					android:layout_height="wrap_content" android:scaleType="fitXY" android:id="@+id/popuponroute_orientation"
+					android:paddingRight="5dip" android:paddingTop="2dip" android:paddingBottom="2dip" android:paddingLeft="2dip" />
 
-			</FrameLayout>
-
-
-			<LinearLayout android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:orientation="horizontal"
-				android:layout_gravity="center" android:gravity="center">
-
-				<FrameLayout android:layout_width="fill_parent"
-					android:layout_height="wrap_content">
-					<TextView android:id="@+id/popuponroute_distance"
-						android:layout_width="wrap_content" android:layout_height="wrap_content"
-						android:textStyle="bold" android:gravity="center"
-						android:paddingTop="2dip" />
-				</FrameLayout>
+		</FrameLayout>
+		
+		
+		<TextView android:id="@+id/popuponroute_texto1"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:textStyle="bold" android:gravity="center_vertical" android:paddingTop="2dip" android:paddingBottom="2dip"/>
 
 
-			</LinearLayout>
 
 
-		</LinearLayout>
 
 
 	</LinearLayout>
