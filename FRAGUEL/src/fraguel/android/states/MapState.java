@@ -37,6 +37,7 @@ import fraguel.android.maps.PointOverlay;
 import fraguel.android.maps.RouteOverlay;
 import fraguel.android.notifications.BackKeyNotification;
 import fraguel.android.notifications.RouteSelectionNotification;
+import fraguel.android.notifications.StopRouteNotification;
 import fraguel.android.resources.ResourceManager;
 import fraguel.android.utils.RouteInfoDialog;
 
@@ -55,6 +56,7 @@ public class MapState extends State implements OnTouchListener{
 	private static final int MAPSTATE_MENU_STARTROUTE = 5;
 	private static final int MAPSTATE_MENU_DRAWPATH=6;
 	private static final int MAPSTATE_MENU_STOPTALKING=7;
+	private static final int MAPSTATE_MENU_STOPROUTE = 8;
 	
 
 
@@ -295,28 +297,23 @@ public class MapState extends State implements OnTouchListener{
 	
 	
 	private void addRouteOverlays(){
-		Pair<Route,PointOI> info = null;
-		int idroute;
 		//pintamos las líneas
 		mapOverlays.add(new RouteOverlay());
 		//pintamos los ya visitados
 		MapItemizedOverlays visited = new MapItemizedOverlays(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_visited),FRAGUEL.getInstance());
 		
-		for (Pair<Pair<Integer,Integer>, Pair<Float, Float>> point : me.getRoutePointsVisited()){
-			info=FRAGUEL.getInstance().getRouteandPointbyId(point.first.first,point.first.second);
-			visited.addOverlay(new PointOverlay(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title,info.second,info.first));
+		for (PointOI point : me.getRoutePointsVisited()){
+			visited.addOverlay(new PointOverlay(new GeoPoint((int)(point.coords[0]*1000000),(int)(point.coords[1]*1000000)), point.title, point.title,point,me.getCurrentRoute()));
 		}
 
-			idroute=me.getRouteId();
 			
 		if (visited.size()!=0)	
 			mapOverlays.add(visited);
 		
 		//pintamos los no visitados
 		visited= new MapItemizedOverlays(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_notvisited),FRAGUEL.getInstance());
-		for (Pair<Integer, Pair<Float, Float>> point : me.getRoutePointsNotVisited()){
-			info=FRAGUEL.getInstance().getRouteandPointbyId(idroute,point.first);
-			visited.addOverlay(new PointOverlay(new GeoPoint((int)(point.second.first*1000000),(int)(point.second.second*1000000)), info.second.title, info.second.title,info.second,info.first));
+		for (PointOI point : me.getRoutePointsNotVisited()){
+			visited.addOverlay(new PointOverlay(new GeoPoint((int)(point.coords[0]*1000000),(int)(point.coords[1]*1000000)),point.title, point.title,point,me.getCurrentRoute()));
 		}
 		if (visited.size()!=0)	
 			mapOverlays.add(visited);
@@ -325,10 +322,14 @@ public class MapState extends State implements OnTouchListener{
 		
 	}
 	public void startRoute(){
+		this.removeAllPopUps();
+		this.refreshMapRouteMode();
+	}
+	
+	public void removeAllPopUps(){
 		removePopUpPI();
 		this.removePopUpOnRoute();
 		this.removePopUpPIOnRoute();
-		this.refreshMapRouteMode();
 	}
 	
 	public void reStartMap(){
@@ -381,7 +382,7 @@ public class MapState extends State implements OnTouchListener{
 		if (!me.isRouteMode())
 			menu.add(0, MAPSTATE_MENU_STARTROUTE, 0, "Comenzar ruta").setIcon(R.drawable.ic_menu_route);
 		else
-			menu.add(0, MAPSTATE_MENU_STARTROUTE, 0, "Abandonar ruta").setIcon(R.drawable.ic_menu_route);
+			menu.add(0, MAPSTATE_MENU_STOPROUTE, 0, "Abandonar ruta").setIcon(R.drawable.ic_menu_route);
 
 		return menu;
 	}
@@ -436,8 +437,11 @@ public class MapState extends State implements OnTouchListener{
 		case MAPSTATE_MENU_STOPTALKING:
 			FRAGUEL.getInstance().stopTalking();
 			return true;
+		
+		case MAPSTATE_MENU_STOPROUTE:
+			FRAGUEL.getInstance().createDialog("¿Desea abandonar la ruta?", options, new StopRouteNotification(), new BackKeyNotification());
+			return true;
 		}
-
 		return false;
 	}
 
@@ -481,9 +485,6 @@ public class MapState extends State implements OnTouchListener{
 		private boolean isDialogDisplayed = false,routeMode=false;
 		
 		private float[] position = { 0, 0, 0 };
-		
-		private int routeid;
-		private Route r=null;
 		
 		public MyPositionOverlay(Context context, MapView mapView) {
 			super(context, mapView);
@@ -548,15 +549,13 @@ public class MapState extends State implements OnTouchListener{
 		
 		public void startRoute(Route r, PointOI p){
 			routeMode=true;
-			routeid=r.id;
-			this.r=r;
 			if (p==null)
 				p=r.pointsOI.get(0);
 			routeListener.startRoute(r, p);
 			
 		}
 		
-		public ArrayList<Pair<Pair<Integer,Integer>, Pair<Float, Float>>> getRoutePointsVisited(){
+		public ArrayList<PointOI> getRoutePointsVisited(){
 			if (routeMode==true)
 				return routeListener.pointsVisited();
 			else
@@ -564,7 +563,7 @@ public class MapState extends State implements OnTouchListener{
 			
 		}
 		
-		public ArrayList<Pair<Integer, Pair<Float, Float>>> getRoutePointsNotVisited(){
+		public ArrayList<PointOI> getRoutePointsNotVisited(){
 			if (routeMode==true)
 				return routeListener.pointsToVisit();
 			else
@@ -573,21 +572,15 @@ public class MapState extends State implements OnTouchListener{
 		
 		public void stopRoute(){
 			routeMode=false;
-			this.r=null;
 			MapState.getInstance().reStartMap();
 		}
 		
 		public boolean isRouteMode(){
 			return routeMode;
 		}
-		public int getRouteId(){
-			if (routeMode==true) 
-				return routeid;
-			else
-				return -1;
-		}
+		
 		public Route getCurrentRoute(){
-			return r;
+			return routeListener.getCurrentRoute();
 		}
 
 	}

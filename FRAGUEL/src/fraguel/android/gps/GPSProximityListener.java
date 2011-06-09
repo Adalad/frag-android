@@ -29,10 +29,10 @@ public class GPSProximityListener extends GPSProximity{
 		altitude = location.getAltitude();
 		distance = Float.MAX_VALUE;
 		//sacamos puntos que hayamos visitado
-		Iterator<Pair<Pair<Integer, Integer>, Pair<Float, Float>>> it = pointsVisited.iterator();
+		Iterator<PointOI> it = pointsVisited.iterator();
 			while (it.hasNext()) {
-				Pair<Pair<Integer, Integer>, Pair<Float, Float>> routeAndPoint = it.next();
-				Location.distanceBetween(latitude, longitude,routeAndPoint.second.first, routeAndPoint.second.second,results);
+				PointOI point = it.next();
+				Location.distanceBetween(latitude, longitude,point.coords[0], point.coords[1],results);
 				if (results[0] >= proximityAlertDistance + proximityAlertError) {
 					it.remove();
 				}
@@ -46,8 +46,8 @@ public class GPSProximityListener extends GPSProximity{
 					it = pointsVisited.iterator();
 					// comprobamos que no lo hayamos visitado ya ese punto(es decir, sigamos aun en el radio de acción)
 					while (it.hasNext() && !hasBeenVisited) {
-						Pair<Pair<Integer, Integer>, Pair<Float, Float>> actual = it.next();
-						if (actual.first.first == r.id && actual.first.second == p.id) {
+						PointOI actual = it.next();
+						if (actual.id == p.id) {
 							hasBeenVisited = true;
 						}
 					}
@@ -74,19 +74,13 @@ public class GPSProximityListener extends GPSProximity{
 				
 				super.mediaNotification();
 				
-				pointsVisited.add(new Pair<Pair<Integer, Integer>, Pair<Float, Float>>(new Pair<Integer, Integer>(currentRoute.id,currentPoint.id),	new Pair<Float, Float>(currentPoint.coords[0],currentPoint.coords[1])));
+				pointsVisited.add(currentPoint);
 				
 				MapState.getInstance().getGPS().setDialogDisplayed(true);
 			}
 
 			currentRoute = null;
 			currentPoint = null;
-	}
-
-	@Override
-	public void setPointVisited(Route r, PointOI p, float latitude,	float longitude) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
