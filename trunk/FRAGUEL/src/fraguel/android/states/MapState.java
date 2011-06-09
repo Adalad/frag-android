@@ -378,7 +378,10 @@ public class MapState extends State implements OnTouchListener{
 		menu.add(0, MAPSTATE_MENU_MY_POSITION, 0,R.string.mapstate_menu_my_position).setIcon(R.drawable.ic_menu_mylocation);
 		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,R.string.mapstate_menu_explore_map).setIcon(R.drawable.ic_menu_search);
 		menu.add(0, MAPSTATE_MENU_COMPASS, 0,R.string.mapstate_menu_compass).setIcon(R.drawable.ic_menu_compass);
-		menu.add(0, MAPSTATE_MENU_STARTROUTE, 0, "Comenzar ruta").setIcon(R.drawable.ic_menu_route);
+		if (!me.isRouteMode())
+			menu.add(0, MAPSTATE_MENU_STARTROUTE, 0, "Comenzar ruta").setIcon(R.drawable.ic_menu_route);
+		else
+			menu.add(0, MAPSTATE_MENU_STARTROUTE, 0, "Abandonar ruta").setIcon(R.drawable.ic_menu_route);
 
 		return menu;
 	}
