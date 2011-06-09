@@ -30,8 +30,7 @@ public class ARState extends State {
 
 	@Override
 	public void load() {
-		FRAGUEL.getInstance().setRequestedOrientation(
-				ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		// Inicializar viewGroup
 		// viewGroup = new
 		// FrameLayout(FRAGUEL.getInstance().getApplicationContext());
@@ -60,10 +59,7 @@ public class ARState extends State {
 		// LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		// Añadir a la actividad
 		FRAGUEL.getInstance().setContentView(glView);
-		FRAGUEL.getInstance().addContentView(
-				mPreview,
-				new LayoutParams(LayoutParams.FILL_PARENT,
-						LayoutParams.FILL_PARENT));
+		FRAGUEL.getInstance().addContentView(mPreview,new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		glView.setKeepScreenOn(true);
 		// FRAGUEL.getInstance().addView(viewGroup);
 	}
