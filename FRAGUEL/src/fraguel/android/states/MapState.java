@@ -307,7 +307,7 @@ public class MapState extends State implements OnTouchListener{
 		//pintamos los puntos de la ruta hasta que hayamos calculado la ruta
 		addRouteOverlays();
 		routeOverlay=new RouteOverlay();
-		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Calculando la ruta...",Toast.LENGTH_SHORT ).show();
+		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Calculando la ruta...",Toast.LENGTH_LONG ).show();
 	}
 	
 	
