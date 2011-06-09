@@ -47,8 +47,7 @@ public class MapItemizedOverlays extends ItemizedOverlay  implements OnGestureLi
 	private Context mContext;
 	private Activity act;
 	private GestureDetector gestureDetector;
-	private float[] results = new float[3];
-	final CharSequence[] options = {"Abandonar ruta"};
+	private final CharSequence[] options = {"Abandonar ruta"};
 
 	public MapItemizedOverlays(Drawable arg0) {
 		super(boundCenterBottom(arg0));
