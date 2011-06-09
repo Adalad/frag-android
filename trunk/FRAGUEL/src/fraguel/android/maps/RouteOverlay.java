@@ -106,7 +106,9 @@ public class RouteOverlay extends Overlay{
 			
 			for (ArrayList<GeoPoint> r: rutasRojo){
 				
-				for(GeoPoint p : r){
+				if (r!=null){
+					for(GeoPoint p : r){
+				
 					anterior=actual;
 					actual= new Point();
 					projection.toPixels(p, actual);
@@ -116,28 +118,33 @@ public class RouteOverlay extends Overlay{
 					else
 						first=true;
 					
+					}
+				}else{
+					//hacer algo cuando no calcula la ruta
 				}
-				
-				
+					
+					
 			}
 			paint.setColor(Color.GREEN);
 			for (ArrayList<GeoPoint> r: rutasVerde){
-				
-				for(GeoPoint p : r){
-					anterior=actual;
-					actual= new Point();
-					projection.toPixels(p, actual);
-					if (first){
-						canvas.drawLine(actual.x, actual.y, anterior.x, anterior.y, paint);
+				if (r!=null){
+					for(GeoPoint p : r){
+						anterior=actual;
+						actual= new Point();
+						projection.toPixels(p, actual);
+						if (first){
+							canvas.drawLine(actual.x, actual.y, anterior.x, anterior.y, paint);
+						}
+						else
+							first=true;
+						
 					}
-					else
-						first=true;
+				}else{
 					
 				}
 				
 				
-			}
-			
+			}			
 			
 			
 			/*for (Pair<Pair<Integer, Integer>, Pair<Float, Float>> p: visited){
