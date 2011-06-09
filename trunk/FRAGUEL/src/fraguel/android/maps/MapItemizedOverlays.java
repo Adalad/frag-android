@@ -156,9 +156,7 @@ public class MapItemizedOverlays extends ItemizedOverlay  implements OnGestureLi
 				isPopup= true;
 		}
 		if (MapState.getInstance().isAnyPopUp()){
-			MapState.getInstance().removePopUpOnRoute();
-			MapState.getInstance().removePopUpPIOnRoute();
-			MapState.getInstance().removePopUpPI();
+			MapState.getInstance().removeAllPopUps();
 		}
 		if (!isPopup)
 			MapState.getInstance().setPopupPI();
@@ -207,11 +205,9 @@ public class MapItemizedOverlays extends ItemizedOverlay  implements OnGestureLi
 			MapState.getInstance().setContextMenuDisplayed(true);
 			MapState.getInstance().options[1]="Desde: "+pTmp.title;
 			FRAGUEL.getInstance().createDialog("Comenzar Ruta: "+rTmp.name, MapState.getInstance().options, new StartRouteNotification(), new BackKeyNotification());
-			//MapState.getInstance().chooseStartPointDialog();
 		}else if (!MapState.getInstance().isContextMenuDisplayed()){
 			MapState.getInstance().setContextMenuDisplayed(true);
 			FRAGUEL.getInstance().createDialog("¿Desea abandonar la ruta?", options, new StopRouteNotification(), new BackKeyNotification());
-			//FRAGUEL.getInstance().openContextMenu(MapState.getInstance().getMapView());
 		}
 		
 	}

@@ -36,7 +36,7 @@ public class NextPointOverlay extends Overlay{
 		
 	public NextPointOverlay(){
 		ruta= new ArrayList<GeoPoint>();
-		fetchPath=GetPath(MapState.getInstance().getLocationFromOverlay(),new GeoPoint((int)(MapState.getInstance().getGPS().getRoutePointsNotVisited().get(0).second.first*1000000),(int)(MapState.getInstance().getGPS().getRoutePointsNotVisited().get(0).second.second*1000000)));
+		fetchPath=GetPath(MapState.getInstance().getLocationFromOverlay(),new GeoPoint((int)(MapState.getInstance().getGPS().getRoutePointsNotVisited().get(0).coords[0]*1000000),(int)(MapState.getInstance().getGPS().getRoutePointsNotVisited().get(0).coords[1]*1000000)));
 		first=false;
 	}
 	
@@ -76,7 +76,7 @@ public class NextPointOverlay extends Overlay{
 			src= new Point();
 			target= new Point();
 			projection.toPixels(MapState.getInstance().getLocationFromOverlay(), src);
-			projection.toPixels(new GeoPoint((int)(MapState.getInstance().getGPS().getRoutePointsNotVisited().get(0).second.first*1000000),(int)(MapState.getInstance().getGPS().getRoutePointsNotVisited().get(0).second.second*1000000)),target );
+			projection.toPixels(new GeoPoint((int)(MapState.getInstance().getGPS().getRoutePointsNotVisited().get(0).coords[0]*1000000),(int)(MapState.getInstance().getGPS().getRoutePointsNotVisited().get(0).coords[1]*1000000)),target );
 			canvas.drawLine(src.x,src.y, target.x, target.y, paint);
 		}
 		first=false;

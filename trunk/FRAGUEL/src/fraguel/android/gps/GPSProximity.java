@@ -24,7 +24,7 @@ public abstract class GPSProximity {
 	
 	protected boolean hasBeenVisited;
 
-	protected ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>> pointsVisited;
+	protected ArrayList<PointOI> pointsVisited;
 	
 	private Vibrator v ;
 	private MediaPlayer soundClip;
@@ -32,14 +32,20 @@ public abstract class GPSProximity {
 	public GPSProximity(){
 		v= (Vibrator)FRAGUEL.getInstance().getSystemService(FRAGUEL.getInstance().getApplicationContext().VIBRATOR_SERVICE);
 		soundClip=MediaPlayer.create(FRAGUEL.getInstance().getApplicationContext(),R.raw.notification_sound);
-		pointsVisited = new ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>>();
+		pointsVisited = new ArrayList<PointOI>();
 	}
 	
 	public abstract void onLocationChanged(Location location);
-	public abstract void setPointVisited(Route r, PointOI p, float latitude,float longitude);
+	//public abstract void setPointVisited(Route r, PointOI p, float latitude,float longitude);
 	public void mediaNotification(){
 		v.vibrate(1000);
 		soundClip.start();
+	}
+	public Route getCurrentRoute(){
+		return currentRoute;
+	}
+	public PointOI getCurrentPoint(){
+		return currentPoint;
 	}
 }
 

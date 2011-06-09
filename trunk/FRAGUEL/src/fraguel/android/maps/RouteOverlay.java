@@ -34,8 +34,8 @@ import fraguel.android.threads.RouteThread;
 public class RouteOverlay extends Overlay{
 
 	private Route route=null;
-	private ArrayList<Pair<Pair<Integer, Integer>, Pair<Float, Float>>> visited=null;
-	private ArrayList<Pair<Integer, Pair<Float, Float>>> notVisited=null;
+	private ArrayList<PointOI> visited=null;
+	private ArrayList<PointOI> notVisited=null;
 	
 	private ArrayList<ArrayList<GeoPoint>> rutasVerde;
 	private ArrayList<ArrayList<GeoPoint>> rutasRojo;
@@ -55,10 +55,10 @@ public class RouteOverlay extends Overlay{
 		rutasVerde= new ArrayList<ArrayList<GeoPoint>>();
 		rutasRojo= new ArrayList<ArrayList<GeoPoint>>();
 		
-		for (Pair<Pair<Integer, Integer>, Pair<Float, Float>> p: visited){
+		for (PointOI p: visited){
 			if (first){
 				anterior=actual;
-				actual= new GeoPoint((int)(p.second.first*1000000),(int)(p.second.second*1000000));
+				actual= new GeoPoint((int)(p.coords[0]*1000000),(int)(p.coords[1]*1000000));
 				rutaActual= new ArrayList<GeoPoint>();
 				thread= new RouteThread(anterior,actual,rutaActual);
 				thread.start();
@@ -67,15 +67,15 @@ public class RouteOverlay extends Overlay{
 			}
 			else{
 				first=true;
-				actual= new GeoPoint((int)(p.second.first*1000000),(int)(p.second.second*1000000));
+				actual= new GeoPoint((int)(p.coords[0]*1000000),(int)(p.coords[1]*1000000));
 			}
 			
 		}
 		
-		for (Pair<Integer, Pair<Float, Float>> p: notVisited){
+		for (PointOI p: notVisited){
 			if (first){
 				anterior=actual;
-				actual= new GeoPoint((int)(p.second.first*1000000),(int)(p.second.second*1000000));
+				actual= new GeoPoint((int)(p.coords[0]*1000000),(int)(p.coords[1]*1000000));
 				rutaActual= new ArrayList<GeoPoint>();
 				//this.GetPath(anterior, actual, rutaActual);
 				thread= new RouteThread(anterior,actual,rutaActual);
@@ -84,7 +84,7 @@ public class RouteOverlay extends Overlay{
 			}
 			else{
 				first=true;
-				actual= new GeoPoint((int)(p.second.first*1000000),(int)(p.second.second*1000000));
+				actual= new GeoPoint((int)(p.coords[0]*1000000),(int)(p.coords[1]*1000000));
 			}
 			
 		}

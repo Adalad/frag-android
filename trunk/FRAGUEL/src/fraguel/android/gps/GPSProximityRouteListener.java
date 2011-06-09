@@ -18,14 +18,13 @@ import fraguel.android.states.PointInfoState;
 
 public class GPSProximityRouteListener extends GPSProximity{
 
-	private ArrayList<Pair<Integer, Pair<Float, Float>>> pointsToVisit;
+	private ArrayList<PointOI> pointsToVisit;
 	private float bearing;
-	private int pointid;
 	
 	public GPSProximityRouteListener(){
 		
 		super();
-		pointsToVisit= new ArrayList<Pair<Integer, Pair<Float, Float>>>();
+		pointsToVisit= new ArrayList<PointOI>();
 	}
 	@Override
 	public void onLocationChanged(Location location) {
@@ -37,34 +36,29 @@ public class GPSProximityRouteListener extends GPSProximity{
 		
 		if (pointsToVisit.size()==0){
 			//ruta terminada
-			
+			MapState.getInstance().removeAllPopUps();
 			FRAGUEL.getInstance().createOneButtonNotification("Ruta finalizada", "Ha completado todos los puntos de interés de la ruta "+currentRoute.name, new WarningNotificationButton());
 			
 		}else{
 			
 			//miramos la distancia al siguiente punto a visitar en la ruta
-			Location.distanceBetween(latitude, longitude, pointsToVisit.get(0).second.first, pointsToVisit.get(0).second.second, results);
+			Location.distanceBetween(latitude, longitude, pointsToVisit.get(0).coords[0], pointsToVisit.get(0).coords[1], results);
 			distance=results[0];
 			if (results[0]<=proximityAlertDistance){
 				bearing=results[1];
-				pointid=pointsToVisit.get(0).first;
-				for (PointOI point: currentRoute.pointsOI){
-					if (point.id==pointid){
-						currentPoint=point;
-						break;
-					}
-				}
+				currentPoint=pointsToVisit.get(0);
+				
 				FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
 				FRAGUEL.getInstance().getCurrentState().loadData(currentRoute, currentPoint);
 				MapState.getInstance().getGPS().setDialogDisplayed(true);
 				//actualizar las listas y el MapState
-				pointsVisited.add(new Pair<Pair<Integer,Integer>, Pair<Float, Float>>(new Pair<Integer,Integer>(currentRoute.id,currentPoint.id),new Pair<Float, Float>(currentPoint.coords[0],currentPoint.coords[1])));
+				pointsVisited.add(currentPoint);
 				pointsToVisit.remove(0);
 				MapState.getInstance().refreshMapRouteMode();
 
 			}else{
 				//mostrar info de la distancia y el bearing si no hay ningun popup
-				((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText(distance+ " metros para llegar a "+pointsToVisit.get(0).first);
+				((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText(distance+ " metros para llegar a "+pointsToVisit.get(0).title);
 				if (!MapState.getInstance().isAnyPopUp())
 					MapState.getInstance().setPopupOnRoute();
 				
@@ -73,45 +67,35 @@ public class GPSProximityRouteListener extends GPSProximity{
 
 		}
 	}
-
-	@Override
-	public void setPointVisited(Route r, PointOI p, float latitude,	float longitude) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	public void startRoute (Route selectedRoute, PointOI pointToStart){
 		pointsToVisit.clear();
 		pointsVisited.clear();
 		boolean limit=false;
-		for (Route route : FRAGUEL.getInstance().routes) {
-			if (selectedRoute.id==route.id){
 				currentRoute=selectedRoute;
-				for (PointOI point : route.pointsOI){
+				for (PointOI point : currentRoute.pointsOI){
 					if (!limit){
 						if (point.id==pointToStart.id){
 							limit=true;
-							pointsToVisit.add(new Pair<Integer, Pair<Float, Float>>(point.id,new Pair<Float, Float>(point.coords[0],point.coords[1])));
+							pointsToVisit.add(point);
 						}else{
-							pointsVisited.add(new Pair<Pair<Integer,Integer>, Pair<Float, Float>>(new Pair<Integer,Integer>(route.id,point.id),new Pair<Float, Float>(point.coords[0],point.coords[1])));
+							pointsVisited.add(point);
 						}	
 						
 					}else{
-						pointsToVisit.add(new Pair<Integer, Pair<Float, Float>>(point.id,new Pair<Float, Float>(point.coords[0],point.coords[1])));
+						pointsToVisit.add(point);
 					}	
 				}
 				
-				break;
-			}
-		}
+				
 		MapState.getInstance().startRoute();
 	}
 	
-	public ArrayList<Pair<Pair<Integer,Integer>, Pair<Float, Float>>> pointsVisited(){
+	public ArrayList<PointOI> pointsVisited(){
 		return pointsVisited;
 	}
 	
-	public ArrayList<Pair<Integer, Pair<Float, Float>>> pointsToVisit(){
+	public ArrayList<PointOI> pointsToVisit(){
 		return pointsToVisit;
 	}
 	
