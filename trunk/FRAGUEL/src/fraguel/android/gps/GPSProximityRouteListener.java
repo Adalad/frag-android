@@ -7,6 +7,7 @@ import fraguel.android.R;
 import android.location.Location;
 import android.util.Pair;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,8 +79,9 @@ public class GPSProximityRouteListener extends GPSProximity{
 				//mostramos el pop-up
 				if (!MapState.getInstance().isAnyPopUp())
 					MapState.getInstance().setPopupOnRoute();
+				else
+					((FrameLayout)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute)).invalidate();
 				
-
 			}	
 
 		}
