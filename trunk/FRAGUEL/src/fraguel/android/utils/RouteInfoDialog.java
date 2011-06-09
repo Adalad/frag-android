@@ -72,7 +72,7 @@ public class RouteInfoDialog extends Dialog{
 		
 		container.addView(sv);
 		if(talk && !FRAGUEL.getInstance().isTalking())
-			FRAGUEL.getInstance().talk(r.description);
+			FRAGUEL.getInstance().talk(r.name);
 		
 		
 		this.setContentView(container);
