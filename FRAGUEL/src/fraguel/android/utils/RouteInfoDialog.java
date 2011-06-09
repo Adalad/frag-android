@@ -36,7 +36,7 @@ public class RouteInfoDialog extends Dialog{
         int width = display.getWidth(); 
         int height= display.getHeight();
 		
-        container.setLayoutParams(new LayoutParams(width-20,height-20));
+        container.setLayoutParams(new LayoutParams(100,250));
         
 		image = new ImageView(context);
 		
@@ -52,8 +52,8 @@ public class RouteInfoDialog extends Dialog{
 			ImageDownloadingThread imageThread= new ImageDownloadingThread(url,"route"+Integer.toString(r.id)+"icon",ResourceManager.getInstance().getRootPath()+"/tmp/",1);
 			imageThread.start();
 		}
-		int heightAvailable=height-20;
-		int div=heightAvailable/3;
+		int heightAvailable=200;
+		int div=80;
 		image.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,div ));		
 		//image.setPadding(5, 5, 5, 5);
 		image.setAdjustViewBounds(true);
@@ -61,7 +61,7 @@ public class RouteInfoDialog extends Dialog{
 		container.addView(image);
 		
 		ScrollView sv = new ScrollView(FRAGUEL.getInstance().getApplicationContext());
-		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,150));
 		sv.setPadding(5, 5, 5, 5);
 		
 		
