@@ -46,7 +46,6 @@ public class GPSProximityRouteListener extends GPSProximity{
 			Location.distanceBetween(latitude, longitude, pointsToVisit.get(0).coords[0], pointsToVisit.get(0).coords[1], results);
 			distance=results[0];
 			if (results[0]<=proximityAlertDistance){
-				bearing=results[1];
 				currentPoint=pointsToVisit.get(0);
 				
 				FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
@@ -60,7 +59,7 @@ public class GPSProximityRouteListener extends GPSProximity{
 			}else{
 				//mostrar info de la distancia y el bearing si no hay ningun popup
 				((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText((int)distance+ " metros para llegar a "+pointsToVisit.get(0).title);
-				//elegimos la flecha correspondiente al bearing
+				//elegimos la flecha correspondiente al bearing(ángulo de giro)
 				if (results[1]<=22.5 && results[1]>337.5 )
 					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_norte);
 				else if (results[1]<=67.5 && results[1]>22.5 )
