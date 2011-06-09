@@ -119,10 +119,7 @@ public class RouteOverlay extends Overlay{
 						first=true;
 					
 					}
-				}else{
-					//hacer algo cuando no calcula la ruta
-				}
-					
+				}		
 					
 			}
 			paint.setColor(Color.GREEN);
@@ -139,10 +136,7 @@ public class RouteOverlay extends Overlay{
 							first=true;
 						
 					}
-				}else{
-					
-				}
-				
+				}				
 				
 			}			
 			

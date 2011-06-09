@@ -34,7 +34,12 @@ public class RouteThread extends Thread{
 	
 	@Override
 	public void run() {
-		GetPath(source,target,route);		
+		boolean b=GetPath(source,target,route);	
+		if (!b){
+			route.add(source);
+			route.add(target);
+		}
+		
 	}
 	
 	private boolean GetPath(GeoPoint src, GeoPoint dest, ArrayList<GeoPoint> ruta) {

@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -77,6 +79,7 @@ public class MapState extends State implements OnTouchListener{
 	private final CharSequence[] end = {"Abandonar ruta"};
 	public final CharSequence[] rutas=new CharSequence[FRAGUEL.getInstance().routes.size()];
 	private RouteInfoDialog dialog;
+	private RouteOverlay routeOverlay=null;
 
 
 	public MapState() {
@@ -294,19 +297,22 @@ public class MapState extends State implements OnTouchListener{
 	}
 
 	public void animateTo(GeoPoint g){
+		this.isMyPosition=false;
 		mapControl.animateTo(g);		
 	}
 	
 	public void refreshMapRouteMode(){
 		mapOverlays.clear();
 		mapOverlays.add(me);
+		//pintamos los puntos de la ruta hasta que hayamos calculado la ruta
 		addRouteOverlays();
+		routeOverlay=new RouteOverlay();
+		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Calculando la ruta...",Toast.LENGTH_SHORT ).show();
 	}
 	
 	
 	private void addRouteOverlays(){
-		//pintamos las líneas
-		mapOverlays.add(new RouteOverlay());
+		
 		//pintamos los ya visitados
 		MapItemizedOverlays visited = new MapItemizedOverlays(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.map_marker_visited),FRAGUEL.getInstance());
 		
@@ -325,13 +331,23 @@ public class MapState extends State implements OnTouchListener{
 		}
 		if (visited.size()!=0)	
 			mapOverlays.add(visited);
-		
-		
-		
+				
+	}
+	/**
+	 * ¡¡¡Warning!!! Only use it if the thread has finished, otherwise will give you a Concurrent Exception
+	 */
+	public void routeLoaded(){		
+		mapOverlays.clear();
+		mapOverlays.add(me);
+		//pintamos las líneas que conforman la ruta
+		if (routeOverlay!=null)
+			mapOverlays.add(routeOverlay);
+		//pintamos los puntos de la ruta
+		addRouteOverlays();
 	}
 	public void startRoute(){
 		this.removeAllPopUps();
-		this.refreshMapRouteMode();
+		refreshMapRouteMode();
 	}
 	
 	public void removeAllPopUps(){
@@ -342,6 +358,7 @@ public class MapState extends State implements OnTouchListener{
 	
 	public void reStartMap(){
 		mapOverlays.clear();
+		routeOverlay=null;
 		loadAllPoints();
 	}
 	
