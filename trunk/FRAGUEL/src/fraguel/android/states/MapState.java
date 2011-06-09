@@ -74,6 +74,7 @@ public class MapState extends State implements OnTouchListener{
 	private boolean isContextMenuDisplayed,showWay=true;
 	private Route routeContext;
 	public final CharSequence[] options = {"Desde el principio", "","Elegir otra ruta"};
+	private final CharSequence[] end = {"Abandonar ruta"};
 	public final CharSequence[] rutas=new CharSequence[FRAGUEL.getInstance().routes.size()];
 	private RouteInfoDialog dialog;
 
@@ -155,8 +156,15 @@ public class MapState extends State implements OnTouchListener{
 		
 		isContextMenuDisplayed=false;
 		routeContext=null;
+		mapView.setKeepScreenOn(true);
 
 		
+	}
+	
+	@Override
+	public void unload(){
+		super.unload();
+		mapView.setKeepScreenOn(false);
 	}
 
 	public boolean isPopupPI() {
@@ -357,7 +365,7 @@ public class MapState extends State implements OnTouchListener{
 		mapOverlays.add(me);
 	}
 	
-	public GeoPoint getLocationFromOverlay(){
+	public GeoPoint getMyLocation(){
 		return me.getMyLocation();
 	}
 
@@ -414,6 +422,7 @@ public class MapState extends State implements OnTouchListener{
 			isMyPosition=false;
 			return true;
 		case MAPSTATE_MENU_MY_POSITION:
+			mapControl.animateTo(getMyLocation());
 			isMyPosition=true;
 			return true;
 			
@@ -439,7 +448,7 @@ public class MapState extends State implements OnTouchListener{
 			return true;
 		
 		case MAPSTATE_MENU_STOPROUTE:
-			FRAGUEL.getInstance().createDialog("¿Desea abandonar la ruta?", options, new StopRouteNotification(), new BackKeyNotification());
+			FRAGUEL.getInstance().createDialog("¿Desea abandonar la ruta?", end, new StopRouteNotification(), new BackKeyNotification());
 			return true;
 		}
 		return false;
@@ -571,6 +580,7 @@ public class MapState extends State implements OnTouchListener{
 		}
 		
 		public void stopRoute(){
+			removeAllPopUps();
 			routeMode=false;
 			MapState.getInstance().reStartMap();
 		}
