@@ -432,13 +432,12 @@ public class MapState extends State implements OnTouchListener{
 			if(showWay){
 				nextPointOverlay= new NextPointOverlay();
 				mapOverlays.add(nextPointOverlay);
-				mapView.invalidate();
 			}
 			else{
 				mapOverlays.remove(nextPointOverlay);
-				mapView.invalidate();
 			}
 			showWay=!showWay;
+			mapView.invalidate();
 			return true;
 		case MAPSTATE_MENU_EXPLORE_MAP:
 			isMyPosition=false;
