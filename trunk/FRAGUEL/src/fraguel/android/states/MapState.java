@@ -551,7 +551,11 @@ public class MapState extends State implements OnTouchListener{
 			
 			if (isMyPosition)
 				mapControl.animateTo(getMyLocation());
-			
+			if (FRAGUEL.getInstance().getCurrentState().getId()==MainMenuState.STATE_ID){
+				MainMenuState state = (MainMenuState)FRAGUEL.getInstance().getCurrentState();
+				state.NewLocation(location);
+			}
+						
 			//Añadir información de la posición a la matriz de rotación general
 			// rotMatrix: matriz 4X4 de rotación para pasarla a OpenGL
 			float[] rotMatrix=FRAGUEL.getInstance().getRotMatrix();

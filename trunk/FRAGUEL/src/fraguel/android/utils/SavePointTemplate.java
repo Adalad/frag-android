@@ -34,7 +34,7 @@ public class SavePointTemplate  extends LinearLayout{
 		TextView latitude= new TextView (context);
 		latitude.setText("Latitud: ");
 		latitudeGPS = new TextView(context);
-		latitudeGPS.setText("waiting for data...");
+		latitudeGPS.setText("0");
 		
 		layoutLatitude.addView(latitude);
 		layoutLatitude.addView(latitudeGPS);
@@ -50,7 +50,7 @@ public class SavePointTemplate  extends LinearLayout{
 		TextView longitude= new TextView (context);
 		longitude.setText("Longitud: ");
 		longitudeGPS = new TextView(context);
-		longitudeGPS.setText("waiting for data...");
+		longitudeGPS.setText("0");
 		
 		layoutLongitude.addView(longitude);
 		layoutLongitude.addView(longitudeGPS);
@@ -62,6 +62,12 @@ public class SavePointTemplate  extends LinearLayout{
 	}
 	public void setLongitude(float longitude){
 		longitudeGPS.setText(Float.toString(longitude));
+	}
+	public float getLatitude(){
+		return Float.parseFloat(latitudeGPS.getText().toString());
+	}
+	public float getLontitude(){
+		return Float.parseFloat(longitudeGPS.getText().toString());
 	}
 	
 }

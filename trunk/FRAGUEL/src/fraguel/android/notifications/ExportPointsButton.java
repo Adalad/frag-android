@@ -13,12 +13,23 @@ import fraguel.android.states.MainMenuState;
 import android.content.DialogInterface;
 import android.widget.Toast;
 
-public class EndPointCaptureButton implements DialogInterface.OnClickListener{
+public class ExportPointsButton implements DialogInterface.OnClickListener{
 
 	@Override
-	public void onClick(DialogInterface arg0, int arg1) {
+	public void onClick(DialogInterface dialog, int which) {
 		// TODO Auto-generated method stub
-		
+		MainMenuState state = (MainMenuState)FRAGUEL.getInstance().getCurrentState();
+		switch(which){
+		case 0:
+			toTempFile();
+		break;
+		case 1:
+			ResourceManager.getInstance().createXMLFromPoints(state.getRouteName(), state.getRouteName(), 21, state.getGeoTaggingPoints());
+		break;
+		}
+	}
+	
+	private void toTempFile(){
 		MainMenuState state = (MainMenuState)FRAGUEL.getInstance().getCurrentState();
 		File file = new File(ResourceManager.getInstance().getRootPath()+"/user/"+state.getRouteName()+".tmp");
 		if (file.exists()){
@@ -33,15 +44,14 @@ public class EndPointCaptureButton implements DialogInterface.OnClickListener{
 			oos.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"MAL" , Toast.LENGTH_SHORT).show();
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"Error al grabar el archivo" , Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"MAL" , Toast.LENGTH_SHORT).show();
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"Error al grabar el archivo" , Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
-		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"Todo Perfecto" , Toast.LENGTH_SHORT).show();
-		
+		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"Datos guardados con éxito" , Toast.LENGTH_SHORT).show();
 	}
 
 }
