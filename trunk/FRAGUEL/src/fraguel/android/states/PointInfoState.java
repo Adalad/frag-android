@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
 import fraguel.android.R;
@@ -128,13 +129,18 @@ public class PointInfoState extends State{
 				
 
 				case 0:
-
-					FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
-					FRAGUEL.getInstance().getCurrentState().loadData(route, point);
+					if (point.images!=null && point.images.length!=0){
+						FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
+						FRAGUEL.getInstance().getCurrentState().loadData(route, point);
+					}else
+						Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Este punto no tiene imágenes disponibles", Toast.LENGTH_SHORT).show();
 					break;
 					
 				case 1:
-					FRAGUEL.getInstance().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(point.video)));
+					if (point.video!=null && !point.video.equals(""))
+						FRAGUEL.getInstance().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(point.video)));
+					else
+						Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Este punto no tiene video disponible", Toast.LENGTH_SHORT).show();
 					break;
 					
 				case 2:
@@ -158,7 +164,8 @@ public class PointInfoState extends State{
 	public void unload(){
 		talk=true;
 		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-		MapState.getInstance().getGPS().setDialogDisplayed(false);
+		if (MapState.getInstance().getMapView()!=null)
+			MapState.getInstance().getGPS().setDialogDisplayed(false);
 		super.unload();
 	}
 	

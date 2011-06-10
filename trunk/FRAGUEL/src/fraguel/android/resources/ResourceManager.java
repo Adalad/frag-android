@@ -138,8 +138,8 @@ public void createXMLTemplate(String fileName,String routeName,int routeId,int n
 							serializer.attribute(null, "id", Integer.toString(i));
 							
 									serializer.startTag(null, "coords");
-									serializer.attribute(null, "x", "");
-									serializer.attribute(null, "y", "");
+									serializer.attribute(null, "x", "0");
+									serializer.attribute(null, "y", "0");
 						            serializer.endTag(null, "coords");
 						            
 									serializer.startTag(null, "title");

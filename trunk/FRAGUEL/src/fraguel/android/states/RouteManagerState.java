@@ -148,7 +148,6 @@ private void addOnItemLongClickListenerToListView(){
 	
 	private void loadPoints(int route){
 		System.gc();
-		title.setText(R.string.routemanagerstate_title_points_spanish);
 		title.setText(title.getText()+" '"+ FRAGUEL.getInstance().routes.get(route).name+"'");
 		container.removeView(list);
 		setAdapter();

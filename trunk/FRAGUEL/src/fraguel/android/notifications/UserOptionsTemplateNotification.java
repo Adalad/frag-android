@@ -1,28 +1,13 @@
 package fraguel.android.notifications;
 
-import java.io.File;
-
 import fraguel.android.FRAGUEL;
-import fraguel.android.resources.ResourceManager;
 import fraguel.android.states.MainMenuState;
 import fraguel.android.utils.NewRouteForm;
-import fraguel.android.utils.NumberPicker;
-import fraguel.android.utils.SavePointTemplate;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
 public class UserOptionsTemplateNotification implements DialogInterface.OnClickListener{
 
 	private final CharSequence[] options = {"Nueva ruta", "Continuar ruta: "};
-	private String[] rutas= new File(ResourceManager.getInstance().getRootPath()+"/user").list();
-	private final CharSequence[] op = new CharSequence[1];
 	@Override
 	public void onClick(DialogInterface arg0, int arg1) {
 		// TODO Auto-generated method stub
