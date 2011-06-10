@@ -125,9 +125,12 @@ public class MapState extends State implements OnTouchListener{
 		
 
 		//Creamos, importamos y configuramos la mapview del xml
-		mapView = (MapView) FRAGUEL.getInstance().findViewById(R.id.mapview);
+		//mapView = (MapView) FRAGUEL.getInstance().findViewById(R.id.mapview);
 		//mapView.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 		//mapView.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
+		mapView = (MapView) FRAGUEL.getInstance().findViewById(R.id.mapview);
+		if (me==null)
+			me = new MyPositionOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
 		mapView.setTraffic(false);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setClickable(true);
@@ -143,8 +146,7 @@ public class MapState extends State implements OnTouchListener{
 		//Creamos los Overlays
 		mapOverlays = mapView.getOverlays();
 		
-		if (me==null)
-			me = new MyPositionOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
+		
 		
 
 		isMyPosition=true;
@@ -228,11 +230,17 @@ public class MapState extends State implements OnTouchListener{
 			FRAGUEL.getInstance().getCurrentState().loadData(route, point);
 			break;
 		case R.id.btn_popupPI_photo:
-			FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
-			FRAGUEL.getInstance().getCurrentState().loadData(route, point);
+			if (point.images!=null && point.images.length!=0){
+				FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
+				FRAGUEL.getInstance().getCurrentState().loadData(route, point);
+			}else
+				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Este punto no tiene imágenes disponibles", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.btn_popupPI_video:
-			FRAGUEL.getInstance().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(point.video)));
+			if (point.video!=null && !point.video.equals(""))
+				FRAGUEL.getInstance().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(point.video)));
+			else
+				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Este punto no tiene video disponible", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.btn_popupPI_ar:
 			FRAGUEL.getInstance().changeState(ARState.STATE_ID);
