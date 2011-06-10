@@ -19,26 +19,79 @@ import android.util.Log;
 import com.google.android.maps.GeoPoint;
 
 import fraguel.android.FRAGUEL;
+import fraguel.android.PointOI;
+import fraguel.android.states.MapState;
 
 public class RouteThread extends Thread{
 	
-	private ArrayList<GeoPoint> route;
-	GeoPoint source,target;
+	private ArrayList<ArrayList<GeoPoint>> rutasVerde;
+	private ArrayList<ArrayList<GeoPoint>> rutasRojo;
+	
+	private ArrayList<PointOI> visited=null;
+	private ArrayList<PointOI> notVisited=null;
+	
+	private ArrayList<GeoPoint> rutaActual;
+	private GeoPoint anterior,actual;
+	private boolean first;
 
-	public RouteThread(GeoPoint src, GeoPoint dest,ArrayList<GeoPoint> ruta){
+	public RouteThread(ArrayList<ArrayList<GeoPoint>> verde,ArrayList<ArrayList<GeoPoint>> rojo){
 		super();
-		route=ruta;
-		source=src;
-		target=dest;
+		
+		first=false;
+		visited= MapState.getInstance().getGPS().getRoutePointsVisited();
+		notVisited=MapState.getInstance().getGPS().getRoutePointsNotVisited();
+		rutasVerde= verde;
+		rutasRojo= rojo;
+		
 	}
 	
 	@Override
 	public void run() {
-		boolean b=GetPath(source,target,route);	
-		if (!b){
-			route.add(source);
-			route.add(target);
+		boolean ok;
+		for (PointOI p: visited){
+			if (first){
+				anterior=actual;
+				actual= new GeoPoint((int)(p.coords[0]*1000000),(int)(p.coords[1]*1000000));
+				rutaActual= new ArrayList<GeoPoint>();
+				ok=GetPath(anterior, actual, rutaActual);
+				if (!ok){
+					rutaActual.clear();
+					rutaActual.add(anterior);
+					rutaActual.add(actual);
+				}
+				rutasRojo.add(rutaActual);
+			}
+			else{
+				first=true;
+				actual= new GeoPoint((int)(p.coords[0]*1000000),(int)(p.coords[1]*1000000));
+			}
+			
 		}
+		
+		for (PointOI p: notVisited){
+			if (first){
+				anterior=actual;
+				actual= new GeoPoint((int)(p.coords[0]*1000000),(int)(p.coords[1]*1000000));
+				rutaActual= new ArrayList<GeoPoint>();
+				ok=this.GetPath(anterior, actual, rutaActual);
+				if (!ok){
+					rutaActual.clear();
+					rutaActual.add(anterior);
+					rutaActual.add(actual);
+				}
+				rutasVerde.add(rutaActual);
+			}
+			else{
+				first=true;
+				actual= new GeoPoint((int)(p.coords[0]*1000000),(int)(p.coords[1]*1000000));
+			}
+			
+		}	
+		
+		Message m = new Message();
+		m.arg2 = 0;
+		FRAGUEL.getInstance().routeHandler.sendMessage(m);
+		
 		
 	}
 	
@@ -104,9 +157,6 @@ public class RouteThread extends Thread{
 					ruta.add(dest);
 					
 				} 
-				Message m = new Message();
-				m.arg2 = 0;
-				FRAGUEL.getInstance().routeHandler.sendMessage(m);
 		}
 		catch (MalformedURLException e)
 		{

@@ -662,8 +662,10 @@ public void createCustomDialog(String title, View view,DialogInterface.OnClickLi
 		routeHandler = new Handler(){
 			@Override
 			public void handleMessage(Message msg) {
-				if (currentState.id==MapState.STATE_ID)
+				if (currentState.id==MapState.STATE_ID){
+					MapState.getInstance().routeLoaded();
 					MapState.getInstance().getMapView().invalidate();
+				}
 			}
 		};
 	}

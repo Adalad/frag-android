@@ -77,7 +77,7 @@ public class GPSProximityRouteListener extends GPSProximity{
 				else if (results[1]<=-22.5 && results[1]>-67.5 )
 					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_norte_oeste);
 				//mostramos el pop-up
-				if (!MapState.getInstance().isAnyPopUp())
+				if (FRAGUEL.getInstance().getCurrentState().getId()==MapState.STATE_ID && !MapState.getInstance().isAnyPopUp())
 					MapState.getInstance().setPopupOnRoute();
 				else
 					((FrameLayout)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute)).invalidate();

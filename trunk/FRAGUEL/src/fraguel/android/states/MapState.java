@@ -80,6 +80,7 @@ public class MapState extends State implements OnTouchListener{
 	public final CharSequence[] rutas=new CharSequence[FRAGUEL.getInstance().routes.size()];
 	private RouteInfoDialog dialog;
 	private RouteOverlay routeOverlay=null;
+	private NextPointOverlay nextPointOverlay=null;
 
 
 	public MapState() {
@@ -166,6 +167,7 @@ public class MapState extends State implements OnTouchListener{
 	
 	@Override
 	public void unload(){
+		this.removeAllPopUps();
 		super.unload();
 		mapView.setKeepScreenOn(false);
 	}
@@ -428,10 +430,13 @@ public class MapState extends State implements OnTouchListener{
 		
 		case MAPSTATE_MENU_DRAWPATH:
 			if(showWay){
-				mapOverlays.add(new NextPointOverlay());
+				nextPointOverlay= new NextPointOverlay();
+				mapOverlays.add(nextPointOverlay);
+				mapView.invalidate();
 			}
 			else{
-				this.refreshMapRouteMode();			
+				mapOverlays.remove(nextPointOverlay);
+				mapView.invalidate();
 			}
 			showWay=!showWay;
 			return true;
