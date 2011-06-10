@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
 import fraguel.android.states.MainMenuState;
+import fraguel.android.states.MapState;
+import fraguel.android.utils.PointExtraInfoGeoTagging;
 import fraguel.android.utils.SavePointTemplate;
 import android.content.DialogInterface;
 import android.widget.Toast;
@@ -16,9 +18,16 @@ public class CaptureCoordinatesButton implements DialogInterface.OnClickListener
 		// TODO Auto-generated method stub
 		MainMenuState state = (MainMenuState)FRAGUEL.getInstance().getCurrentState();
 		ArrayList<PointOI> points= state.getGeoTaggingPoints();
-		points.add(new PointOI());
-		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"Hay "+state.getGeoTaggingPoints().size() +" puntos guardados", Toast.LENGTH_LONG).show();
-		FRAGUEL.getInstance().createCustomDialog(state.getGeoTaggingForm().getRouteName()+": captura de coordenadas", new SavePointTemplate(FRAGUEL.getInstance().getApplicationContext()), new CaptureCoordinatesButton(), "Capturar", new EndPointCaptureButton(), "Finalizar ruta", null);
+		PointOI point = new PointOI();
+		point.id=points.size();
+		point.coords[0]=state.getCoordinatesCapturer().getLatitude();
+		point.coords[1]=state.getCoordinatesCapturer().getLontitude();
+		state.setCurrentPoint(point);
+		
+		PointExtraInfoGeoTagging info =new PointExtraInfoGeoTagging(FRAGUEL.getInstance().getApplicationContext());
+		state.setExtraInfo(info);
+		FRAGUEL.getInstance().createCustomDialog("Información extra del nuevo punto", info, new ExtraInfoPointButton(), "Guardar datos", new NoExtraInfoButton(), "Saltar paso", null);
+		
 		arg0.dismiss();
 	}
 

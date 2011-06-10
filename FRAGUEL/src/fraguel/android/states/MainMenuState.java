@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.location.Location;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,6 +29,8 @@ import fraguel.android.State;
 import fraguel.android.notifications.UserOptionsTemplateNotification;
 import fraguel.android.utils.NewRouteForm;
 import fraguel.android.utils.NewRouteGeoTaggingForm;
+import fraguel.android.utils.PointExtraInfoGeoTagging;
+import fraguel.android.utils.SavePointTemplate;
 
 public class MainMenuState extends State {
 
@@ -45,6 +48,9 @@ public class MainMenuState extends State {
 	private ArrayList<PointOI> geoTaggingPoints;
 	private String routeName;
 	private NewRouteGeoTaggingForm f=null;
+	private PointOI currentPoint=null;
+	private PointExtraInfoGeoTagging extraInfo=null;
+	private SavePointTemplate coordinatesCapturer=null;
 	
 	private NewRouteForm blankForm=null;
 	public MainMenuState() {
@@ -199,11 +205,35 @@ public class MainMenuState extends State {
 	public NewRouteGeoTaggingForm getGeoTaggingForm() {
 		return f;
 	}
+
+	public void setCurrentPoint(PointOI currentPoint) {
+		this.currentPoint = currentPoint;
+	}
+
+	public PointOI getCurrentPoint() {
+		return currentPoint;
+	}
+
+	public void setExtraInfo(PointExtraInfoGeoTagging extraInfo) {
+		this.extraInfo = extraInfo;
+	}
+
+	public PointExtraInfoGeoTagging getExtraInfo() {
+		return extraInfo;
+	}
+	public SavePointTemplate getCoordinatesCapturer(){
+		return coordinatesCapturer;
+	}
+	public void setCoordinatesCapturer(SavePointTemplate capturer){
+		this.coordinatesCapturer=capturer;
+	}
 	
+	public void NewLocation(Location location){
+		if (coordinatesCapturer!=null){
+			coordinatesCapturer.setLatitude((float)location.getLatitude());
+			coordinatesCapturer.setLongitude((float)location.getLongitude());
+		}
+	}
 	
-	
-	
-	
-	
-	
+
 }

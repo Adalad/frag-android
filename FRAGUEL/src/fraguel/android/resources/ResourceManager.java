@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlSerializer;
 
 import fraguel.android.FRAGUEL;
+import fraguel.android.PointOI;
 
+import android.graphics.Point;
 import android.os.Environment;
 import android.util.Log;
 import android.util.Xml;
@@ -187,5 +190,102 @@ public void createXMLTemplate(String fileName,String routeName,int routeId,int n
 
 		
 	}
+
+public void createXMLFromPoints(String fileName,String routeName,int routeId,ArrayList<PointOI> points){
+	
+	File file = new File(ResourceManager.getInstance().getRootPath()+"/user/"+fileName+".xml");
+	
+	try {
+		file.createNewFile();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	FileOutputStream fileos = null;
+	
+	try {
+		fileos = new FileOutputStream(file);
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	XmlSerializer serializer = Xml.newSerializer();
+	
+	try {
+		
+		serializer.setOutput(fileos, "UTF-8");
+		serializer.startDocument(null, null);
+		serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+		
+		serializer.startTag(null, "route");
+		serializer.attribute(null, "id", Integer.toString(routeId));
+				
+				serializer.startTag(null, "name");
+				serializer.text(routeName);
+	            serializer.endTag(null, "name");
+				serializer.startTag(null, "description");
+	            serializer.endTag(null, "description");
+				serializer.startTag(null, "icon");
+	            serializer.endTag(null, "icon");
+	            
+				serializer.startTag(null, "points");
+						
+					for (PointOI p: points){
+						serializer.startTag(null, "point");
+						serializer.attribute(null, "id", Integer.toString(p.id));
+						
+								serializer.startTag(null, "coords");
+								serializer.attribute(null, "x", Float.toString(p.coords[0]));
+								serializer.attribute(null, "y", Float.toString(p.coords[1]));
+					            serializer.endTag(null, "coords");
+					            
+								serializer.startTag(null, "title");
+								serializer.text(p.title);
+					            serializer.endTag(null, "title");
+					            
+								serializer.startTag(null, "pointdescription");
+					            serializer.endTag(null, "pointdescription");
+					            
+								serializer.startTag(null, "pointicon");
+					            serializer.endTag(null, "pointicon");
+					            
+								serializer.startTag(null, "image");
+					            serializer.endTag(null, "image");
+					            
+								serializer.startTag(null, "video");
+					            serializer.endTag(null, "video");
+					            
+								serializer.startTag(null, "ar");
+					            serializer.endTag(null, "ar");
+						
+			            serializer.endTag(null, "point");
+				
+					}
+				
+	            serializer.endTag(null, "points");
+	            
+	
+		serializer.endTag(null, "route");
+		
+		serializer.endDocument();
+		serializer.flush();
+		fileos.close();
+		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Plantilla Creada", Toast.LENGTH_SHORT).show();
+		
+	} catch (IllegalArgumentException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (IllegalStateException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+	
+}
 
 }

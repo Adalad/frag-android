@@ -204,10 +204,10 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		// TODO añadir estados
 		_stateStack = new Stack<State>();
 		states = new ArrayList<State>();
+		addState(new MapState(), true);
 		addState(new IntroState(), true);
 		addState(new MainMenuState(), false);
 		//addState(new MenuState(), false);
-		addState(new MapState(), false);
 		addState(new VideoState(), false);
 		addState(new VideoGalleryState(), false);
 		//addState(new ImageGalleryState(), false);
@@ -624,16 +624,12 @@ public void createCustomDialog(String title, View view,DialogInterface.OnClickLi
 			if (resultCode != TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
 				// si no tiene los datos los instala
 				Intent installIntent = new Intent();
-				installIntent
-						.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
-						"Instalando las librerías necesarias",
-						Toast.LENGTH_SHORT).show();
+				installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"Instalando las librerías necesarias",	Toast.LENGTH_SHORT).show();
 				FRAGUEL.getInstance().startActivity(installIntent);
 
 			}
-			tts = new TextToSpeech(FRAGUEL.getInstance()
-					.getApplicationContext(), this);
+			tts = new TextToSpeech(FRAGUEL.getInstance().getApplicationContext(), this);
 		}
 
 	}
@@ -685,15 +681,12 @@ public void createCustomDialog(String title, View view,DialogInterface.OnClickLi
 		if (TextToSpeech.SUCCESS == arg0) {
 			tts.setOnUtteranceCompletedListener(this);
 			Locale loc = new Locale("es", "", "");
-			if (tts.isLanguageAvailable(loc) == TextToSpeech.LANG_AVAILABLE) {
+			if (tts.isLanguageAvailable(loc) == TextToSpeech.LANG_AVAILABLE) 
 				tts.setLanguage(loc);
-			} else
-				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
-						R.string.language_no_available_spanish,
-						Toast.LENGTH_SHORT).show();
+			else
+				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),R.string.language_no_available_spanish,Toast.LENGTH_SHORT).show();
 		} else
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
-					R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
 
 	private void checkTTSLibrary() {
@@ -707,16 +700,12 @@ public void createCustomDialog(String title, View view,DialogInterface.OnClickLi
 			tts.stop();
 			tts.speak(s, TextToSpeech.QUEUE_FLUSH, null);
 		} else
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
-					R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
 
 	public void stopTalking() {
 		if (tts != null)
 			tts.stop();
-		else
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
-					R.string.no_tts_spanish, Toast.LENGTH_LONG).show();
 	}
 
 	public void talkSpeech(String s, int id) {
