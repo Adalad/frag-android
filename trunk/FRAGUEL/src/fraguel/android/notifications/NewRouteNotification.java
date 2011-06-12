@@ -12,7 +12,7 @@ public class NewRouteNotification implements DialogInterface.OnClickListener{
 		// TODO Auto-generated method stub
 		MainMenuState state=(MainMenuState) (FRAGUEL.getInstance().getCurrentState());
 		NewRouteForm form = state.getBlankForm();
-		ResourceManager.getInstance().createXMLTemplate(form.getFileName(),form.getRouteName(), 20,form.getNumPoints());
+		ResourceManager.getInstance().createXMLTemplate(form.getFileName(),form.getRouteName(), -2,form.getNumPoints());
 		dialog.dismiss();
 	}
 
