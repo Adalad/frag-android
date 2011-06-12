@@ -24,7 +24,7 @@ public class ExportPointsButton implements DialogInterface.OnClickListener{
 			ResourceManager.getInstance().toTempFile();
 		break;
 		case 1:
-			ResourceManager.getInstance().createXMLFromPoints(state.getRouteName(), state.getRouteName(), 21, state.getGeoTaggingPoints());
+			ResourceManager.getInstance().createXMLFromPoints(state.getRouteName(), state.getRouteName(), -1, state.getGeoTaggingPoints());
 		break;
 		}
 	}
