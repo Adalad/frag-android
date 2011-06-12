@@ -16,10 +16,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -45,12 +42,9 @@ import android.widget.Toast;
 
 import com.google.android.maps.MapActivity;
 
-import fraguel.android.gps.GPSProximityListener;
-import fraguel.android.gps.GPSProximityRouteListener;
 import fraguel.android.resources.ResourceManager;
 import fraguel.android.states.ARState;
 import fraguel.android.states.ConfigState;
-import fraguel.android.states.ImageGalleryState;
 import fraguel.android.states.ImageState;
 import fraguel.android.states.InfoState;
 import fraguel.android.states.IntroState;
@@ -325,11 +319,13 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	}
 
 	public void returnState() {
-		try {
-			State current = _stateStack.pop();
-			current.unload();
-			currentState = _stateStack.peek();
-			currentState.load();
+		try { 
+			if (_stateStack.firstElement().getId()!=MainMenuState.STATE_ID){
+				State current = _stateStack.pop();
+				current.unload();
+				currentState = _stateStack.peek();
+				currentState.load();
+			}
 		} catch (Exception e) {
 			currentState = null;
 			changeState(MainMenuState.STATE_ID);

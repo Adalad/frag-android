@@ -1,5 +1,6 @@
 package fraguel.android.states;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
@@ -27,6 +28,7 @@ import fraguel.android.PointOI;
 import fraguel.android.R;
 import fraguel.android.State;
 import fraguel.android.notifications.UserOptionsTemplateNotification;
+import fraguel.android.resources.ResourceManager;
 import fraguel.android.utils.NewRouteForm;
 import fraguel.android.utils.NewRouteGeoTaggingForm;
 import fraguel.android.utils.PointExtraInfoGeoTagging;
@@ -42,7 +44,7 @@ public class MainMenuState extends State {
 
 	protected TextView gps;
 	protected TextView orientation;
-	private final CharSequence[] options = {"Plantilla en blanco", "Mediante 'GeoTagging'"};
+	private final CharSequence[] options = {"Plantilla en blanco", "Mediante captura de puntos"};
 	
 	//GeoTagging
 	private ArrayList<PointOI> geoTaggingPoints;
@@ -51,6 +53,7 @@ public class MainMenuState extends State {
 	private PointOI currentPoint=null;
 	private PointExtraInfoGeoTagging extraInfo=null;
 	private SavePointTemplate coordinatesCapturer=null;
+	private String[] tempFiles=null;
 	
 	private NewRouteForm blankForm=null;
 	public MainMenuState() {
@@ -137,6 +140,7 @@ public class MainMenuState extends State {
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Caché borrada con éxito", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.btn_manager:
+			tempFiles=new File(ResourceManager.getInstance().getRootPath()+"/user").list();
 			FRAGUEL.getInstance().createDialog("Crear ruta", options,new UserOptionsTemplateNotification(),null );
 			break;
 		/*case R.id.btn_config:
@@ -234,6 +238,9 @@ public class MainMenuState extends State {
 			coordinatesCapturer.setLongitude((float)location.getLongitude());
 		}
 	}
-	
+
+	public String[] getTempFiles() {
+		return tempFiles;
+	}	
 
 }

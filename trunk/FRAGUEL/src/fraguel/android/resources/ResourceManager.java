@@ -1,15 +1,20 @@
 package fraguel.android.resources;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlSerializer;
 
 import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
+import fraguel.android.states.MainMenuState;
 
 import android.graphics.Point;
 import android.os.Environment;
@@ -285,6 +290,76 @@ public void createXMLFromPoints(String fileName,String routeName,int routeId,Arr
 		e.printStackTrace();
 	}
 
+	
+}
+
+public void toTempFile(){
+	if (FRAGUEL.getInstance().getCurrentState().getId()==MainMenuState.STATE_ID){
+		MainMenuState state = (MainMenuState)FRAGUEL.getInstance().getCurrentState();
+		File file = new File(ResourceManager.getInstance().getRootPath()+"/user/"+state.getRouteName()+".tmp");
+		if (file.exists()){
+			file.delete();
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"El archivo ya existía y se ha sobrescrito" , Toast.LENGTH_SHORT).show();
+		}
+		try {
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+			for (PointOI p : state.getGeoTaggingPoints()){
+				oos.writeObject(p);
+			}
+			oos.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"Error al grabar el archivo" , Toast.LENGTH_SHORT).show();
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"Error al grabar el archivo" , Toast.LENGTH_SHORT).show();
+			e.printStackTrace();
+		}
+		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"Datos guardados con éxito" , Toast.LENGTH_SHORT).show();
+	}
+}
+
+public void fromTmpFile(String path,String routeName){
+	if (FRAGUEL.getInstance().getCurrentState().getId()==MainMenuState.STATE_ID){
+		MainMenuState state = (MainMenuState)FRAGUEL.getInstance().getCurrentState();
+		ArrayList<PointOI> points = new ArrayList<PointOI>();
+		state.setRouteName(routeName);
+		File f = new File(path);
+		
+		try {
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+			
+			// Se lee el primer objeto
+			Object aux = ois.readObject();
+			            
+			// Mientras haya objetos
+			while (aux!=null)
+			{
+			    if (aux instanceof PointOI){
+			    	points.add((PointOI) aux);
+			    	aux = ois.readObject();
+			    }
+			}
+			ois.close();
+			state.setGeoTaggingPoints(points);
+			
+		} catch (StreamCorruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 	
 }
 
