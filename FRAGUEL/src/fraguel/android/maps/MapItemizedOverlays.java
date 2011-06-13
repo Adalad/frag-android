@@ -215,6 +215,10 @@ public class MapItemizedOverlays extends ItemizedOverlay  implements OnGestureLi
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY) {
 		// TODO Auto-generated method stub
+		if (MapState.getInstance().isMyPosition()){
+			MapState.getInstance().setPopupMyPosition();
+			return true;
+		}
 		return false;
 	}
 
