@@ -19,7 +19,7 @@ public class ExtraInfoPointButton implements DialogInterface.OnClickListener{
 		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"Hay "+state.getGeoTaggingPoints().size() +" puntos guardados", Toast.LENGTH_LONG).show();
 		arg0.dismiss();
 		state.setCoordinatesCapturer(new SavePointTemplate(FRAGUEL.getInstance().getApplicationContext()));
-		FRAGUEL.getInstance().createCustomDialog(state.getGeoTaggingForm().getRouteName()+": captura de coordenadas", state.getCoordinatesCapturer(), new CaptureCoordinatesButton(), "Capturar", new EndCaptureButton(), "Finalizar", null);
+		FRAGUEL.getInstance().createCustomDialog(state.getRouteName()+": captura de coordenadas", state.getCoordinatesCapturer(), new CaptureCoordinatesButton(), "Capturar", new EndCaptureButton(), "Finalizar", null);
 	}
 
 }

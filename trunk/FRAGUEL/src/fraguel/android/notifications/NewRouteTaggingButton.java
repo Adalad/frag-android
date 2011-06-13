@@ -24,7 +24,7 @@ public class NewRouteTaggingButton implements DialogInterface.OnClickListener{
 			capturer= new SavePointTemplate(FRAGUEL.getInstance().getApplicationContext());
 			state.setCoordinatesCapturer(capturer);
 		}
-		FRAGUEL.getInstance().createCustomDialog(state.getGeoTaggingForm().getRouteName()+": captura de coordenadas",capturer , new CaptureCoordinatesButton(), "Capturar", new EndCaptureButton(), "Finalizar", null);
+		FRAGUEL.getInstance().createCustomDialog(state.getRouteName()+": captura de coordenadas",capturer , new CaptureCoordinatesButton(), "Capturar", new EndCaptureButton(), "Finalizar", null);
 		dialog.dismiss();
 	}
 
