@@ -184,6 +184,9 @@ public class MapState extends State implements OnTouchListener{
 	public boolean isPopupOnRoute() {
 		return isPopupOnRoute;
 	}
+	public boolean isMyPosition() {
+		return isMyPosition;
+	}
 	public boolean isAnyPopUp(){
 		return isPopupPI || isPopupPIOnRoute || isPopupOnRoute;
 	}
@@ -199,6 +202,15 @@ public class MapState extends State implements OnTouchListener{
 	public void setPopupOnRoute() {
 		FRAGUEL.getInstance().addView(popupOnRoute);
 		this.isPopupOnRoute = true;
+	}
+	
+	public void setPopupMyPosition(){
+		FRAGUEL.getInstance().addView(returnToMyPosition);
+		isMyPosition=false;
+	}
+	public void removePopUpMyPosition(){
+		FRAGUEL.getInstance().getView().removeView(returnToMyPosition);
+		isMyPosition=true;
 	}
 	
 	public void removePopUpPI(){
@@ -251,7 +263,7 @@ public class MapState extends State implements OnTouchListener{
 			FRAGUEL.getInstance().getCurrentState().loadData(route, point);
 			break;
 		case R.id.btn_return_to_position:
-			mapView.removeView(returnToMyPosition);
+			FRAGUEL.getInstance().getView().removeView(returnToMyPosition);
 			isMyPosition=true;
 			mapControl.animateTo(getMyLocation());	
 			break;
@@ -291,6 +303,11 @@ public class MapState extends State implements OnTouchListener{
 			removePopUpOnRoute();
 
 		}
+		/*if (view==returnToMyPosition && !isMyPosition){
+			FRAGUEL.getInstance().getView().removeView(returnToMyPosition);
+			isMyPosition=true;
+			mapControl.animateTo(getMyLocation());	
+		}*/
 		return true;
 	}
 
