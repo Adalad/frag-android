@@ -134,6 +134,11 @@ public class ImageDownloadingThread extends Thread{
 	            
 	       } catch (IOException e) {
 	           Log.e("Image", "Error getting bitmap", e);
+	           bis=null;
+	           is=null;
+	           conn=null;
+	           aURL=null;
+	           bm=null;
 	       }
        
        return bm;
