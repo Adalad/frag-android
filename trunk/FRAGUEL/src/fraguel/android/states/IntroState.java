@@ -53,12 +53,13 @@ public class IntroState extends State{
 		viewGroup.addView(imgView);*/
 		
 		//viewGroup= (LinearLayout)FRAGUEL.getInstance().findViewById(R.layout.intro);
+		
 		LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
 		if(viewGroup==null)
 			viewGroup= (ViewGroup) li.inflate(R.layout.intro,  null);
 		viewGroup.setBackgroundResource(R.drawable.white);
 		 AnimationSet set = new AnimationSet(true);
-		 	
+		 viewGroup.setKeepScreenOn(true);	
 		 	  
 		  //Mueve la View
 		  Animation animation3 = new TranslateAnimation(
@@ -134,6 +135,7 @@ public class IntroState extends State{
 	
 	@Override
 	public void unload(){
+		viewGroup.setKeepScreenOn(false);
 		super.unload();
 		//comprobamos si tiene activado el GPS
 		if (!FRAGUEL.getInstance().getLocationManager().isProviderEnabled(LocationManager.GPS_PROVIDER)) {	
