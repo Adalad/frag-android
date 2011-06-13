@@ -603,7 +603,7 @@ public void createCustomDialog(String title, View view,DialogInterface.OnClickLi
 		// Este método pone que es obligatorio ponerlo cuando muestras tu
 		// posicion
 		// en la API de Maps si no es ilegal la app
-		return (currentState.id == 2);
+		return (currentState.id == MapState.STATE_ID);
 	}
 
 	@Override
