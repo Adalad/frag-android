@@ -320,7 +320,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 	public void returnState() {
 		try { 
-			if (_stateStack.firstElement().getId()!=MainMenuState.STATE_ID){
+			if (_stateStack.lastElement().getId()!=MainMenuState.STATE_ID){
 				State current = _stateStack.pop();
 				current.unload();
 				currentState = _stateStack.peek();
