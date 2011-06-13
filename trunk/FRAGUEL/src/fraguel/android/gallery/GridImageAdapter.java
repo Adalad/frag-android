@@ -26,7 +26,8 @@ public class GridImageAdapter extends BaseAdapter {
     }
 
     public int getCount() {
-        return mThumbIds.length;
+        //return mThumbIds.length;
+    	return 0;
     }
   
     public Object getItem(int position) {
@@ -49,12 +50,12 @@ public class GridImageAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        imageView.setImageResource(mThumbIds[position]);
+       // imageView.setImageResource(mThumbIds[position]);
         return imageView;
     }
 
     // references to our images
-    private Integer[] mThumbIds = {
+   /* private Integer[] mThumbIds = {
     		 R.drawable.guerracivil_1,
              R.drawable.guerracivil_2,
              R.drawable.guerracivil_3,
@@ -89,6 +90,6 @@ public class GridImageAdapter extends BaseAdapter {
              R.drawable.guerracivil_3,
              R.drawable.guerracivil_4,
             
-    };
+    };*/
 }
 
