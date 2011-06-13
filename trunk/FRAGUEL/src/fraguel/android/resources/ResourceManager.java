@@ -326,9 +326,9 @@ public void fromTmpFile(String path,String routeName){
 		ArrayList<PointOI> points = new ArrayList<PointOI>();
 		state.setRouteName(routeName);
 		File f = new File(path);
-		
+		ObjectInputStream ois = null;
 		try {
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+			ois = new ObjectInputStream(new FileInputStream(f));
 			
 			// Se lee el primer objeto
 			Object aux = ois.readObject();
@@ -357,6 +357,13 @@ public void fromTmpFile(String path,String routeName){
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		try {
+			ois.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		state.setGeoTaggingPoints(points);
 		
 		
 	}
