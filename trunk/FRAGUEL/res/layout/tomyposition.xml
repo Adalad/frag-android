@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout android:id="@+id/popupposition"
-	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	android:layout_width="80px" android:layout_height="80px"
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_gravity="bottom">
-<LinearLayout android:orientation="vertical"
-		android:layout_width="92px" android:layout_height="wrap_content"
-		android:background="@drawable/popup_complete" android:layout_gravity="bottom">
+	android:layout_gravity="bottom" android:background="@drawable/popup_complete">
 	<Button android:id="@+id/btn_return_to_position"
 			android:layout_width="80px" android:background="@drawable/my_location"
 			android:layout_height="80px" android:layout_gravity="bottom" />
-</LinearLayout>
 </FrameLayout>
