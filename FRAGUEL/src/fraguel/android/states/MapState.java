@@ -303,11 +303,6 @@ public class MapState extends State implements OnTouchListener{
 			removePopUpOnRoute();
 
 		}
-		/*if (view==returnToMyPosition && !isMyPosition){
-			FRAGUEL.getInstance().getView().removeView(returnToMyPosition);
-			isMyPosition=true;
-			mapControl.animateTo(getMyLocation());	
-		}*/
 		return true;
 	}
 
