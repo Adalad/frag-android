@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -69,6 +70,7 @@ public class MapState extends State implements OnTouchListener{
 	private View popupPI;
 	private View popupPIonroute;
 	private View popupOnRoute;
+	private View returnToMyPosition;
 	private List<Overlay> mapOverlays;
 	private boolean isPopupPI;
 	private boolean isPopupOnRoute;
@@ -123,11 +125,13 @@ public class MapState extends State implements OnTouchListener{
 		popupOnRoute= li.inflate(R.layout.popup3,  null);
 		popupOnRoute.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
 		
+		//Creamos e importamos el popup 'return to my position' del xml
+		isMyPosition=true;
+		returnToMyPosition=li.inflate(R.layout.tomyposition, null);
+		returnToMyPosition.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
+		
 
 		//Creamos, importamos y configuramos la mapview del xml
-		//mapView = (MapView) FRAGUEL.getInstance().findViewById(R.id.mapview);
-		//mapView.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-		//mapView.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
 		mapView = (MapView) FRAGUEL.getInstance().findViewById(R.id.mapview);
 		if (me==null)
 			me = new MyPositionOverlay(FRAGUEL.getInstance().getApplicationContext(),mapView);
@@ -145,12 +149,7 @@ public class MapState extends State implements OnTouchListener{
 
 		//Creamos los Overlays
 		mapOverlays = mapView.getOverlays();
-		
-		
-		
-
-		isMyPosition=true;
-		
+				
 		//Cargamos todo
 		if (!me.isRouteMode())
 			this.reStartMap();
@@ -170,6 +169,8 @@ public class MapState extends State implements OnTouchListener{
 	@Override
 	public void unload(){
 		this.removeAllPopUps();
+		mapView.removeView(this.returnToMyPosition);
+		isMyPosition=true;
 		super.unload();
 		mapView.setKeepScreenOn(false);
 	}
@@ -249,6 +250,11 @@ public class MapState extends State implements OnTouchListener{
 			FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
 			FRAGUEL.getInstance().getCurrentState().loadData(route, point);
 			break;
+		case R.id.btn_return_to_position:
+			mapView.removeView(returnToMyPosition);
+			isMyPosition=true;
+			mapControl.animateTo(getMyLocation());	
+			break;
 		default:
 			
 
@@ -285,7 +291,6 @@ public class MapState extends State implements OnTouchListener{
 			removePopUpOnRoute();
 
 		}
-
 		return true;
 	}
 
@@ -405,19 +410,17 @@ public class MapState extends State implements OnTouchListener{
 		//Añadimos las opciones del menu
 		if (me.isRouteMode())
 			if (showWay)
-				menu.add(0, MAPSTATE_MENU_DRAWPATH, 0, "¡Guíame!").setIcon(R.drawable.ic_menu_routeadd);
+				menu.add(0, MAPSTATE_MENU_DRAWPATH, 0, "¡Guíame!").setIcon(R.drawable.ic_menu_guide);
 			else
-				menu.add(0, MAPSTATE_MENU_DRAWPATH, 0, "No guiar").setIcon(R.drawable.ic_menu_routerem);
+				menu.add(0, MAPSTATE_MENU_DRAWPATH, 0, "No guiar").setIcon(R.drawable.ic_menu_noguide);
 		if (FRAGUEL.getInstance().isTalking())
 			menu.add(0,MAPSTATE_MENU_STOPTALKING, 0, "Detener audio").setIcon(R.drawable.ic_menu_talkstop);
 		menu.add(0, MAPSTATE_MENU_CHANGEMAP, 0, R.string.mapstate_menu_changemap).setIcon(R.drawable.ic_menu_mapmode);		
-		menu.add(0, MAPSTATE_MENU_MY_POSITION, 0,R.string.mapstate_menu_my_position).setIcon(R.drawable.ic_menu_mylocation);
-		menu.add(0, MAPSTATE_MENU_EXPLORE_MAP, 0,R.string.mapstate_menu_explore_map).setIcon(R.drawable.ic_menu_search);
 		menu.add(0, MAPSTATE_MENU_COMPASS, 0,R.string.mapstate_menu_compass).setIcon(R.drawable.ic_menu_compass);
 		if (!me.isRouteMode())
-			menu.add(0, MAPSTATE_MENU_STARTROUTE, 0, "Comenzar ruta").setIcon(R.drawable.ic_menu_route);
+			menu.add(0, MAPSTATE_MENU_STARTROUTE, 0, "Comenzar ruta").setIcon(R.drawable.ic_menu_startroute);
 		else
-			menu.add(0, MAPSTATE_MENU_STOPROUTE, 0, "Abandonar ruta").setIcon(R.drawable.ic_menu_route);
+			menu.add(0, MAPSTATE_MENU_STOPROUTE, 0, "Abandonar ruta").setIcon(R.drawable.ic_menu_stoproute);
 
 		return menu;
 	}
@@ -446,13 +449,6 @@ public class MapState extends State implements OnTouchListener{
 			}
 			showWay=!showWay;
 			mapView.invalidate();
-			return true;
-		case MAPSTATE_MENU_EXPLORE_MAP:
-			isMyPosition=false;
-			return true;
-		case MAPSTATE_MENU_MY_POSITION:
-			mapControl.animateTo(getMyLocation());
-			isMyPosition=true;
 			return true;
 			
 		case MAPSTATE_MENU_COMPASS:
