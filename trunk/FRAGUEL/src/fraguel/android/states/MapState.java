@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewManager;
@@ -129,7 +130,7 @@ public class MapState extends State implements OnTouchListener{
 		isMyPosition=true;
 		returnToMyPosition=li.inflate(R.layout.tomyposition, null);
 		returnToMyPosition.setOnTouchListener((OnTouchListener) FRAGUEL.getInstance());
-		
+		returnToMyPosition.findViewById(R.id.btn_return_to_position).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 
 		//Creamos, importamos y configuramos la mapview del xml
 		mapView = (MapView) FRAGUEL.getInstance().findViewById(R.id.mapview);
