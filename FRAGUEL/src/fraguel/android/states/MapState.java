@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +18,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.ViewManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -54,8 +52,6 @@ public class MapState extends State implements OnTouchListener{
 
 	// Variables de los botones del men
 	private static final int MAPSTATE_MENU_CHANGEMAP = 1;
-	private static final int MAPSTATE_MENU_MY_POSITION = 2;
-	private static final int MAPSTATE_MENU_EXPLORE_MAP = 3;
 	private static final int MAPSTATE_MENU_COMPASS=4;
 	private static final int MAPSTATE_MENU_STARTROUTE = 5;
 	private static final int MAPSTATE_MENU_DRAWPATH=6;
