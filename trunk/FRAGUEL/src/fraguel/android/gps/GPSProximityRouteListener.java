@@ -21,6 +21,7 @@ import fraguel.android.states.PointInfoState;
 public class GPSProximityRouteListener extends GPSProximity{
 
 	private ArrayList<PointOI> pointsToVisit;
+	boolean noMoreMessages;
 	
 	public GPSProximityRouteListener(){
 		
@@ -30,60 +31,64 @@ public class GPSProximityRouteListener extends GPSProximity{
 	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
-		latitude = location.getLatitude();
-		longitude = location.getLongitude();
-		altitude = location.getAltitude();
-		distance = Float.MAX_VALUE;
 		
-		if (pointsToVisit.size()==0){
-			//ruta terminada
-			MapState.getInstance().removeAllPopUps();
-			FRAGUEL.getInstance().createOneButtonNotification("Ruta finalizada", "Ha completado todos los puntos de interés de la ruta "+currentRoute.name, new WarningNotificationButton());
+		if (!noMoreMessages){
+			latitude = location.getLatitude();
+			longitude = location.getLongitude();
+			altitude = location.getAltitude();
+			distance = Float.MAX_VALUE;
 			
-		}else{
-			
-			//miramos la distancia al siguiente punto a visitar en la ruta
-			Location.distanceBetween(latitude, longitude, pointsToVisit.get(0).coords[0], pointsToVisit.get(0).coords[1], results);
-			distance=results[0];
-			if (results[0]<=proximityAlertDistance){
-				currentPoint=pointsToVisit.get(0);
+			if (pointsToVisit.size()==0){
+				//ruta terminada
+				MapState.getInstance().removeAllPopUps();
+				FRAGUEL.getInstance().createOneButtonNotification("Ruta finalizada", "Ha completado todos los puntos de interés de la ruta "+currentRoute.name, new WarningNotificationButton());
+				noMoreMessages=true;
 				
-				FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
-				FRAGUEL.getInstance().getCurrentState().loadData(currentRoute, currentPoint);
-				MapState.getInstance().getGPS().setDialogDisplayed(true);
-				//actualizar las listas y el MapState
-				pointsVisited.add(currentPoint);
-				pointsToVisit.remove(0);
-				MapState.getInstance().refreshMapRouteMode();
-
 			}else{
-				//mostrar info de la distancia y el bearing si no hay ningun popup
-				((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText((int)distance+ " metros para llegar a "+pointsToVisit.get(0).title);
-				//elegimos la flecha correspondiente al bearing(ángulo de giro)
-				if (results[1]<=22.5 && results[1]>-22.5 )
-					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_norte);
-				else if (results[1]<=67.5 && results[1]>22.5 )
-					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_norte_este);
-				else if (results[1]<=112.5 && results[1]>67.5 )
-					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_este);
-				else if (results[1]<=157.5 && results[1]>112.5 )
-					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_sur_este);
-				else if (results[1]<=-157.5 && results[1]>157.5 )
-					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_sur);
-				else if (results[1]<=-112.5 && results[1]>-157.5 )
-					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_sur_oeste);
-				else if (results[1]<=-67.5 && results[1]>-112.5 )
-					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_oeste);
-				else if (results[1]<=-22.5 && results[1]>-67.5 )
-					((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_norte_oeste);
-				//mostramos el pop-up
-				if (FRAGUEL.getInstance().getCurrentState().getId()==MapState.STATE_ID && !MapState.getInstance().isAnyPopUp())
-					MapState.getInstance().setPopupOnRoute();
-				else
-					((FrameLayout)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute)).invalidate();
 				
-			}	
-
+				//miramos la distancia al siguiente punto a visitar en la ruta
+				Location.distanceBetween(latitude, longitude, pointsToVisit.get(0).coords[0], pointsToVisit.get(0).coords[1], results);
+				distance=results[0];
+				if (results[0]<=proximityAlertDistance){
+					currentPoint=pointsToVisit.get(0);
+					
+					FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
+					FRAGUEL.getInstance().getCurrentState().loadData(currentRoute, currentPoint);
+					MapState.getInstance().getGPS().setDialogDisplayed(true);
+					//actualizar las listas y el MapState
+					pointsVisited.add(currentPoint);
+					pointsToVisit.remove(0);
+					MapState.getInstance().refreshMapRouteMode();
+	
+				}else{
+					//mostrar info de la distancia y el bearing si no hay ningun popup
+					((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText((int)distance+ " metros para llegar a "+pointsToVisit.get(0).title);
+					//elegimos la flecha correspondiente al bearing(ángulo de giro)
+					if (results[1]<=22.5 && results[1]>-22.5 )
+						((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_norte);
+					else if (results[1]<=67.5 && results[1]>22.5 )
+						((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_norte_este);
+					else if (results[1]<=112.5 && results[1]>67.5 )
+						((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_este);
+					else if (results[1]<=157.5 && results[1]>112.5 )
+						((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_sur_este);
+					else if (results[1]<=-157.5 && results[1]>157.5 )
+						((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_sur);
+					else if (results[1]<=-112.5 && results[1]>-157.5 )
+						((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_sur_oeste);
+					else if (results[1]<=-67.5 && results[1]>-112.5 )
+						((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_oeste);
+					else if (results[1]<=-22.5 && results[1]>-67.5 )
+						((ImageView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_orientation)).setImageResource(R.drawable.flecha_norte_oeste);
+					//mostramos el pop-up
+					if (FRAGUEL.getInstance().getCurrentState().getId()==MapState.STATE_ID && !MapState.getInstance().isAnyPopUp())
+						MapState.getInstance().setPopupOnRoute();
+					else
+						((FrameLayout)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute)).invalidate();
+					
+				}	
+	
+			}
 		}
 	}
 	
@@ -108,6 +113,7 @@ public class GPSProximityRouteListener extends GPSProximity{
 				
 				
 		MapState.getInstance().startRoute();
+		noMoreMessages=false;
 	}
 	
 	public ArrayList<PointOI> pointsVisited(){
