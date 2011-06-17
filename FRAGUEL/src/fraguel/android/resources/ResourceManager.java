@@ -159,13 +159,20 @@ public void createXMLTemplate(String fileName,String routeName,int routeId,int n
 									serializer.startTag(null, "pointicon");
 						            serializer.endTag(null, "pointicon");
 						            
-									serializer.startTag(null, "image");
-						            serializer.endTag(null, "image");
+									serializer.startTag(null, "images");
+										serializer.startTag(null, "image");
+										serializer.attribute(null, "url", "");
+										serializer.endTag(null, "image");
+						            serializer.endTag(null, "images");
 						            
 									serializer.startTag(null, "video");
 						            serializer.endTag(null, "video");
 						            
 									serializer.startTag(null, "ar");
+									serializer.attribute(null, "lat", "0.0");
+									serializer.attribute(null, "long", "0.0");
+									serializer.attribute(null, "alt", "0.0");
+									serializer.attribute(null, "file", "");
 						            serializer.endTag(null, "ar");
 							
 				            serializer.endTag(null, "point");
@@ -256,13 +263,20 @@ public void createXMLFromPoints(String fileName,String routeName,int routeId,Arr
 								serializer.startTag(null, "pointicon");
 					            serializer.endTag(null, "pointicon");
 					            
-								serializer.startTag(null, "image");
-					            serializer.endTag(null, "image");
+								serializer.startTag(null, "images");
+									serializer.startTag(null, "image");
+									serializer.attribute(null, "url", "");
+									serializer.endTag(null, "image");
+					            serializer.endTag(null, "images");
 					            
 								serializer.startTag(null, "video");
 					            serializer.endTag(null, "video");
 					            
 								serializer.startTag(null, "ar");
+								serializer.attribute(null, "lat", "0.0");
+								serializer.attribute(null, "long", "0.0");
+								serializer.attribute(null, "alt", "0.0");
+								serializer.attribute(null, "file", "");
 					            serializer.endTag(null, "ar");
 						
 			            serializer.endTag(null, "point");
