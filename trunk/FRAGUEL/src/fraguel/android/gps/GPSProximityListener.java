@@ -1,10 +1,8 @@
 package fraguel.android.gps;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import android.location.Location;
-import android.util.Pair;
 import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
 import fraguel.android.R;
@@ -12,7 +10,6 @@ import fraguel.android.Route;
 import fraguel.android.notifications.GPSIgnoreButton;
 import fraguel.android.notifications.ProximityAlertNotificationButton;
 import fraguel.android.states.MapState;
-import fraguel.android.states.PointInfoState;
 
 public class GPSProximityListener extends GPSProximity{
 
