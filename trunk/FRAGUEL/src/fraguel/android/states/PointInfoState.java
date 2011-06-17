@@ -129,7 +129,7 @@ public class PointInfoState extends State{
 				
 
 				case 0:
-					if (point.images!=null && point.images.length!=0){
+					if (point.images!=null && point.images.size()!=0){
 						FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
 						FRAGUEL.getInstance().getCurrentState().loadData(route, point);
 					}else

@@ -56,7 +56,7 @@ public class ImageDownloadingThread extends Thread{
 	public ImageDownloadingThread(String[] paths,String[] filenames,String savingPath){
 		super();
 		urls=paths;
-		name=null;
+		name=filenames[0];
 		names=filenames;
 		tmp=null;
 		f=null;

@@ -9,6 +9,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.util.Pair;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class BigImageAdapter extends BaseAdapter{
             R.drawable.guerracivil_4,
           
     };*/
-    private ArrayList<String> images= new ArrayList<String>();
+    private ArrayList<Pair<String,String>> images= new ArrayList<Pair<String,String>>();
 
     public BigImageAdapter(Context c) {
         mContext = c;
@@ -56,7 +57,7 @@ public class BigImageAdapter extends BaseAdapter{
     public long getItemId(int position) {
         return position;
     }
-    public void setData(ArrayList<String> data){
+    public void setData(ArrayList<Pair<String,String>> data){
     	this.images=data;
     }
 

@@ -240,7 +240,7 @@ public class MapState extends State implements OnTouchListener{
 			FRAGUEL.getInstance().getCurrentState().loadData(route, point);
 			break;
 		case R.id.btn_popupPI_photo:
-			if (point.images!=null && point.images.length!=0){
+			if (point.images!=null && point.images.size()!=0){
 				FRAGUEL.getInstance().changeState(ImageState.STATE_ID);
 				FRAGUEL.getInstance().getCurrentState().loadData(route, point);
 			}else
