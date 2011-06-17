@@ -1,5 +1,6 @@
 package fraguel.android.resources.ar;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import fraguel.android.ar.core.Object3dContainer;
 import fraguel.android.ar.vos.Color4;
 import fraguel.android.ar.vos.Number3d;
 import fraguel.android.ar.vos.Uv;
+import fraguel.android.resources.ResourceManager;
 
 /**
  * Abstract parser class with basic parsing functionality.
@@ -27,9 +29,9 @@ import fraguel.android.ar.vos.Uv;
  *
  */
 public abstract class AParser implements IParser {
-	protected Resources resources;
-	protected String resourceID;
-	protected String packageID;
+	//protected Resources resources;
+	//protected String resourceID;
+	//protected String packageID;
 	protected String currentMaterialKey;
 	protected ArrayList<ParseObjectData> parseObjects;
 	protected ParseObjectData co;
@@ -40,6 +42,8 @@ public abstract class AParser implements IParser {
 	protected ArrayList<Number3d> normals;
 	protected boolean generateMipMap;
 	protected HashMap<String, Material> materialMap;
+	
+	protected String resourceName;
 	
 	public AParser()
 	{
@@ -52,13 +56,20 @@ public abstract class AParser implements IParser {
 		materialMap = new HashMap<String, Material>();
 	}
 	
-	public AParser(Resources resources, String resourceID, Boolean generateMipMap)
+	/*public AParser(Resources resources, String resourceID, Boolean generateMipMap)
 	{
 		this();
 		this.resources = resources;
 		this.resourceID = resourceID;
 		if (resourceID.indexOf(":") > -1)
 			this.packageID = resourceID.split(":")[0];
+		this.generateMipMap = generateMipMap;
+	}*/
+	
+	public AParser(String resourceName, Boolean generateMipMap)
+	{
+		this();
+		this.resourceName = resourceName;
 		this.generateMipMap = generateMipMap;
 	}
 	
@@ -133,7 +144,8 @@ public abstract class AParser implements IParser {
 		/**
 		 * Resource ID
 		 */
-		public String resourceID;
+		//public String resourceID;
+		public String resourceName;
 		/**
 		 * U-coordinate offset
 		 */
@@ -157,10 +169,16 @@ public abstract class AParser implements IParser {
 		 * @param bitmap
 		 * @param key
 		 */
-		public BitmapAsset(String key, String resourceID)
+		/*public BitmapAsset(String key, String resourceID)
 		{
 			this.key = key;
 			this.resourceID = resourceID;
+			useForAtlasDimensions = false;
+		}*/
+		public BitmapAsset(String key, String resourceName)
+		{
+			this.key = key;
+			this.resourceName = resourceName;
 			useForAtlasDimensions = false;
 		}
 	}
@@ -196,20 +214,23 @@ public abstract class AParser implements IParser {
 		 * @param bitmap
 		 */
 		public void addBitmapAsset(BitmapAsset ba) {
-			BitmapAsset existingBA = getBitmapAssetByResourceID(ba.resourceID);
+			BitmapAsset existingBA = getBitmapAssetByResourceID(ba.resourceName);
 
 			if(existingBA == null)
 			{
-				int bmResourceID = resources.getIdentifier(ba.resourceID, null, null);
-				if(bmResourceID == 0)
+				String path = ResourceManager.getInstance().getRootPath();
+				path = path + "/ar/" + ba.resourceName;
+				File root = new File(path);
+				//int bmResourceID = resources.getIdentifier(ba.resourceID, null, null);
+				if (!root.exists())//if(bmResourceID == 0)
 				{
-					Log.d(Min3d.TAG, "Texture not found: " + ba.resourceID);
+					Log.d(Min3d.TAG, "Texture not found: " + ba.resourceName);
 					return;
 				}
 
-				Log.d(Min3d.TAG, "Adding texture " + ba.resourceID);
+				Log.d(Min3d.TAG, "Adding texture " + ba.resourceName);
 				
-				Bitmap b = Utils.makeBitmapFromResourceId(bmResourceID);
+				Bitmap b = Utils.makeBitmapFromResourceId(ba.resourceName);//bmResourceID);
 				ba.useForAtlasDimensions = true;
 				ba.bitmap = b;
 			}
@@ -227,7 +248,7 @@ public abstract class AParser implements IParser {
 			
 			for(int i=0; i<numBitmaps; i++)
 			{
-				if(bitmaps.get(i).resourceID.equals(resourceID))
+				if(bitmaps.get(i).resourceName.equals(resourceID))
 					return bitmaps.get(i);
 			}
 			
@@ -258,7 +279,7 @@ public abstract class AParser implements IParser {
 
 			for (int i = 0; i < numBitmaps; i++) {
 				BitmapAsset ba = bitmaps.get(i);
-				BitmapAsset existingBA = getBitmapAssetByResourceID(ba.resourceID);				
+				BitmapAsset existingBA = getBitmapAssetByResourceID(ba.resourceName);				
 				
 				if(ba.useForAtlasDimensions)
 				{

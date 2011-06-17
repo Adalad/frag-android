@@ -11,15 +11,17 @@ import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.ar.CamLayer;
 import fraguel.android.ar.GLView;
+import fraguel.android.gps.LatLon2UTM;
 
 public class ARState extends State {
 
 	public static final int STATE_ID = 5;
-	public static final double RADIO_TIERRA = 6371000;
 
 	// ARCameraView camView;
 	GLView glView;
 	private CamLayer mPreview;
+	
+	private LatLon2UTM ll;
 
 	// private GLLayer glView;
 
@@ -30,6 +32,9 @@ public class ARState extends State {
 
 	@Override
 	public void load() {
+		
+		ll = new LatLon2UTM();
+		
 		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		// Inicializar viewGroup
 		// viewGroup = new
@@ -96,15 +101,14 @@ public class ARState extends State {
 
 	@Override
 	public void onLocationChanged(float[] values) {
-
-		float x = (float) (values[0] * RADIO_TIERRA);
-		float y = (float) (values[1] * RADIO_TIERRA);
+		/*ll.setVariables(values[0], values[1]);
+		float x = (float) ll.getEasting();
+		float y = (float) ll.getNorthing(values[1]);
 		float z = values[2];
 
 		glView.scene.camera().position.x = x;
 		glView.scene.camera().position.y = z;
-		glView.scene.camera().position.z = y;
-
+		glView.scene.camera().position.z = -y;*/
 	}
 
 	@Override

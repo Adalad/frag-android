@@ -1,5 +1,7 @@
 package fraguel.android.ar;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -7,6 +9,7 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 import fraguel.android.ar.core.Object3d;
+import fraguel.android.resources.ResourceManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,10 +24,15 @@ public class Utils
 	/**
 	 * Convenience method to create a Bitmap given a Context's drawable resource ID. 
 	 */
-	public static Bitmap makeBitmapFromResourceId(Context $context, int $id)
+	public static Bitmap makeBitmapFromResourceId(String file)//Context $context, int $id)
 	{
-		InputStream is = $context.getResources().openRawResource($id);
-		
+		//InputStream is = $context.getResources().openRawResource($id);
+		InputStream is;
+		try {
+			is = new FileInputStream(ResourceManager.getInstance().getRootPath()+"/ar/"+file);
+		} catch (FileNotFoundException e1) {
+			return null;
+		};
 		Bitmap bitmap;
 		try {
 		   bitmap = BitmapFactory.decodeStream(is);
@@ -42,10 +50,10 @@ public class Utils
 	/**
 	 * Convenience method to create a Bitmap given a drawable resource ID from the application Context. 
 	 */
-	public static Bitmap makeBitmapFromResourceId(int $id)
+	/*public static Bitmap makeBitmapFromResourceId(int $id)
 	{
 		return makeBitmapFromResourceId(Shared.context(), $id);
-	}
+	}*/
 	
 	/**
 	 * Add two triangles to the Object3d's faces using the supplied indices
