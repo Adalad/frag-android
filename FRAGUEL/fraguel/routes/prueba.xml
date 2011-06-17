@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<route id="8">
-	<name>Nombre ruta de prueba2</name>
+<route id="14">
+	<name>Prueba XML nuevo</name>
 	<description>Descripcion de la ruta de prueba2</description>
 	<icon>http://icons2.iconarchive.com/icons/mayosoft/no-patriot/128/Espanya-Spain-icon.png</icon>
 
 	<points>
 		<point id="0">
 			<coords x="40.4425602" y="-3.6257881" />
-			<title>Punto 0 ruta 8</title>
+			<title>Punto 0 ruta de prueba</title>
 			<pointdescription>El primer puntito de todos</pointdescription>
 			<pointicon>http://iconpacks.mozdev.org/images/thunderbird-icon.png</pointicon>
 			<images>
@@ -16,33 +16,33 @@
 				<image url="http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg">Imagen 2 del punto 0 de la ruta de prueba</image>
 			</images>
 			<video>http://www.youtube.com/watch?v=cxLG2wtE7TM</video>
-			<ar lat="0.0" long="0.0" alt="0.0" file=""></ar>
+			<ar lat="0.0" long="0.0" alt="0.0" file="">Estás en el punto 0 de la ruta de prueba en la parte de realidad aumentada</ar>
 		</point>
 		<point id="1">
 			<coords x="40.4415602" y="-3.6257881" />
-			<title>Punto 1 ruta 8</title>
+			<title>Punto 1 ruta de prueba</title>
 			<pointdescription>El segundo puntito</pointdescription>
 			<pointicon>http://iconpacks.mozdev.org/images/thunderbird-icon.png</pointicon>
 			<images>
-				<image url="http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg">Imagen 0 del punto 0 de la ruta de prueba</image>
-				<image url="http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg">Imagen 1 del punto 0 de la ruta de prueba</image>
-				<image url="http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg">Imagen 2 del punto 0 de la ruta de prueba</image>
+				<image url="http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg">Imagen 0 del punto 1 de la ruta de prueba</image>
+				<image url="http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg">Imagen 1 del punto 1 de la ruta de prueba</image>
+				<image url="http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg">Imagen 2 del punto 1 de la ruta de prueba</image>
 			</images>
 			<video>http://www.youtube.com/watch?v=cxLG2wtE7TM</video>
-			<ar lat="0.0" long="0.0" alt="0.0" file=""></ar>
+			<ar lat="0.0" long="0.0" alt="0.0" file="">Estás en el punto 1 de la ruta de prueba en la parte de realidad aumentada</ar>
 		</point>
 		<point id="2">
 			<coords x="40.4405602" y="-3.6257881" />
-			<title>Punto 2 ruta 8</title>
+			<title>Punto 2 ruta de prueba</title>
 			<pointdescription>El tercer puntito</pointdescription>
 			<pointicon>http://iconpacks.mozdev.org/images/thunderbird-icon.png</pointicon>
 			<images>
-				<image url="http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg">Imagen 0 del punto 0 de la ruta de prueba</image>
-				<image url="http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg">Imagen 1 del punto 0 de la ruta de prueba</image>
-				<image url="http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg">Imagen 2 del punto 0 de la ruta de prueba</image>
+				<image url="http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg">Imagen 0 del punto 2 de la ruta de prueba</image>
+				<image url="http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg">Imagen 1 del punto 2 de la ruta de prueba</image>
+				<image url="http://ayudawordpress.com/wp-content/uploads/2008/08/imagen.jpg">Imagen 2 del punto 2 de la ruta de prueba</image>
 			</images>
 			<video>http://www.youtube.com/watch?v=cxLG2wtE7TM</video>
-			<ar lat="1.0" long="0.0" alt="0.0" file=""></ar>
+			<ar lat="0.0" long="0.0" alt="0.0" file="">Estás en el punto 2 de la ruta de prueba en la parte de realidad aumentada</ar>
 		</point>
 	</points>
 

@@ -3,6 +3,7 @@ package fraguel.android.states;
 import java.util.ArrayList;
 
 import android.content.res.Configuration;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -96,13 +97,15 @@ public class ImageState extends State{
 	public boolean loadData(Route r, PointOI p){
 		super.loadData(r, p);
 		title.setText(p.title+" - "+r.name);
-		ArrayList<String> data = new ArrayList<String>();
-		for(String s: p.images){
-			data.add(s);
+		String[] imgs = new String[p.images.size()];
+		int i=0;
+		for(Pair<String,String> s: p.images){
+			imgs[i]=s.second;
+			i++;
 		}
-		imageAdapter.setData(data);
-		bigAdapter.setData(data);
-		this.imageThread= new ImageDownloadingThread(p.images,"point"+Integer.toString(point.id)+"images",ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(route.id)+"/");
+		imageAdapter.setData(p.images);
+		bigAdapter.setData(p.images);
+		this.imageThread= new ImageDownloadingThread(imgs,"point"+Integer.toString(point.id)+"images",ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(route.id)+"/");
 		imageThread.start();
 		imageAdapter.notifyDataSetChanged();
 		bigAdapter.notifyDataSetChanged();
@@ -170,7 +173,7 @@ public class ImageState extends State{
 					int position, long arg3) {
 				// TODO Auto-generated method stub
 				
-				text.setText("Usted está viendo la imagen número "+position+". Punto '"+point.title+"' de la ruta '"+route.name+"'");
+				text.setText(point.images.get(position).first);
 				if (FRAGUEL.getInstance().isTalking())
 					FRAGUEL.getInstance().stopTalking();
 			}
@@ -217,7 +220,7 @@ public class ImageState extends State{
 					int position, long arg3) {
 				// TODO Auto-generated method stub
 				
-				text.setText("Usted está viendo la imagen número "+position+" del punto: '"+point.title+"' de la ruta '"+route.name+"'");
+				text.setText(point.images.get(position).first);
 				if (!isPresentation){
 					if (FRAGUEL.getInstance().isTalking())
 						FRAGUEL.getInstance().stopTalking();

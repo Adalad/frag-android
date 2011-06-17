@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -31,7 +32,7 @@ public class ImageAdapter extends BaseAdapter {
             R.drawable.guerracivil_3,
             R.drawable.guerracivil_4,
     };*/
-    private ArrayList<String> urls=new ArrayList<String>();
+   private ArrayList<Pair<String,String>> urls=new ArrayList<Pair<String,String>>();
 
     public ImageAdapter(Context c) {
         mContext = c;
@@ -52,7 +53,7 @@ public class ImageAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-    public void setData(ArrayList<String> data){
+    public void setData(ArrayList<Pair<String,String>> data){
     	urls=data;
     }
 

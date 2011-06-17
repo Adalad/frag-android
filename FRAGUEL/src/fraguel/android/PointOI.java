@@ -1,6 +1,9 @@
 package fraguel.android;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import android.util.Pair;
 
 public class PointOI implements Serializable{
 	private static final long serialVersionUID = 8799656478674716638L;
@@ -8,22 +11,26 @@ public class PointOI implements Serializable{
 	public float[] coords = { 0.0f, 0.0f };
 	public String title;
 	public String icon;
-	public String[] images;
+	public ArrayList<Pair<String,String>> images;
 	public String pointdescription;
 	public String image;
 	public String video;
-	public String ar;
+	public String textAr;
+	public String urlAr;
+	public float[] arCoords = {0.0f , 0.0f, 0.0f};
 
 	public PointOI() {
 		id = 0;
 		title = "";
 		pointdescription = "";
+		textAr="";
+		urlAr="";
 	}
 	
 	
-	public void setImages(String urls){
+	public void setImages(ArrayList<Pair<String,String>> imgs){
 		
-		this.images= urls.split(",\\s*");
+		this.images= imgs;
 		
 	}
 }
