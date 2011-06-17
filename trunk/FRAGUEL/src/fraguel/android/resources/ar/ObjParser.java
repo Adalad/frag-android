@@ -1,16 +1,16 @@
 package fraguel.android.resources.ar;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.Log;
-import fraguel.android.R;
 import fraguel.android.ar.Min3d;
 import fraguel.android.ar.Shared;
 import fraguel.android.ar.Utils;
@@ -18,6 +18,7 @@ import fraguel.android.ar.core.Object3dContainer;
 import fraguel.android.ar.vos.Color4;
 import fraguel.android.ar.vos.Number3d;
 import fraguel.android.ar.vos.Uv;
+import fraguel.android.resources.ResourceManager;
 
 /**
  * Parses Wavefront OBJ files. Basic version, this is still a work in progress!
@@ -48,12 +49,102 @@ public class ObjParser extends AParser implements IParser {
 	 * @param resources
 	 * @param resourceID
 	 */
-	public ObjParser(Resources resources, String resourceID, boolean generateMipMap) {
+	/*public ObjParser(Resources resources, String resourceID, boolean generateMipMap) {
 		super(resources, resourceID, generateMipMap);
+	}*/
+
+	/**
+	 * Creates a new OBJ parser instance
+	 * 
+	 * @param resourceName
+	 */
+	public ObjParser(String resourceName, boolean generateMipMap) {
+		super(resourceName, generateMipMap);
 	}
 
 	@Override
 	public void parse() {
+		long startTime = Calendar.getInstance().getTimeInMillis();
+
+		InputStream fileIn;
+		try {
+			fileIn = new FileInputStream(ResourceManager.getInstance().getRootPath()+"/ar/"+resourceName);
+		} catch (FileNotFoundException e1) {
+			return;
+		}
+		BufferedReader buffer = new BufferedReader(
+				new InputStreamReader(fileIn));
+		String line;
+		co = new ParseObjectData(vertices, texCoords, normals);
+		parseObjects.add(co);
+
+		Log.d(Min3d.TAG, "Start parsing object " + resourceName);
+		Log.d(Min3d.TAG, "Start time " + startTime);
+
+		try {
+			while ((line = buffer.readLine()) != null) {
+				StringTokenizer parts = new StringTokenizer(line, " ");
+				int numTokens = parts.countTokens();
+				if (numTokens == 0)
+					continue;
+				String type = parts.nextToken();
+
+				if (type.equals(VERTEX)) {
+					Number3d vertex = new Number3d();
+					vertex.x = Float.parseFloat(parts.nextToken());
+					vertex.y = Float.parseFloat(parts.nextToken());
+					vertex.z = Float.parseFloat(parts.nextToken());
+					vertices.add(vertex);
+				} else if (type.equals(FACE)) {
+					if (numTokens == 4) {
+						co.numFaces++;
+						co.faces.add(new ObjFace(line, currentMaterialKey, 3));
+					} else if (numTokens == 5) {
+						co.numFaces += 2;
+						co.faces.add(new ObjFace(line, currentMaterialKey, 4));
+					}
+				} else if (type.equals(TEXCOORD)) {
+					Uv texCoord = new Uv();
+					texCoord.u = Float.parseFloat(parts.nextToken());
+					texCoord.v = Float.parseFloat(parts.nextToken()) * -1f;
+					texCoords.add(texCoord);
+				} else if (type.equals(NORMAL)) {
+					Number3d normal = new Number3d();
+					normal.x = Float.parseFloat(parts.nextToken());
+					normal.y = Float.parseFloat(parts.nextToken());
+					normal.z = Float.parseFloat(parts.nextToken());
+					normals.add(normal);
+				} else if (type.equals(MATERIAL_LIB)) {
+					readMaterialLib(parts.nextToken());
+				} else if (type.equals(USE_MATERIAL)) {
+					currentMaterialKey = parts.nextToken();
+				} else if (type.equals(OBJECT)) {
+					String objName = parts.hasMoreTokens() ? parts.nextToken() : ""; 
+					if(firstObject)
+					{
+						Log.d(Min3d.TAG, "Create object " + objName);
+						co.name = objName;
+						firstObject = false;
+					}
+					else
+					{
+						Log.d(Min3d.TAG, "Create object " + objName);
+						co = new ParseObjectData(vertices, texCoords, normals);
+						co.name = objName;
+						parseObjects.add(co);
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		long endTime = Calendar.getInstance().getTimeInMillis();
+		Log.d(Min3d.TAG, "End time " + (endTime - startTime));
+	}
+
+	@Override
+	/*public void parse() {
 		long startTime = Calendar.getInstance().getTimeInMillis();
 
 		int id = resources.getIdentifier(resourceID, null, null);
@@ -130,7 +221,7 @@ public class ObjParser extends AParser implements IParser {
 
 		long endTime = Calendar.getInstance().getTimeInMillis();
 		Log.d(Min3d.TAG, "End time " + (endTime - startTime));
-	}
+	}*/
 
 	public Object3dContainer getParsedObject() {
 		Log.d(Min3d.TAG, "Start object creation");
@@ -162,7 +253,70 @@ public class ObjParser extends AParser implements IParser {
 		return obj;
 	}
 
-	private void readMaterialLib(String libID) {
+	private void readMaterialLib(String materialName) {
+		/*StringBuffer resourceID = new StringBuffer(packageID);
+		StringBuffer libIDSbuf = new StringBuffer(libID);
+		int dotIndex = libIDSbuf.lastIndexOf(".");
+		if (dotIndex > -1)
+			libIDSbuf = libIDSbuf.replace(dotIndex, dotIndex + 1, "_");
+
+		resourceID.append(":raw/");
+		resourceID.append(libIDSbuf.toString());
+
+		InputStream fileIn = resources.openRawResource(resources.getIdentifier(
+				resourceID.toString(), null, null));*/
+		try {
+			InputStream fileIn = new FileInputStream(ResourceManager.getInstance().getRootPath()+"/ar/"+materialName);
+		
+		BufferedReader buffer = new BufferedReader(
+				new InputStreamReader(fileIn));
+		String line;
+		String currentMaterial = "";
+		
+			while ((line = buffer.readLine()) != null) {
+				String[] parts = line.split(" ");
+				if (parts.length == 0)
+					continue;
+				String type = parts[0];
+
+				if (type.equals(NEW_MATERIAL)) {
+					if (parts.length > 1) {
+						currentMaterial = parts[1];
+						materialMap.put(currentMaterial, new Material(
+								currentMaterial));
+					}
+				} else if(type.equals(DIFFUSE_COLOR) && !type.equals(DIFFUSE_TEX_MAP)) {
+					Color4 diffuseColor = new Color4(Float.parseFloat(parts[1]) * 255.0f, Float.parseFloat(parts[2]) * 255.0f, Float.parseFloat(parts[3]) * 255.0f, 255.0f);
+					materialMap.get(currentMaterial).diffuseColor = diffuseColor;
+				} else if (type.equals(DIFFUSE_TEX_MAP)) {
+					if (parts.length > 1) {
+						materialMap.get(currentMaterial).diffuseTextureMap = parts[1];
+						/*StringBuffer texture = new StringBuffer(packageID);
+						texture.append(":drawable/");
+						
+						StringBuffer textureName = new StringBuffer(parts[1]);
+						dotIndex = textureName.lastIndexOf(".");
+						if (dotIndex > -1)
+							texture.append(textureName.substring(0, dotIndex));
+						else
+							texture.append(textureName);
+						
+						int bmResourceID = resources.getIdentifier(texture
+								.toString(), null, null);
+						@SuppressWarnings("unused")*/
+						String texture = parts[1];
+						//Bitmap b = Utils.makeBitmapFromResourceId(bmResourceID);
+						Bitmap b = Utils.makeBitmapFromResourceId(texture);
+						textureAtlas.addBitmapAsset(new BitmapAsset(currentMaterial, texture));
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/*private void readMaterialLib(String libID) {
 		StringBuffer resourceID = new StringBuffer(packageID);
 		StringBuffer libIDSbuf = new StringBuffer(libID);
 		int dotIndex = libIDSbuf.lastIndexOf(".");
@@ -219,7 +373,7 @@ public class ObjParser extends AParser implements IParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	@Override
 	protected void cleanup() {

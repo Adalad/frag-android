@@ -22,7 +22,7 @@ public class MD2Parser extends AParser implements IParser {
 	private KeyFrame[] frames;
 
 	public MD2Parser(Resources resources, String resourceID, boolean generateMipMap) {
-		super(resources, resourceID, generateMipMap);
+		//super(resources, resourceID, generateMipMap);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class MD2Parser extends AParser implements IParser {
 
 	@Override
 	public void parse() {
-		InputStream fileIn = resources.openRawResource(resources.getIdentifier(
+		/*InputStream fileIn = resources.openRawResource(resources.getIdentifier(
 				resourceID, null, null));
 		BufferedInputStream stream = new BufferedInputStream(fileIn);
 
@@ -72,12 +72,12 @@ public class MD2Parser extends AParser implements IParser {
 			getTriangles(stream, bytes);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	private void getMaterials(BufferedInputStream stream, byte[] bytes)
 			throws IOException {
-		ByteArrayInputStream ba = new ByteArrayInputStream(bytes,
+		/*ByteArrayInputStream ba = new ByteArrayInputStream(bytes,
 				header.offsetSkins - 68, bytes.length - header.offsetSkins);
 		LittleEndianDataInputStream is = new LittleEndianDataInputStream(ba);
 
@@ -98,7 +98,7 @@ public class MD2Parser extends AParser implements IParser {
 			currentTextureName = texture.toString();
 			textureAtlas.addBitmapAsset(new BitmapAsset(currentTextureName,
 					currentTextureName));
-		}
+		}*/
 	}
 
 	private void getTexCoords(BufferedInputStream stream, byte[] bytes)

@@ -79,7 +79,7 @@ public class SkyBox extends Object3dContainer {
 		addChild(down);
 	}
 	
-	public void addTexture(Face face, int resourceId, String id) {
+	public void addTexture(Face face, String resourceId, String id) {
 		Bitmap bitmap = Utils.makeBitmapFromResourceId(resourceId);
 		Shared.textureManager().addTextureId(bitmap, id, false);
 		bitmap.recycle();

@@ -33,12 +33,12 @@ public class Max3DSParser extends AParser implements IParser {
 	private String currentObjName;
 
 	public Max3DSParser(Resources resources, String resourceID, boolean generateMipMap) {
-		super(resources, resourceID, generateMipMap);
+		//super(resources, resourceID, generateMipMap);
 	}
 
 	@Override
 	public void parse() {
-		InputStream fileIn = resources.openRawResource(resources.getIdentifier(
+		/*InputStream fileIn = resources.openRawResource(resources.getIdentifier(
 				resourceID, null, null));
 		BufferedInputStream stream = new BufferedInputStream(fileIn);
 		
@@ -66,7 +66,7 @@ public class Max3DSParser extends AParser implements IParser {
 			e.printStackTrace();
 		}
 		
-		Log.d(Min3d.TAG, "End parsing object");
+		Log.d(Min3d.TAG, "End parsing object");*/
 	}
 
 	private void readHeader(InputStream stream) throws IOException {
@@ -76,7 +76,7 @@ public class Max3DSParser extends AParser implements IParser {
 	}
 
 	private void readChunk(InputStream stream) throws IOException {
-		readHeader(stream);
+		/*readHeader(stream);
 
 		switch (chunkID) {
 		case MESH_BLOCK:
@@ -140,7 +140,7 @@ public class Max3DSParser extends AParser implements IParser {
 			break;
 		default:
 			skipRead(stream);
-		}
+		}*/
 	}
 	
 	private void skipRead(InputStream stream) throws IOException

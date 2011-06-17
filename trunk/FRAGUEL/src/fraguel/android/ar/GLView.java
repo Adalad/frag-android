@@ -6,12 +6,11 @@ import android.hardware.Camera;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.util.Log;
-import android.view.SurfaceHolder;
 import fraguel.android.ar.core.Object3dContainer;
 import fraguel.android.ar.core.Scene;
 import fraguel.android.ar.interfaces.ISceneController;
-import fraguel.android.ar.objectPrimitives.Box;
 import fraguel.android.ar.vos.Light;
+import fraguel.android.gps.LatLon2UTM;
 import fraguel.android.resources.ar.IParser;
 import fraguel.android.resources.ar.Parser;
 
@@ -19,7 +18,6 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 
 	public Scene scene;
 	protected GLSurfaceView _glSurfaceView;
-	public static final float RADIO_TIERRA=6371000;
 
 	protected Handler _initSceneHander;
 	protected Handler _updateSceneHander;
@@ -81,16 +79,26 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 		scene.addChild(_cube);*/
 		scene.lights().add(new Light());
 		
-		IParser parser = Parser.createParser(Parser.Type.OBJ,
-				getResources(), "fraguel.android:raw/camaro_obj", true);
+		//IParser parser = Parser.createParser(Parser.Type.OBJ,
+		//		getResources(), "fraguel.android:raw/sin_obj", true);
+		IParser parser = Parser.createParser(Parser.Type.OBJ, "oso.obj", true);
 		parser.parse();
 
+		LatLon2UTM ll = new LatLon2UTM();
+		//	FACULTAD
+		//	40.45309	-3.733431	692
+		//	CASA GABI
+		//	40.445152	-3.8040428	720
+		//	40.44512	-3.8040214	733
+		ll.setVariables(40.44512, -3.8040214);
 		objModel = parser.getParsedObject();
-		objModel.scale().x = objModel.scale().y = objModel.scale().z = .7f;
-		objModel.position().x = (float) (40.417923*RADIO_TIERRA);
-		objModel.position().y = 670;
-		objModel.position().z = (float) (-3.67011*RADIO_TIERRA);
-		//40.417923,-3.67011,670metros
+		objModel.scale().x = objModel.scale().y = objModel.scale().z = 1.0f;
+		objModel.position().x = 0;//(float) ll.getEasting();
+		objModel.position().y = 0;//719;
+		objModel.position().z = 10;//-(float) ll.getNorthing(40.44512);
+		objModel.rotation().x = 0;
+		objModel.rotation().y = 0;
+		objModel.rotation().z = 0;
 		scene.addChild(objModel);
 		scene.camera().rotation.x = 0;
 		scene.camera().rotation.y = 0;
@@ -143,7 +151,5 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 
 	@Override
 	public void onPreviewFrame(byte[] data, Camera camera) {
-		// TODO Auto-generated method stub
-		
 	}
 }
