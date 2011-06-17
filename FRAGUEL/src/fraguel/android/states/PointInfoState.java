@@ -60,7 +60,6 @@ public class PointInfoState extends State{
 		LinearLayout container= new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
 		container.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		container.setOrientation(LinearLayout.VERTICAL);
-		//container.setBackgroundResource(R.drawable.aqua);
 		
 		Display display = ((WindowManager)FRAGUEL.getInstance().getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 		int height = display.getHeight();
@@ -71,7 +70,6 @@ public class PointInfoState extends State{
         heightAvailable=heightAvailable/2;
 
 		title= new TitleTextView(FRAGUEL.getInstance().getApplicationContext());
-		//title.setText("Aquí va el título del punto de interés");
 		container.addView(title);
 		
 		
@@ -88,7 +86,6 @@ public class PointInfoState extends State{
 		ScrollView sv = new ScrollView (FRAGUEL.getInstance().getApplicationContext());
 		sv.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,heightAvailable-40));
 		text= new TextView(FRAGUEL.getInstance().getApplicationContext());
-		//text.setText("Aqui va el texto referente a la mínima explicación del punto");
 		sv.addView(text);
 		container.addView(sv);
 		
