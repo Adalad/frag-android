@@ -1,11 +1,27 @@
 package fraguel.android.states;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.util.ArrayList;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -29,6 +45,7 @@ import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.lists.RouteManagerAdapter;
 import fraguel.android.resources.ResourceManager;
+import fraguel.android.threads.FileDownloadingThread;
 import fraguel.android.threads.ImageDownloadingThread;
 import fraguel.android.utils.RouteInfoDialog;
 import fraguel.android.utils.TitleTextView;
@@ -246,7 +263,11 @@ private void addOnItemLongClickListenerToListView(){
 		switch (item.getItemId()) {
 
 		case ROUTEMANAGERSTATE_ADDROUTE:
-			loadRoutes(selectedRoute);
+			String[] url= {"http://www.blackmesa.es/fraguel/xml/prueba.xml"};
+			String[] name= {"descarga.xml"};
+			FileDownloadingThread t = new FileDownloadingThread(url,name,"");
+			t.start();
+			//loadRoutes(selectedRoute);
 			return true;
 
 		case ROUTEMANAGERSTATE_DELETEROUTE:
@@ -346,6 +367,37 @@ private void addOnItemLongClickListenerToListView(){
 			dir.delete();
 		}
 		loadRoutes(0);
+	}
+	
+	private void askForRoutes(){
+		String result = "";
+
+			ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+
+			nameValuePairs.add(new BasicNameValuePair("year","1980"));
+
+			try{
+
+			        HttpClient httpclient = new DefaultHttpClient();
+
+			        HttpPost httppost = new HttpPost("http://example.com/getAllPeopleBornAfter.php");
+
+			        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+			        HttpResponse response = httpclient.execute(httppost);
+
+			        HttpEntity entity = response.getEntity();
+
+			        InputStream is = entity.getContent();
+
+			}catch(Exception e){
+
+			        Log.e("log_tag", "Error in http connection "+e.toString());
+
+			}
+
+			//convert response to string
+			
 	}
 	
 }
