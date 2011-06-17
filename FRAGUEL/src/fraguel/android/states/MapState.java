@@ -142,7 +142,11 @@ public class MapState extends State implements OnTouchListener{
 		mapControl = mapView.getController();
 		GeoPoint pointInit = new GeoPoint((int) (40.4435602 * 1000000), (int) (-3.7267881 * 1000000));
 		mapControl.setZoom(15);
-		mapControl.setCenter(pointInit);
+		
+		if (me.getMyLocation()!=null)
+			mapControl.setCenter(me.getMyLocation());
+		else
+			mapControl.setCenter(pointInit);
 
 		//Creamos los Overlays
 		mapOverlays = mapView.getOverlays();
