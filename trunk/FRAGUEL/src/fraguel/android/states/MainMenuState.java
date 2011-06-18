@@ -140,7 +140,20 @@ public class MainMenuState extends State {
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Caché borrada con éxito", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.btn_manager:
-			tempFiles=new File(ResourceManager.getInstance().getRootPath()+"/user").list();
+			String[] allFiles=new File(ResourceManager.getInstance().getRootPath()+"/user").list();
+			ArrayList<String> aux = new ArrayList<String>();
+			for (String s: allFiles){
+				if (s.endsWith(".tmp")){
+					aux.add(s);
+				}
+			}
+			int i=0;
+			tempFiles=new String[aux.size()];
+			for (String s: aux){
+				tempFiles[i]=s;
+				i++;
+			}
+			
 			FRAGUEL.getInstance().createDialog("Crear ruta", options,new UserOptionsTemplateNotification(),null );
 			break;
 		/*case R.id.btn_config:
