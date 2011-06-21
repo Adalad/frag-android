@@ -100,6 +100,17 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 		objModel.rotation().y = 0;
 		objModel.rotation().z = 0;
 		scene.addChild(objModel);
+		parser = Parser.createParser(Parser.Type.OBJ, "oso2.obj", true);
+		parser.parse();
+		objModel = parser.getParsedObject();
+		objModel.scale().x = objModel.scale().y = objModel.scale().z = 1.0f;
+		objModel.position().x = 0;
+		objModel.position().y = 0;
+		objModel.position().z = 10;
+		objModel.rotation().x = 0;
+		objModel.rotation().y = 0;
+		objModel.rotation().z = 0;
+		scene.addChild(objModel);
 		scene.camera().rotation.x = 0;
 		scene.camera().rotation.y = 0;
 		scene.camera().rotation.z = 0;
