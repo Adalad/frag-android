@@ -258,6 +258,7 @@ public class MapState extends State implements OnTouchListener{
 			break;
 		case R.id.btn_popupPI_ar:
 			FRAGUEL.getInstance().changeState(ARState.STATE_ID);
+			FRAGUEL.getInstance().getCurrentState().loadData(route, point);
 			break;
 		case R.id.btn_popupPIonroute_moreinfo:
 			FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
