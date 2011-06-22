@@ -10,6 +10,8 @@ import fraguel.android.ar.vos.CameraVo;
 import fraguel.android.ar.vos.Color4;
 import fraguel.android.ar.vos.Color4Managed;
 import fraguel.android.ar.vos.FogType;
+import fraguel.android.resources.ar.IParser;
+import fraguel.android.resources.ar.Parser;
 import android.util.Log;
 
 
@@ -32,6 +34,8 @@ public class Scene implements IObject3dContainer, IDirtyParent
 
 	private ISceneController _sceneController;
 	
+	public boolean loading;
+	
 
 	public Scene(ISceneController $sceneController) 
 	{
@@ -42,6 +46,7 @@ public class Scene implements IObject3dContainer, IDirtyParent
 		_fogFar = 10;
 		_fogType = FogType.LINEAR;
 		_fogEnabled = false;
+		loading = false;
 	}
 
 	/**
@@ -285,5 +290,23 @@ public class Scene implements IObject3dContainer, IDirtyParent
 	public void onDirty()
 	{
 		//
+	}
+	
+	public void loadObject(String model, float x, float y, float z)
+	{
+		loading = true;
+		Object3dContainer objModel;
+		IParser parser = Parser.createParser(Parser.Type.OBJ, model, true);
+		parser.parse();
+		objModel = parser.getParsedObject();
+		objModel.scale().x = objModel.scale().y = objModel.scale().z = 1.0f;
+		objModel.position().x = x;
+		objModel.position().y = y;
+		objModel.position().z = z;
+		objModel.rotation().x = 0;
+		objModel.rotation().y = 0;
+		objModel.rotation().z = 0;
+		this.addChild(objModel);
+		loading = false;
 	}
 }

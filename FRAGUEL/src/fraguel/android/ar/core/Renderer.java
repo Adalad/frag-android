@@ -93,14 +93,16 @@ public class Renderer implements GLSurfaceView.Renderer
 	
 	public void onDrawFrame(GL10 gl)
 	{
-		// Update 'model'
-		_scene.update();
-		
-		// Update 'view'
-		drawSetup();
-		drawScene();
-
-		if (_logFps) doFps();
+		if (!_scene.loading) {
+			// Update 'model'
+			_scene.update();
+			
+			// Update 'view'
+			drawSetup();
+			drawScene();
+	
+			if (_logFps) doFps();
+		}
 	}
 	
 	//
