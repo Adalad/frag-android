@@ -6,6 +6,8 @@ import android.hardware.Camera;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.util.Log;
+import fraguel.android.FRAGUEL;
+import fraguel.android.State;
 import fraguel.android.ar.core.Object3dContainer;
 import fraguel.android.ar.core.Scene;
 import fraguel.android.ar.interfaces.ISceneController;
@@ -13,6 +15,7 @@ import fraguel.android.ar.vos.Light;
 import fraguel.android.gps.LatLon2UTM;
 import fraguel.android.resources.ar.IParser;
 import fraguel.android.resources.ar.Parser;
+import fraguel.android.states.ARState;
 
 public class GLView extends GLSurfaceView implements ISceneController, Camera.PreviewCallback {
 
@@ -23,7 +26,6 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 	protected Handler _updateSceneHander;
 	
 	Object3dContainer _cube;
-	private Object3dContainer objModel;
 
 	final Runnable _initSceneRunnable = new Runnable() {
 		public void run() {
@@ -81,36 +83,14 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 		
 		//IParser parser = Parser.createParser(Parser.Type.OBJ,
 		//		getResources(), "fraguel.android:raw/sin_obj", true);
-		IParser parser = Parser.createParser(Parser.Type.OBJ, "oso.obj", true);
-		parser.parse();
-
-		LatLon2UTM ll = new LatLon2UTM();
+		
+		//LatLon2UTM ll = new LatLon2UTM();
 		//	FACULTAD
 		//	40.45309	-3.733431	692
 		//	CASA GABI
 		//	40.445152	-3.8040428	720
 		//	40.44512	-3.8040214	733
-		ll.setVariables(40.44512, -3.8040214);
-		objModel = parser.getParsedObject();
-		objModel.scale().x = objModel.scale().y = objModel.scale().z = 1.0f;
-		objModel.position().x = 0;//(float) ll.getEasting();
-		objModel.position().y = 0;//719;
-		objModel.position().z = 10;//-(float) ll.getNorthing(40.44512);
-		objModel.rotation().x = 0;
-		objModel.rotation().y = 0;
-		objModel.rotation().z = 0;
-		scene.addChild(objModel);
-		parser = Parser.createParser(Parser.Type.OBJ, "oso2.obj", true);
-		parser.parse();
-		objModel = parser.getParsedObject();
-		objModel.scale().x = objModel.scale().y = objModel.scale().z = 1.0f;
-		objModel.position().x = 0;
-		objModel.position().y = 0;
-		objModel.position().z = 10;
-		objModel.rotation().x = 0;
-		objModel.rotation().y = 0;
-		objModel.rotation().z = 0;
-		scene.addChild(objModel);
+		//ll.setVariables(40.44512, -3.8040214);
 		scene.camera().rotation.x = 0;
 		scene.camera().rotation.y = 0;
 		scene.camera().rotation.z = 0;
@@ -135,6 +115,18 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 	 * thread-safe.
 	 */
 	public void onInitScene() {
+		ARState arState= (ARState)FRAGUEL.getInstance().getCurrentState();
+		
+		LatLon2UTM ll = new LatLon2UTM();
+		ll.setVariables(arState.getPointOI().arCoords[0], arState.getPointOI().arCoords[1]);
+		float x = (float) ll.getEasting();
+		float y = arState.getPointOI().arCoords[2];
+		float z = -(float) ll.getNorthing(arState.getPointOI().arCoords[0]);
+		for (String s: arState.models)
+		{
+			scene.loadObject(s,0,0,10);
+		}
+		
 	}
 
 	/**

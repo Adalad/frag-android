@@ -1,5 +1,8 @@
 package fraguel.android.states;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +15,7 @@ import fraguel.android.State;
 import fraguel.android.ar.CamLayer;
 import fraguel.android.ar.GLView;
 import fraguel.android.gps.LatLon2UTM;
+import fraguel.android.resources.ResourceManager;
 
 public class ARState extends State {
 
@@ -20,6 +24,7 @@ public class ARState extends State {
 	// ARCameraView camView;
 	GLView glView;
 	private CamLayer mPreview;
+	public ArrayList<String> models;
 	
 	private LatLon2UTM ll;
 
@@ -28,6 +33,7 @@ public class ARState extends State {
 	public ARState() {
 		super();
 		id = STATE_ID;
+		models = new ArrayList<String>();
 	}
 
 	@Override
@@ -67,6 +73,7 @@ public class ARState extends State {
 		FRAGUEL.getInstance().addContentView(mPreview,new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		glView.setKeepScreenOn(true);
 		// FRAGUEL.getInstance().addView(viewGroup);
+		models.clear();
 	}
 
 	@Override
@@ -81,7 +88,15 @@ public class ARState extends State {
 	@Override
 	public boolean loadData(Route r,PointOI p){
 		super.loadData(r, p);
-		//FRAGUEL.getInstance().talk(point.pointdescription);
+		if (p.urlAr!=""){
+			File f = new File(ResourceManager.getInstance().getRootPath()+"/ar/oso.obj");
+			if (f.exists()){
+				models.add("oso.obj");
+				models.add("oso2.obj");
+			}
+		}
+		if (p.textAr!=null && p.textAr!="")
+			FRAGUEL.getInstance().talk(point.pointdescription);
 		return true;
 	}
 
