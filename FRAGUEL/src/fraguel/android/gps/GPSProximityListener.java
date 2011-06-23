@@ -10,6 +10,7 @@ import fraguel.android.Route;
 import fraguel.android.notifications.GPSIgnoreButton;
 import fraguel.android.notifications.ProximityAlertNotificationButton;
 import fraguel.android.states.MapState;
+import fraguel.android.states.PointInfoState;
 
 public class GPSProximityListener extends GPSProximity{
 
@@ -25,59 +26,43 @@ public class GPSProximityListener extends GPSProximity{
 		longitude = location.getLongitude();
 		altitude = location.getAltitude();
 		distance = Float.MAX_VALUE;
+		
 		//sacamos puntos que hayamos visitado
 		Iterator<PointOI> it = pointsVisited.iterator();
-			while (it.hasNext()) {
-				PointOI point = it.next();
-				Location.distanceBetween(latitude, longitude,point.coords[0], point.coords[1],results);
-				if (results[0] >= proximityAlertDistance + proximityAlertError) {
-					it.remove();
-				}
+		
+		//hay un punto siendo visitado y en el radio
+		if (MapState.getInstance().getGPS().isDialogDisplayed()){
+			Location.distanceBetween(latitude, longitude,currentPoint.coords[0], currentPoint.coords[1],results);
+			//si está fuera de rango cargamos el mapa
+			if (results[0] >= proximityAlertDistance + proximityAlertError) {
+				FRAGUEL.getInstance().changeState(MapState.STATE_ID);
+				MapState.getInstance().loadData(currentRoute, currentPoint);
+				MapState.getInstance().getGPS().setDialogDisplayed(false);
 			}
+		}else{
+				//si no hay ningún punto siendo visualizado , cogemos el de menos distancia, siempre dentro del rango
+				for (Route r : FRAGUEL.getInstance().routes) {
+					for (PointOI p : r.pointsOI) {
+												
+							Location.distanceBetween(latitude, longitude,p.coords[0], p.coords[1], results);
 
-		// comprobamos si estamos cerca para cada punto de cada ruta
-			for (Route r : FRAGUEL.getInstance().routes) {
-				for (PointOI p : r.pointsOI) {
-					hasBeenVisited = false;
-
-					it = pointsVisited.iterator();
-					// comprobamos que no lo hayamos visitado ya ese punto(es decir, sigamos aun en el radio de acción)
-					while (it.hasNext() && !hasBeenVisited) {
-						PointOI actual = it.next();
-						if (actual.id == p.id) {
-							hasBeenVisited = true;
-						}
-					}
-
-					if (!hasBeenVisited) {
-						Location.distanceBetween(latitude, longitude,p.coords[0], p.coords[1], results);
-
-						if (results[0] <= proximityAlertDistance) {
-								if (results[0] < distance) {
-									currentRoute = r;
-									currentPoint = p;
-									distance=results[0];
-								}
-						}
+							if (results[0] <= proximityAlertDistance) {
+									if (results[0] < distance) {
+										currentRoute = r;
+										currentPoint = p;
+										distance=results[0];
+									}
+							}
 					}
 				}
-			}
-			//si hay algún punto dentro del radio de acción mostramos una notificación
-			if (currentRoute != null && currentPoint != null && !MapState.getInstance().getGPS().isDialogDisplayed()) {
-					
-				msg = currentRoute.name + " - " + currentPoint.title + ": "+distance+" metros";
-				FRAGUEL.getInstance().createTwoButtonNotification(R.string.notification_proximityAlert_title_spanish,msg,R.string.notification_proximityAlert_possitiveButton_spanish,
-								R.string.notification_proximityAlert_negativeButton_spanish,new ProximityAlertNotificationButton(currentRoute, currentPoint),new GPSIgnoreButton());
-				
-				super.mediaNotification();
-				
-				pointsVisited.add(currentPoint);
-				
-				MapState.getInstance().getGPS().setDialogDisplayed(true);
-			}
-
-			currentRoute = null;
-			currentPoint = null;
+				if (currentRoute != null && currentPoint != null && !MapState.getInstance().getGPS().isDialogDisplayed()) {
+					super.mediaNotification();
+					FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
+					FRAGUEL.getInstance().getCurrentState().loadData(currentRoute, currentPoint);										
+					MapState.getInstance().getGPS().setDialogDisplayed(true);
+				}
+		}
+			
 	}
 
 }
