@@ -14,6 +14,7 @@ import org.xml.sax.XMLReader;
 
 import android.os.Environment;
 import android.util.Log;
+import fraguel.android.MinRouteInfo;
 import fraguel.android.PointOI;
 import fraguel.android.Route;
 
@@ -144,6 +145,21 @@ public class XMLManager {
 			})[0];
 			FileInputStream routesStream = new FileInputStream(routesFile);
 			RouteHandler rh = new RouteHandler();
+			_parser.setContentHandler(rh);
+			_parser.parse(new InputSource(routesStream));
+			return rh.getParsedData();
+		} catch (Exception e) {
+			// TODO Show error pop-up
+			// TODO Show language string
+			Log.d("FRAGUEL", "Error", e);
+		}
+		return null;
+	}
+	public ArrayList<MinRouteInfo> readAvailableRoutes(final String fileName){
+		try {
+			File routesFile = new File(this._root+"/"+fileName);
+			FileInputStream routesStream = new FileInputStream(routesFile);
+			MinRouteInfoHandler rh = new MinRouteInfoHandler();
 			_parser.setContentHandler(rh);
 			_parser.parse(new InputSource(routesStream));
 			return rh.getParsedData();

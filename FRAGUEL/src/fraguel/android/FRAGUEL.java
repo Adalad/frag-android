@@ -78,9 +78,13 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 	private TextToSpeech tts;
 	private int MY_DATA_CHECK_CODE;
 	private HashMap<String, String> ttsHashMap = new HashMap<String, String>();
+	
+	//handlers
 	private Handler handler;
 	public Handler imageHandler;
 	public Handler routeHandler;
+	public Handler fileHandler;
+	
 
 	// View container
 	private ViewGroup view;
@@ -218,6 +222,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		initHandler();
 		initImageHandler();
 		initRouteHandler();
+		initFileHandler();
 	
 		//FRAGUEL.getInstance().getGPS().startRoute(this.routes.get(0), this.routes.get(0).pointsOI.get(1));
 		//MapState.getInstance().removePopUpPI();
@@ -657,6 +662,22 @@ public void createCustomDialog(String title, View view,DialogInterface.OnClickLi
 				if (currentState.id==MapState.STATE_ID){
 					MapState.getInstance().routeLoaded();
 					MapState.getInstance().getMapView().invalidate();
+				}
+			}
+		};
+	}
+	
+	private void initFileHandler(){
+		fileHandler = new Handler(){
+			@Override
+			public void handleMessage(Message msg) {
+				if (msg.arg1==1){
+					if (FRAGUEL.getInstance().getCurrentState().id==RouteManagerState.STATE_ID){
+						RouteManagerState state =(RouteManagerState) FRAGUEL.getInstance().getCurrentState();
+						state.AllAvailableRoutes();
+					}
+				}else if (msg.arg1==2){
+					FRAGUEL.getInstance().LoadRoutes();
 				}
 			}
 		};
