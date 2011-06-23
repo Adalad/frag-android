@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import android.os.Message;
+import fraguel.android.FRAGUEL;
 import fraguel.android.resources.ResourceManager;
 
 public class FileDownloadingThread extends Thread{
@@ -27,10 +30,14 @@ public class FileDownloadingThread extends Thread{
 		// TODO Auto-generated method stub
 		int i=0;
 		String absolutePath;
+		boolean isMainFile=false;
 		for (String url: urls){
 				if (!url.endsWith(".xml"))
 					absolutePath=savedData+names[i];
-				else
+				else if (url.equals("http://www.blackmesa.es/fraguel/xml/prueba.xml")){
+					absolutePath=ResourceManager.getInstance().getRootPath()+"/"+names[i];
+					isMainFile=true;
+				}else
 					absolutePath=ResourceManager.getInstance().getRootPath()+"/routes/"+names[i];
 				
 				f = new File(absolutePath);
@@ -69,10 +76,18 @@ public class FileDownloadingThread extends Thread{
 			        }
 			        //close the output stream when done
 			        fileOutputStream.close();
-				
-				    /*Message m = new Message();
-					m.arg2 = index;
-					FRAGUEL.getInstance().imageHandler.sendMessage(m);*/
+			        
+			        Message m = new Message();
+			        if (isMainFile && urls.length==1){
+			        	m.arg1=1;
+			        	FRAGUEL.getInstance().fileHandler.sendMessage(m);
+			        }
+			        else if (i == urls.length-1){
+			        	m.arg1 = 2;
+			        	FRAGUEL.getInstance().fileHandler.sendMessage(m);
+			        }
+			        	
+					
 						
 					}catch(Exception e){
 						f.delete();
@@ -80,9 +95,15 @@ public class FileDownloadingThread extends Thread{
 		
 				}else if (f.exists()){
 		
-			       /* Message m = new Message();
-					m.arg2 = index;
-					FRAGUEL.getInstance().imageHandler.sendMessage(m);*/
+					 Message m = new Message();
+				        if (isMainFile && urls.length==1){
+				        	m.arg1=1;
+				        	FRAGUEL.getInstance().fileHandler.sendMessage(m);
+				        }
+				        else if (i == urls.length-1){
+				        	m.arg1 = 2;
+				        	FRAGUEL.getInstance().fileHandler.sendMessage(m);
+				        }
 					
 				}
 				i++;

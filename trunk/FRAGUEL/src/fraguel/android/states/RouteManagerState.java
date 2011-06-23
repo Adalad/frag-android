@@ -39,6 +39,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 import fraguel.android.FRAGUEL;
+import fraguel.android.MinRouteInfo;
 import fraguel.android.PointOI;
 import fraguel.android.R;
 import fraguel.android.Route;
@@ -71,6 +72,7 @@ public class RouteManagerState extends State {
 	private boolean displayRouteInfo;
 	private RouteInfoDialog routeInfo=null;
 	
+	private ArrayList<MinRouteInfo> allRoutesAvailables=null;
 	
 	public RouteManagerState() {
 		super();
@@ -267,7 +269,6 @@ private void addOnItemLongClickListenerToListView(){
 			String[] name= {"descarga.xml"};
 			FileDownloadingThread t = new FileDownloadingThread(url,name,"");
 			t.start();
-			//loadRoutes(selectedRoute);
 			return true;
 
 		case ROUTEMANAGERSTATE_DELETEROUTE:
@@ -369,35 +370,11 @@ private void addOnItemLongClickListenerToListView(){
 		loadRoutes(0);
 	}
 	
-	private void askForRoutes(){
-		String result = "";
-
-			ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-
-			nameValuePairs.add(new BasicNameValuePair("year","1980"));
-
-			try{
-
-			        HttpClient httpclient = new DefaultHttpClient();
-
-			        HttpPost httppost = new HttpPost("http://example.com/getAllPeopleBornAfter.php");
-
-			        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-			        HttpResponse response = httpclient.execute(httppost);
-
-			        HttpEntity entity = response.getEntity();
-
-			        InputStream is = entity.getContent();
-
-			}catch(Exception e){
-
-			        Log.e("log_tag", "Error in http connection "+e.toString());
-
-			}
-
-			//convert response to string
-			
+	public void AllAvailableRoutes(){
+		
+		this.allRoutesAvailables= ResourceManager.getInstance().getXmlManager().readAvailableRoutes("allroutes.xml");
+		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Hay " + this.allRoutesAvailables.size() +" rutas disponibles", Toast.LENGTH_LONG).show();
+		//display info of all availableroutes
 	}
 	
 }
