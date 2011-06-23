@@ -45,22 +45,31 @@ public class GPSProximityRouteListener extends GPSProximity{
 				noMoreMessages=true;
 				
 			}else{
-				
-				//miramos la distancia al siguiente punto a visitar en la ruta
-				Location.distanceBetween(latitude, longitude, pointsToVisit.get(0).coords[0], pointsToVisit.get(0).coords[1], results);
-				distance=results[0];
-				if (results[0]<=proximityAlertDistance){
-					currentPoint=pointsToVisit.get(0);
-					
-					FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
-					FRAGUEL.getInstance().getCurrentState().loadData(currentRoute, currentPoint);
-					MapState.getInstance().getGPS().setDialogDisplayed(true);
-					//actualizar las listas y el MapState
-					pointsVisited.add(currentPoint);
-					pointsToVisit.remove(0);
-					MapState.getInstance().refreshMapRouteMode();
-	
+				if (MapState.getInstance().getGPS().isDialogDisplayed()){
+					Location.distanceBetween(latitude, longitude,currentPoint.coords[0], currentPoint.coords[1],results);
+					//si está fuera de rango cargamos el mapa
+					if (results[0] >= proximityAlertDistance + proximityAlertError) {
+						FRAGUEL.getInstance().changeState(MapState.STATE_ID);
+						MapState.getInstance().loadData(currentRoute, currentPoint);
+						MapState.getInstance().getGPS().setDialogDisplayed(false);
+					}
 				}else{
+					//miramos la distancia al siguiente punto a visitar en la ruta
+					Location.distanceBetween(latitude, longitude, pointsToVisit.get(0).coords[0], pointsToVisit.get(0).coords[1], results);
+					distance=results[0];
+					if (results[0]<=proximityAlertDistance){
+						currentPoint=pointsToVisit.get(0);
+											
+						//actualizar las listas y el MapState
+						pointsVisited.add(currentPoint);
+						pointsToVisit.remove(0);
+						MapState.getInstance().refreshMapRouteMode();
+						
+						//cambiamos de estado
+						FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
+						FRAGUEL.getInstance().getCurrentState().loadData(currentRoute, currentPoint);
+						MapState.getInstance().getGPS().setDialogDisplayed(true);
+					}else{
 					//mostrar info de la distancia y el bearing si no hay ningun popup
 					((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText((int)distance+ " metros para llegar a "+pointsToVisit.get(0).title);
 					//elegimos la flecha correspondiente al bearing(ángulo de giro)
@@ -86,8 +95,9 @@ public class GPSProximityRouteListener extends GPSProximity{
 					else
 						((FrameLayout)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute)).invalidate();
 					
-				}	
+					}	
 	
+				}
 			}
 		}
 	}
