@@ -10,16 +10,20 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import fraguel.android.FRAGUEL;
 import fraguel.android.PointOI;
+import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.ar.CamLayer;
 import fraguel.android.ar.GLView;
 import fraguel.android.gps.LatLon2UTM;
 import fraguel.android.resources.ResourceManager;
+import fraguel.android.threads.FileDownloadingThread;
 
 public class ARState extends State {
 
 	public static final int STATE_ID = 5;
+	private static final int ARSTATE_PLAY = 1;
+	private static final int ARSTATE_STOP = 2;
 
 	// ARCameraView camView;
 	GLView glView;
@@ -96,7 +100,7 @@ public class ARState extends State {
 			}
 		}
 		if (p.textAr!=null && p.textAr!="")
-			FRAGUEL.getInstance().talk(point.pointdescription);
+			FRAGUEL.getInstance().talk(point.textAr);
 		return true;
 	}
 
@@ -132,12 +136,27 @@ public class ARState extends State {
 
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
+		menu.clear();
+		menu.add(0,ARSTATE_PLAY, 0, "Reproducir información").setIcon(R.drawable.ic_menu_talkplay);
+		menu.add(0,ARSTATE_STOP, 0, "Detener reproducción").setIcon(R.drawable.ic_menu_talkstop);
 		return menu;
 	}
 
 	@Override
 	public boolean onStateOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			
+		case ARSTATE_PLAY:
+			FRAGUEL.getInstance().talk(point.textAr);
+			return true;
+			
+		case ARSTATE_STOP:
+			FRAGUEL.getInstance().stopTalking();
+			return true;
+		}
 		return false;
 	}
+	
+	
 
 }
