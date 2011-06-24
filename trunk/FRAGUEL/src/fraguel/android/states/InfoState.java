@@ -79,7 +79,7 @@ public class InfoState extends State{
 			text.setText(point.pointdescription);
 			title.setText(p.title+" - "+r.name);
 			if (talk){
-				FRAGUEL.getInstance().talk(p.title+" /n /n /n "+p.pointdescription);
+				FRAGUEL.getInstance().talk(p.title+" \n \n \n "+p.pointdescription);
 				talk=false;
 			}
 			return true;
