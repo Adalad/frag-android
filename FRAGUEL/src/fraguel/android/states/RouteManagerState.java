@@ -45,6 +45,7 @@ import fraguel.android.R;
 import fraguel.android.Route;
 import fraguel.android.State;
 import fraguel.android.lists.RouteManagerAdapter;
+import fraguel.android.notifications.SelectRouteToDownloadNotification;
 import fraguel.android.resources.ResourceManager;
 import fraguel.android.threads.FileDownloadingThread;
 import fraguel.android.threads.ImageDownloadingThread;
@@ -186,8 +187,10 @@ private void addOnItemLongClickListenerToListView(){
 		adapter.setTitle(currentDataTitle);
 		adapter.setDescription(currentDataDescrip);
 		adapter.notifyDataSetChanged();
-		this.imageThread= new ImageDownloadingThread(urls,names,ResourceManager.getInstance().getRootPath()+"/tmp/route"+FRAGUEL.getInstance().routes.get(route).id+"/");
-		imageThread.start();
+		if (urls.length!=0){
+			this.imageThread= new ImageDownloadingThread(urls,names,ResourceManager.getInstance().getRootPath()+"/tmp/route"+FRAGUEL.getInstance().routes.get(route).id+"/");
+			imageThread.start();
+		}
 		internalState=1;
 		list.setSelection(selectedPoint);
 	}
@@ -213,8 +216,10 @@ private void addOnItemLongClickListenerToListView(){
 		adapter.setTitle(currentDataTitle);
 		adapter.setDescription(currentDataDescrip);
 		adapter.notifyDataSetChanged();
-		this.imageThread= new ImageDownloadingThread(urls,names,ResourceManager.getInstance().getRootPath()+"/tmp/");
-		imageThread.start();
+		if (urls.length!=0){
+			this.imageThread= new ImageDownloadingThread(urls,names,ResourceManager.getInstance().getRootPath()+"/tmp/");
+			imageThread.start();
+		}
 		internalState=0;
 		list.setSelection(routeFocus);
 		
@@ -266,8 +271,8 @@ private void addOnItemLongClickListenerToListView(){
 
 		case ROUTEMANAGERSTATE_ADDROUTE:
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Cargando... Espere por favor.", Toast.LENGTH_LONG).show();
-			String[] url= {"http://www.blackmesa.es/fraguel/xml/prueba.xml"};
-			String[] name= {"descarga.xml"};
+			String[] url= {"http://www.blackmesa.es/fraguel/allroutes.xml"};
+			String[] name= {"allroutes.xml"};
 			FileDownloadingThread t = new FileDownloadingThread(url,name,"");
 			t.start();
 			return true;
@@ -382,8 +387,8 @@ private void addOnItemLongClickListenerToListView(){
 			options[i]=mri.name;
 			i++;
 		}
-		FRAGUEL.getInstance().createDialog("Rutas disponibles", options, null, null);
-		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Hay " + this.allRoutesAvailables.size() +" rutas disponibles", Toast.LENGTH_LONG).show();
+		FRAGUEL.getInstance().createDialog("Rutas disponibles", options, new SelectRouteToDownloadNotification(), null);
+		//Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Hay " + this.allRoutesAvailables.size() +" rutas disponibles", Toast.LENGTH_LONG).show();
 		//display info of all availableroutes
 	}
 	

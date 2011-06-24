@@ -144,6 +144,7 @@ public void createXMLTemplate(String fileName,String routeName,int routeId,int n
 						for (int i=0;i<numPoints;i++){
 							serializer.startTag(null, "point");
 							serializer.attribute(null, "id", Integer.toString(i));
+							serializer.attribute(null, "version", "1.0");
 							
 									serializer.startTag(null, "coords");
 									serializer.attribute(null, "x", "0");
@@ -247,6 +248,7 @@ public void createXMLFromPoints(String fileName,String routeName,int routeId,Arr
 					for (PointOI p: points){
 						serializer.startTag(null, "point");
 						serializer.attribute(null, "id", Integer.toString(p.id));
+						serializer.attribute(null, "version", "1.0");
 						
 								serializer.startTag(null, "coords");
 								serializer.attribute(null, "x", Float.toString(p.coords[0]));

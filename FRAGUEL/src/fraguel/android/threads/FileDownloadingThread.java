@@ -34,7 +34,7 @@ public class FileDownloadingThread extends Thread{
 		for (String url: urls){
 				if (!url.endsWith(".xml"))
 					absolutePath=savedData+names[i];
-				else if (url.equals("http://www.blackmesa.es/fraguel/xml/prueba.xml")){
+				else if (url.equals("http://www.blackmesa.es/fraguel/allroutes.xml")){
 					absolutePath=ResourceManager.getInstance().getRootPath()+"/"+names[i];
 					isMainFile=true;
 				}else
