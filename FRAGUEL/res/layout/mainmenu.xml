@@ -12,7 +12,7 @@
     <ImageView android:id="@+id/mainmenu_imagen" android:layout_weight="1"
 	    android:layout_width="wrap_content" android:layout_gravity="center"
 		android:layout_height="wrap_content" 
-		android:src="@drawable/itourlogo2"
+		android:src="@drawable/fraguel_title"
 		android:paddingLeft="5dip" android:paddingTop="5dip" 
 	/>
 	</FrameLayout>
