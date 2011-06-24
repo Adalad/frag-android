@@ -135,9 +135,10 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 					}
 				}
 			
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Cargado", Toast.LENGTH_SHORT).show();
+			
 			
 		}
+		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Sistema cargado", Toast.LENGTH_LONG).show();
 		if (arState.getPointOI().textAr!=null && arState.getPointOI().textAr!="")
 			FRAGUEL.getInstance().talk(arState.getPointOI().textAr);
 		
