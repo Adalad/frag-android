@@ -373,8 +373,22 @@ private void addOnItemLongClickListenerToListView(){
 	
 	public void AllAvailableRoutes(){
 		this.allRoutesAvailables= ResourceManager.getInstance().getXmlManager().readAvailableRoutes("allroutes.xml");
+		File f = new File(ResourceManager.getInstance().getRootPath()+"/allroutes.xml");
+		if (f.exists())
+			f.delete();
+		final String[] options=new String[allRoutesAvailables.size()];
+		int i=0;
+		for (MinRouteInfo mri: allRoutesAvailables){
+			options[i]=mri.name;
+			i++;
+		}
+		FRAGUEL.getInstance().createDialog("Rutas disponibles", options, null, null);
 		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Hay " + this.allRoutesAvailables.size() +" rutas disponibles", Toast.LENGTH_LONG).show();
 		//display info of all availableroutes
+	}
+	
+	public ArrayList<MinRouteInfo> getAllRoutesAvailables(){
+		return this.allRoutesAvailables;
 	}
 	
 }
