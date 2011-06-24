@@ -16,7 +16,7 @@ public class PointOI implements Serializable{
 	public String image;
 	public String video;
 	public String textAr;
-	public String urlAr;
+	public String[] urlfilesAr;
 	public float[] arCoords = {0.0f , 0.0f, 0.0f};
 
 	public PointOI() {
@@ -24,7 +24,7 @@ public class PointOI implements Serializable{
 		title = "";
 		pointdescription = "";
 		textAr="";
-		urlAr="";
+		urlfilesAr=null;
 	}
 	
 	

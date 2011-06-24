@@ -425,7 +425,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 			}
 
 			@Override
-			public synchronized void onSensorChanged(SensorEvent event) {
+			public void onSensorChanged(SensorEvent event) {
 				// TODO Auto-generated method stub
 				if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
 					FRAGUEL.getInstance().sOrientation[0] = event.values[0];

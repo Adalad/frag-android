@@ -1,11 +1,14 @@
 package fraguel.android.ar;
 
+import java.io.File;
+
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 import fraguel.android.FRAGUEL;
 import fraguel.android.State;
 import fraguel.android.ar.core.Object3dContainer;
@@ -13,6 +16,7 @@ import fraguel.android.ar.core.Scene;
 import fraguel.android.ar.interfaces.ISceneController;
 import fraguel.android.ar.vos.Light;
 import fraguel.android.gps.LatLon2UTM;
+import fraguel.android.resources.ResourceManager;
 import fraguel.android.resources.ar.IParser;
 import fraguel.android.resources.ar.Parser;
 import fraguel.android.states.ARState;
@@ -116,16 +120,26 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 	 */
 	public void onInitScene() {
 		ARState arState= (ARState)FRAGUEL.getInstance().getCurrentState();
-		
 		LatLon2UTM ll = new LatLon2UTM();
 		ll.setVariables(arState.getPointOI().arCoords[0], arState.getPointOI().arCoords[1]);
 		float x = (float) ll.getEasting();
 		float y = arState.getPointOI().arCoords[2];
 		float z = -(float) ll.getNorthing(arState.getPointOI().arCoords[0]);
-		for (String s: arState.models)
-		{
-			scene.loadObject(s,0,0,10);
+		if (arState.getPointOI().urlfilesAr!=null){
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Cargando Realidad Aumentada...", Toast.LENGTH_LONG).show();
+			
+				for (String s: arState.getPointOI().urlfilesAr){
+					File f = new File(ResourceManager.getInstance().getRootPath()+"/ar/"+s);
+					if (!s.equals("") && f.exists()){
+						scene.loadObject(s,0,0,10);
+					}
+				}
+			
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Cargado", Toast.LENGTH_SHORT).show();
+			
 		}
+		if (arState.getPointOI().textAr!=null && arState.getPointOI().textAr!="")
+			FRAGUEL.getInstance().talk(arState.getPointOI().textAr);
 		
 	}
 

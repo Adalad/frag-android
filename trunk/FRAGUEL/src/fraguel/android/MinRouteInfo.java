@@ -10,7 +10,7 @@ public class MinRouteInfo {
 	
 	public MinRouteInfo() {
 		id = 0;
-		version=0.0f;
+		version=1.0f;
 		name = "default";
 		urlXml = "";
 		urlArFiles=null;
