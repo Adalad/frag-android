@@ -677,7 +677,9 @@ public void createCustomDialog(String title, View view,DialogInterface.OnClickLi
 						state.AllAvailableRoutes();
 					}
 				}else if (msg.arg1==2){
+					Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Ruta descargada con éxito", Toast.LENGTH_LONG).show();
 					FRAGUEL.getInstance().LoadRoutes();
+					FRAGUEL.getInstance().changeState(MainMenuState.STATE_ID);
 				}
 			}
 		};
