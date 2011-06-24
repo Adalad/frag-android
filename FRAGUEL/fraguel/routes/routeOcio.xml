@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<route id="1">
+<route id="1" version="1.0">
 	<name>Un viernes por Moncloa</name>
 	<description>Un viernes, tras toda la semana sólo queda divertirse por Madrid. Este es el recorrido de aquel día, para aquel que aún no tenga plan... </description>
 	<icon>http://www.maxima.fm/media/200812/02/20081202_2_maximafm.jpg</icon>
