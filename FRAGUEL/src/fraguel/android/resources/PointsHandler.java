@@ -26,6 +26,7 @@ public class PointsHandler extends DefaultHandler {
 	private String _imageName="";
 	private String _imageUrl="";
 	private StringBuffer buffer;
+	private String arFiles;
 
 	public void endDocument() throws SAXException {
 	}
@@ -45,6 +46,7 @@ public class PointsHandler extends DefaultHandler {
 		buffer=new StringBuffer();
 		if (localName.equals("point")) {
 			_currentPoint = new PointOI();
+			arFiles="";
 			_currentPoint.id = Integer.parseInt(attributes.getValue("id"));
 		} else if (localName.equals("coords")) {
 			_currentPoint.coords[0] = Float.parseFloat(attributes.getValue("x"));
@@ -68,7 +70,7 @@ public class PointsHandler extends DefaultHandler {
 			_currentPoint.arCoords[0]= Float.parseFloat(attributes.getValue("lat"));
 			_currentPoint.arCoords[1] = Float.parseFloat(attributes.getValue("long"));
 			_currentPoint.arCoords[2] = Float.parseFloat(attributes.getValue("alt"));
-			_currentPoint.urlAr=attributes.getValue("file");
+			this.arFiles=attributes.getValue("file");
 		}
 	}
 	public void characters(char[] ch, int start, int length)throws SAXException {
@@ -102,6 +104,9 @@ public class PointsHandler extends DefaultHandler {
 			_currentPoint.title=_currentPoint.title.replace("\\n", "\n");
 			_currentPoint.pointdescription=_currentPoint.pointdescription.replace("\\n", "\n").replace("\\t", "\t");
 			_currentPoint.textAr=_currentPoint.textAr.replace("\\n", "\n").replace("\\t", "\t");
+			if (!this.arFiles.equals("")){
+				_currentPoint.urlfilesAr=arFiles.split(",");
+			}
 			_points.add(_currentPoint);
 		} else if (localName.equals("title")) {
 			_in_titletag = false;

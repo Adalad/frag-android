@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Route {
 
 	public int id;
+	public float version;
 	public String name;
 	public String description;
 	public ArrayList<PointOI> pointsOI;
@@ -15,6 +16,7 @@ public class Route {
 		id = 0;
 		name = "default";
 		description = "none";
+		version=1.0f;
 		pointsOI = new ArrayList<PointOI>();
 	}
 

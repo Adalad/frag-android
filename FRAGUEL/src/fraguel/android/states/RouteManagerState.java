@@ -265,6 +265,7 @@ private void addOnItemLongClickListenerToListView(){
 		switch (item.getItemId()) {
 
 		case ROUTEMANAGERSTATE_ADDROUTE:
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Cargando... Espere por favor.", Toast.LENGTH_LONG).show();
 			String[] url= {"http://www.blackmesa.es/fraguel/xml/prueba.xml"};
 			String[] name= {"descarga.xml"};
 			FileDownloadingThread t = new FileDownloadingThread(url,name,"");
@@ -371,7 +372,6 @@ private void addOnItemLongClickListenerToListView(){
 	}
 	
 	public void AllAvailableRoutes(){
-		
 		this.allRoutesAvailables= ResourceManager.getInstance().getXmlManager().readAvailableRoutes("allroutes.xml");
 		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Hay " + this.allRoutesAvailables.size() +" rutas disponibles", Toast.LENGTH_LONG).show();
 		//display info of all availableroutes

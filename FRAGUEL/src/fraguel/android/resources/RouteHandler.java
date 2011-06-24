@@ -51,6 +51,7 @@ public class RouteHandler extends DefaultHandler {
 		if (localName.equals("route")) {
 			//_currentRoute = new Route();
 			_currentRoute.id = Integer.parseInt(attributes.getValue("id"));
+			_currentRoute.version = Float.parseFloat(attributes.getValue("version"));
 		} else if (localName.equals("name")) {
 			_in_nametag = true;
 		} else if (localName.equals("description")) {
