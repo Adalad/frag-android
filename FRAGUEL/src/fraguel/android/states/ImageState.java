@@ -56,6 +56,7 @@ public class ImageState extends State{
 
 	@Override
 	public void load() {
+		System.gc();
 		// TODO Auto-generated method stub
 		viewGroup = new LinearLayout(FRAGUEL.getInstance().getApplicationContext());
 		((LinearLayout) viewGroup).setOrientation(LinearLayout.VERTICAL);
