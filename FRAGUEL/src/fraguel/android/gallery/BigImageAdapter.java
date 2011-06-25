@@ -28,6 +28,7 @@ import fraguel.android.threads.ImageDownloadingThread;
 public class BigImageAdapter extends BaseAdapter{
     int mGalleryItemBackground;
     private Context mContext;
+    Bitmap bmp;
 
     /*private Integer[] mImageIds = {
             R.drawable.guerracivil_1,
@@ -62,14 +63,20 @@ public class BigImageAdapter extends BaseAdapter{
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView i= new ImageView(mContext);
+    	ImageView i;
+    	if (convertView==null){
+    		i = new ImageView(mContext);
+    	}else {
+            i = (ImageView) convertView;
+        }
+    	
         
        //i.setImageResource(mImageIds[position]);
         
         String path="";
         path=ResourceManager.getInstance().getRootPath()+"/tmp/"+"route"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getRoute().id)+"/"+"point"+Integer.toString(FRAGUEL.getInstance().getCurrentState().getPointOI().id)+"images"+position+".png";
     	File f= new File(path);
-    	Bitmap bmp=null;
+    	bmp=null;
         
     	
 		if (f.exists()){
@@ -110,6 +117,10 @@ public class BigImageAdapter extends BaseAdapter{
         
         
         return i;
+    }
+    public void recycleBitmap(){
+    	if (bmp!=null)
+    		bmp.recycle();
     }
     
 }

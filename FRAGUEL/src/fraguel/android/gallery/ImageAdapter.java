@@ -25,6 +25,7 @@ import android.widget.ImageView;
 public class ImageAdapter extends BaseAdapter {
     int mGalleryItemBackground;
     private Context mContext;
+    Bitmap bmp;
 
     /*private Integer[] mImageIds = {
             R.drawable.guerracivil_1,
@@ -75,7 +76,7 @@ public class ImageAdapter extends BaseAdapter {
 	    		    	
 	    	File f= new File(path);
 			if (f.exists()){
-				Bitmap bmp = BitmapFactory.decodeFile(path);
+				bmp = BitmapFactory.decodeFile(path);
 				i.setImageBitmap(bmp);
 			}else{
 				i.setImageDrawable(FRAGUEL.getInstance().getResources().getDrawable(R.drawable.loading));				
@@ -84,4 +85,9 @@ public class ImageAdapter extends BaseAdapter {
 
         return i;
     }
+    public void recycleBitmap(){
+    	if (bmp!=null)
+    		bmp.recycle();
+    }
+    
 }
