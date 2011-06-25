@@ -113,6 +113,14 @@ public class ImageState extends State{
 		return true;
 	}
 	@Override
+	public void unload() {
+		imageAdapter.recycleBitmap();
+		bigAdapter.recycleBitmap();
+		System.gc();
+		super.unload();
+	}
+
+	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 
