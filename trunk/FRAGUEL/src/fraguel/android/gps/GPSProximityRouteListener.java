@@ -29,7 +29,7 @@ public class GPSProximityRouteListener extends GPSProximity{
 		pointsToVisit= new ArrayList<PointOI>();
 	}
 	@Override
-	public void onLocationChanged(Location location) {
+	public synchronized void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
 		
 		if (!noMoreMessages){
@@ -46,9 +46,10 @@ public class GPSProximityRouteListener extends GPSProximity{
 				
 			}else{
 				if (MapState.getInstance().getGPS().isDialogDisplayed()){
-					Location.distanceBetween(latitude, longitude,currentPoint.coords[0], currentPoint.coords[1],results);
+					PointInfoState state= (PointInfoState) FRAGUEL.getInstance().getCurrentState();
+					Location.distanceBetween(latitude, longitude,state.getPointOI().coords[0], state.getPointOI().coords[1],results);
 					//si está fuera de rango cargamos el mapa
-					if (results[0] >= proximityAlertDistance + proximityAlertError) {
+					if (results[0] > proximityAlertDistance + proximityAlertError) {
 						FRAGUEL.getInstance().changeState(MapState.STATE_ID);
 						MapState.getInstance().loadData(currentRoute, currentPoint);
 						MapState.getInstance().getGPS().setDialogDisplayed(false);
@@ -66,9 +67,11 @@ public class GPSProximityRouteListener extends GPSProximity{
 						MapState.getInstance().refreshMapRouteMode();
 						
 						//cambiamos de estado
+						MapState.getInstance().getGPS().setDialogDisplayed(true);
+						super.mediaNotification();
 						FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
 						FRAGUEL.getInstance().getCurrentState().loadData(currentRoute, currentPoint);
-						MapState.getInstance().getGPS().setDialogDisplayed(true);
+						
 					}else{
 					//mostrar info de la distancia y el bearing si no hay ningun popup
 					((TextView)MapState.getInstance().getPopupOnRoute().findViewById(R.id.popuponroute_texto1)).setText((int)distance+ " metros para llegar a "+pointsToVisit.get(0).title);

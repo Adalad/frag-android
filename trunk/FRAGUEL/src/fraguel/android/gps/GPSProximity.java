@@ -13,7 +13,7 @@ import fraguel.android.Route;
 
 public abstract class GPSProximity {
 	public static final float proximityAlertDistance = 50;
-	public static final float proximityAlertError = 10;
+	public static final float proximityAlertError = 30;
 	protected float distance;
 	protected Route currentRoute = null;
 	protected PointOI currentPoint = null;
