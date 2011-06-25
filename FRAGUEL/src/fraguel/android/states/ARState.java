@@ -1,8 +1,5 @@
 package fraguel.android.states;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,8 +13,6 @@ import fraguel.android.State;
 import fraguel.android.ar.CamLayer;
 import fraguel.android.ar.GLView;
 import fraguel.android.gps.LatLon2UTM;
-import fraguel.android.resources.ResourceManager;
-import fraguel.android.threads.FileDownloadingThread;
 
 public class ARState extends State {
 
@@ -30,6 +25,8 @@ public class ARState extends State {
 	private CamLayer mPreview;
 	
 	private LatLon2UTM ll;
+	private float lastX;
+	private float lastZ;
 
 	// private GLLayer glView;
 
@@ -107,15 +104,22 @@ public class ARState extends State {
 	}
 
 	@Override
-	public void onLocationChanged(float[] values) {
-		/*ll.setVariables(values[0], values[1]);
-		float x = (float) ll.getEasting();
-		float y = (float) ll.getNorthing(values[1]);
-		float z = values[2];
+	public void onLocationChanged(float[] values) {		
+		ll.setVariables(values[0], values[1]);
+		float x = -(float) ll.getEasting();
+		float z = -(float) ll.getNorthing(values[0]);
+		
+		float dx = Math.abs(lastX - x);
+		float dz = Math.abs(lastZ - z);
 
-		glView.scene.camera().position.x = x;
-		glView.scene.camera().position.y = z;
-		glView.scene.camera().position.z = -y;*/
+		if (dx > 1)
+			glView.scene.camera().position.x = x;
+		glView.scene.camera().position.y = 1.6f;
+		if (dz > 1)
+			glView.scene.camera().position.z = z;
+		
+		lastX = x;
+		lastZ = z;
 	}
 
 	@Override
