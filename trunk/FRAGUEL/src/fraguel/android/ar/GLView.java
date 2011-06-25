@@ -10,15 +10,12 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 import fraguel.android.FRAGUEL;
-import fraguel.android.State;
 import fraguel.android.ar.core.Object3dContainer;
 import fraguel.android.ar.core.Scene;
 import fraguel.android.ar.interfaces.ISceneController;
 import fraguel.android.ar.vos.Light;
 import fraguel.android.gps.LatLon2UTM;
 import fraguel.android.resources.ResourceManager;
-import fraguel.android.resources.ar.IParser;
-import fraguel.android.resources.ar.Parser;
 import fraguel.android.states.ARState;
 
 public class GLView extends GLSurfaceView implements ISceneController, Camera.PreviewCallback {
@@ -121,22 +118,20 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 	public void onInitScene() {
 		ARState arState= (ARState)FRAGUEL.getInstance().getCurrentState();
 		LatLon2UTM ll = new LatLon2UTM();
-		ll.setVariables(arState.getPointOI().arCoords[0], arState.getPointOI().arCoords[1]);
-		float x = (float) ll.getEasting();
-		float y = arState.getPointOI().arCoords[2];
-		float z = -(float) ll.getNorthing(arState.getPointOI().arCoords[0]);
+		//ll.setVariables(arState.getPointOI().arCoords[0], arState.getPointOI().arCoords[1]);
+		ll.setVariables(40.445002, -3.803933);
+		float x = -(float) ll.getEasting();
+		float y = 0;//arState.getPointOI().arCoords[2];
+		float z = -(float) ll.getNorthing(40.445002);//ll.getNorthing(arState.getPointOI().arCoords[0]);
 		if (arState.getPointOI().urlfilesAr!=null){
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Cargando Realidad Aumentada...", Toast.LENGTH_LONG).show();
 			
 				for (String s: arState.getPointOI().urlfilesAr){
 					File f = new File(ResourceManager.getInstance().getRootPath()+"/ar/"+s);
 					if (!s.equals("") && f.exists()){
-						scene.loadObject(s,0,0,10);
+						scene.loadObject(s,x,y,z);
 					}
 				}
-			
-			
-			
 		}
 		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Sistema cargado", Toast.LENGTH_LONG).show();
 		if (arState.getPointOI().textAr!=null && arState.getPointOI().textAr!="")
