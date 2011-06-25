@@ -49,12 +49,18 @@ public class GPSProximityRouteListener extends GPSProximity{
 					PointInfoState state= (PointInfoState) FRAGUEL.getInstance().getCurrentState();
 					Location.distanceBetween(latitude, longitude,state.getPointOI().coords[0], state.getPointOI().coords[1],results);
 					//si está fuera de rango cargamos el mapa
-					if (results[0] > proximityAlertDistance + proximityAlertError) {
+					float offset = Math.abs(lastFix-results[0]);
+					if (offset<=10.0f){
+						lastFix=results[0];
+						hasBeenVisited=true;
+					}else
+						hasBeenVisited=false;
+					if ((results[0] > proximityAlertDistance + proximityAlertError)&& hasBeenVisited) {
 						FRAGUEL.getInstance().changeState(MapState.STATE_ID);
 						MapState.getInstance().loadData(currentRoute, currentPoint);
 						MapState.getInstance().getGPS().setDialogDisplayed(false);
 					}
-				}else{
+				}else if (!MapState.getInstance().getGPS().isDialogDisplayed() && FRAGUEL.getInstance().getCurrentState().getId()==MapState.STATE_ID){
 					//miramos la distancia al siguiente punto a visitar en la ruta
 					Location.distanceBetween(latitude, longitude, pointsToVisit.get(0).coords[0], pointsToVisit.get(0).coords[1], results);
 					distance=results[0];
@@ -69,6 +75,7 @@ public class GPSProximityRouteListener extends GPSProximity{
 						//cambiamos de estado
 						MapState.getInstance().getGPS().setDialogDisplayed(true);
 						super.mediaNotification();
+						lastFix=results[0];
 						FRAGUEL.getInstance().changeState(PointInfoState.STATE_ID);
 						FRAGUEL.getInstance().getCurrentState().loadData(currentRoute, currentPoint);
 						
