@@ -20,21 +20,19 @@ public class GPSProximityListener extends GPSProximity{
 		super();
 	}
 	@Override
-	public void onLocationChanged(Location location) {
+	public synchronized void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
 		latitude = location.getLatitude();
 		longitude = location.getLongitude();
 		altitude = location.getAltitude();
 		distance = Float.MAX_VALUE;
-		
-		//sacamos puntos que hayamos visitado
-		Iterator<PointOI> it = pointsVisited.iterator();
-		
+				
 		//hay un punto siendo visitado y en el radio
 		if (MapState.getInstance().getGPS().isDialogDisplayed()){
-			Location.distanceBetween(latitude, longitude,currentPoint.coords[0], currentPoint.coords[1],results);
+			PointInfoState state= (PointInfoState) FRAGUEL.getInstance().getCurrentState();
+			Location.distanceBetween(latitude, longitude,state.getPointOI().coords[0], state.getPointOI().coords[1],results);
 			//si está fuera de rango cargamos el mapa
-			if (results[0] >= proximityAlertDistance + proximityAlertError) {
+			if (results[0] > proximityAlertDistance + proximityAlertError) {
 				FRAGUEL.getInstance().changeState(MapState.STATE_ID);
 				MapState.getInstance().loadData(currentRoute, currentPoint);
 				MapState.getInstance().getGPS().setDialogDisplayed(false);
