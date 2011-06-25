@@ -19,6 +19,7 @@ public abstract class GPSProximity {
 	protected PointOI currentPoint = null;
 	protected float[] results = new float[3];
 	protected String msg;
+	protected float lastFix;
 	
 	protected double latitude=0,longitude=0,altitude=0;
 	
@@ -33,6 +34,7 @@ public abstract class GPSProximity {
 		v= (Vibrator)FRAGUEL.getInstance().getSystemService(FRAGUEL.getInstance().getApplicationContext().VIBRATOR_SERVICE);
 		soundClip=MediaPlayer.create(FRAGUEL.getInstance().getApplicationContext(),R.raw.notification_sound);
 		pointsVisited = new ArrayList<PointOI>();
+		lastFix=0;
 	}
 	
 	public abstract void onLocationChanged(Location location);
