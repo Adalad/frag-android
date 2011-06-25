@@ -91,6 +91,8 @@ public class ARState extends State {
 
 	@Override
 	public void onRotationChanged(float[] values) {
+		if (glView.scene.camera() == null)
+			return;
 		int d = 2;
 		float delta = glView.scene.camera().rotation.x - (values[2] + 90);
 		if (Math.abs(delta) > d)
@@ -104,7 +106,9 @@ public class ARState extends State {
 	}
 
 	@Override
-	public void onLocationChanged(float[] values) {		
+	public void onLocationChanged(float[] values) {
+		if (glView.scene.camera() == null)
+			return;		
 		ll.setVariables(values[0], values[1]);
 		float x = -(float) ll.getEasting();
 		float z = -(float) ll.getNorthing(values[0]);

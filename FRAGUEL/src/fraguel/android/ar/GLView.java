@@ -118,11 +118,11 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 	public void onInitScene() {
 		ARState arState= (ARState)FRAGUEL.getInstance().getCurrentState();
 		LatLon2UTM ll = new LatLon2UTM();
-		//ll.setVariables(arState.getPointOI().arCoords[0], arState.getPointOI().arCoords[1]);
-		ll.setVariables(40.445002, -3.803933);
+		ll.setVariables(arState.getPointOI().arCoords[0], arState.getPointOI().arCoords[1]);
+		//ll.setVariables(40.445002, -3.803933);
 		float x = -(float) ll.getEasting();
 		float y = 0;//arState.getPointOI().arCoords[2];
-		float z = -(float) ll.getNorthing(40.445002);//ll.getNorthing(arState.getPointOI().arCoords[0]);
+		float z = -(float) ll.getNorthing(arState.getPointOI().arCoords[0]);//-(float) ll.getNorthing(40.445002);//
 		if (arState.getPointOI().urlfilesAr!=null){
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Cargando Realidad Aumentada...", Toast.LENGTH_LONG).show();
 			
