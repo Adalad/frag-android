@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -24,7 +25,7 @@ public class ImageDownloadingThread extends Thread{
 	private String[] urls,names;
 	private String name;
 	private int index;
-	private URLConnection conn;
+	private HttpURLConnection conn;
 	private InputStream is;
 	private BufferedInputStream bis;
 	private URL aURL;
@@ -87,6 +88,7 @@ public class ImageDownloadingThread extends Thread{
 					
 					try{
 						tmp=getImageBitmap(url);
+												
 						FileOutputStream fileOutputStream = new FileOutputStream(absolutePath);
 		
 						BufferedOutputStream bos = new BufferedOutputStream(fileOutputStream);
@@ -103,6 +105,11 @@ public class ImageDownloadingThread extends Thread{
 						
 					}catch(Exception e){
 						f.delete();
+					}finally{
+						if (tmp!=null)
+			            	tmp.recycle();
+			            tmp = null;
+			            System.gc();
 					}
 		
 				}else if (f.exists()){
@@ -124,14 +131,15 @@ public class ImageDownloadingThread extends Thread{
 	        try {
 	        	
 		            aURL = new URL(url);
-		            conn = aURL.openConnection();
+		            conn = (HttpURLConnection) aURL.openConnection();
+		            conn.setConnectTimeout(0);
 		            conn.connect();
 		            is = conn.getInputStream();
 		            bis = new BufferedInputStream(is);
 		            bm = BitmapFactory.decodeStream(bis);
 		            bis.close();
 		            is.close();
-	            
+		           	            
 	       } catch (IOException e) {
 	           Log.e("Image", "Error getting bitmap", e);
 	           bis=null;
@@ -139,6 +147,9 @@ public class ImageDownloadingThread extends Thread{
 	           conn=null;
 	           aURL=null;
 	           bm=null;
+	       }
+	       finally {
+	            conn.disconnect();
 	       }
        
        return bm;
