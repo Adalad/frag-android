@@ -75,23 +75,9 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 		scene.reset();
 		
 		scene.backgroundTransparent(true);
-		/*scene.lights().add(new Light());
 		
-		scene.backgroundColor().setAll(0xff444444);
-		_cube = new Box(1,1,1);
-		scene.addChild(_cube);*/
 		scene.lights().add(new Light());
 		
-		//IParser parser = Parser.createParser(Parser.Type.OBJ,
-		//		getResources(), "fraguel.android:raw/sin_obj", true);
-		
-		//LatLon2UTM ll = new LatLon2UTM();
-		//	FACULTAD
-		//	40.45309	-3.733431	692
-		//	CASA GABI
-		//	40.445152	-3.8040428	720
-		//	40.44512	-3.8040214	733
-		//ll.setVariables(40.44512, -3.8040214);
 		scene.camera().rotation.x = 0;
 		scene.camera().rotation.y = 0;
 		scene.camera().rotation.z = 0;
@@ -119,10 +105,9 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 		ARState arState= (ARState)FRAGUEL.getInstance().getCurrentState();
 		LatLon2UTM ll = new LatLon2UTM();
 		ll.setVariables(arState.getPointOI().arCoords[0], arState.getPointOI().arCoords[1]);
-		//ll.setVariables(40.445002, -3.803933);
 		float x = -(float) ll.getEasting();
 		float y = 0;//arState.getPointOI().arCoords[2];
-		float z = -(float) ll.getNorthing(arState.getPointOI().arCoords[0]);//-(float) ll.getNorthing(40.445002);//
+		float z = -(float) ll.getNorthing(arState.getPointOI().arCoords[0]);
 		if (arState.getPointOI().urlfilesAr!=null){
 			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Cargando Realidad Aumentada...", Toast.LENGTH_LONG).show();
 			
