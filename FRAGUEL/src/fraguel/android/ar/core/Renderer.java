@@ -7,6 +7,12 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
+import android.app.ActivityManager;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.opengl.GLSurfaceView;
+import android.opengl.GLUtils;
+import android.util.Log;
 import fraguel.android.ar.Min3d;
 import fraguel.android.ar.Shared;
 import fraguel.android.ar.animation.AnimationObject3d;
@@ -15,13 +21,6 @@ import fraguel.android.ar.vos.Light;
 import fraguel.android.ar.vos.LightType;
 import fraguel.android.ar.vos.RenderType;
 import fraguel.android.ar.vos.TextureVo;
-import android.app.ActivityManager;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.opengl.GLSurfaceView;
-import android.opengl.GLU;
-import android.opengl.GLUtils;
-import android.util.Log;
 
 
 public class Renderer implements GLSurfaceView.Renderer
