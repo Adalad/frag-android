@@ -20,15 +20,12 @@ public class ARState extends State {
 	private static final int ARSTATE_PLAY = 1;
 	private static final int ARSTATE_STOP = 2;
 
-	// ARCameraView camView;
 	GLView glView;
 	private CamLayer mPreview;
-	
+
 	private LatLon2UTM ll;
 	private float lastX;
 	private float lastZ;
-
-	// private GLLayer glView;
 
 	public ARState() {
 		super();
@@ -37,41 +34,23 @@ public class ARState extends State {
 
 	@Override
 	public void load() {
-		
+
 		ll = new LatLon2UTM();
-		
-		FRAGUEL.getInstance().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		// Inicializar viewGroup
-		// viewGroup = new
-		// FrameLayout(FRAGUEL.getInstance().getApplicationContext());
-		/*
-		 * // Crear vista de la cámara camView = new
-		 * ARCameraView(viewGroup.getContext()); viewGroup.addView(camView);
-		 */
+
+		FRAGUEL.getInstance().setRequestedOrientation(
+				ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		// Crear vista OpenGL
 		glView = new GLView(FRAGUEL.getInstance().getApplicationContext());
-		// glView = new ARGLView(viewGroup.getContext());
-		// viewGroup.addView(glView);
-		/* glView=new GLLayer(viewGroup.getContext()); */
-
-		// mPreview = new CamLayer(viewGroup.getContext(), 240, 160);
 		mPreview = new CamLayer(glView.getContext(), 240, 160);
 		mPreview.synchronCallback = glView;
 
-		/*
-		 * FRAGUEL.getInstance().setContentView(glView);
-		 * FRAGUEL.getInstance().addContentView(mPreview, new
-		 * LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		 */
-		// viewGroup.addView(glView, new LayoutParams(LayoutParams.FILL_PARENT,
-		// LayoutParams.FILL_PARENT));
-		// viewGroup.addView(mPreview, new
-		// LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		// Añadir a la actividad
 		FRAGUEL.getInstance().setContentView(glView);
-		FRAGUEL.getInstance().addContentView(mPreview,new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+		FRAGUEL.getInstance().addContentView(
+				mPreview,
+				new LayoutParams(LayoutParams.FILL_PARENT,
+						LayoutParams.FILL_PARENT));
 		glView.setKeepScreenOn(true);
-		// FRAGUEL.getInstance().addView(viewGroup);
 	}
 
 	@Override
@@ -82,9 +61,9 @@ public class ARState extends State {
 		FRAGUEL.getInstance().setContentView(FRAGUEL.getInstance().getView());
 		super.unload();
 	}
-	
+
 	@Override
-	public boolean loadData(Route r,PointOI p){
+	public boolean loadData(Route r, PointOI p) {
 		super.loadData(r, p);
 		return true;
 	}
@@ -108,11 +87,11 @@ public class ARState extends State {
 	@Override
 	public void onLocationChanged(float[] values) {
 		if (glView.scene.camera() == null)
-			return;		
+			return;
 		ll.setVariables(values[0], values[1]);
 		float x = -(float) ll.getEasting();
 		float z = -(float) ll.getNorthing(values[0]);
-		
+
 		float dx = Math.abs(lastX - x);
 		float dz = Math.abs(lastZ - z);
 
@@ -121,7 +100,7 @@ public class ARState extends State {
 		glView.scene.camera().position.y = 1.6f;
 		if (dz > 1)
 			glView.scene.camera().position.z = z;
-		
+
 		lastX = x;
 		lastZ = z;
 	}
@@ -133,26 +112,26 @@ public class ARState extends State {
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
 		menu.clear();
-		menu.add(0,ARSTATE_PLAY, 0, "Reproducir información").setIcon(R.drawable.ic_menu_talkplay);
-		menu.add(0,ARSTATE_STOP, 0, "Detener reproducción").setIcon(R.drawable.ic_menu_talkstop);
+		menu.add(0, ARSTATE_PLAY, 0, "Reproducir información").setIcon(
+				R.drawable.ic_menu_talkplay);
+		menu.add(0, ARSTATE_STOP, 0, "Detener reproducción").setIcon(
+				R.drawable.ic_menu_talkstop);
 		return menu;
 	}
 
 	@Override
 	public boolean onStateOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			
+
 		case ARSTATE_PLAY:
 			FRAGUEL.getInstance().talk(point.textAr);
 			return true;
-			
+
 		case ARSTATE_STOP:
 			FRAGUEL.getInstance().stopTalking();
 			return true;
 		}
 		return false;
 	}
-	
-	
 
 }
