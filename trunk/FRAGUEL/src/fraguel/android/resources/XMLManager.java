@@ -36,8 +36,6 @@ public class XMLManager {
 			_root = null;
 			_meshes = new HashMap<Integer, ARMesh>();
 		} catch (Exception e) {
-			// TODO Show error pop-up
-			// TODO Show language string
 			Log.d("FRAGUEL", "Error", e);
 		}
 	}
@@ -53,30 +51,6 @@ public class XMLManager {
 
 	ARMesh getMesh(int id) {
 		return _meshes.get(id);
-	}
-
-	public ArrayList<Route> readRoutes() {
-		try {
-			File routesFile = _root.listFiles(new FilenameFilter() {
-				public boolean accept(File dir, String filename) {
-					return filename.equals("routes");
-				}
-			})[0].listFiles(new FilenameFilter() {
-				public boolean accept(File dir, String filename) {
-					return filename.equals("routes.xml");
-				}
-			})[0];
-			FileInputStream routesStream = new FileInputStream(routesFile);
-			RoutesHandler rh = new RoutesHandler();
-			_parser.setContentHandler(rh);
-			_parser.parse(new InputSource(routesStream));
-			return rh.getParsedData();
-		} catch (Exception e) {
-			// TODO Show error pop-up
-			// TODO Show language string
-			Log.d("FRAGUEL", "Error", e);
-		}
-		return null;
 	}
 
 	public ArrayList<PointOI> readPointsOI(final String fileName) {
@@ -96,22 +70,6 @@ public class XMLManager {
 			_parser.parse(new InputSource(pointsStream));
 			return ph.getParsedData();
 		} catch (Exception e) {
-			// TODO Show error pop-up
-			// TODO Show language string
-			Log.d("FRAGUEL", "Error", e);
-		}
-		return null;
-	}
-
-	public ARMesh readARMesh(String path) {
-		try {
-			MeshHandler mh = new MeshHandler();
-			_parser.setContentHandler(mh);
-			_parser.parse(_root + path);
-			return mh.getParsedData();
-		} catch (Exception e) {
-			// TODO Show error pop-up
-			// TODO Show language string
 			Log.d("FRAGUEL", "Error", e);
 		}
 		return null;
@@ -119,14 +77,11 @@ public class XMLManager {
 
 	public ArrayList<AREntity> readAR(String path) {
 		try {
-			// TODO Parse all meshes
 			ARHandler arh = new ARHandler(this);
 			_parser.setContentHandler(arh);
 			_parser.parse(_root + path);
 			return arh.getParsedData();
 		} catch (Exception e) {
-			// TODO Show error pop-up
-			// TODO Show language string
 			Log.d("FRAGUEL", "Error", e);
 		}
 		return null;
@@ -149,27 +104,23 @@ public class XMLManager {
 			_parser.parse(new InputSource(routesStream));
 			return rh.getParsedData();
 		} catch (Exception e) {
-			// TODO Show error pop-up
-			// TODO Show language string
 			Log.d("FRAGUEL", "Error", e);
 		}
 		return null;
 	}
-	public ArrayList<MinRouteInfo> readAvailableRoutes(final String fileName){
+
+	public ArrayList<MinRouteInfo> readAvailableRoutes(final String fileName) {
 		try {
-			File routesFile = new File(this._root+"/"+fileName);
+			File routesFile = new File(this._root + "/" + fileName);
 			FileInputStream routesStream = new FileInputStream(routesFile);
 			MinRouteInfoHandler rh = new MinRouteInfoHandler();
 			_parser.setContentHandler(rh);
 			_parser.parse(new InputSource(routesStream));
 			return rh.getParsedData();
 		} catch (Exception e) {
-			// TODO Show error pop-up
-			// TODO Show language string
 			Log.d("FRAGUEL", "Error", e);
 		}
 		return null;
 	}
-	
-	
+
 }

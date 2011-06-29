@@ -13,6 +13,13 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+/**
+ * Necesita reimplementación para funcionar con ficheros en lugar de recursos
+ * @author Gabriel
+ *
+ */
+
+@SuppressWarnings("unused")
 public class Max3DSParser extends AParser implements IParser {
 	private final int IDENTIFIER_3DS = 0x4D4D;
 	private final int MESH_BLOCK = 0x3D3D;
