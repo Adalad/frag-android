@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -18,14 +17,10 @@ import fraguel.android.MinRouteInfo;
 import fraguel.android.PointOI;
 import fraguel.android.Route;
 
-import fraguel.android.ar.AREntity;
-import fraguel.android.ar.ARMesh;
-
 public class XMLManager {
 
 	private XMLReader _parser;
 	private File _root;
-	private HashMap<Integer, ARMesh> _meshes;
 
 	XMLManager() {
 		try {
@@ -34,7 +29,6 @@ public class XMLManager {
 			sp = spf.newSAXParser();
 			_parser = sp.getXMLReader();
 			_root = null;
-			_meshes = new HashMap<Integer, ARMesh>();
 		} catch (Exception e) {
 			Log.d("FRAGUEL", "Error", e);
 		}
@@ -47,10 +41,6 @@ public class XMLManager {
 				return filename.equals(root);
 			}
 		})[0];
-	}
-
-	ARMesh getMesh(int id) {
-		return _meshes.get(id);
 	}
 
 	public ArrayList<PointOI> readPointsOI(final String fileName) {
@@ -69,18 +59,6 @@ public class XMLManager {
 			_parser.setContentHandler(ph);
 			_parser.parse(new InputSource(pointsStream));
 			return ph.getParsedData();
-		} catch (Exception e) {
-			Log.d("FRAGUEL", "Error", e);
-		}
-		return null;
-	}
-
-	public ArrayList<AREntity> readAR(String path) {
-		try {
-			ARHandler arh = new ARHandler(this);
-			_parser.setContentHandler(arh);
-			_parser.parse(_root + path);
-			return arh.getParsedData();
 		} catch (Exception e) {
 			Log.d("FRAGUEL", "Error", e);
 		}

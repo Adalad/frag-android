@@ -92,9 +92,6 @@ public class GLView extends GLSurfaceView implements ISceneController, Camera.Pr
 	 * here. Gets called on every frame, right before drawing.
 	 */
 	public void updateScene() {
-		//_cube.rotation().y++;
-		//objModel.rotation().x++;
-		//objModel.rotation().z++;
 	}
 
 	/**
