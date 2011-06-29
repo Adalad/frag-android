@@ -44,7 +44,6 @@ import com.google.android.maps.MapActivity;
 
 import fraguel.android.resources.ResourceManager;
 import fraguel.android.states.ARState;
-import fraguel.android.states.ConfigState;
 import fraguel.android.states.ImageState;
 import fraguel.android.states.InfoState;
 import fraguel.android.states.IntroState;
@@ -208,7 +207,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		addState(new RouteInfoState(),false);
 		addState(new ARState(), false);
 		addState(new InfoState(), false);
-		addState(new ConfigState(), false);
 		addState(new RouteManagerState(), false);
 		addState(new PointInfoState(), false);
 

@@ -3,10 +3,7 @@ package fraguel.android.states;
 import java.io.File;
 import java.util.ArrayList;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.location.Location;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,23 +36,24 @@ public class MainMenuState extends State {
 	public static final int STATE_ID = 15;
 
 	// Variables menu de opciones
-	private static final int MENU_MAIN = 1;
 	private static final int MENU_EXIT = 2;
 
 	protected TextView gps;
 	protected TextView orientation;
-	private final CharSequence[] options = {"Plantilla en blanco", "Mediante captura de puntos"};
-	
-	//GeoTagging
+	private final CharSequence[] options = { "Plantilla en blanco",
+			"Mediante captura de puntos" };
+
+	// GeoTagging
 	private ArrayList<PointOI> geoTaggingPoints;
 	private String routeName;
-	private NewRouteGeoTaggingForm f=null;
-	private PointOI currentPoint=null;
-	private PointExtraInfoGeoTagging extraInfo=null;
-	private SavePointTemplate coordinatesCapturer=null;
-	private String[] tempFiles=null;
-	
-	private NewRouteForm blankForm=null;
+	private NewRouteGeoTaggingForm f = null;
+	private PointOI currentPoint = null;
+	private PointExtraInfoGeoTagging extraInfo = null;
+	private SavePointTemplate coordinatesCapturer = null;
+	private String[] tempFiles = null;
+
+	private NewRouteForm blankForm = null;
+
 	public MainMenuState() {
 		super();
 		id = STATE_ID;
@@ -63,71 +61,63 @@ public class MainMenuState extends State {
 
 	@Override
 	public void load() {
-		LayoutInflater li=  FRAGUEL.getInstance().getLayoutInflater();
-		if(viewGroup==null)
-			viewGroup= (ViewGroup) li.inflate(R.layout.mainmenu,  null);
+		LayoutInflater li = FRAGUEL.getInstance().getLayoutInflater();
+		if (viewGroup == null)
+			viewGroup = (ViewGroup) li.inflate(R.layout.mainmenu, null);
 
-		
-
-		FrameLayout title=(FrameLayout) viewGroup.getChildAt(0);
-		FrameLayout btn_1=(FrameLayout) viewGroup.getChildAt(1);
-		FrameLayout btn_2=(FrameLayout) viewGroup.getChildAt(2);
-		FrameLayout btn_3=(FrameLayout) viewGroup.getChildAt(3);
-		FrameLayout btn_4=(FrameLayout) viewGroup.getChildAt(4);
-
+		FrameLayout title = (FrameLayout) viewGroup.getChildAt(0);
+		FrameLayout btn_1 = (FrameLayout) viewGroup.getChildAt(1);
+		FrameLayout btn_2 = (FrameLayout) viewGroup.getChildAt(2);
+		FrameLayout btn_3 = (FrameLayout) viewGroup.getChildAt(3);
+		FrameLayout btn_4 = (FrameLayout) viewGroup.getChildAt(4);
 
 		AnimationSet setTitle = new AnimationSet(true);
 		AnimationSet setBtn = new AnimationSet(true);
 
 		Animation titleAnim = new AlphaAnimation(0.0f, 1.0f);
 		titleAnim.setDuration(2000);
-		//titleAnim.setRepeatCount(-1);
-
 
 		Animation btnAnim1 = new AlphaAnimation(0.0f, 1.0f);
 		btnAnim1.setDuration(1000);
 
-		Animation btnAnim2 = new RotateAnimation(45, 0 );
+		Animation btnAnim2 = new RotateAnimation(45, 0);
 		btnAnim2.setDuration(1000);
 
-		Animation btnAnim3 = new TranslateAnimation(
-				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-				Animation.RELATIVE_TO_SELF, -3.0f, Animation.RELATIVE_TO_SELF, 0.0f
-		);
+		Animation btnAnim3 = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
+				0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+				Animation.RELATIVE_TO_SELF, -3.0f, Animation.RELATIVE_TO_SELF,
+				0.0f);
 		btnAnim3.setDuration(1000);
-
 
 		setTitle.addAnimation(titleAnim);
 		setBtn.addAnimation(btnAnim1);
-		//setBtn.addAnimation(btnAnim2);
 		setBtn.addAnimation(btnAnim3);
 
-		LayoutAnimationController controllerTitle = new LayoutAnimationController(setTitle, 0.25f);
-		LayoutAnimationController controllerBtn = new LayoutAnimationController(setBtn, 0.25f);
+		LayoutAnimationController controllerTitle = new LayoutAnimationController(
+				setTitle, 0.25f);
+		LayoutAnimationController controllerBtn = new LayoutAnimationController(
+				setBtn, 0.25f);
 		title.setLayoutAnimation(controllerTitle);
 		btn_1.setLayoutAnimation(controllerBtn);
 		btn_2.setLayoutAnimation(controllerBtn);
 		btn_3.setLayoutAnimation(controllerBtn);
 		btn_4.setLayoutAnimation(controllerBtn);
 
-
 		FRAGUEL.getInstance().addView(viewGroup);
 
-
-		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_freemode)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_routemode)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_interactivemode)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-		//((Button) FRAGUEL.getInstance().findViewById(R.id.btn_credits)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-		//((Button) FRAGUEL.getInstance().findViewById(R.id.btn_config)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_manager)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-		//((Button) FRAGUEL.getInstance().findViewById(R.id.btn_exit)).setOnClickListener((OnClickListener) FRAGUEL.getInstance());
-
+		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_freemode))
+				.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
+		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_routemode))
+				.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
+		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_interactivemode))
+				.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
+		((Button) FRAGUEL.getInstance().findViewById(R.id.btn_manager))
+				.setOnClickListener((OnClickListener) FRAGUEL.getInstance());
 
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO rellenar con ids de los demas modos de juego
 		switch (v.getId()) {
 		case R.id.btn_freemode:
 			FRAGUEL.getInstance().changeState(MapState.STATE_ID);
@@ -137,53 +127,47 @@ public class MainMenuState extends State {
 			break;
 		case R.id.btn_interactivemode:
 			FRAGUEL.getInstance().cleanCache();
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Caché borrada con éxito", Toast.LENGTH_SHORT).show();
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
+					"Caché borrada con éxito", Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.btn_manager:
-			String[] allFiles=new File(ResourceManager.getInstance().getRootPath()+"/user").list();
+			String[] allFiles = new File(ResourceManager.getInstance()
+					.getRootPath() + "/user").list();
 			ArrayList<String> aux = new ArrayList<String>();
-			for (String s: allFiles){
-				if (s.endsWith(".tmp")){
+			for (String s : allFiles) {
+				if (s.endsWith(".tmp")) {
 					aux.add(s);
 				}
 			}
-			int i=0;
-			tempFiles=new String[aux.size()];
-			for (String s: aux){
-				tempFiles[i]=s;
+			int i = 0;
+			tempFiles = new String[aux.size()];
+			for (String s : aux) {
+				tempFiles[i] = s;
 				i++;
 			}
-			
-			FRAGUEL.getInstance().createDialog("Crear ruta", options,new UserOptionsTemplateNotification(),null );
+
+			FRAGUEL.getInstance().createDialog("Crear ruta", options,
+					new UserOptionsTemplateNotification(), null);
 			break;
-		/*case R.id.btn_config:
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
-			break;
-		case R.id.btn_credits:
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Por definir", Toast.LENGTH_SHORT).show();
-			break;*/
-		
+
 		default:
 			System.exit(0);
 		}
 	}
-	
-	
+
 	@Override
 	public Menu onCreateStateOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		
+
 		menu.clear();
 		// Menu de opciones creado por defecto
-		//menu.add(0, MENU_MAIN, 0, R.string.menu_menu).setIcon(R.drawable.info);
-		menu.add(0, MENU_EXIT, 0, R.string.menu_exit).setIcon(R.drawable.ic_menu_exit);
-		
+		menu.add(0, MENU_EXIT, 0, R.string.menu_exit).setIcon(
+				R.drawable.ic_menu_exit);
+
 		return menu;
 	}
 
 	@Override
 	public boolean onStateOptionsItemSelected(MenuItem item) {
-		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 		case MENU_EXIT:
 			System.exit(0);
@@ -195,8 +179,9 @@ public class MainMenuState extends State {
 	public NewRouteForm getBlankForm() {
 		return blankForm;
 	}
-	public void setBlankForm(NewRouteForm f){
-		blankForm=f;
+
+	public void setBlankForm(NewRouteForm f) {
+		blankForm = f;
 	}
 
 	public void setGeoTaggingPoints(ArrayList<PointOI> geoTaggingPoints) {
@@ -238,22 +223,24 @@ public class MainMenuState extends State {
 	public PointExtraInfoGeoTagging getExtraInfo() {
 		return extraInfo;
 	}
-	public SavePointTemplate getCoordinatesCapturer(){
+
+	public SavePointTemplate getCoordinatesCapturer() {
 		return coordinatesCapturer;
 	}
-	public void setCoordinatesCapturer(SavePointTemplate capturer){
-		this.coordinatesCapturer=capturer;
+
+	public void setCoordinatesCapturer(SavePointTemplate capturer) {
+		this.coordinatesCapturer = capturer;
 	}
-	
-	public void NewLocation(Location location){
-		if (coordinatesCapturer!=null){
-			coordinatesCapturer.setLatitude((float)location.getLatitude());
-			coordinatesCapturer.setLongitude((float)location.getLongitude());
+
+	public void NewLocation(Location location) {
+		if (coordinatesCapturer != null) {
+			coordinatesCapturer.setLatitude((float) location.getLatitude());
+			coordinatesCapturer.setLongitude((float) location.getLongitude());
 		}
 	}
 
 	public String[] getTempFiles() {
 		return tempFiles;
-	}	
+	}
 
 }
