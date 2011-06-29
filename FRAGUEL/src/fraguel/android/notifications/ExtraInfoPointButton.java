@@ -7,19 +7,26 @@ import fraguel.android.PointOI;
 import fraguel.android.states.MainMenuState;
 import fraguel.android.utils.SavePointTemplate;
 
-public class ExtraInfoPointButton implements DialogInterface.OnClickListener{
+public class ExtraInfoPointButton implements DialogInterface.OnClickListener {
 
 	@Override
 	public void onClick(DialogInterface arg0, int arg1) {
-		// TODO Auto-generated method stub
-		MainMenuState state = (MainMenuState)FRAGUEL.getInstance().getCurrentState();
+		MainMenuState state = (MainMenuState) FRAGUEL.getInstance()
+				.getCurrentState();
 		PointOI point = state.getCurrentPoint();
-		point.title=state.getExtraInfo().getPointName();
+		point.title = state.getExtraInfo().getPointName();
 		state.getGeoTaggingPoints().add(point);
-		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"Hay "+state.getGeoTaggingPoints().size() +" puntos guardados", Toast.LENGTH_LONG).show();
+		Toast.makeText(
+				FRAGUEL.getInstance().getApplicationContext(),
+				"Hay " + state.getGeoTaggingPoints().size()
+						+ " puntos guardados", Toast.LENGTH_LONG).show();
 		arg0.dismiss();
-		state.setCoordinatesCapturer(new SavePointTemplate(FRAGUEL.getInstance().getApplicationContext()));
-		FRAGUEL.getInstance().createCustomDialog(state.getRouteName()+": captura de coordenadas", state.getCoordinatesCapturer(), new CaptureCoordinatesButton(), "Capturar", new EndCaptureButton(), "Finalizar", null);
+		state.setCoordinatesCapturer(new SavePointTemplate(FRAGUEL
+				.getInstance().getApplicationContext()));
+		FRAGUEL.getInstance().createCustomDialog(
+				state.getRouteName() + ": captura de coordenadas",
+				state.getCoordinatesCapturer(), new CaptureCoordinatesButton(),
+				"Capturar", new EndCaptureButton(), "Finalizar", null);
 	}
 
 }

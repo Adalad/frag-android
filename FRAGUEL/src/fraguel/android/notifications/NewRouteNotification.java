@@ -6,13 +6,14 @@ import fraguel.android.states.MainMenuState;
 import fraguel.android.utils.NewRouteForm;
 import android.content.DialogInterface;
 
-public class NewRouteNotification implements DialogInterface.OnClickListener{
+public class NewRouteNotification implements DialogInterface.OnClickListener {
 	@Override
 	public void onClick(DialogInterface dialog, int which) {
-		// TODO Auto-generated method stub
-		MainMenuState state=(MainMenuState) (FRAGUEL.getInstance().getCurrentState());
+		MainMenuState state = (MainMenuState) (FRAGUEL.getInstance()
+				.getCurrentState());
 		NewRouteForm form = state.getBlankForm();
-		ResourceManager.getInstance().createXMLTemplate(form.getFileName(),form.getRouteName(), -2,form.getNumPoints());
+		ResourceManager.getInstance().createXMLTemplate(form.getFileName(),
+				form.getRouteName(), -2, form.getNumPoints());
 		dialog.dismiss();
 	}
 
