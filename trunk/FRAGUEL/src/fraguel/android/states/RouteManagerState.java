@@ -358,6 +358,7 @@ public class RouteManagerState extends State {
 			FRAGUEL.getInstance().cleanDir(dir.getPath());
 			dir.delete();
 		}
+		FRAGUEL.getInstance().LoadRoutes();
 		loadRoutes(0);
 	}
 
