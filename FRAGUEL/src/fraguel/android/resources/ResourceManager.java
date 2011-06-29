@@ -12,15 +12,13 @@ import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlSerializer;
 
-import fraguel.android.FRAGUEL;
-import fraguel.android.PointOI;
-import fraguel.android.states.MainMenuState;
-
-import android.graphics.Point;
 import android.os.Environment;
 import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
+import fraguel.android.FRAGUEL;
+import fraguel.android.PointOI;
+import fraguel.android.states.MainMenuState;
 
 public class ResourceManager {
 
@@ -29,14 +27,12 @@ public class ResourceManager {
 
 	private String _rootPath;
 
-	private DownloadManager downloadManager;
 	private XMLManager xmlManager;
 
 	private ResourceManager() {
 		_initialized = false;
 
-		downloadManager=new DownloadManager("http://www.blackmesa.es/fraguel");
-		xmlManager =new XMLManager();
+		xmlManager = new XMLManager();
 	}
 
 	public static ResourceManager getInstance() {
@@ -45,7 +41,7 @@ public class ResourceManager {
 
 		return _instance;
 	}
-	
+
 	private void createDirs(File rootSD) {
 		rootSD.mkdir();
 		new File(rootSD.getAbsolutePath() + "/ar").mkdir();
@@ -53,7 +49,6 @@ public class ResourceManager {
 		new File(rootSD.getAbsolutePath() + "/user").mkdir();
 		new File(rootSD.getAbsolutePath() + "/routes").mkdir();
 		new File(rootSD.getAbsolutePath() + "/tmp").mkdir();
-		// TODO Create all the directories
 	}
 
 	public void initialize(final String root) {
@@ -69,15 +64,14 @@ public class ResourceManager {
 				throw new Exception("SD Card not avaliable");
 
 			Log.d("FRAGUEL", "SD Card ready");
-			
+
 			File rootSD = new File(_rootPath);
 			if (!rootSD.exists())
 				createDirs(rootSD);
-				
+
 			xmlManager.setRoot(root);
 			_initialized = true;
 		} catch (Exception e) {
-			// TODO Message asking for SD Card
 			Log.d("FRAGUEL", "Error: " + e);
 		}
 	}
@@ -90,300 +84,292 @@ public class ResourceManager {
 		return _rootPath;
 	}
 
-
-	public DownloadManager getDownloadManager() {
-		return downloadManager;
-	}
-
-
 	public XMLManager getXmlManager() {
 		return xmlManager;
 	}
-	
-public void createXMLTemplate(String fileName,String routeName,int routeId,int numPoints){
-		
-		File file = new File(ResourceManager.getInstance().getRootPath()+"/user/"+fileName+".xml");
-		
+
+	public void createXMLTemplate(String fileName, String routeName,
+			int routeId, int numPoints) {
+
+		File file = new File(ResourceManager.getInstance().getRootPath()
+				+ "/user/" + fileName + ".xml");
+
 		try {
 			file.createNewFile();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		FileOutputStream fileos = null;
-		
+
 		try {
 			fileos = new FileOutputStream(file);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		XmlSerializer serializer = Xml.newSerializer();
-		
+
 		try {
-			
+
 			serializer.setOutput(fileos, "UTF-8");
 			serializer.startDocument(null, null);
-			serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
-			
+			serializer.setFeature(
+					"http://xmlpull.org/v1/doc/features.html#indent-output",
+					true);
+
 			serializer.startTag(null, "route");
 			serializer.attribute(null, "id", Integer.toString(routeId));
-					
-					serializer.startTag(null, "name");
-					serializer.text(routeName);
-		            serializer.endTag(null, "name");
-					serializer.startTag(null, "description");
-		            serializer.endTag(null, "description");
-					serializer.startTag(null, "icon");
-		            serializer.endTag(null, "icon");
-		            
-					serializer.startTag(null, "points");
-							
-						for (int i=0;i<numPoints;i++){
-							serializer.startTag(null, "point");
-							serializer.attribute(null, "id", Integer.toString(i));
-							serializer.attribute(null, "version", "1.0");
-							
-									serializer.startTag(null, "coords");
-									serializer.attribute(null, "x", "0");
-									serializer.attribute(null, "y", "0");
-						            serializer.endTag(null, "coords");
-						            
-									serializer.startTag(null, "title");
-						            serializer.endTag(null, "title");
-						            
-									serializer.startTag(null, "pointdescription");
-						            serializer.endTag(null, "pointdescription");
-						            
-									serializer.startTag(null, "pointicon");
-						            serializer.endTag(null, "pointicon");
-						            
-									serializer.startTag(null, "images");
-										serializer.startTag(null, "image");
-										serializer.attribute(null, "url", "");
-										serializer.endTag(null, "image");
-						            serializer.endTag(null, "images");
-						            
-									serializer.startTag(null, "video");
-						            serializer.endTag(null, "video");
-						            
-									serializer.startTag(null, "ar");
-									serializer.attribute(null, "lat", "0.0");
-									serializer.attribute(null, "long", "0.0");
-									serializer.attribute(null, "alt", "0.0");
-									serializer.attribute(null, "file", "");
-						            serializer.endTag(null, "ar");
-							
-				            serializer.endTag(null, "point");
-					
-						}
-					
-		            serializer.endTag(null, "points");
-		            
-		
+
+			serializer.startTag(null, "name");
+			serializer.text(routeName);
+			serializer.endTag(null, "name");
+			serializer.startTag(null, "description");
+			serializer.endTag(null, "description");
+			serializer.startTag(null, "icon");
+			serializer.endTag(null, "icon");
+
+			serializer.startTag(null, "points");
+
+			for (int i = 0; i < numPoints; i++) {
+				serializer.startTag(null, "point");
+				serializer.attribute(null, "id", Integer.toString(i));
+				serializer.attribute(null, "version", "1.0");
+
+				serializer.startTag(null, "coords");
+				serializer.attribute(null, "x", "0");
+				serializer.attribute(null, "y", "0");
+				serializer.endTag(null, "coords");
+
+				serializer.startTag(null, "title");
+				serializer.endTag(null, "title");
+
+				serializer.startTag(null, "pointdescription");
+				serializer.endTag(null, "pointdescription");
+
+				serializer.startTag(null, "pointicon");
+				serializer.endTag(null, "pointicon");
+
+				serializer.startTag(null, "images");
+				serializer.startTag(null, "image");
+				serializer.attribute(null, "url", "");
+				serializer.endTag(null, "image");
+				serializer.endTag(null, "images");
+
+				serializer.startTag(null, "video");
+				serializer.endTag(null, "video");
+
+				serializer.startTag(null, "ar");
+				serializer.attribute(null, "lat", "0.0");
+				serializer.attribute(null, "long", "0.0");
+				serializer.attribute(null, "alt", "0.0");
+				serializer.attribute(null, "file", "");
+				serializer.endTag(null, "ar");
+
+				serializer.endTag(null, "point");
+
+			}
+
+			serializer.endTag(null, "points");
+
 			serializer.endTag(null, "route");
-			
+
 			serializer.endDocument();
 			serializer.flush();
 			fileos.close();
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Plantilla Creada", Toast.LENGTH_SHORT).show();
-			
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
+					"Plantilla Creada", Toast.LENGTH_SHORT).show();
+
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		
 	}
 
-public void createXMLFromPoints(String fileName,String routeName,int routeId,ArrayList<PointOI> points){
-	
-	File file = new File(ResourceManager.getInstance().getRootPath()+"/user/"+fileName+".xml");
-	
-	try {
-		file.createNewFile();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+	public void createXMLFromPoints(String fileName, String routeName,
+			int routeId, ArrayList<PointOI> points) {
+
+		File file = new File(ResourceManager.getInstance().getRootPath()
+				+ "/user/" + fileName + ".xml");
+
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		FileOutputStream fileos = null;
+
+		try {
+			fileos = new FileOutputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		XmlSerializer serializer = Xml.newSerializer();
+
+		try {
+
+			serializer.setOutput(fileos, "UTF-8");
+			serializer.startDocument(null, null);
+			serializer.setFeature(
+					"http://xmlpull.org/v1/doc/features.html#indent-output",
+					true);
+
+			serializer.startTag(null, "route");
+			serializer.attribute(null, "id", Integer.toString(routeId));
+
+			serializer.startTag(null, "name");
+			serializer.text(routeName);
+			serializer.endTag(null, "name");
+			serializer.startTag(null, "description");
+			serializer.endTag(null, "description");
+			serializer.startTag(null, "icon");
+			serializer.endTag(null, "icon");
+
+			serializer.startTag(null, "points");
+
+			for (PointOI p : points) {
+				serializer.startTag(null, "point");
+				serializer.attribute(null, "id", Integer.toString(p.id));
+				serializer.attribute(null, "version", "1.0");
+
+				serializer.startTag(null, "coords");
+				serializer.attribute(null, "x", Float.toString(p.coords[0]));
+				serializer.attribute(null, "y", Float.toString(p.coords[1]));
+				serializer.endTag(null, "coords");
+
+				serializer.startTag(null, "title");
+				serializer.text(p.title);
+				serializer.endTag(null, "title");
+
+				serializer.startTag(null, "pointdescription");
+				serializer.endTag(null, "pointdescription");
+
+				serializer.startTag(null, "pointicon");
+				serializer.endTag(null, "pointicon");
+
+				serializer.startTag(null, "images");
+				serializer.startTag(null, "image");
+				serializer.attribute(null, "url", "");
+				serializer.endTag(null, "image");
+				serializer.endTag(null, "images");
+
+				serializer.startTag(null, "video");
+				serializer.endTag(null, "video");
+
+				serializer.startTag(null, "ar");
+				serializer.attribute(null, "lat", "0.0");
+				serializer.attribute(null, "long", "0.0");
+				serializer.attribute(null, "alt", "0.0");
+				serializer.attribute(null, "file", "");
+				serializer.endTag(null, "ar");
+
+				serializer.endTag(null, "point");
+
+			}
+
+			serializer.endTag(null, "points");
+
+			serializer.endTag(null, "route");
+
+			serializer.endDocument();
+			serializer.flush();
+			fileos.close();
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
+					"Plantilla Creada", Toast.LENGTH_SHORT).show();
+
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
-	
-	FileOutputStream fileos = null;
-	
-	try {
-		fileos = new FileOutputStream(file);
-	} catch (FileNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+
+	public void toTempFile() {
+		if (FRAGUEL.getInstance().getCurrentState().getId() == MainMenuState.STATE_ID) {
+			MainMenuState state = (MainMenuState) FRAGUEL.getInstance()
+					.getCurrentState();
+			File file = new File(ResourceManager.getInstance().getRootPath()
+					+ "/user/" + state.getRouteName() + ".tmp");
+			if (file.exists()) {
+				file.delete();
+				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
+						"El archivo ya existía y se ha sobrescrito",
+						Toast.LENGTH_SHORT).show();
+			}
+			try {
+				ObjectOutputStream oos = new ObjectOutputStream(
+						new FileOutputStream(file));
+				for (PointOI p : state.getGeoTaggingPoints()) {
+					oos.writeObject(p);
+				}
+				oos.close();
+			} catch (FileNotFoundException e) {
+				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
+						"Error al grabar el archivo", Toast.LENGTH_SHORT)
+						.show();
+				e.printStackTrace();
+			} catch (IOException e) {
+				Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
+						"Error al grabar el archivo", Toast.LENGTH_SHORT)
+						.show();
+				e.printStackTrace();
+			}
+			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),
+					"Datos guardados con éxito", Toast.LENGTH_SHORT).show();
+		}
 	}
-	
-	XmlSerializer serializer = Xml.newSerializer();
-	
-	try {
-		
-		serializer.setOutput(fileos, "UTF-8");
-		serializer.startDocument(null, null);
-		serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
-		
-		serializer.startTag(null, "route");
-		serializer.attribute(null, "id", Integer.toString(routeId));
-				
-				serializer.startTag(null, "name");
-				serializer.text(routeName);
-	            serializer.endTag(null, "name");
-				serializer.startTag(null, "description");
-	            serializer.endTag(null, "description");
-				serializer.startTag(null, "icon");
-	            serializer.endTag(null, "icon");
-	            
-				serializer.startTag(null, "points");
-						
-					for (PointOI p: points){
-						serializer.startTag(null, "point");
-						serializer.attribute(null, "id", Integer.toString(p.id));
-						serializer.attribute(null, "version", "1.0");
-						
-								serializer.startTag(null, "coords");
-								serializer.attribute(null, "x", Float.toString(p.coords[0]));
-								serializer.attribute(null, "y", Float.toString(p.coords[1]));
-					            serializer.endTag(null, "coords");
-					            
-								serializer.startTag(null, "title");
-								serializer.text(p.title);
-					            serializer.endTag(null, "title");
-					            
-								serializer.startTag(null, "pointdescription");
-					            serializer.endTag(null, "pointdescription");
-					            
-								serializer.startTag(null, "pointicon");
-					            serializer.endTag(null, "pointicon");
-					            
-								serializer.startTag(null, "images");
-									serializer.startTag(null, "image");
-									serializer.attribute(null, "url", "");
-									serializer.endTag(null, "image");
-					            serializer.endTag(null, "images");
-					            
-								serializer.startTag(null, "video");
-					            serializer.endTag(null, "video");
-					            
-								serializer.startTag(null, "ar");
-								serializer.attribute(null, "lat", "0.0");
-								serializer.attribute(null, "long", "0.0");
-								serializer.attribute(null, "alt", "0.0");
-								serializer.attribute(null, "file", "");
-					            serializer.endTag(null, "ar");
-						
-			            serializer.endTag(null, "point");
-				
+
+	public void fromTmpFile(String path, String routeName) {
+		if (FRAGUEL.getInstance().getCurrentState().getId() == MainMenuState.STATE_ID) {
+			MainMenuState state = (MainMenuState) FRAGUEL.getInstance()
+					.getCurrentState();
+			ArrayList<PointOI> points = new ArrayList<PointOI>();
+			state.setRouteName(routeName);
+			File f = new File(path);
+			ObjectInputStream ois = null;
+			try {
+				ois = new ObjectInputStream(new FileInputStream(f));
+
+				// Se lee el primer objeto
+				Object aux = ois.readObject();
+
+				// Mientras haya objetos
+				while (aux != null) {
+					if (aux instanceof PointOI) {
+						points.add((PointOI) aux);
+						aux = ois.readObject();
 					}
-				
-	            serializer.endTag(null, "points");
-	            
-	
-		serializer.endTag(null, "route");
-		
-		serializer.endDocument();
-		serializer.flush();
-		fileos.close();
-		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(), "Plantilla Creada", Toast.LENGTH_SHORT).show();
-		
-	} catch (IllegalArgumentException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} catch (IllegalStateException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+				}
+				ois.close();
+				state.setGeoTaggingPoints(points);
 
-	
-}
-
-public void toTempFile(){
-	if (FRAGUEL.getInstance().getCurrentState().getId()==MainMenuState.STATE_ID){
-		MainMenuState state = (MainMenuState)FRAGUEL.getInstance().getCurrentState();
-		File file = new File(ResourceManager.getInstance().getRootPath()+"/user/"+state.getRouteName()+".tmp");
-		if (file.exists()){
-			file.delete();
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"El archivo ya existía y se ha sobrescrito" , Toast.LENGTH_SHORT).show();
-		}
-		try {
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
-			for (PointOI p : state.getGeoTaggingPoints()){
-				oos.writeObject(p);
+			} catch (StreamCorruptedException e) {
+				e.printStackTrace();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
-			oos.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"Error al grabar el archivo" , Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"Error al grabar el archivo" , Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
-		}
-		Toast.makeText(FRAGUEL.getInstance().getApplicationContext(),"Datos guardados con éxito" , Toast.LENGTH_SHORT).show();
-	}
-}
-
-public void fromTmpFile(String path,String routeName){
-	if (FRAGUEL.getInstance().getCurrentState().getId()==MainMenuState.STATE_ID){
-		MainMenuState state = (MainMenuState)FRAGUEL.getInstance().getCurrentState();
-		ArrayList<PointOI> points = new ArrayList<PointOI>();
-		state.setRouteName(routeName);
-		File f = new File(path);
-		ObjectInputStream ois = null;
-		try {
-			ois = new ObjectInputStream(new FileInputStream(f));
-			
-			// Se lee el primer objeto
-			Object aux = ois.readObject();
-			            
-			// Mientras haya objetos
-			while (aux!=null)
-			{
-			    if (aux instanceof PointOI){
-			    	points.add((PointOI) aux);
-			    	aux = ois.readObject();
-			    }
+			try {
+				ois.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			ois.close();
 			state.setGeoTaggingPoints(points);
-			
-		} catch (StreamCorruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		}
-		try {
-			ois.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		state.setGeoTaggingPoints(points);
-		
-		
+
 	}
-	
-}
 
 }

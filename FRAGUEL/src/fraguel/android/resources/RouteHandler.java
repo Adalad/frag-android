@@ -1,8 +1,5 @@
 package fraguel.android.resources;
 
-
-import java.util.ArrayList;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -15,7 +12,6 @@ public class RouteHandler extends DefaultHandler {
 	private boolean _in_descriptiontag;
 	private boolean _in_icontag;
 
-	//private ArrayList<Route> _routes;
 	private Route _currentRoute;
 	private Route _route;
 	private StringBuffer buffer;
@@ -27,7 +23,7 @@ public class RouteHandler extends DefaultHandler {
 		_in_nametag = false;
 		_in_descriptiontag = false;
 		_in_icontag = false;
-        _currentRoute= new Route();
+		_currentRoute = new Route();
 		_route = new Route();
 	}
 
@@ -35,10 +31,10 @@ public class RouteHandler extends DefaultHandler {
 			throws SAXException {
 		if (_in_nametag) {
 			buffer.append(ch, start, length);
-			_currentRoute.name= buffer.toString();
+			_currentRoute.name = buffer.toString();
 		} else if (_in_descriptiontag) {
 			buffer.append(ch, start, length);
-			_currentRoute.description=buffer.toString();
+			_currentRoute.description = buffer.toString();
 		} else if (_in_icontag) {
 			buffer.append(ch, start, length);
 			_currentRoute.icon = buffer.toString();
@@ -49,9 +45,9 @@ public class RouteHandler extends DefaultHandler {
 			Attributes attributes) throws SAXException {
 		buffer = new StringBuffer();
 		if (localName.equals("route")) {
-			//_currentRoute = new Route();
 			_currentRoute.id = Integer.parseInt(attributes.getValue("id"));
-			_currentRoute.version = Float.parseFloat(attributes.getValue("version"));
+			_currentRoute.version = Float.parseFloat(attributes
+					.getValue("version"));
 		} else if (localName.equals("name")) {
 			_in_nametag = true;
 		} else if (localName.equals("description")) {
@@ -64,9 +60,10 @@ public class RouteHandler extends DefaultHandler {
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
 		if (localName.equals("route")) {
-			_route=_currentRoute;
-			_route.name=_route.name.replace("\\n", "\n");
-			_route.description=_route.description.replace("\\n", "\n").replace("\\t", "\t");
+			_route = _currentRoute;
+			_route.name = _route.name.replace("\\n", "\n");
+			_route.description = _route.description.replace("\\n", "\n")
+					.replace("\\t", "\t");
 		} else if (localName.equals("name")) {
 			_in_nametag = false;
 		} else if (localName.equals("description")) {

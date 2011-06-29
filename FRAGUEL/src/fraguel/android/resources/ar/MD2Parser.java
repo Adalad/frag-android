@@ -16,13 +16,21 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+/**
+ * Necesita reimplementación para funcionar con ficheros en lugar de recursos
+ * 
+ * @author Gabriel
+ * 
+ */
+
 public class MD2Parser extends AParser implements IParser {
 	private MD2Header header;
 	private String currentTextureName;
 	private KeyFrame[] frames;
 
-	public MD2Parser(Resources resources, String resourceID, boolean generateMipMap) {
-		//super(resources, resourceID, generateMipMap);
+	public MD2Parser(Resources resources, String resourceID,
+			boolean generateMipMap) {
+		// super(resources, resourceID, generateMipMap);
 	}
 
 	@Override
@@ -34,7 +42,8 @@ public class MD2Parser extends AParser implements IParser {
 		if (textureAtlas.hasBitmaps()) {
 			textureAtlas.generate();
 			texture = textureAtlas.getBitmap();
-			Shared.textureManager().addTextureId(texture, textureAtlas.getId(), generateMipMap);
+			Shared.textureManager().addTextureId(texture, textureAtlas.getId(),
+					generateMipMap);
 		}
 
 		Log.d(Min3d.TAG, "Creating object " + co.name);
@@ -53,54 +62,48 @@ public class MD2Parser extends AParser implements IParser {
 
 	@Override
 	public void parse() {
-		/*InputStream fileIn = resources.openRawResource(resources.getIdentifier(
-				resourceID, null, null));
-		BufferedInputStream stream = new BufferedInputStream(fileIn);
-
-		co = new ParseObjectData();
-		header = new MD2Header();
-
-		Log.d(Min3d.TAG, "Start parsing MD2 file");
-		try {
-			header.parse(stream);
-			frames = new KeyFrame[header.numFrames];
-			byte[] bytes = new byte[header.offsetEnd - 68];
-			stream.read(bytes);
-			getMaterials(stream, bytes);
-			getTexCoords(stream, bytes);
-			getFrames(stream, bytes);
-			getTriangles(stream, bytes);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
+		/*
+		 * InputStream fileIn =
+		 * resources.openRawResource(resources.getIdentifier( resourceID, null,
+		 * null)); BufferedInputStream stream = new BufferedInputStream(fileIn);
+		 * 
+		 * co = new ParseObjectData(); header = new MD2Header();
+		 * 
+		 * Log.d(Min3d.TAG, "Start parsing MD2 file"); try {
+		 * header.parse(stream); frames = new KeyFrame[header.numFrames]; byte[]
+		 * bytes = new byte[header.offsetEnd - 68]; stream.read(bytes);
+		 * getMaterials(stream, bytes); getTexCoords(stream, bytes);
+		 * getFrames(stream, bytes); getTriangles(stream, bytes); } catch
+		 * (Exception e) { e.printStackTrace(); }
+		 */
 	}
 
+	@SuppressWarnings("unused")
 	private void getMaterials(BufferedInputStream stream, byte[] bytes)
 			throws IOException {
-		/*ByteArrayInputStream ba = new ByteArrayInputStream(bytes,
-				header.offsetSkins - 68, bytes.length - header.offsetSkins);
-		LittleEndianDataInputStream is = new LittleEndianDataInputStream(ba);
-
-		for (int i = 0; i < header.numSkins; i++) {
-			String skinPath = is.readString(64);
-			StringBuffer texture = new StringBuffer(packageID);
-			texture.append(":drawable/");
-
-			skinPath = skinPath.substring(skinPath.lastIndexOf("/") + 1,
-					skinPath.length());
-			StringBuffer textureName = new StringBuffer(skinPath.toLowerCase());
-			int dotIndex = textureName.lastIndexOf(".");
-			if (dotIndex > -1)
-				texture.append(textureName.substring(0, dotIndex));
-			else
-				texture.append(textureName);
-
-			currentTextureName = texture.toString();
-			textureAtlas.addBitmapAsset(new BitmapAsset(currentTextureName,
-					currentTextureName));
-		}*/
+		/*
+		 * ByteArrayInputStream ba = new ByteArrayInputStream(bytes,
+		 * header.offsetSkins - 68, bytes.length - header.offsetSkins);
+		 * LittleEndianDataInputStream is = new LittleEndianDataInputStream(ba);
+		 * 
+		 * for (int i = 0; i < header.numSkins; i++) { String skinPath =
+		 * is.readString(64); StringBuffer texture = new
+		 * StringBuffer(packageID); texture.append(":drawable/");
+		 * 
+		 * skinPath = skinPath.substring(skinPath.lastIndexOf("/") + 1,
+		 * skinPath.length()); StringBuffer textureName = new
+		 * StringBuffer(skinPath.toLowerCase()); int dotIndex =
+		 * textureName.lastIndexOf("."); if (dotIndex > -1)
+		 * texture.append(textureName.substring(0, dotIndex)); else
+		 * texture.append(textureName);
+		 * 
+		 * currentTextureName = texture.toString();
+		 * textureAtlas.addBitmapAsset(new BitmapAsset(currentTextureName,
+		 * currentTextureName)); }
+		 */
 	}
 
+	@SuppressWarnings("unused")
 	private void getTexCoords(BufferedInputStream stream, byte[] bytes)
 			throws IOException {
 		ByteArrayInputStream ba = new ByteArrayInputStream(bytes,
@@ -109,16 +112,18 @@ public class MD2Parser extends AParser implements IParser {
 		LittleEndianDataInputStream is = new LittleEndianDataInputStream(ba);
 
 		for (int i = 0; i < header.numTexCoord; i++) {
-			co.texCoords.add(new Uv((float)is.readShort() / (float)header.skinWidth, (float)is.readShort() / (float)header.skinHeight));
+			co.texCoords.add(new Uv((float) is.readShort()
+					/ (float) header.skinWidth, (float) is.readShort()
+					/ (float) header.skinHeight));
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void getFrames(BufferedInputStream stream, byte[] bytes)
 			throws IOException {
 		ByteArrayInputStream ba = new ByteArrayInputStream(bytes,
 				header.offsetFrames - 68, bytes.length - header.offsetFrames);
 		LittleEndianDataInputStream is = new LittleEndianDataInputStream(ba);
-		@SuppressWarnings("unused")
 		ArrayList<Number3d> firstFrameVerts = new ArrayList<Number3d>();
 
 		for (int i = 0; i < header.numFrames; i++) {
@@ -129,12 +134,12 @@ public class MD2Parser extends AParser implements IParser {
 			float translateY = is.readFloat();
 			float translateZ = is.readFloat();
 			String name = is.readString(16);
-			
-			if(name.indexOf("_") > 0)
+
+			if (name.indexOf("_") > 0)
 				name = name.subSequence(0, name.lastIndexOf("_")).toString();
 			else
 				name = name.substring(0, 6).replaceAll("[0-9]{1,2}$", "");
-			
+
 			Log.d(Min3d.TAG, "frame name: " + name);
 			float vertices[] = new float[header.numVerts * 3];
 			int index = 0;
@@ -143,8 +148,7 @@ public class MD2Parser extends AParser implements IParser {
 				vertices[index++] = scaleX * is.readUnsignedByte() + translateX;
 				vertices[index++] = scaleY * is.readUnsignedByte() + translateY;
 				vertices[index++] = scaleZ * is.readUnsignedByte() + translateZ;
-				
-				@SuppressWarnings("unused")
+
 				int normalIndex = is.readUnsignedByte();
 				if (i == 0)
 					co.vertices.add(new Number3d(vertices[index - 3],
@@ -155,21 +159,22 @@ public class MD2Parser extends AParser implements IParser {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void getTriangles(BufferedInputStream stream, byte[] bytes)
 			throws IOException {
 		ByteArrayInputStream ba = new ByteArrayInputStream(bytes,
 				header.offsetTriangles - 68, bytes.length
 						- header.offsetTriangles);
 		LittleEndianDataInputStream is = new LittleEndianDataInputStream(ba);
-		int[] indices = new int[header.numTriangles*3];
+		int[] indices = new int[header.numTriangles * 3];
 		int index = 0;
 
 		for (int i = 0; i < header.numTriangles; i++) {
 			int[] vertexIDs = new int[3];
 			int[] uvIDS = new int[3];
 
-			indices[index+2] = vertexIDs[2] = is.readUnsignedShort();
-			indices[index+1] = vertexIDs[1] = is.readUnsignedShort();
+			indices[index + 2] = vertexIDs[2] = is.readUnsignedShort();
+			indices[index + 1] = vertexIDs[1] = is.readUnsignedShort();
 			indices[index] = vertexIDs[0] = is.readUnsignedShort();
 			index += 3;
 			uvIDS[2] = is.readUnsignedShort();
@@ -186,9 +191,8 @@ public class MD2Parser extends AParser implements IParser {
 			co.faces.add(f);
 			co.calculateFaceNormal(f);
 		}
-		
-		for(int j=0; j<header.numFrames; j++)
-		{
+
+		for (int j = 0; j < header.numFrames; j++) {
 			frames[j].setIndices(indices);
 		}
 	}
@@ -200,6 +204,7 @@ public class MD2Parser extends AParser implements IParser {
 		public int skinHeight;
 		@SuppressWarnings("unused")
 		public int frameSize;
+		@SuppressWarnings("unused")
 		public int numSkins;
 		public int numVerts;
 		public int numTexCoord;
@@ -207,14 +212,17 @@ public class MD2Parser extends AParser implements IParser {
 		@SuppressWarnings("unused")
 		public int numGLCommands;
 		public int numFrames;
+		@SuppressWarnings("unused")
 		public int offsetSkins;
 		public int offsetTexCoord;
 		public int offsetTriangles;
 		public int offsetFrames;
 		@SuppressWarnings("unused")
 		public int offsetGLCommands;
+		@SuppressWarnings("unused")
 		public int offsetEnd;
 
+		@SuppressWarnings("unused")
 		public void parse(InputStream stream) throws Exception {
 			id = readInt(stream);
 			version = readInt(stream);
