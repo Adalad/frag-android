@@ -2,7 +2,6 @@ package fraguel.android;
 
 import java.util.ArrayList;
 
-
 public class Route {
 
 	public int id;
@@ -16,7 +15,7 @@ public class Route {
 		id = 0;
 		name = "default";
 		description = "none";
-		version=1.0f;
+		version = 1.0f;
 		pointsOI = new ArrayList<PointOI>();
 	}
 
