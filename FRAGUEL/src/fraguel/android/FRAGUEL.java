@@ -50,12 +50,9 @@ import fraguel.android.states.InfoState;
 import fraguel.android.states.IntroState;
 import fraguel.android.states.MainMenuState;
 import fraguel.android.states.MapState;
-import fraguel.android.states.MenuState;
 import fraguel.android.states.PointInfoState;
 import fraguel.android.states.RouteInfoState;
 import fraguel.android.states.RouteManagerState;
-import fraguel.android.states.VideoGalleryState;
-import fraguel.android.states.VideoState;
 
 public class FRAGUEL extends MapActivity implements OnClickListener,
 		TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener,
@@ -206,8 +203,6 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		addState(new IntroState(), true);
 		addState(new MainMenuState(), false);
 		//addState(new MenuState(), false);
-		addState(new VideoState(), false);
-		addState(new VideoGalleryState(), false);
 		//addState(new ImageGalleryState(), false);
 		addState(new ImageState(), false);
 		addState(new RouteInfoState(),false);
@@ -449,12 +444,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 					sOrientation[0]=sOrientation[0]*RAD2DEG;
 					sOrientation[1]=sOrientation[1]*RAD2DEG;
 					sOrientation[2]=sOrientation[2]*RAD2DEG;
-					currentState.onRotationChanged(sOrientation);
-
-					if (currentState.getId() == 1) {
-						MenuState m = (MenuState) currentState;
-						m.setOrientationText("X: " + sOrientation[0] * RAD2DEG	+ ", Y: " + sOrientation[1] * RAD2DEG + ",Z: "	+ sOrientation[2] * RAD2DEG);
-					}					
+					currentState.onRotationChanged(sOrientation);				
 				}
 
 			}
