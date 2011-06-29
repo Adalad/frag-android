@@ -12,11 +12,9 @@ public class FullScreenGallery extends Gallery{
 	public FullScreenGallery(Context context) {
 		super(context);
 		orientationChanged=false;
-		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public void draw(Canvas canvas) {
-		// TODO Auto-generated method stub
 		if (orientationChanged){
 			int i=this.getSelectedItemPosition();		
 			orientationChanged=false;
