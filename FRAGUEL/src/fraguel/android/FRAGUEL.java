@@ -441,7 +441,7 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 
 	public State getCurrentState() {
 
-		return this.currentState;
+		return this.currentState; 
 	}
 
 	public void createOneButtonNotification(int title, int msg,
@@ -769,8 +769,9 @@ public class FRAGUEL extends MapActivity implements OnClickListener,
 		return new Pair<Route, PointOI>(route, point);
 	}
 
-	private void LoadRoutes() {
+	public void LoadRoutes() {
 		int i = 0;
+
 		routes = new ArrayList<Route>();
 		ResourceManager.getInstance().initialize("fraguel");
 		String[] rutas = new File(ResourceManager.getInstance().getRootPath()
