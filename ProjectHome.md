@@ -1,0 +1,1 @@
+This framework is intended to create virtual guides for historical or cultural learning purposes. It makes use of maps, augmented reality and multimedia(videos and pictures). To achieve that goal it uses the sensors of actual smartphones such as GPS, accelerometer and compass.
